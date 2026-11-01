@@ -1,4 +1,6 @@
-"""flighttape command line, convert, convert-dir, validate, play, digest, verify.
+"""flighttape command line.
+
+Commands, convert, convert-dir, validate, play, digest, verify.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -111,10 +113,16 @@ def _convert_dir(source_dir, output_dir):
     return 1 if summary["failed"] else 0
 
 
+FAILED = object()
+
+
 def _read_tape(path):
     """Load a tape file, printing the named error on failure (FT-21).
 
-    Returns the tape, or None when the load failed.
+    Returns the tape, or the FAILED sentinel when the load
+    failed. A file holding the JSON value null loads as None,
+    which is a tape to be named by the validator, not a load
+    failure, so None cannot be the sentinel.
     """
     try:
         with open(path, encoding="utf-8") as handle:
@@ -126,7 +134,7 @@ def _read_tape(path):
         print("defect, the file is not valid UTF-8", file=sys.stderr)
     except (RecursionError, ValueError):
         print("defect, the file is not valid JSON", file=sys.stderr)
-    return None
+    return FAILED
 
 
 def _digest_of(tape):
@@ -164,7 +172,7 @@ def main(argv=None):
     if args.command == "convert-dir":
         return _convert_dir(args.source_dir, args.output_dir)
     tape = _read_tape(args.tape)
-    if tape is None:
+    if tape is FAILED:
         return 1
     if args.command == "digest":
         digest = _digest_of(tape)

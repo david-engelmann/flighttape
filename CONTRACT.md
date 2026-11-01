@@ -328,3 +328,17 @@ bracket (the function call form).
   the tape loader's named errors (FT-21) and fail with a named
   error and exit 1 when the tape cannot be digested. Test,
   tests/test_identity.py.
+
+Amendments recorded in the Round 6 repair. FT-26, keys are
+sorted by their UTF-16 code units, the ordering the JSON
+canonicalization scheme uses, not by Unicode code point as
+first written. The two orders agree inside the basic
+multilingual plane and diverge outside it, and a citation a
+verifier in another language checks must follow the scheme.
+FT-28, the refusal classes also cover text that cannot be
+encoded, an unpaired surrogate being the reachable case, since
+a JSON escape can carry one into a loaded tape, and a value
+the canonical form cannot render, an integer beyond the
+rendering limit being the reachable case. FT-30, verify
+accepts the expected digest in any letter case and ignores
+whitespace around it.

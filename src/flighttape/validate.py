@@ -4,11 +4,12 @@ The published schema at schema/tape.schema.json states the shape of
 a tape. This validator enforces that shape, and also the structural
 rules JSON Schema cannot state, namely consecutive seq values, tool
 call pairing, and chronological timestamp order, exactly as FT-1 in
-the Contract divides the work. It returns every defect it finds in
-one pass, never just the first (FT-2). It never raises on any value
-json.loads can produce, wrongly typed and unhashable values in the
-fields it compares against its vocabularies and sets are named as
-defects (FT-19). Stdlib only.
+the Contract divides the work. It also names every non-finite number
+in the tape, a defect JSON itself cannot carry portably (FT-29). It
+returns every defect it finds in one pass, never just the first
+(FT-2). It never raises on any value json.loads can produce, wrongly
+typed and unhashable values in the fields it compares against its
+vocabularies and sets are named as defects (FT-19). Stdlib only.
 """
 from __future__ import annotations
 
@@ -49,27 +50,39 @@ def parse_timestamp(value):
 def _nonfinite_defects(tape):
     """Name every non-finite number in the tape, wherever it sits (FT-29).
 
-    The walk is iterative with a visited set, so it cannot
-    exhaust the stack or loop on a cyclic structure (FT-19).
+    The walk is iterative and visits children in document
+    order. It tracks only the containers on the current path,
+    so a shared substructure is named at every location it
+    sits, while a cyclic one still terminates (FT-19). Paths
+    are rooted at the field, like the structural defects, with
+    the bare root named tape.
     """
     defects = []
-    seen = set()
-    stack = [(tape, "tape")]
+    stack = [(tape, "", frozenset())]
     while stack:
-        value, path = stack.pop()
+        value, path, ancestors = stack.pop()
         if isinstance(value, float):
             if not math.isfinite(value):
-                defects.append(f"{path} is a non-finite number")
+                defects.append(f"{path or 'tape'} is a non-finite number")
         elif isinstance(value, (dict, list)):
-            if id(value) in seen:
+            if id(value) in ancestors:
                 continue
-            seen.add(id(value))
+            ancestors = ancestors | {id(value)}
             if isinstance(value, dict):
+                children = []
                 for key, item in value.items():
-                    stack.append((item, f"{path}.{key}"))
+                    if isinstance(key, float) and not math.isfinite(key):
+                        defects.append(
+                            f"{path or 'tape'} holds a non-finite "
+                            "number as a key")
+                    children.append(
+                        (item, f"{path}.{key}" if path else str(key)))
+                for item, child_path in reversed(children):
+                    stack.append((item, child_path, ancestors))
             else:
-                for index, item in enumerate(value):
-                    stack.append((item, f"{path}[{index}]"))
+                for index in range(len(value) - 1, -1, -1):
+                    stack.append((value[index], f"{path}[{index}]",
+                                  ancestors))
     return defects
 
 

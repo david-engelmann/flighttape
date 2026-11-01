@@ -17,7 +17,13 @@ class DigestError(ValueError):
 
 
 def _render_number(value):
-    """Render a finite float as ECMAScript renders it (FT-26)."""
+    """Render a finite float as ECMAScript renders it (FT-26).
+
+    repr gives the shortest digits that round trip. From them,
+    point is the count of digits before the decimal point when
+    the value is written out in decimal, and the four cases at
+    the end are the ECMAScript number to string cases.
+    """
     if value == 0:
         return "0"
     sign = "-" if value < 0 else ""
@@ -31,21 +37,23 @@ def _render_number(value):
         whole, _, fraction = mantissa.partition(".")
     else:
         whole, fraction = mantissa, ""
-    digits = (whole + fraction).lstrip("0")
+    raw = whole + fraction
+    digits = raw.lstrip("0")
     if exp10 is None:
-        point = len(whole) - ((len(whole) + len(fraction)) - len(digits))
-        exp10 = point - 1
+        leading = len(raw) - len(digits)
+        exp10 = len(whole) - leading - 1
     digits = digits.rstrip("0") or "0"
+    point = exp10 + 1
     count = len(digits)
-    top = exp10 + 1
-    if count <= top <= 21:
-        return sign + digits + "0" * (top - count)
-    if 0 < top <= 21:
-        return sign + digits[:top] + "." + digits[top:]
-    if -6 < top <= 0:
-        return sign + "0." + "0" * (-top) + digits
+    if count <= point <= 21:
+        return sign + digits + "0" * (point - count)
+    if 0 < point <= 21:
+        return sign + digits[:point] + "." + digits[point:]
+    if -6 < point <= 0:
+        return sign + "0." + "0" * (-point) + digits
     head = digits if count == 1 else digits[0] + "." + digits[1:]
-    return sign + head + "e" + ("+" if exp10 >= 0 else "-") + str(abs(exp10))
+    return (sign + head + "e" + ("+" if exp10 >= 0 else "-")
+            + str(abs(exp10)))
 
 
 def _render(value, out):
@@ -74,9 +82,11 @@ def _render(value, out):
         keys = list(value)
         for key in keys:
             if not isinstance(key, str):
-                raise DigestError("the tape holds an object key that is not a string")
+                raise DigestError(
+                    "the tape holds an object key that is not a string")
         out.append("{")
-        for index, key in enumerate(sorted(keys)):
+        ordered = sorted(keys, key=lambda k: k.encode("utf-16-be"))
+        for index, key in enumerate(ordered):
             if index:
                 out.append(",")
             out.append(json.dumps(key, ensure_ascii=False))
@@ -84,7 +94,9 @@ def _render(value, out):
             _render(value[key], out)
         out.append("}")
     else:
-        raise DigestError(f"the tape holds a value of an unsupported type, {type(value).__name__}")
+        raise DigestError(
+            "the tape holds a value of an unsupported type, "
+            f"{type(value).__name__}")
 
 
 def canonical_bytes(tape):
@@ -92,9 +104,18 @@ def canonical_bytes(tape):
     out = []
     try:
         _render(tape, out)
+        return "".join(out).encode("utf-8")
+    except DigestError:
+        raise
     except RecursionError:
-        raise DigestError("the tape is nested beyond the interpreter limit") from None
-    return "".join(out).encode("utf-8")
+        raise DigestError(
+            "the tape is nested beyond the interpreter limit") from None
+    except UnicodeEncodeError:
+        raise DigestError(
+            "the tape holds text that cannot be encoded") from None
+    except ValueError:
+        raise DigestError(
+            "the tape holds a value that cannot be rendered") from None
 
 
 def tape_digest(tape):
