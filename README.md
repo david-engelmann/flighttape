@@ -15,7 +15,7 @@ portfolio, in the Retrospective arc.
 
 ## Programme status
 
-- Closed perfection rounds, 3 of 100. A round counts only when a full
+- Closed perfection rounds, 4 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
 - Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
   reviews and their findings are recorded with the programme. The
@@ -35,7 +35,7 @@ portfolio, in the Retrospective arc.
   validator now name every malformed input instead of ever
   raising on it, held by a deterministic robustness corpus of
   mutated fixture lines and a table of adversarial tapes.
-  Obligations FT-18 to FT-21, recorded with the programme.
+  Obligations FT-18 to FT-21 as amended in Round 4, met, with the reviews recorded with the programme.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
