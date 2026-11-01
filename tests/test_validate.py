@@ -154,3 +154,22 @@ def test_is_error_must_be_a_boolean_when_present():
     tape = good_tape()
     tape["events"][1]["is_error"] = "false"
     assert any("is_error" in d for d in validate_tape(tape))
+
+
+def test_a_non_finite_number_is_a_located_defect():
+    tape = good_tape()
+    tape["events"][0]["score"] = float("nan")
+    defects = validate_tape(tape)
+    assert any("non-finite" in d and "events[0]" in d for d in defects)
+
+
+def test_a_non_finite_number_is_named_on_an_early_return_path():
+    tape = good_tape()
+    tape["events"] = "not a list"
+    tape["run"]["cost"] = float("inf")
+    defects = validate_tape(tape)
+    assert any("non-finite" in d for d in defects)
+
+
+def test_a_finite_tape_earns_no_non_finite_defect():
+    assert not any("non-finite" in d for d in validate_tape(good_tape()))
