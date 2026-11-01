@@ -123,3 +123,38 @@ second spacing. The obligations above were extended to state what
 the code now does, and the code was fixed to meet them. The full
 record is the Round 2 dossier in the goal files of the portfolio
 programme.
+
+## Outcome determination, Round 3 obligations, written before the code
+
+- FT-14. The converter determines the outcome from the tape's main
+  chain events, never a constant. Main chain means events not
+  flagged sidechain. Trailing session_end events are set aside
+  first, because they mark the end of the recording, not the end
+  of the run. The rules then read the final main chain event.
+  A user message whose text begins with the interrupt marker
+  [Request interrupted by user gives aborted. An error tool result
+  gives failed. An assistant message gives completed. Anything
+  else, a tool call, a tool result without error, a user message
+  without the marker, or any other kind, gives unknown, and a tape
+  with no main chain events gives unknown. Test,
+  tests/test_outcome.py and tests/test_convert_claude.py.
+- FT-15. The outcome object records the basis, the name of the
+  rule that fired, alongside the status, so the determination can
+  be audited without rerunning it. The basis names are
+  final-assistant-message for completed, final-error-result for
+  failed, user-interrupt-marker for aborted, and no-events or
+  unresolved-ending for unknown. The schema states the basis
+  field, and the validator rejects a basis that is present but not
+  a non-empty string. Test, tests/test_outcome.py,
+  tests/test_validate.py, and tests/test_schema.py.
+- FT-16. The determination is a pure function of the events list,
+  exposed as determine_outcome in its own module and used by the
+  converter. The same events always give the same outcome, with
+  no clock, no file access, and no mutation of the input. Test,
+  tests/test_outcome.py.
+- FT-17. The playback header states the outcome basis in
+  parentheses after the status when the tape carries one, so the
+  evidence for the status travels with the rendering. The golden
+  file changes only in the header outcome segment, and the change
+  is re-verified line by line before it is kept. Test,
+  tests/test_play.py.
