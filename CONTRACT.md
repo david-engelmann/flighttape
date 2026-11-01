@@ -68,6 +68,27 @@ reported as met or not met in the README status section.
   for this repo. Real session conversions run locally only and are
   reported as numbers only, never committed.
 
+## Playback, Round 2 obligations, written before the code
+
+- FT-10. A tape can be played back as a readable timeline with the
+  play command. The rendering is a pure function of the tape, the
+  same tape always renders byte identical output, and a golden
+  file test holds the rendering to a stored expected output.
+  Test, tests/test_play.py.
+- FT-11. The timeline header states the harness, the session id,
+  the outcome status, and the run totals. Every event renders as
+  one entry carrying its seq, its offset in seconds from the first
+  timestamped event when timestamps exist, its kind, and its
+  content, with sidechain events marked as sidechain. Test,
+  tests/test_play.py.
+- FT-12. Playback loses nothing the tape carries. Message text,
+  tool names, tool result content, and error flags all appear in
+  the rendering. A test renders the synthetic fixture tape and
+  asserts each carried field appears. Test, tests/test_play.py.
+- FT-13. Playing a malformed tape fails through the validator
+  first, with the defects named and a non-zero exit, never a
+  partial rendering. Test, tests/test_cli.py.
+
 ## Amendments, Round 1, 2026-10-31
 
 The Round 1 reviews found the original wording of FT-1, FT-5, FT-6,
