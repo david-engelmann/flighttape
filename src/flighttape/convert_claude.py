@@ -19,12 +19,20 @@ line converts, so a line is converted whole or counted whole.
 Input nested beyond the interpreter limit is counted as
 too-deep, and a session file is read as bytes so a line that is
 not valid UTF-8 is counted as undecodable instead of raising.
+
+Redaction, per FT-22 to FT-24. Every text string the converter
+emits passes through one redactor, message text, tool result
+content, and every string leaf of a tool input. An absolute
+path inside text, as FT-23 defines it, is replaced by its final
+component and counted in run.redacted_values, which refines the
+whole value rule FT-8 first stated. URLs, relative paths, and
+lone first components are never altered.
 """
 from __future__ import annotations
 
 import json
 import pathlib
-import posixpath
+import re
 import typing
 
 from . import TAPE_VERSION
@@ -47,15 +55,138 @@ class _LineResult(typing.NamedTuple):
     started_at: typing.Optional[str]
 
 
-def _sanitize(value, counter):
-    if isinstance(value, str) and value.startswith("/") and len(value) > 1:
+_TOKEN_RE = re.compile(r"\S+|\s+")
+_QUOTES = "\"'`"
+_PREFIX_CHARS = _QUOTES + "([{<"
+_TRAILING_PUNCT = ".,;:!?)]}" + _QUOTES
+_STEM_RE = re.compile(r"[A-Za-z0-9_.-]*[=:]+")
+_PATH_STOP = ",;?#&"
+
+
+def _qualifies(local):
+    """Judge the local prefix before a slash, per FT-23.
+
+    The local prefix is the text since the previous slash, glue
+    separator, or replaced path in the same token. It qualifies
+    when it is empty, when it is an identifier ending in one or
+    more equals signs or colons (doubled separators included),
+    or when it ends in an opening punctuation run that follows
+    the token start, such a stem, or a closing bracket, the
+    markdown link form. Ordinary words (and, 2026, a) never
+    qualify, so slash words in prose are left alone.
+    """
+    if not local:
+        return True
+    run = len(local)
+    while run > 0 and local[run - 1] in _PREFIX_CHARS:
+        run -= 1
+    stem = local[:run]
+    if run < len(local):
+        return (not stem or stem.endswith(("=", ":", "]"))
+                or _STEM_RE.fullmatch(stem) is not None)
+    return _STEM_RE.fullmatch(local) is not None
+
+
+def _redact_token(token, counter):
+    """Replace every absolute path in one token, per FT-23.
+
+    The token is scanned slash by slash. A double slash pair
+    never starts a path and is passed over whole. A candidate
+    path runs from its slash until a glue separator (a comma,
+    semicolon, question mark, hash, or ampersand), a colon
+    followed by a slash, or the end of the token, less any
+    trailing sentence punctuation, and is replaced by its final
+    component when it holds at least two non-empty components
+    and contains no scheme separator.
+    """
+    out = []
+    seg = 0
+    origin = 0
+    i = 0
+    size = len(token)
+    while i < size:
+        char = token[i]
+        if char != "/":
+            if char in _PATH_STOP:
+                origin = i + 1
+            i += 1
+            continue
+        if token.startswith("//", i):
+            i += 2
+            origin = i
+            continue
+        if i > 0 and token[i - 1] == "/":
+            i += 1
+            origin = i
+            continue
+        if not _qualifies(token[origin:i]):
+            i += 1
+            origin = i
+            continue
+        j = i
+        while j < size and token[j] not in _PATH_STOP:
+            if token[j] == ":" and j + 1 < size and token[j + 1] == "/":
+                break
+            j += 1
+        run = token[i:j]
+        end = len(run)
+        while end > 0 and run[end - 1] in _TRAILING_PUNCT:
+            end -= 1
+        parts = [part for part in run[:end].split("/") if part]
+        if "://" in run[:end] or len(parts) < 2:
+            i += 1
+            origin = i
+            continue
+        out.append(token[seg:i])
+        out.append(parts[-1])
+        out.append(run[end:])
         counter[0] += 1
-        return posixpath.basename(value.rstrip("/")) or value
+        i = j
+        seg = j
+        origin = j
+    out.append(token[seg:])
+    return "".join(out)
+
+
+def _redact_text(text, counter):
+    """Redact every absolute path in a text string (FT-22).
+
+    A value that is not a string is routed through _sanitize,
+    so the string leaves inside a list or an object are redacted
+    the same way and scalar values pass through unchanged,
+    instead of raising here (FT-18). The validator has no check
+    on this field, so carrying a container through untouched
+    would leak any path inside it.
+    """
+    if not isinstance(text, str):
+        return _sanitize(text, counter)
+    return "".join(
+        _redact_token(piece, counter) if not piece.isspace() else piece
+        for piece in _TOKEN_RE.findall(text))
+
+
+def _sanitize(value, counter):
+    if isinstance(value, str):
+        return _redact_text(value, counter)
     if isinstance(value, dict):
-        return {key: _sanitize(item, counter) for key, item in value.items()}
+        return {_sanitize_key(key, counter): _sanitize(item, counter)
+                for key, item in value.items()}
     if isinstance(value, list):
         return [_sanitize(item, counter) for item in value]
     return value
+
+
+def _sanitize_key(key, counter):
+    """Redact a tool input key as FT-22 requires.
+
+    Keys are emitted strings like values. Two keys that redact
+    to the same string merge into one entry when the dict is
+    rebuilt, the later value winning, as the Round 5 amendment
+    to FT-22 states.
+    """
+    if isinstance(key, str):
+        return _redact_text(key, counter)
+    return key
 
 
 def _result_text(content):
@@ -147,7 +278,8 @@ def _convert_line(line, session_id, base_seq):
         block_type = block.get("type")
         if block_type == "text":
             if block.get("text"):
-                emit("message", role=role, text=block["text"])
+                emit("message", role=role,
+                     text=_redact_text(block["text"], redactions))
                 totals["messages"] += 1
                 made += 1
         elif block_type == "tool_use":
@@ -160,7 +292,8 @@ def _convert_line(line, session_id, base_seq):
             emit("tool_result",
                  call_id=block.get("tool_use_id"),
                  is_error=bool(block.get("is_error", False)),
-                 content=_result_text(block.get("content")))
+                 content=_redact_text(
+                     _result_text(block.get("content")), redactions))
             made += 1
         else:
             bump(f"block:{block_type}")
