@@ -1,4 +1,4 @@
-"""flighttape command line, convert, convert-dir, validate, play.
+"""flighttape command line, convert, convert-dir, validate, play, digest, verify.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -14,6 +14,7 @@ import pathlib
 import sys
 
 from .convert_claude import convert_file
+from .identity import DigestError, tape_digest
 from .play import render_tape
 from .validate import validate_tape
 
@@ -110,6 +111,34 @@ def _convert_dir(source_dir, output_dir):
     return 1 if summary["failed"] else 0
 
 
+def _read_tape(path):
+    """Load a tape file, printing the named error on failure (FT-21).
+
+    Returns the tape, or None when the load failed.
+    """
+    try:
+        with open(path, encoding="utf-8") as handle:
+            return json.load(handle)
+    except OSError:
+        print(f"error, cannot read the tape file, {path}",
+              file=sys.stderr)
+    except UnicodeDecodeError:
+        print("defect, the file is not valid UTF-8", file=sys.stderr)
+    except (RecursionError, ValueError):
+        print("defect, the file is not valid JSON", file=sys.stderr)
+    return None
+
+
+def _digest_of(tape):
+    """The tape's digest, or None with the named error printed (FT-30)."""
+    try:
+        return tape_digest(tape)
+    except DigestError as error:
+        print(f"error, the tape cannot be digested, {error}",
+              file=sys.stderr)
+        return None
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="flighttape")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -124,23 +153,34 @@ def main(argv=None):
     val.add_argument("tape")
     play = sub.add_parser("play", help="play a tape back as a timeline")
     play.add_argument("tape")
+    dig = sub.add_parser("digest", help="print a tape's digest")
+    dig.add_argument("tape")
+    ver = sub.add_parser("verify", help="check a tape against a digest")
+    ver.add_argument("tape")
+    ver.add_argument("expected")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
     if args.command == "convert-dir":
         return _convert_dir(args.source_dir, args.output_dir)
-    try:
-        with open(args.tape, encoding="utf-8") as handle:
-            tape = json.load(handle)
-    except OSError:
-        print(f"error, cannot read the tape file, {args.tape}",
+    tape = _read_tape(args.tape)
+    if tape is None:
+        return 1
+    if args.command == "digest":
+        digest = _digest_of(tape)
+        if digest is None:
+            return 1
+        print(digest)
+        return 0
+    if args.command == "verify":
+        digest = _digest_of(tape)
+        if digest is None:
+            return 1
+        if args.expected.strip().lower() == digest:
+            print(f"digest matches, {digest}")
+            return 0
+        print(f"defect, digest mismatch, the tape digests to {digest}",
               file=sys.stderr)
-        return 1
-    except UnicodeDecodeError:
-        print("defect, the file is not valid UTF-8", file=sys.stderr)
-        return 1
-    except (RecursionError, ValueError):
-        print("defect, the file is not valid JSON", file=sys.stderr)
         return 1
     defects = validate_tape(tape)
     if defects:

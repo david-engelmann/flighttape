@@ -12,6 +12,7 @@ defects (FT-19). Stdlib only.
 """
 from __future__ import annotations
 
+import math
 from datetime import datetime, timezone
 
 from . import TAPE_VERSION
@@ -45,8 +46,43 @@ def parse_timestamp(value):
     return parsed
 
 
+def _nonfinite_defects(tape):
+    """Name every non-finite number in the tape, wherever it sits (FT-29).
+
+    The walk is iterative with a visited set, so it cannot
+    exhaust the stack or loop on a cyclic structure (FT-19).
+    """
+    defects = []
+    seen = set()
+    stack = [(tape, "tape")]
+    while stack:
+        value, path = stack.pop()
+        if isinstance(value, float):
+            if not math.isfinite(value):
+                defects.append(f"{path} is a non-finite number")
+        elif isinstance(value, (dict, list)):
+            if id(value) in seen:
+                continue
+            seen.add(id(value))
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    stack.append((item, f"{path}.{key}"))
+            else:
+                for index, item in enumerate(value):
+                    stack.append((item, f"{path}[{index}]"))
+    return defects
+
+
 def validate_tape(tape):
-    """Return a list of defect strings. An empty list means valid."""
+    """Return a list of defect strings. An empty list means valid.
+
+    The non-finite walk runs on every path, including the
+    structural early returns, so its defects are never skipped.
+    """
+    return _validate_structure(tape) + _nonfinite_defects(tape)
+
+
+def _validate_structure(tape):
     defects = []
     if not isinstance(tape, dict):
         return ["tape is not a JSON object"]
