@@ -19,12 +19,20 @@ line converts, so a line is converted whole or counted whole.
 Input nested beyond the interpreter limit is counted as
 too-deep, and a session file is read as bytes so a line that is
 not valid UTF-8 is counted as undecodable instead of raising.
+
+Redaction, per FT-22 to FT-24. Every text string the converter
+emits passes through one redactor, message text, tool result
+content, and every string leaf of a tool input. An absolute
+path inside text, as FT-23 defines it, is replaced by its final
+component and counted in run.redacted_values, which refines the
+whole value rule FT-8 first stated. URLs, relative paths, and
+lone first components are never altered.
 """
 from __future__ import annotations
 
 import json
 import pathlib
-import posixpath
+import re
 import typing
 
 from . import TAPE_VERSION
@@ -47,10 +55,55 @@ class _LineResult(typing.NamedTuple):
     started_at: typing.Optional[str]
 
 
+_TOKEN_RE = re.compile(r"\S+|\s+")
+_PREFIX_CHARS = "\"'`([{<"
+_IDENT_PREFIX = re.compile(r"[A-Za-z0-9_.-]+[=:]")
+_TRAILING_PUNCT = ".,;:!?)]}" + "\"'`"
+
+
+def _redact_token(token, counter):
+    """Replace the absolute path in one token, per FT-23.
+
+    The token qualifies when the characters before its first
+    slash are only opening punctuation or an identifier ending
+    in an equals sign or a colon, so ordinary words containing
+    slashes (and/or, 2026/11/01, a/b) never qualify. The path
+    runs from that slash to the end of the token, less any
+    trailing sentence punctuation, and is a path when it holds
+    at least two non-empty components and is neither a scheme
+    URL nor a double slash reference.
+    """
+    start = token.find("/")
+    if start < 0:
+        return token
+    prefix = token[:start]
+    if prefix and any(ch not in _PREFIX_CHARS for ch in prefix) \
+            and not _IDENT_PREFIX.fullmatch(prefix):
+        return token
+    rest = token[start:]
+    end = len(rest)
+    while end > 0 and rest[end - 1] in _TRAILING_PUNCT:
+        end -= 1
+    path, suffix = rest[:end], rest[end:]
+    if "://" in path or path.startswith("//"):
+        return token
+    parts = [part for part in path.split("/") if part]
+    if len(parts) < 2:
+        return token
+    counter[0] += 1
+    return prefix + parts[-1] + suffix
+
+
+def _redact_text(text, counter):
+    """Redact every absolute path in a text string (FT-22)."""
+    return "".join(
+        _redact_token(piece, counter) if piece.strip() else piece
+        for piece in _TOKEN_RE.findall(text))
+
+
 def _sanitize(value, counter):
-    if isinstance(value, str) and value.startswith("/") and len(value) > 1:
-        counter[0] += 1
-        return posixpath.basename(value.rstrip("/")) or value
+    if isinstance(value, str):
+        return _redact_text(value, counter)
     if isinstance(value, dict):
         return {key: _sanitize(item, counter) for key, item in value.items()}
     if isinstance(value, list):
@@ -147,7 +200,8 @@ def _convert_line(line, session_id, base_seq):
         block_type = block.get("type")
         if block_type == "text":
             if block.get("text"):
-                emit("message", role=role, text=block["text"])
+                emit("message", role=role,
+                     text=_redact_text(block["text"], redactions))
                 totals["messages"] += 1
                 made += 1
         elif block_type == "tool_use":
@@ -160,7 +214,8 @@ def _convert_line(line, session_id, base_seq):
             emit("tool_result",
                  call_id=block.get("tool_use_id"),
                  is_error=bool(block.get("is_error", False)),
-                 content=_result_text(block.get("content")))
+                 content=_redact_text(
+                     _result_text(block.get("content")), redactions))
             made += 1
         else:
             bump(f"block:{block_type}")

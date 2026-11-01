@@ -36,6 +36,12 @@ portfolio, in the Retrospective arc.
   raising on it, held by a deterministic robustness corpus of
   mutated fixture lines and a table of adversarial tapes.
   Obligations FT-18 to FT-21 as amended in Round 4, met, with the reviews recorded with the programme.
+- Round 5 completes the redaction rule, one redactor now covers
+  every text string the converter emits, so an absolute path
+  inside a message, a tool result, or a command string is
+  reduced to its final component and counted, where before only
+  a tool input value that was itself a whole path was reduced.
+  Obligations FT-22 to FT-25, recorded with the programme.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
