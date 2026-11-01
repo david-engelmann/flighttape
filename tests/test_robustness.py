@@ -98,7 +98,7 @@ def test_corpus_never_raises_and_every_line_leaves_a_trace():
 
 
 def test_a_structured_line_type_is_counted_never_raised():
-    for value in ('["user"]', '{"t": 1}', "5"):
+    for value in ('["user"]', '{"t": 1}', "5", "0", "false", "[]", "{}"):
         line = ('{"type": ' + value + ', "sessionId": "synthetic-type",'
                 ' "message": {"role": "user", "content": "hi"}}')
         tape = convert_lines([line])
@@ -129,12 +129,11 @@ def test_huge_integer_line_is_counted_unparseable():
 
 
 def test_deeply_nested_tool_input_is_counted_whole():
-    nested = json.loads('{"a":' * 3000 + "1" + "}" * 3000)
-    line = json.dumps({
-        "type": "assistant", "sessionId": "synthetic-deep",
-        "message": {"role": "assistant", "content": [
-            {"type": "tool_use", "id": "c1", "name": "Read",
-             "input": nested}]}})
+    nested = '{"a":' * 3000 + "1" + "}" * 3000
+    line = ('{"type": "assistant", "sessionId": "synthetic-deep",'
+            ' "message": {"role": "assistant", "content": ['
+            '{"type": "tool_use", "id": "c1", "name": "Read",'
+            ' "input": ' + nested + "}]}}")
     tape = convert_lines([line])
     assert tape["events"] == []
     assert tape["run"]["skipped_lines"] == {"too-deep": 1}

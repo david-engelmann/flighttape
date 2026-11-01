@@ -215,10 +215,10 @@ in the goal files of the portfolio programme.
 Round 4 amendments, recorded during the repair that followed the
 round's three reviews. A line whose type field is present but not
 a string is counted as malformed:type under FT-18, a string type
-keeps its own name as the reason as before, and a missing or
-empty type is counted as missing-type; an entry handed to
-convert_lines that is not a string at all is counted as
-unparseable. The corpus generator of FT-20 mutates with six
+keeps its own name as the reason as before, and a missing type, a
+null type, or an empty string type is counted as missing-type;
+an entry handed to convert_lines that is not a string at all is
+counted as unparseable. The corpus generator of FT-20 mutates with six
 moves, truncations, character flips, token substitutions from a
 fixed table, prefix duplications, brace removals, and
 whole-value type substitutions from a fixed table, the last of

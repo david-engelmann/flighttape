@@ -112,7 +112,7 @@ def _convert_line(line, session_id, base_seq):
     if line_type not in ("user", "assistant"):
         if isinstance(line_type, str):
             bump(line_type or "missing-type")
-        elif line_type:
+        elif line_type is not None:
             bump("malformed:type")
         else:
             bump("missing-type")
