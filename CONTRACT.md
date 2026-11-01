@@ -229,3 +229,36 @@ carries on with the rest, and a failure to write an output file
 or to create the output directory fails with a named error and
 exit 1, so the no-traceback guarantee covers the write side as
 the command line's docstring states.
+
+## Redaction completeness, Round 5 obligations, written before the code
+
+- FT-22. Every string the converter emits as text passes through
+  one redactor before it enters the tape, message text, tool
+  result content, and every string leaf of a tool call's input
+  at any depth. Identifiers (the session id, call ids, tool
+  names), timestamps, and the run's bookkeeping fields are not
+  text and are outside this rule. Test, tests/test_redaction.py.
+- FT-23. Inside a text string, an absolute path is a run of
+  non-whitespace characters that begins with a slash where the
+  characters before the slash in the same whitespace-delimited
+  token are only opening punctuation (a quote, an apostrophe, a
+  backtick, an opening bracket) or an identifier ending in an
+  equals sign or a colon, that contains at least one further
+  slash between non-empty components, that does not contain a
+  scheme separator (://), and that does not begin with two
+  slashes. Each such path is replaced by its final component,
+  trailing slashes ignored, and any sentence punctuation after
+  the path is preserved. A whole string that is itself such a
+  path is the special case FT-8 has always required, and this
+  rule refines FT-8 in one stated way, a lone first component
+  such as /etc is not a path under this rule and is left alone.
+  URLs and relative paths are not paths under this rule and are
+  never altered. Test, tests/test_redaction.py.
+- FT-24. run.redacted_values equals the number of paths the
+  redactor replaced across the whole session, in text fields and
+  in tool inputs alike, so the count reconciles against the tape
+  a reader holds. Test, tests/test_redaction.py.
+- FT-25. Text that contains no absolute path under FT-23 is
+  emitted byte-identically to the pre-round converter, and the
+  tape produced from the synthetic fixture is unchanged. Test,
+  tests/test_redaction.py and the pre-existing suites.
