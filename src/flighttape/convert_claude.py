@@ -151,12 +151,15 @@ def _redact_token(token, counter):
 def _redact_text(text, counter):
     """Redact every absolute path in a text string (FT-22).
 
-    A value that is not a string is returned unchanged, so a
-    malformed text field is left for the validator to name
-    instead of raising here (FT-18).
+    A value that is not a string is routed through _sanitize,
+    so the string leaves inside a list or an object are redacted
+    the same way and scalar values pass through unchanged,
+    instead of raising here (FT-18). The validator has no check
+    on this field, so carrying a container through untouched
+    would leak any path inside it.
     """
     if not isinstance(text, str):
-        return text
+        return _sanitize(text, counter)
     return "".join(
         _redact_token(piece, counter) if not piece.isspace() else piece
         for piece in _TOKEN_RE.findall(text))

@@ -148,10 +148,17 @@ def test_keys_that_redact_to_the_same_name_merge():
     assert tape["run"]["redacted_values"] == 2
 
 
-def test_a_non_string_text_value_is_carried_not_fatal():
-    for value in (123, ["/a/b"], {"x": 1}, True):
+def test_a_non_string_text_value_is_carried_and_its_leaves_redacted():
+    for value in (123, {"x": 1}, True):
         tape = convert_lines([line("assistant", [{"type": "text", "text": value}])])
         assert tape["events"][0]["text"] == value
+        assert tape["run"]["redacted_values"] == 0
+    tape = convert_lines([line("assistant", [{"type": "text", "text": [SECRET]}])])
+    assert tape["events"][0]["text"] == ["secret-plan.md"]
+    assert tape["run"]["redacted_values"] == 1
+    tape = convert_lines([line("assistant", [{"type": "text", "text": {"p": SECRET}}])])
+    assert tape["events"][0]["text"] == {"p": "secret-plan.md"}
+    assert tape["run"]["redacted_values"] == 1
 
 
 def test_paths_glued_into_one_token_are_each_redacted():
