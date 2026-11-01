@@ -1,5 +1,10 @@
 """Play a flight tape back as a readable timeline (FT-10 to FT-12).
 
+The header also states the outcome basis the tape carries
+(FT-17). The renderer reads the outcome defensively, a status or
+basis that is not a string renders as the bare unknown rather
+than breaking the rendering of a tape that was never validated.
+
 The rendering is a pure function of the tape. The same tape always
 renders byte identical output, and tests/test_play.py holds the
 rendering to a stored golden file built from the synthetic fixture.
@@ -37,11 +42,21 @@ def _header_lines(tape):
     for key in TOKEN_KEYS:
         if key in totals:
             parts.append(f"{key.replace('_', ' ')} {totals[key]}")
+    outcome = tape.get("outcome")
+    if not isinstance(outcome, dict):
+        outcome = {}
+    status = outcome.get("status")
+    if isinstance(status, str):
+        outcome_text = status
+        basis = outcome.get("basis")
+        if isinstance(basis, str) and basis:
+            outcome_text += f" ({basis})"
+    else:
+        outcome_text = "unknown"
     lines = [
         f"tape {run.get('session_id', 'unknown')} "
         f"from {run.get('harness', 'unknown')}",
-        f"outcome {tape.get('outcome', {}).get('status', 'unknown')}, "
-        + ", ".join(parts),
+        f"outcome {outcome_text}, " + ", ".join(parts),
     ]
     meta = []
     if run.get("started_at"):

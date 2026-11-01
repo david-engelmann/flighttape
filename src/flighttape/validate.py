@@ -18,6 +18,14 @@ EVENT_KINDS = {
     "diff", "spend", "note", "session_end",
 }
 OUTCOMES = {"completed", "failed", "aborted", "unknown"}
+BASES = {"final-assistant-message", "final-error-result",
+         "user-interrupt-marker", "no-events", "unresolved-ending"}
+BASIS_FOR_STATUS = {
+    "completed": {"final-assistant-message"},
+    "failed": {"final-error-result"},
+    "aborted": {"user-interrupt-marker"},
+    "unknown": {"no-events", "unresolved-ending"},
+}
 
 
 def _is_int(value):
@@ -76,10 +84,23 @@ def validate_tape(tape):
     outcome = tape.get("outcome")
     if not isinstance(outcome, dict):
         defects.append("outcome is missing or is not an object")
-    elif outcome.get("status") not in OUTCOMES:
-        defects.append(
-            f"outcome.status must be one of {sorted(OUTCOMES)}, "
-            f"got {outcome.get('status')!r}")
+    else:
+        status = outcome.get("status")
+        if status not in OUTCOMES:
+            defects.append(
+                f"outcome.status must be one of {sorted(OUTCOMES)}, "
+                f"got {status!r}")
+        if "basis" in outcome:
+            basis = outcome["basis"]
+            if not isinstance(basis, str) or basis not in BASES:
+                defects.append(
+                    f"outcome.basis must be one of {sorted(BASES)}, "
+                    f"got {basis!r}")
+            elif (status in BASIS_FOR_STATUS
+                    and basis not in BASIS_FOR_STATUS[status]):
+                defects.append(
+                    f"outcome.basis {basis!r} does not go with "
+                    f"outcome.status {status!r}")
     events = tape.get("events")
     if not isinstance(events, list):
         defects.append("events is missing or is not a list")
@@ -134,4 +155,7 @@ def validate_tape(tape):
             content = event.get("content")
             if content is not None and not isinstance(content, str):
                 defects.append(f"{where}.content must be a string")
+            if "is_error" in event and not isinstance(
+                    event["is_error"], bool):
+                defects.append(f"{where}.is_error must be a boolean")
     return defects

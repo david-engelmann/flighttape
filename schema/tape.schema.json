@@ -97,6 +97,9 @@
           },
           "content": {
             "type": "string"
+          },
+          "is_error": {
+            "type": "boolean"
           }
         }
       }
@@ -113,6 +116,16 @@
             "failed",
             "aborted",
             "unknown"
+          ]
+        },
+        "basis": {
+          "type": "string",
+          "enum": [
+            "final-assistant-message",
+            "final-error-result",
+            "user-interrupt-marker",
+            "no-events",
+            "unresolved-ending"
           ]
         }
       }

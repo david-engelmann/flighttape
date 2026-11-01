@@ -10,7 +10,8 @@ never merged. Malformed lines are counted, never fatal. The tape
 records the source format name and the session id only, never a
 path, a working directory, or a branch, and absolute paths inside
 tool inputs are reduced to their final component and counted in
-run.redacted_values (FT-8).
+run.redacted_values (FT-8). The outcome is determined from the
+events by flighttape.outcome (FT-14 to FT-16), never a constant.
 """
 from __future__ import annotations
 
@@ -18,6 +19,7 @@ import json
 import posixpath
 
 from . import TAPE_VERSION
+from .outcome import determine_outcome
 
 SOURCE_FORMAT = "claude-code-jsonl"
 TOKEN_KEYS = ("input_tokens", "output_tokens",
@@ -146,7 +148,7 @@ def convert_lines(lines):
     if started_at:
         run["started_at"] = started_at
     return {"tape_version": TAPE_VERSION, "run": run, "events": events,
-            "outcome": {"status": "unknown"}}
+            "outcome": determine_outcome(events)}
 
 
 def convert_file(path):

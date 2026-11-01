@@ -129,3 +129,28 @@ def test_unparseable_timestamp_is_rejected():
     tape = good_tape()
     tape["events"][0]["timestamp"] = "next tuesday"
     assert any("ISO 8601" in d for d in validate_tape(tape))
+
+
+def test_basis_must_be_a_named_rule_that_pairs_with_the_status():
+    tape = good_tape()
+    tape["outcome"]["basis"] = "final-assistant-message"
+    assert validate_tape(tape) == []
+    for bad in ("", 7, None, ["x"], "banana", " "):
+        tape = good_tape()
+        tape["outcome"]["basis"] = bad
+        assert any("outcome.basis" in d for d in validate_tape(tape)), bad
+    tape = good_tape()
+    tape["outcome"]["basis"] = "final-error-result"
+    assert any("does not go with" in d for d in validate_tape(tape))
+    tape = good_tape()
+    tape["outcome"] = {"status": "unknown", "basis": "no-events"}
+    assert validate_tape(tape) == []
+
+
+def test_is_error_must_be_a_boolean_when_present():
+    tape = good_tape()
+    tape["events"][1]["is_error"] = True
+    assert validate_tape(tape) == []
+    tape = good_tape()
+    tape["events"][1]["is_error"] = "false"
+    assert any("is_error" in d for d in validate_tape(tape))
