@@ -8,7 +8,7 @@ Each harness keeps its own books in its own dialect, and the shared standards fo
 
 ## Status
 
-Seeded in October 2026. Local setup is in progress on the setup branch.
+Seeded in October 2026. The first slice is built locally on the first slice branch, a tape schema, a Claude Code converter, and a validator.
 The remote seeding pass is waiting on a token access fix, so work is
 banked locally until pushes clear. Part of the impatient programming
 portfolio, in the Retrospective arc.
@@ -17,8 +17,18 @@ portfolio, in the Retrospective arc.
 
 - Closed perfection rounds, 0 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
-- Contract, stub in place, not yet met. The full Contract is the first
-  build act of phase 1.
+- Contract, FT-1 to FT-9 as amended in Round 1, met by the local
+  gate on the first slice branch after the Round 1 repair pass. The
+  Round 1 reviews and their findings are recorded with the
+  programme. The slice done criterion, a week of real lane sessions
+  converting and validating, is still outstanding and is not claimed
+  here, the converter now ships a convert-dir command so a session
+  set can be converted in one run when the sessions exist.
+- Round 2 adds playback, the play command renders a valid tape as
+  a readable timeline, held to a golden file. Obligations FT-10 to
+  FT-13 as amended in Round 2, met by the local gate after the
+  Round 2 repair pass, with the reviews recorded with the
+  programme. Malformed tapes refuse to play, by FT-13 design.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
