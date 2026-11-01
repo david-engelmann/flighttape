@@ -1,12 +1,14 @@
 tape synthetic-session-001 from claude-code
-outcome unknown, events 5, tool calls 1, input tokens 150, output tokens 50
+outcome unknown, events 5, tool calls 1, messages 3, input tokens 150, output tokens 50, cache creation input tokens 0, cache read input tokens 0
+started 2026-01-01T09:00:00.000Z, source claude-code-jsonl, skipped lines 1 (system 1)
 
-[+0.0s] #0 message user
+[+0.00s] #0 message user
 Synthetic prompt, fix the widget counter.
-[+5.0s] #1 message assistant
+[+5.00s] #1 message assistant
 Synthetic reply, reading the counter first.
-[+5.0s] #2 tool_call Read call toolu_synth_1
-[+6.0s] #3 tool_result call toolu_synth_1
+[+5.00s] #2 tool_call Read call toolu_synth_1
+{"path": "widget.py"}
+[+6.00s] #3 tool_result call toolu_synth_1
 counter = 0
 [+60.0s] #4 message sidechain assistant
 Synthetic sidechain note, checking a hunch.

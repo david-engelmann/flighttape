@@ -73,8 +73,12 @@ def main(argv=None):
         return _convert_one(args.source, args.output)
     if args.command == "convert-dir":
         return _convert_dir(args.source_dir, args.output_dir)
-    with open(args.tape, encoding="utf-8") as handle:
-        tape = json.load(handle)
+    try:
+        with open(args.tape, encoding="utf-8") as handle:
+            tape = json.load(handle)
+    except json.JSONDecodeError:
+        print("defect, the file is not valid JSON", file=sys.stderr)
+        return 1
     defects = validate_tape(tape)
     if defects:
         for defect in defects:

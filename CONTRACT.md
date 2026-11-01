@@ -76,18 +76,29 @@ reported as met or not met in the README status section.
   file test holds the rendering to a stored expected output.
   Test, tests/test_play.py.
 - FT-11. The timeline header states the harness, the session id,
-  the outcome status, and the run totals. Every event renders as
-  one entry carrying its seq, its offset in seconds from the first
-  timestamped event when timestamps exist, its kind, and its
-  content, with sidechain events marked as sidechain. Test,
-  tests/test_play.py.
+  the outcome status, the event counts taken from the events
+  themselves, and every recorded token total, zero totals included
+  when the key is recorded. A second header line states the start
+  time, the source format, the skipped line counts, and the
+  redaction count when the tape carries them. Every event renders
+  as one entry carrying its seq, its offset in seconds from the
+  first timestamped event when timestamps exist, its kind, and its
+  content, with sidechain events marked as sidechain. Offsets under
+  ten seconds render to two decimals so sub second spacing stays
+  visible. Test, tests/test_play.py.
 - FT-12. Playback loses nothing the tape carries. Message text,
-  tool names, tool result content, and error flags all appear in
-  the rendering. A test renders the synthetic fixture tape and
-  asserts each carried field appears. Test, tests/test_play.py.
+  tool names, tool call inputs, tool result content, error flags,
+  the content of diff, spend, and note events, and any further
+  fields an event carries, rendered as a sorted JSON line, all
+  appear in the rendering. A test renders the synthetic fixture
+  tape and asserts each carried field appears, and probe tapes
+  cover the diff, spend, cache total, and extra field cases. Test,
+  tests/test_play.py.
 - FT-13. Playing a malformed tape fails through the validator
   first, with the defects named and a non-zero exit, never a
-  partial rendering. Test, tests/test_cli.py.
+  partial rendering. A file that is not valid JSON at all fails the
+  same way, with a named defect and no traceback. Test,
+  tests/test_cli.py.
 
 ## Amendments, Round 1, 2026-10-31
 
@@ -101,3 +112,14 @@ slice code landed in one commit, because the stub Contract from the
 setup commit was the sequencing the programme required and the
 extension happened in the same working pass. It is recorded here
 rather than hidden.
+
+## Amendments, Round 2, 2026-10-31
+
+The Round 2 reviews found FT-11 and FT-12 claimed more than the
+renderer did. Tool inputs never rendered, diff and spend content
+was dropped, recorded zero totals were hidden, countable header
+figures trusted the totals over the events, and offsets hid sub
+second spacing. The obligations above were extended to state what
+the code now does, and the code was fixed to meet them. The full
+record is the Round 2 dossier in the goal files of the portfolio
+programme.

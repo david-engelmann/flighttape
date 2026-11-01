@@ -3,68 +3,96 @@
 The rendering is a pure function of the tape. The same tape always
 renders byte identical output, and tests/test_play.py holds the
 rendering to a stored golden file built from the synthetic fixture.
+The golden file provenance is recorded in tests/test_play.py.
 """
 from __future__ import annotations
 
-from .validate import _parse_ts
+import json
+
+from .convert_claude import TOKEN_KEYS
+from .validate import parse_timestamp
+
+COUNTED = (("tool_call", "tool calls"), ("message", "messages"))
+KNOWN_FIELDS = {"seq", "kind", "sidechain", "timestamp", "call_id",
+                "tool", "role", "text", "content", "input", "is_error"}
 
 
-def _totals_line(tape):
-    totals = tape.get("run", {}).get("totals") or {}
+def _offset(stamp, origin):
+    if stamp is None or origin is None:
+        return "no time"
+    delta = stamp.timestamp() - origin.timestamp()
+    if abs(delta) < 10:
+        return f"{delta:+.2f}s"
+    return f"{delta:+.1f}s"
+
+
+def _header_lines(tape):
+    run = tape.get("run", {})
+    totals = run.get("totals") or {}
     events = tape.get("events", [])
-    tool_calls = totals.get("tool_calls")
-    if tool_calls is None:
-        tool_calls = sum(1 for e in events if e.get("kind") == "tool_call")
-    parts = [f"events {len(events)}", f"tool calls {tool_calls}"]
-    for key, label in (("input_tokens", "input tokens"),
-                       ("output_tokens", "output tokens"),
-                       ("cache_creation_input_tokens", "cache creation tokens"),
-                       ("cache_read_input_tokens", "cache read tokens")):
-        if totals.get(key):
-            parts.append(f"{label} {totals[key]}")
-    return ", ".join(parts)
+    parts = [f"events {len(events)}"]
+    for kind, label in COUNTED:
+        counted = sum(1 for e in events if e.get("kind") == kind)
+        parts.append(f"{label} {counted}")
+    for key in TOKEN_KEYS:
+        if key in totals:
+            parts.append(f"{key.replace('_', ' ')} {totals[key]}")
+    lines = [
+        f"tape {run.get('session_id', 'unknown')} "
+        f"from {run.get('harness', 'unknown')}",
+        f"outcome {tape.get('outcome', {}).get('status', 'unknown')}, "
+        + ", ".join(parts),
+    ]
+    meta = []
+    if run.get("started_at"):
+        meta.append(f"started {run['started_at']}")
+    if run.get("source_format"):
+        meta.append(f"source {run['source_format']}")
+    skipped = run.get("skipped_lines") or {}
+    if skipped:
+        detail = ", ".join(f"{k} {v}" for k, v in sorted(skipped.items()))
+        meta.append(f"skipped lines {sum(skipped.values())} ({detail})")
+    if run.get("redacted_values"):
+        meta.append(f"redacted values {run['redacted_values']}")
+    if meta:
+        lines.append(", ".join(meta))
+    lines.append("")
+    return lines
 
 
 def render_tape(tape):
     """Render one validated tape as timeline text."""
-    run = tape.get("run", {})
-    outcome = tape.get("outcome", {}).get("status", "unknown")
-    lines = [
-        f"tape {run.get('session_id', 'unknown')} "
-        f"from {run.get('harness', 'unknown')}",
-        f"outcome {outcome}, {_totals_line(tape)}",
-        "",
-    ]
+    lines = _header_lines(tape)
+    events = tape.get("events", [])
     stamps = []
-    for event in tape.get("events", []):
+    for event in events:
         ts = event.get("timestamp")
-        stamps.append(_parse_ts(ts) if isinstance(ts, str) else None)
+        stamps.append(parse_timestamp(ts) if isinstance(ts, str) else None)
     origin = next((s for s in stamps if s is not None), None)
-    for event, stamp in zip(tape.get("events", []), stamps):
-        if origin is not None and stamp is not None:
-            offset = f"+{stamp.timestamp() - origin.timestamp():.1f}s"
-        else:
-            offset = "no time"
+    for event, stamp in zip(events, stamps):
         kind = event.get("kind", "note")
         side = " sidechain" if event.get("sidechain") else ""
-        head = f"[{offset}] #{event.get('seq', '?')} {kind}{side}"
+        head = f"[{_offset(stamp, origin)}] #{event.get('seq', '?')} {kind}{side}"
+        body = None
         if kind == "message":
             head += f" {event.get('role', 'unknown')}"
-            lines.append(head)
-            if event.get("text"):
-                lines.append(str(event["text"]))
+            body = event.get("text")
         elif kind == "tool_call":
-            head += f" {event.get('tool', 'unknown')} call {event.get('call_id', 'unknown')}"
-            lines.append(head)
+            head += (f" {event.get('tool', 'unknown')} "
+                     f"call {event.get('call_id', 'unknown')}")
+            if event.get("input") is not None:
+                body = json.dumps(event["input"], sort_keys=True)
         elif kind == "tool_result":
             head += f" call {event.get('call_id', 'unknown')}"
             if event.get("is_error"):
                 head += " ERROR"
-            lines.append(head)
-            if event.get("content"):
-                lines.append(str(event["content"]))
+            body = event.get("content")
         else:
-            lines.append(head)
-            if event.get("text"):
-                lines.append(str(event["text"]))
+            body = event.get("content", event.get("text"))
+        lines.append(head)
+        if body:
+            lines.append(str(body))
+        extra = {k: event[k] for k in sorted(event) if k not in KNOWN_FIELDS}
+        if extra:
+            lines.append(json.dumps(extra, sort_keys=True))
     return "\n".join(lines) + "\n"

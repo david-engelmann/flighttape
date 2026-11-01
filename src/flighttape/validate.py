@@ -24,7 +24,7 @@ def _is_int(value):
     return isinstance(value, int) and not isinstance(value, bool)
 
 
-def _parse_ts(value):
+def parse_timestamp(value):
     try:
         parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
     except ValueError:
@@ -109,7 +109,7 @@ def validate_tape(tape):
             if not isinstance(ts, str):
                 defects.append(f"{where}.timestamp must be a string")
             else:
-                parsed = _parse_ts(ts)
+                parsed = parse_timestamp(ts)
                 if parsed is None:
                     defects.append(
                         f"{where}.timestamp {ts!r} is not ISO 8601")
