@@ -45,3 +45,9 @@ def test_validator_rejects_the_schema_probes():
     probe = copy.deepcopy(base)
     probe["events"][0]["call_id"] = 7
     assert validate_tape(probe) != []
+
+
+def test_schema_states_the_basis_field():
+    schema = load_schema()
+    basis = schema["properties"]["outcome"]["properties"]["basis"]
+    assert basis == {"type": "string", "minLength": 1}

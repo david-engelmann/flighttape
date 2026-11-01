@@ -37,11 +37,14 @@ def _header_lines(tape):
     for key in TOKEN_KEYS:
         if key in totals:
             parts.append(f"{key.replace('_', ' ')} {totals[key]}")
+    outcome = tape.get("outcome", {})
+    outcome_text = outcome.get("status", "unknown")
+    if outcome.get("basis"):
+        outcome_text += f" ({outcome['basis']})"
     lines = [
         f"tape {run.get('session_id', 'unknown')} "
         f"from {run.get('harness', 'unknown')}",
-        f"outcome {tape.get('outcome', {}).get('status', 'unknown')}, "
-        + ", ".join(parts),
+        f"outcome {outcome_text}, " + ", ".join(parts),
     ]
     meta = []
     if run.get("started_at"):

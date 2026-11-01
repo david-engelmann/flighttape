@@ -114,6 +114,10 @@
             "aborted",
             "unknown"
           ]
+        },
+        "basis": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

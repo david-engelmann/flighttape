@@ -7,7 +7,11 @@ offsets 0, 5, 5, 6, and 60 seconds from the fixture timestamps and
 header token sums 150 and 50 from the fixture usage. Any later
 regeneration must repeat that hand check, and the regeneration is
 one command, render convert_file on the fixture and write the
-result over the golden file.
+result over the golden file. Round 3 regenerated the golden once,
+the only change is the header outcome segment, which now carries
+the determined basis (unresolved-ending), hand checked against the
+fixture, whose main chain ends on a tool result with no following
+main chain reply, the sidechain reply does not count.
 """
 import copy, pathlib
 
@@ -139,3 +143,12 @@ def test_error_results_are_marked():
         if event["kind"] == "tool_result":
             event["is_error"] = True
     assert "ERROR" in render_tape(tape)
+
+
+def test_header_states_the_outcome_basis():
+    tape = fixture_tape()
+    header = render_tape(tape).splitlines()[1]
+    assert header.startswith("outcome unknown (unresolved-ending), ")
+    tape["outcome"] = {"status": "completed"}
+    header = render_tape(tape).splitlines()[1]
+    assert header.startswith("outcome completed, ")

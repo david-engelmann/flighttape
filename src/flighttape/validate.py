@@ -80,6 +80,11 @@ def validate_tape(tape):
         defects.append(
             f"outcome.status must be one of {sorted(OUTCOMES)}, "
             f"got {outcome.get('status')!r}")
+    if isinstance(outcome, dict) and "basis" in outcome:
+        basis = outcome["basis"]
+        if not isinstance(basis, str) or not basis:
+            defects.append(
+                "outcome.basis must be a non-empty string when present")
     events = tape.get("events")
     if not isinstance(events, list):
         defects.append("events is missing or is not a list")

@@ -1,5 +1,5 @@
 tape synthetic-session-001 from claude-code
-outcome unknown, events 5, tool calls 1, messages 3, input tokens 150, output tokens 50, cache creation input tokens 0, cache read input tokens 0
+outcome unknown (unresolved-ending), events 5, tool calls 1, messages 3, input tokens 150, output tokens 50, cache creation input tokens 0, cache read input tokens 0
 started 2026-01-01T09:00:00.000Z, source claude-code-jsonl, skipped lines 1 (system 1)
 
 [+0.00s] #0 message user

@@ -129,3 +129,13 @@ def test_unparseable_timestamp_is_rejected():
     tape = good_tape()
     tape["events"][0]["timestamp"] = "next tuesday"
     assert any("ISO 8601" in d for d in validate_tape(tape))
+
+
+def test_basis_must_be_a_non_empty_string_when_present():
+    tape = good_tape()
+    tape["outcome"]["basis"] = "final-assistant-message"
+    assert validate_tape(tape) == []
+    for bad in ("", 7, None, ["x"]):
+        tape = good_tape()
+        tape["outcome"]["basis"] = bad
+        assert any("outcome.basis" in d for d in validate_tape(tape)), bad
