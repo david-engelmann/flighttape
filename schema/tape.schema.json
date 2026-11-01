@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/david-engelmann/flighttape/schema/tape.schema.json",
+  "title": "flighttape tape, version 1.0",
+  "type": "object",
+  "required": [
+    "tape_version",
+    "run",
+    "events",
+    "outcome"
+  ],
+  "properties": {
+    "tape_version": {
+      "const": "1.0"
+    },
+    "run": {
+      "type": "object",
+      "required": [
+        "harness",
+        "session_id"
+      ],
+      "properties": {
+        "harness": {
+          "type": "string",
+          "minLength": 1
+        },
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_format": {
+          "type": "string"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "skipped_lines": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "totals": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "events": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "seq",
+          "kind",
+          "sidechain"
+        ],
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "kind": {
+            "enum": [
+              "session_start",
+              "message",
+              "tool_call",
+              "tool_result",
+              "diff",
+              "spend",
+              "note",
+              "session_end"
+            ]
+          },
+          "sidechain": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "call_id": {
+            "type": "string"
+          },
+          "tool": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "completed",
+            "failed",
+            "aborted",
+            "unknown"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ Each harness keeps its own books in its own dialect, and the shared standards fo
 
 ## Status
 
-Seeded in October 2026. Local setup is in progress on the setup branch.
+Seeded in October 2026. The first slice is built locally on the first slice branch, a tape schema, a Claude Code converter, and a validator.
 The remote seeding pass is waiting on a token access fix, so work is
 banked locally until pushes clear. Part of the impatient programming
 portfolio, in the Retrospective arc.
@@ -17,8 +17,8 @@ portfolio, in the Retrospective arc.
 
 - Closed perfection rounds, 0 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
-- Contract, stub in place, not yet met. The full Contract is the first
-  build act of phase 1.
+- Contract, full Contract written for the first slice, met by the
+  local gate on the first slice branch. Obligations FT-1 to FT-9.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
