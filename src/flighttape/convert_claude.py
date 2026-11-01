@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import pathlib
 import posixpath
+import typing
 
 from . import TAPE_VERSION
 from .outcome import determine_outcome
@@ -33,6 +34,17 @@ SOURCE_FORMAT = "claude-code-jsonl"
 TOKEN_KEYS = ("input_tokens", "output_tokens",
               "cache_creation_input_tokens", "cache_read_input_tokens")
 TOTAL_KEYS = TOKEN_KEYS + ("tool_calls", "messages")
+
+
+class _LineResult(typing.NamedTuple):
+    """The fragments one line converts to, merged only as a whole."""
+
+    events: list
+    skipped: dict
+    totals: dict
+    redactions: int
+    adopt_session: typing.Optional[str]
+    started_at: typing.Optional[str]
 
 
 def _sanitize(value, counter):
@@ -59,14 +71,15 @@ def _result_text(content):
 
 
 def _convert_line(line, session_id, base_seq):
-    """Convert one parsed session line into tape fragments.
+    """Convert one parsed session line into a _LineResult.
 
-    Returns (events, skipped, totals, redactions, adopt_session,
-    started_at). Nothing is merged by the caller when the line
-    raises RecursionError, so a line lands whole or is counted
-    whole. The session and start time a line establishes are
-    returned even when the line itself converts to no events,
-    matching the order the checks have always run in.
+    Nothing is merged by the caller when the line raises
+    RecursionError, so a line lands whole or is counted whole.
+    The session and start time a line establishes are returned
+    even when the line itself converts to no events, matching
+    the order the checks have always run in. A line type that is
+    not a string is counted as malformed:type, never used as a
+    counter key, because a key must be a string (FT-18).
     """
     events = []
     skipped = {}
@@ -92,17 +105,24 @@ def _convert_line(line, session_id, base_seq):
             adopt_session = seen_session
         elif seen_session != session_id:
             bump("foreign-session")
-            return events, skipped, totals, 0, None, None
+            return _LineResult(events, skipped, totals, 0, None, None)
     if line.get("timestamp"):
         started_at = line["timestamp"]
     line_type = line.get("type")
     if line_type not in ("user", "assistant"):
-        bump(line_type or "missing-type")
-        return events, skipped, totals, redactions[0], adopt_session, started_at
+        if isinstance(line_type, str):
+            bump(line_type or "missing-type")
+        elif line_type:
+            bump("malformed:type")
+        else:
+            bump("missing-type")
+        return _LineResult(events, skipped, totals, redactions[0],
+                           adopt_session, started_at)
     message = line.get("message")
     if not isinstance(message, dict):
         bump("malformed:message")
-        return events, skipped, totals, redactions[0], adopt_session, started_at
+        return _LineResult(events, skipped, totals, redactions[0],
+                           adopt_session, started_at)
     role = message.get("role") or line_type
     usage = message.get("usage")
     if isinstance(usage, dict):
@@ -117,7 +137,8 @@ def _convert_line(line, session_id, base_seq):
         content = [{"type": "text", "text": content}] if content else []
     if not isinstance(content, list) or not content:
         bump(f"contentless:{line_type}")
-        return events, skipped, totals, redactions[0], adopt_session, started_at
+        return _LineResult(events, skipped, totals, redactions[0],
+                           adopt_session, started_at)
     made = 0
     for block in content:
         if not isinstance(block, dict):
@@ -145,15 +166,17 @@ def _convert_line(line, session_id, base_seq):
             bump(f"block:{block_type}")
     if made == 0:
         bump(f"contentless:{line_type}")
-    return events, skipped, totals, redactions[0], adopt_session, started_at
+    return _LineResult(events, skipped, totals, redactions[0],
+                       adopt_session, started_at)
 
 
 def convert_lines(lines):
     """Convert an iterable of JSONL strings into a tape dict.
 
     An entry of None marks a line that was not valid UTF-8, which
-    convert_file produces from the raw bytes; it is counted as
-    undecodable. No entry, however malformed, raises (FT-18).
+    convert_file produces from the raw bytes, it is counted as
+    undecodable. An entry that is not a string at all is counted
+    as unparseable. No entry, however malformed, raises (FT-18).
     """
     events = []
     skipped = {}
@@ -168,6 +191,9 @@ def convert_lines(lines):
     for raw in lines:
         if raw is None:
             bump("undecodable")
+            continue
+        if not isinstance(raw, str):
+            bump("unparseable")
             continue
         raw = raw.strip()
         if not raw:
@@ -184,22 +210,20 @@ def convert_lines(lines):
             bump("non-object")
             continue
         try:
-            (line_events, line_skipped, line_totals, line_redactions,
-             adopt_session, line_started) = _convert_line(
-                line, session_id, len(events))
+            result = _convert_line(line, session_id, len(events))
         except RecursionError:
             bump("too-deep")
             continue
-        events.extend(line_events)
-        for key, value in line_skipped.items():
+        events.extend(result.events)
+        for key, value in result.skipped.items():
             skipped[key] = skipped.get(key, 0) + value
-        for key, value in line_totals.items():
+        for key, value in result.totals.items():
             totals[key] += value
-        redactions += line_redactions
-        if session_id is None and adopt_session is not None:
-            session_id = adopt_session
-        if started_at is None and line_started is not None:
-            started_at = line_started
+        redactions += result.redactions
+        if session_id is None and result.adopt_session is not None:
+            session_id = result.adopt_session
+        if started_at is None and result.started_at is not None:
+            started_at = result.started_at
     run = {"harness": "claude-code",
            "session_id": session_id or "unknown",
            "source_format": SOURCE_FORMAT, "skipped_lines": skipped,

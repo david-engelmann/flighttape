@@ -1,8 +1,10 @@
 """flighttape command line, convert, convert-dir, validate, play.
 
-Read failures and missing sources are named errors with exit 1,
-never tracebacks (FT-21), and the converter and validator behind
-these commands never raise on malformed input (FT-18, FT-19).
+Read failures, missing sources, entries in a converted directory
+that are not files, and output write failures are named errors
+with exit 1, never tracebacks (FT-21), and the converter and
+validator behind these commands never raise on malformed input
+(FT-18, FT-19).
 """
 from __future__ import annotations
 
@@ -28,13 +30,23 @@ def _convert_one(source, output):
     if not pathlib.Path(source).is_file():
         print(f"error, no such source file, {source}", file=sys.stderr)
         return 1
-    tape = convert_file(source)
+    try:
+        tape = convert_file(source)
+    except OSError:
+        print(f"error, cannot read the source file, {source}",
+              file=sys.stderr)
+        return 1
     defects = validate_tape(tape)
     if defects:
         for defect in defects:
             print(f"defect, {defect}", file=sys.stderr)
         return 1
-    _write_tape(tape, output)
+    try:
+        _write_tape(tape, output)
+    except OSError:
+        print(f"error, cannot write the tape file, {output}",
+              file=sys.stderr)
+        return 1
     return 0
 
 
@@ -44,10 +56,32 @@ def _convert_dir(source_dir, output_dir):
               file=sys.stderr)
         return 1
     out = pathlib.Path(output_dir)
-    out.mkdir(parents=True, exist_ok=True)
+    try:
+        out.mkdir(parents=True, exist_ok=True)
+    except OSError:
+        print(f"error, cannot create the output directory, {output_dir}",
+              file=sys.stderr)
+        return 1
     summary = {"converted": 0, "failed": 0, "events": 0, "files": []}
     for source in sorted(pathlib.Path(source_dir).glob("*.jsonl")):
-        tape = convert_file(source)
+        if not source.is_file():
+            print(f"error, not a file, skipped, {source}",
+                  file=sys.stderr)
+            summary["files"].append({"file": source.name, "events": 0,
+                                      "defects": [],
+                                      "error": "not a file"})
+            summary["failed"] += 1
+            continue
+        try:
+            tape = convert_file(source)
+        except OSError:
+            print(f"error, cannot read the source file, {source}",
+                  file=sys.stderr)
+            summary["files"].append({"file": source.name, "events": 0,
+                                      "defects": [],
+                                      "error": "cannot read"})
+            summary["failed"] += 1
+            continue
         defects = validate_tape(tape)
         entry = {"file": source.name, "events": len(tape["events"]),
                  "defects": defects}
@@ -57,10 +91,20 @@ def _convert_dir(source_dir, output_dir):
         else:
             summary["converted"] += 1
             summary["events"] += len(tape["events"])
-            (out / (source.stem + ".tape.json")).write_text(
-                json.dumps(tape, indent=2) + "\n", encoding="utf-8")
-    (out / "summary.json").write_text(
-        json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+            try:
+                (out / (source.stem + ".tape.json")).write_text(
+                    json.dumps(tape, indent=2) + "\n", encoding="utf-8")
+            except OSError:
+                print(f"error, cannot write the tape file for, {source}",
+                      file=sys.stderr)
+                return 1
+    try:
+        (out / "summary.json").write_text(
+            json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+    except OSError:
+        print(f"error, cannot write the summary file in, {output_dir}",
+              file=sys.stderr)
+        return 1
     print(f"converted {summary['converted']}, "
           f"failed {summary['failed']}, events {summary['events']}")
     return 1 if summary["failed"] else 0

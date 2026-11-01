@@ -211,3 +211,21 @@ in the goal files of the portfolio programme.
   exist, each fail with a named error and exit 1, never a
   traceback. Test, tests/test_robustness.py and
   tests/test_cli.py.
+
+Round 4 amendments, recorded during the repair that followed the
+round's three reviews. A line whose type field is present but not
+a string is counted as malformed:type under FT-18, a string type
+keeps its own name as the reason as before, and a missing or
+empty type is counted as missing-type; an entry handed to
+convert_lines that is not a string at all is counted as
+unparseable. The corpus generator of FT-20 mutates with six
+moves, truncations, character flips, token substitutions from a
+fixed table, prefix duplications, brace removals, and
+whole-value type substitutions from a fixed table, the last of
+which is what lets the corpus reach a structured value in a
+string field. Under FT-21, convert-dir names any entry matching
+the session pattern that is not a file, counts it as failed, and
+carries on with the rest, and a failure to write an output file
+or to create the output directory fails with a named error and
+exit 1, so the no-traceback guarantee covers the write side as
+the command line's docstring states.
