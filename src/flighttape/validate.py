@@ -5,7 +5,10 @@ a tape. This validator enforces that shape, and also the structural
 rules JSON Schema cannot state, namely consecutive seq values, tool
 call pairing, and chronological timestamp order, exactly as FT-1 in
 the Contract divides the work. It returns every defect it finds in
-one pass, never just the first (FT-2). Stdlib only.
+one pass, never just the first (FT-2). It never raises on any value
+json.loads can produce, wrongly typed and unhashable values in the
+fields it compares against its vocabularies and sets are named as
+defects (FT-19). Stdlib only.
 """
 from __future__ import annotations
 
@@ -86,7 +89,7 @@ def validate_tape(tape):
         defects.append("outcome is missing or is not an object")
     else:
         status = outcome.get("status")
-        if status not in OUTCOMES:
+        if not isinstance(status, str) or status not in OUTCOMES:
             defects.append(
                 f"outcome.status must be one of {sorted(OUTCOMES)}, "
                 f"got {status!r}")
@@ -96,7 +99,8 @@ def validate_tape(tape):
                 defects.append(
                     f"outcome.basis must be one of {sorted(BASES)}, "
                     f"got {basis!r}")
-            elif (status in BASIS_FOR_STATUS
+            elif (isinstance(status, str)
+                    and status in BASIS_FOR_STATUS
                     and basis not in BASIS_FOR_STATUS[status]):
                 defects.append(
                     f"outcome.basis {basis!r} does not go with "
@@ -118,7 +122,7 @@ def validate_tape(tape):
         if not _is_int(seq) or seq != want_seq:
             defects.append(f"{where}.seq must be {want_seq}, got {seq!r}")
         kind = event.get("kind")
-        if kind not in EVENT_KINDS:
+        if not isinstance(kind, str) or kind not in EVENT_KINDS:
             defects.append(f"{where}.kind {kind!r} is not a tape event kind")
         if not isinstance(event.get("sidechain"), bool):
             defects.append(f"{where}.sidechain must be a boolean")
@@ -148,7 +152,7 @@ def validate_tape(tape):
             if not isinstance(event.get("tool"), str) or not event.get("tool"):
                 defects.append(f"{where}.tool must be a non-empty string")
         if kind == "tool_result":
-            if call_id not in seen_calls:
+            if not isinstance(call_id, str) or call_id not in seen_calls:
                 defects.append(
                     f"{where}.call_id {call_id!r} answers no earlier "
                     "tool_call in this tape")

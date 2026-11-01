@@ -1,4 +1,9 @@
-"""flighttape command line, convert, convert-dir, validate, play."""
+"""flighttape command line, convert, convert-dir, validate, play.
+
+Read failures and missing sources are named errors with exit 1,
+never tracebacks (FT-21), and the converter and validator behind
+these commands never raise on malformed input (FT-18, FT-19).
+"""
 from __future__ import annotations
 
 import argparse
@@ -20,6 +25,9 @@ def _write_tape(tape, output):
 
 
 def _convert_one(source, output):
+    if not pathlib.Path(source).is_file():
+        print(f"error, no such source file, {source}", file=sys.stderr)
+        return 1
     tape = convert_file(source)
     defects = validate_tape(tape)
     if defects:
@@ -31,6 +39,10 @@ def _convert_one(source, output):
 
 
 def _convert_dir(source_dir, output_dir):
+    if not pathlib.Path(source_dir).is_dir():
+        print(f"error, no such source directory, {source_dir}",
+              file=sys.stderr)
+        return 1
     out = pathlib.Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
     summary = {"converted": 0, "failed": 0, "events": 0, "files": []}
@@ -76,7 +88,14 @@ def main(argv=None):
     try:
         with open(args.tape, encoding="utf-8") as handle:
             tape = json.load(handle)
-    except json.JSONDecodeError:
+    except OSError:
+        print(f"error, cannot read the tape file, {args.tape}",
+              file=sys.stderr)
+        return 1
+    except UnicodeDecodeError:
+        print("defect, the file is not valid UTF-8", file=sys.stderr)
+        return 1
+    except (RecursionError, ValueError):
         print("defect, the file is not valid JSON", file=sys.stderr)
         return 1
     defects = validate_tape(tape)

@@ -31,6 +31,11 @@ portfolio, in the Retrospective arc.
   outcome status from the tape's own events and records the basis,
   the rule that fired, beside it, instead of stamping every tape
   unknown. Obligations FT-14 to FT-17 as amended in Round 3, met, with the reviews recorded with the programme.
+- Round 4 hardens the trust boundary, the converter and the
+  validator now name every malformed input instead of ever
+  raising on it, held by a deterministic robustness corpus of
+  mutated fixture lines and a table of adversarial tapes.
+  Obligations FT-18 to FT-21, recorded with the programme.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
