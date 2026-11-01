@@ -284,3 +284,47 @@ outside the rule by decision, a greater-than sign before a slash
 (the redirect and markup forms), because the same character is
 a comparison operator in prose, and a word ending in an opening
 bracket (the function call form).
+
+## Tape identity, Round 6 obligations, written before the code
+
+- FT-26. A tape's canonical form, named canonical form 1 of the
+  tape format, is defined as follows. Objects render with their
+  keys sorted by Unicode code point, arrays in order, no
+  whitespace anywhere, strings as JSON strings with non-ASCII
+  characters written unescaped, the whole encoded as UTF-8.
+  Integers render in decimal exactly. A finite floating point
+  number renders as the ECMAScript number to string algorithm
+  renders it, the rendering the JSON canonicalization scheme
+  uses, so 2.0 renders as 2 and 1e-7 renders as 1e-7. The
+  literals true, false, and null render as themselves. Changing
+  this form breaks every citation made under it and counts as a
+  breaking change on par with a tape format version change.
+  Test, tests/test_identity.py.
+- FT-27. A tape's digest is the SHA-256 of its canonical form,
+  written as lowercase hex. The digest depends only on the
+  tape's content, two files that parse to the same tape, in any
+  key order and with any whitespace, digest identically. The
+  digest is recorded outside the tape by whoever cites it and
+  is never stored inside the tape it identifies. The digest of
+  the synthetic fixture tape is pinned in the test suite, so a
+  silent change to the canonical form fails loudly. Test,
+  tests/test_identity.py.
+- FT-28. A tape that cannot be canonicalized is refused with a
+  named DigestError, never a bare exception, when it holds a
+  non-finite number anywhere (JSON cannot carry one portably),
+  an object key that is not a string, or nesting beyond the
+  interpreter limit. The digest identifies content, not
+  validity, a tape that fails validation still digests. Test,
+  tests/test_identity.py.
+- FT-29. The validator names every non-finite number in a tape
+  as a located defect, walking the whole value iteratively so
+  the check cannot exhaust the stack or loop on a cyclic
+  structure, holding FT-19. Test, tests/test_identity.py and
+  tests/test_validate.py.
+- FT-30. The command line gains digest and verify. digest
+  prints the tape's digest and nothing else. verify takes a
+  tape and an expected digest, exiting 0 when they match and 1
+  with a named mismatch when they do not. Both commands share
+  the tape loader's named errors (FT-21) and fail with a named
+  error and exit 1 when the tape cannot be digested. Test,
+  tests/test_identity.py.
