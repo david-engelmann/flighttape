@@ -262,3 +262,25 @@ the command line's docstring states.
   emitted byte-identically to the pre-round converter, and the
   tape produced from the synthetic fixture is unchanged. Test,
   tests/test_redaction.py and the pre-existing suites.
+
+Round 5 amendments, recorded during the repair that followed the
+round's three reviews. Under FT-22, the string keys of a tool
+input object are redacted exactly like its values, and two keys
+that redact to the same string merge into one entry when the
+object is rebuilt, the later value winning. FT-23 as implemented
+scans every slash in a token rather than only the first, and the
+prefix that qualifies a path is local, measured from the
+previous slash, a glue separator, or the end of the previous
+replaced path in the same token. The qualifying forms are an
+empty local prefix, an identifier ending in one or more equals
+signs or colons, and an opening punctuation run that follows
+the token start, such an identifier stem, or a closing bracket
+(the markdown link form). A candidate path ends at a comma, a
+semicolon, a question mark, a hash, an ampersand, or a colon
+followed by a slash, the scheme exclusion judges the candidate
+alone, and a double slash pair never starts a path and is
+passed over whole, slashes in a run included. Two shapes stay
+outside the rule by decision, a greater-than sign before a slash
+(the redirect and markup forms), because the same character is
+a comparison operator in prose, and a word ending in an opening
+bracket (the function call form).

@@ -56,48 +56,109 @@ class _LineResult(typing.NamedTuple):
 
 
 _TOKEN_RE = re.compile(r"\S+|\s+")
-_PREFIX_CHARS = "\"'`([{<"
-_IDENT_PREFIX = re.compile(r"[A-Za-z0-9_.-]+[=:]")
-_TRAILING_PUNCT = ".,;:!?)]}" + "\"'`"
+_QUOTES = "\"'`"
+_PREFIX_CHARS = _QUOTES + "([{<"
+_TRAILING_PUNCT = ".,;:!?)]}" + _QUOTES
+_STEM_RE = re.compile(r"[A-Za-z0-9_.-]*[=:]+")
+_PATH_STOP = ",;?#&"
+
+
+def _qualifies(local):
+    """Judge the local prefix before a slash, per FT-23.
+
+    The local prefix is the text since the previous slash, glue
+    separator, or replaced path in the same token. It qualifies
+    when it is empty, when it is an identifier ending in one or
+    more equals signs or colons (doubled separators included),
+    or when it ends in an opening punctuation run that follows
+    the token start, such a stem, or a closing bracket, the
+    markdown link form. Ordinary words (and, 2026, a) never
+    qualify, so slash words in prose are left alone.
+    """
+    if not local:
+        return True
+    run = len(local)
+    while run > 0 and local[run - 1] in _PREFIX_CHARS:
+        run -= 1
+    stem = local[:run]
+    if run < len(local):
+        return (not stem or stem.endswith(("=", ":", "]"))
+                or _STEM_RE.fullmatch(stem) is not None)
+    return _STEM_RE.fullmatch(local) is not None
 
 
 def _redact_token(token, counter):
-    """Replace the absolute path in one token, per FT-23.
+    """Replace every absolute path in one token, per FT-23.
 
-    The token qualifies when the characters before its first
-    slash are only opening punctuation or an identifier ending
-    in an equals sign or a colon, so ordinary words containing
-    slashes (and/or, 2026/11/01, a/b) never qualify. The path
-    runs from that slash to the end of the token, less any
-    trailing sentence punctuation, and is a path when it holds
-    at least two non-empty components and is neither a scheme
-    URL nor a double slash reference.
+    The token is scanned slash by slash. A double slash pair
+    never starts a path and is passed over whole. A candidate
+    path runs from its slash until a glue separator (a comma,
+    semicolon, question mark, hash, or ampersand), a colon
+    followed by a slash, or the end of the token, less any
+    trailing sentence punctuation, and is replaced by its final
+    component when it holds at least two non-empty components
+    and contains no scheme separator.
     """
-    start = token.find("/")
-    if start < 0:
-        return token
-    prefix = token[:start]
-    if prefix and any(ch not in _PREFIX_CHARS for ch in prefix) \
-            and not _IDENT_PREFIX.fullmatch(prefix):
-        return token
-    rest = token[start:]
-    end = len(rest)
-    while end > 0 and rest[end - 1] in _TRAILING_PUNCT:
-        end -= 1
-    path, suffix = rest[:end], rest[end:]
-    if "://" in path or path.startswith("//"):
-        return token
-    parts = [part for part in path.split("/") if part]
-    if len(parts) < 2:
-        return token
-    counter[0] += 1
-    return prefix + parts[-1] + suffix
+    out = []
+    seg = 0
+    origin = 0
+    i = 0
+    size = len(token)
+    while i < size:
+        char = token[i]
+        if char != "/":
+            if char in _PATH_STOP:
+                origin = i + 1
+            i += 1
+            continue
+        if token.startswith("//", i):
+            i += 2
+            origin = i
+            continue
+        if i > 0 and token[i - 1] == "/":
+            i += 1
+            origin = i
+            continue
+        if not _qualifies(token[origin:i]):
+            i += 1
+            origin = i
+            continue
+        j = i
+        while j < size and token[j] not in _PATH_STOP:
+            if token[j] == ":" and j + 1 < size and token[j + 1] == "/":
+                break
+            j += 1
+        run = token[i:j]
+        end = len(run)
+        while end > 0 and run[end - 1] in _TRAILING_PUNCT:
+            end -= 1
+        parts = [part for part in run[:end].split("/") if part]
+        if "://" in run[:end] or len(parts) < 2:
+            i += 1
+            origin = i
+            continue
+        out.append(token[seg:i])
+        out.append(parts[-1])
+        out.append(run[end:])
+        counter[0] += 1
+        i = j
+        seg = j
+        origin = j
+    out.append(token[seg:])
+    return "".join(out)
 
 
 def _redact_text(text, counter):
-    """Redact every absolute path in a text string (FT-22)."""
+    """Redact every absolute path in a text string (FT-22).
+
+    A value that is not a string is returned unchanged, so a
+    malformed text field is left for the validator to name
+    instead of raising here (FT-18).
+    """
+    if not isinstance(text, str):
+        return text
     return "".join(
-        _redact_token(piece, counter) if piece.strip() else piece
+        _redact_token(piece, counter) if not piece.isspace() else piece
         for piece in _TOKEN_RE.findall(text))
 
 
@@ -105,10 +166,24 @@ def _sanitize(value, counter):
     if isinstance(value, str):
         return _redact_text(value, counter)
     if isinstance(value, dict):
-        return {key: _sanitize(item, counter) for key, item in value.items()}
+        return {_sanitize_key(key, counter): _sanitize(item, counter)
+                for key, item in value.items()}
     if isinstance(value, list):
         return [_sanitize(item, counter) for item in value]
     return value
+
+
+def _sanitize_key(key, counter):
+    """Redact a tool input key as FT-22 requires.
+
+    Keys are emitted strings like values. Two keys that redact
+    to the same string merge into one entry when the dict is
+    rebuilt, the later value winning, as the Round 5 amendment
+    to FT-22 states.
+    """
+    if isinstance(key, str):
+        return _redact_text(key, counter)
+    return key
 
 
 def _result_text(content):
