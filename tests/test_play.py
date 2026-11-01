@@ -152,3 +152,16 @@ def test_header_states_the_outcome_basis():
     tape["outcome"] = {"status": "completed"}
     header = render_tape(tape).splitlines()[1]
     assert header.startswith("outcome completed, ")
+
+
+def test_header_survives_an_unvalidated_outcome_shape():
+    tape = fixture_tape()
+    tape["outcome"] = {"status": 5, "basis": "final-error-result"}
+    header = render_tape(tape).splitlines()[1]
+    assert header.startswith("outcome unknown, ")
+    tape["outcome"] = {"status": "completed", "basis": 7}
+    header = render_tape(tape).splitlines()[1]
+    assert header.startswith("outcome completed, ")
+    tape["outcome"] = "completed"
+    header = render_tape(tape).splitlines()[1]
+    assert header.startswith("outcome unknown, ")

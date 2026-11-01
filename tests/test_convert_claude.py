@@ -154,7 +154,7 @@ def test_string_content_becomes_a_message_event():
     assert kinds == ["message"]
 
 
-def test_fixture_outcome_is_determined_not_constant():
+def test_fixture_outcome_is_unknown_with_unresolved_ending_basis():
     tape = fixture_tape()
     assert tape["outcome"] == {
         "status": "unknown", "basis": "unresolved-ending"}

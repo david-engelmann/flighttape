@@ -158,3 +158,25 @@ programme.
   file changes only in the header outcome segment, and the change
   is re-verified line by line before it is kept. Test,
   tests/test_play.py.
+
+## Amendments, Round 3, 2026-11-01
+
+The Round 3 reviews found FT-15's basis was enforced as any
+non-empty string, so a tape could carry a basis naming no rule,
+or a basis contradicting its status, and still validate. FT-15
+is extended, the basis must be one of the five named values and
+must pair with the status as the FT-15 mapping states, the
+schema states the five as an enum, and the validator enforces
+the vocabulary and the pairing. Whether a basis is truthful
+against the events stays the producer's duty, as with the run
+totals. FT-14 is clarified in two places. A tape left with no
+main chain events after the session_end set aside gives unknown
+with basis no-events, covering the empty tape, the all sidechain
+tape, and the session_end only tape with one reading. The
+sidechain and is_error flags are booleans, is_error is typed
+boolean in the schema and checked by the validator when
+present, and determine_outcome reads only the value True as
+set. FT-16 is clarified, determine_outcome takes a list and
+raises TypeError on anything else, and non-object entries in
+the list are ignored. The full record is the Round 3 dossier
+in the goal files of the portfolio programme.

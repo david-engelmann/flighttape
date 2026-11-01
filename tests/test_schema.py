@@ -1,7 +1,7 @@
 import json, pathlib
 
 from flighttape import TAPE_VERSION
-from flighttape.validate import EVENT_KINDS, OUTCOMES, validate_tape
+from flighttape.validate import BASES, EVENT_KINDS, OUTCOMES, validate_tape
 
 SCHEMA = (pathlib.Path(__file__).resolve().parent.parent
           / "schema" / "tape.schema.json")
@@ -18,6 +18,8 @@ def test_schema_and_validator_share_the_vocabulary():
     assert set(kinds) == EVENT_KINDS
     outcomes = schema["properties"]["outcome"]["properties"]["status"]["enum"]
     assert set(outcomes) == OUTCOMES
+    bases = schema["properties"]["outcome"]["properties"]["basis"]["enum"]
+    assert set(bases) == BASES
 
 
 def test_schema_requires_non_empty_call_and_tool():
@@ -50,4 +52,11 @@ def test_validator_rejects_the_schema_probes():
 def test_schema_states_the_basis_field():
     schema = load_schema()
     basis = schema["properties"]["outcome"]["properties"]["basis"]
-    assert basis == {"type": "string", "minLength": 1}
+    assert basis["type"] == "string"
+    assert set(basis["enum"]) == BASES
+
+
+def test_schema_types_is_error_as_a_boolean():
+    schema = load_schema()
+    props = schema["properties"]["events"]["items"]["properties"]
+    assert props["is_error"] == {"type": "boolean"}
