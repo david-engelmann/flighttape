@@ -8,7 +8,19 @@ Each harness keeps its own books in its own dialect, and the shared standards fo
 
 ## Status
 
-Seeded in October 2026. The build has not started. Part of the impatient programming portfolio, in the Retrospective arc.
+Seeded in October 2026. Local setup is in progress on the setup branch.
+The remote seeding pass is waiting on a token access fix, so work is
+banked locally until pushes clear. Part of the impatient programming
+portfolio, in the Retrospective arc.
+
+## Programme status
+
+- Closed perfection rounds, 0 of 100. A round counts only when a full
+  cycle of work, audit, review, red team, and approval has closed.
+- Contract, stub in place, not yet met. The full Contract is the first
+  build act of phase 1.
+- Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
+  python3 -m pytest tests -q. CI runs the same commands.
 
 ## Licence
 
