@@ -24,6 +24,9 @@ portfolio, in the Retrospective arc.
   converting and validating, is still outstanding and is not claimed
   here, the converter now ships a convert-dir command so a session
   set can be converted in one run when the sessions exist.
+- Round 2 adds playback, the play command renders any tape as a
+  readable timeline, held to a golden file. Obligations FT-10 to
+  FT-13, written before the code.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 

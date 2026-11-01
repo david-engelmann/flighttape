@@ -1,4 +1,4 @@
-"""flighttape command line, convert, convert-dir, and validate."""
+"""flighttape command line, convert, convert-dir, validate, play."""
 from __future__ import annotations
 
 import argparse
@@ -7,6 +7,7 @@ import pathlib
 import sys
 
 from .convert_claude import convert_file
+from .play import render_tape
 from .validate import validate_tape
 
 
@@ -65,6 +66,8 @@ def main(argv=None):
     batch.add_argument("-o", "--output-dir", required=True)
     val = sub.add_parser("validate", help="validate a tape file")
     val.add_argument("tape")
+    play = sub.add_parser("play", help="play a tape back as a timeline")
+    play.add_argument("tape")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
@@ -77,6 +80,9 @@ def main(argv=None):
         for defect in defects:
             print(f"defect, {defect}", file=sys.stderr)
         return 1
+    if args.command == "play":
+        print(render_tape(tape), end="")
+        return 0
     print(f"valid tape, {len(tape['events'])} events")
     return 0
 
