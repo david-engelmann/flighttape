@@ -74,7 +74,7 @@ def _nonfinite_defects(tape):
                     if isinstance(key, float) and not math.isfinite(key):
                         defects.append(
                             f"{path or 'tape'} holds a non-finite "
-                            "number as a key")
+                            f"number as a key, {key!r}")
                     children.append(
                         (item, f"{path}.{key}" if path else str(key)))
                 for item, child_path in reversed(children):

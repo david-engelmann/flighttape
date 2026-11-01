@@ -141,7 +141,14 @@ def test_a_shared_substructure_is_named_at_every_location():
 
 def test_a_non_finite_dict_key_is_named():
     defects = validate_tape({"run": {math.inf: 1}})
-    assert any("non-finite" in d and "as a key" in d for d in defects)
+    assert any("non-finite" in d and "as a key, inf" in d
+               for d in defects)
+
+
+def test_two_non_finite_keys_earn_two_distinct_defects():
+    defects = validate_tape({"run": {math.inf: 1, -math.inf: 2}})
+    named = [d for d in defects if "as a key" in d]
+    assert len(named) == 2 and named[0] != named[1]
 
 
 def test_walk_defects_arrive_in_document_order():
