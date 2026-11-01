@@ -180,3 +180,34 @@ set. FT-16 is clarified, determine_outcome takes a list and
 raises TypeError on anything else, and non-object entries in
 the list are ignored. The full record is the Round 3 dossier
 in the goal files of the portfolio programme.
+
+## Robustness, Round 4 obligations, written before the code
+
+- FT-18. The converter never raises on its input. Any line,
+  parseable or not, deeply nested or not, is converted whole or
+  counted whole in run.skipped_lines, never partially emitted and
+  never fatal. The counted reasons include too-deep for input
+  nested beyond the interpreter limit and undecodable for lines
+  that are not valid UTF-8, and a session file is read as bytes
+  so undecodable lines reach the counter instead of raising.
+  Test, tests/test_robustness.py.
+- FT-19. The validator never raises on any value json.loads can
+  produce. Values of the wrong type, including unhashable ones,
+  in the fields the validator compares against its vocabularies
+  and sets, the outcome status and basis, the event kind, and a
+  tool result's call_id, are named as defects, never raised as
+  exceptions. Test, tests/test_robustness.py.
+- FT-20. A deterministic robustness corpus ships in the test
+  suite, a seeded generator that mutates the synthetic fixture
+  with character flips, truncations, and token substitutions
+  from a fixed table, its case count pinned, plus a fixed table
+  of adversarial tapes for the validator. Every corpus case runs
+  the converter and the validator with no exception escaping,
+  and every tape the converter produces is then validated the
+  same way. Test, tests/test_robustness.py.
+- FT-21. The command line inherits the guarantee. Validating or
+  playing a tape file that cannot be read, is not valid UTF-8,
+  or is not valid JSON, and converting a source that does not
+  exist, each fail with a named error and exit 1, never a
+  traceback. Test, tests/test_robustness.py and
+  tests/test_cli.py.
