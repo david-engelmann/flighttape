@@ -36,6 +36,79 @@ def test_usage_is_summed_into_run_totals():
     assert tape["run"]["totals"]["input_tokens"] == 150
     assert tape["run"]["totals"]["output_tokens"] == 50
     assert tape["run"]["totals"]["tool_calls"] == 1
+    assert tape["run"]["totals"]["messages"] == 3
+
+
+def test_cache_tokens_are_summed_under_their_own_keys():
+    tape = convert_lines([json.dumps({
+        "type": "assistant", "sessionId": "s3",
+        "message": {"role": "assistant",
+                    "usage": {"input_tokens": 100, "output_tokens": 10,
+                              "cache_creation_input_tokens": 500,
+                              "cache_read_input_tokens": 900},
+                    "content": [{"type": "text", "text": "hi"}]}})])
+    assert tape["run"]["totals"]["cache_creation_input_tokens"] == 500
+    assert tape["run"]["totals"]["cache_read_input_tokens"] == 900
+
+
+def test_tool_result_content_is_carried_into_the_tape():
+    tape = fixture_tape()
+    results = [e for e in tape["events"] if e["kind"] == "tool_result"]
+    assert results[0]["content"] == "counter = 0"
+
+
+def test_tool_result_error_flag_is_preserved():
+    tape = convert_lines([
+        json.dumps({"type": "assistant", "sessionId": "s4",
+                    "message": {"role": "assistant", "content": [
+                        {"type": "tool_use", "id": "t1", "name": "Bash",
+                         "input": {}}]}}),
+        json.dumps({"type": "user", "sessionId": "s4",
+                    "message": {"role": "user", "content": [
+                        {"type": "tool_result", "tool_use_id": "t1",
+                         "is_error": True, "content": "boom"}]}})])
+    results = [e for e in tape["events"] if e["kind"] == "tool_result"]
+    assert results[0]["is_error"] is True
+    assert results[0]["content"] == "boom"
+
+
+def test_events_keep_timestamps_and_run_keeps_start():
+    tape = fixture_tape()
+    assert tape["run"]["started_at"] == "2026-01-01T09:00:00.000Z"
+    assert tape["events"][0]["timestamp"] == "2026-01-01T09:00:00.000Z"
+
+
+def test_non_object_and_malformed_lines_are_counted_not_fatal():
+    tape = convert_lines(["42", "[1,2,3]", "null", json.dumps({
+        "type": "user", "sessionId": "s5", "message": "oops"})])
+    assert tape["run"]["skipped_lines"]["non-object"] == 3
+    assert tape["run"]["skipped_lines"]["malformed:message"] == 1
+    assert tape["events"] == []
+
+
+def test_second_session_lines_are_counted_and_skipped():
+    tape = convert_lines([
+        json.dumps({"type": "user", "sessionId": "first",
+                    "message": {"role": "user", "content": "one"}}),
+        json.dumps({"type": "user", "sessionId": "second",
+                    "message": {"role": "user", "content": "two"}})])
+    assert tape["run"]["session_id"] == "first"
+    assert tape["run"]["skipped_lines"]["foreign-session"] == 1
+    assert len(tape["events"]) == 1
+
+
+def test_contentless_lines_are_counted():
+    tape = convert_lines([json.dumps({
+        "type": "user", "sessionId": "s6",
+        "message": {"role": "user", "content": []}})])
+    assert tape["run"]["skipped_lines"]["contentless:user"] == 1
+    assert tape["events"] == []
+
+
+def test_empty_conversion_fabricates_no_event():
+    tape = convert_lines([])
+    assert tape["events"] == []
+    assert validate_tape(tape) != []
 
 
 def test_skipped_lines_are_counted_by_type():
@@ -54,9 +127,23 @@ def test_unparseable_line_is_counted_not_fatal():
 def test_tape_carries_no_source_paths():
     tape = fixture_tape()
     blob = json.dumps(tape)
+    assert "/home/synthetic" not in blob
+    assert "synthetic-branch" not in blob
     assert "cwd" not in blob and "gitBranch" not in blob
     assert tape["run"]["source_format"] == "claude-code-jsonl"
     assert tape["run"]["session_id"] == "synthetic-session-001"
+
+
+def test_absolute_paths_in_tool_inputs_are_reduced_and_counted():
+    tape = convert_lines([json.dumps({
+        "type": "assistant", "sessionId": "s7",
+        "message": {"role": "assistant", "content": [
+            {"type": "tool_use", "id": "t9", "name": "Read",
+             "input": {"file_path": "/home/synthetic/private/notes.txt"}}]}})])
+    blob = json.dumps(tape)
+    assert "/home/synthetic" not in blob
+    assert "notes.txt" in blob
+    assert tape["run"]["redacted_values"] == 1
 
 
 def test_string_content_becomes_a_message_event():

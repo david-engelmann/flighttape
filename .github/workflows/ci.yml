@@ -14,4 +14,5 @@ jobs:
         run: python3 scripts/codepoint_scan.py
       - name: Tests
         run: |
-          if [ -d tests ]; then python3 -m pip install pytest -q && python3 -m pytest tests -q; else echo "no tests yet"; fi
+          python3 -m pip install pytest -q
+          python3 -m pytest tests -q

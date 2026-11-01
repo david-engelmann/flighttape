@@ -47,6 +47,10 @@
             "type": "integer",
             "minimum": 0
           }
+        },
+        "redacted_values": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },
@@ -84,9 +88,14 @@
             "type": "string"
           },
           "call_id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "tool": {
+            "type": "string",
+            "minLength": 1
+          },
+          "content": {
             "type": "string"
           }
         }
