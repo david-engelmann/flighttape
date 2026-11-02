@@ -387,3 +387,42 @@ on both sides. Totals and skipped_lines may be null in a
 valid tape and then carry no measures. A delta whose
 difference is not a finite number is omitted, since the
 report is JSON and has no standard value for it.
+
+- FT-35. Rollup takes a directory and considers every entry
+  whose name ends in .json, in filename order, without
+  descending into subdirectories. A path that is not a
+  directory is refused with a named error and no report. An
+  entry that is not a file is excluded as not a file, a file
+  that fails to load is excluded as unreadable, a tape that
+  fails validation is excluded as invalid with its defects,
+  and a valid tape that cannot be digested is excluded as
+  undigestible. Every exclusion is named on stderr in the
+  same register as the other commands and recorded in the
+  report, and the command exits 1 when any file is excluded
+  and 0 when none is, the way convert-dir reports a batch.
+  The report is printed whenever the directory exists. Test,
+  tests/test_rollup.py.
+- FT-36. The report lists each valid tape with its file
+  name, digest, outcome status and basis (null when a tape
+  carries no basis), duration under FT-32's rule, event
+  count, and run totals as recorded, a null totals mapping
+  listing as empty. Aggregates cover the valid tapes only:
+  the counts of tapes, excluded files, and events; outcome
+  counts by status; each run totals key summed over the
+  tapes that carry it; redacted_values as the sum of its
+  numeric values plus a count of the tapes carrying a
+  non-numeric value, the field being unconstrained (FT-32);
+  each skipped_lines reason summed; and the duration total
+  with the counts of tapes whose duration is known and
+  unknown. Test, tests/test_rollup.py.
+- FT-37. Two files with identical content are two tapes.
+  Both are listed and both count in every aggregate; a
+  rollup never deduplicates by digest. The report is
+  deterministic: the same directory contents produce
+  byte-identical output regardless of the order the files
+  were created in or their timestamps. Test,
+  tests/test_rollup.py.
+- FT-38. The report is a single JSON object printed to
+  stdout. A directory holding no .json entries produces the
+  report with zero tapes and no exclusions and exits 0.
+  Test, tests/test_rollup.py.
