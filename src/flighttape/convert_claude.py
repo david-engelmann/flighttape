@@ -165,6 +165,20 @@ def _redact_text(text, counter):
         for piece in _TOKEN_RE.findall(text))
 
 
+def paths_in(text):
+    """How many absolute paths a string holds (FT-45).
+
+    Screening counts with this instead of redacting: the
+    count is exactly the number of replacements _redact_text
+    would make in the string, so the two directions can
+    never disagree about what a path is, or how many of
+    them a string holds.
+    """
+    counter = [0]
+    _redact_text(text, counter)
+    return counter[0]
+
+
 def _sanitize(value, counter):
     if isinstance(value, str):
         return _redact_text(value, counter)
