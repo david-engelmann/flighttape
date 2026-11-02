@@ -279,3 +279,45 @@ def test_cli_compare_refuses_an_undigestible_tape(tmp_path, capsys):
     captured = capsys.readouterr()
     assert captured.out == ""
     assert "cannot be digested" in captured.err
+
+
+def test_cli_compare_names_a_null_tape_instead_of_crashing(
+        tmp_path, capsys):
+    null_file = tmp_path / "null.json"
+    null_file.write_text("null\n", encoding="utf-8")
+    valid = tmp_path / "a.json"
+    valid.write_text(json.dumps(tape_a()), encoding="utf-8")
+    assert main(["compare", str(null_file), str(valid)]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert str(null_file) in captured.err
+    assert "not a JSON object" in captured.err
+    assert main(["compare", str(valid), str(null_file)]) == 1
+    capsys.readouterr()
+
+
+def test_an_unrepresentable_delta_is_omitted_not_emitted():
+    first, second = tape_a(), tape_b()
+    first["run"]["redacted_values"] = 10 ** 400
+    second["run"]["redacted_values"] = 0.5
+    report = compare_tapes(first, second)
+    assert report["redacted_values"] == {"a": 10 ** 400, "b": 0.5}
+    first["run"]["redacted_values"] = -1e308
+    second["run"]["redacted_values"] = 1e308
+    report = compare_tapes(first, second)
+    assert report["redacted_values"] == {"a": -1e308, "b": 1e308}
+    first["run"]["redacted_values"] = 10 ** 400
+    second["run"]["redacted_values"] = 1
+    report = compare_tapes(first, second)
+    assert report["redacted_values"]["delta"] == 1 - 10 ** 400
+
+
+def test_cli_compare_names_which_file_is_not_json(tmp_path, capsys):
+    bad = tmp_path / "bad.json"
+    bad.write_bytes(b"\xff\xfe not utf-8")
+    valid = tmp_path / "a.json"
+    valid.write_text(json.dumps(tape_a()), encoding="utf-8")
+    assert main(["compare", str(valid), str(bad)]) == 1
+    captured = capsys.readouterr()
+    assert "not valid UTF-8" in captured.err
+    assert str(bad) in captured.err

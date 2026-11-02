@@ -133,9 +133,11 @@ def _read_tape(path):
         print(f"error, cannot read the tape file, {path}",
               file=sys.stderr)
     except UnicodeDecodeError:
-        print("defect, the file is not valid UTF-8", file=sys.stderr)
+        print(f"defect, the file is not valid UTF-8, {path}",
+              file=sys.stderr)
     except (RecursionError, ValueError):
-        print("defect, the file is not valid JSON", file=sys.stderr)
+        print(f"defect, the file is not valid JSON, {path}",
+              file=sys.stderr)
     return FAILED
 
 
@@ -162,10 +164,9 @@ def _compare(first_path, second_path):
         tape = _read_tape(path)
         if tape is FAILED:
             refused = True
-            tape = None
         sides.append((path, tape))
     for path, tape in sides:
-        if tape is None:
+        if tape is FAILED:
             continue
         defects = validate_tape(tape)
         if defects:

@@ -6,12 +6,31 @@ line validates before it compares, and refuses a side it
 cannot digest, since the report carries digests.
 """
 
+import math
+
 from .identity import canonical_bytes, tape_digest
 from .validate import parse_timestamp
 
 
 def _is_number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def _delta(left, right):
+    """The difference, or None when it is not a finite number.
+
+    A huge integer against a float overflows the subtraction,
+    and distant floats can differ by more than a double holds;
+    the report is JSON, so an unrepresentable delta is omitted
+    rather than emitted as a non-standard value.
+    """
+    try:
+        delta = right - left
+    except OverflowError:
+        return None
+    if isinstance(delta, float) and not math.isfinite(delta):
+        return None
+    return delta
 
 
 def _entry(left, right):
@@ -22,7 +41,9 @@ def _entry(left, right):
     if _is_number(right):
         entry["b"] = right
     if _is_number(left) and _is_number(right):
-        entry["delta"] = right - left
+        delta = _delta(left, right)
+        if delta is not None:
+            entry["delta"] = delta
     return entry
 
 
@@ -49,7 +70,9 @@ def _carried(first_run, second_run):
     if "redacted_values" in second_run:
         entry["b"] = second_run["redacted_values"]
     if _is_number(entry.get("a")) and _is_number(entry.get("b")):
-        entry["delta"] = entry["b"] - entry["a"]
+        delta = _delta(entry["a"], entry["b"])
+        if delta is not None:
+            entry["delta"] = delta
     return entry
 
 

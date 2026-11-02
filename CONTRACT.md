@@ -384,4 +384,6 @@ null, and redacted_values is reported as each side's value
 as it stands, whatever its type, because the validator does
 not constrain that field; the delta still requires numbers
 on both sides. Totals and skipped_lines may be null in a
-valid tape and then carry no measures.
+valid tape and then carry no measures. A delta whose
+difference is not a finite number is omitted, since the
+report is JSON and has no standard value for it.
