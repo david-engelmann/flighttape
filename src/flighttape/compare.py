@@ -9,11 +9,7 @@ cannot digest, since the report carries digests.
 import math
 
 from .identity import canonical_bytes, tape_digest
-from .validate import parse_timestamp
-
-
-def _is_number(value):
-    return isinstance(value, (int, float)) and not isinstance(value, bool)
+from .validate import is_number, tape_duration
 
 
 def _delta(left, right):
@@ -36,11 +32,11 @@ def _delta(left, right):
 def _entry(left, right):
     """One side by side entry, delta only when both sides are numbers."""
     entry = {}
-    if _is_number(left):
+    if is_number(left):
         entry["a"] = left
-    if _is_number(right):
+    if is_number(right):
         entry["b"] = right
-    if _is_number(left) and _is_number(right):
+    if is_number(left) and is_number(right):
         delta = _delta(left, right)
         if delta is not None:
             entry["delta"] = delta
@@ -69,25 +65,11 @@ def _carried(first_run, second_run):
         entry["a"] = first_run["redacted_values"]
     if "redacted_values" in second_run:
         entry["b"] = second_run["redacted_values"]
-    if _is_number(entry.get("a")) and _is_number(entry.get("b")):
+    if is_number(entry.get("a")) and is_number(entry.get("b")):
         delta = _delta(entry["a"], entry["b"])
         if delta is not None:
             entry["delta"] = delta
     return entry
-
-
-def _duration(tape):
-    """Seconds between the first and last parseable event timestamps."""
-    stamps = []
-    for event in tape["events"]:
-        stamp = event.get("timestamp")
-        if isinstance(stamp, str):
-            parsed = parse_timestamp(stamp)
-            if parsed is not None:
-                stamps.append(parsed)
-    if len(stamps) < 2:
-        return None
-    return (stamps[-1] - stamps[0]).total_seconds()
 
 
 def _by_seq(tape):
@@ -123,8 +105,8 @@ def _events(first, second):
 def compare_tapes(first, second):
     """Return the comparison report for two valid tapes."""
     first_outcome, second_outcome = first["outcome"], second["outcome"]
-    first_duration = _duration(first)
-    second_duration = _duration(second)
+    first_duration = tape_duration(first)
+    second_duration = tape_duration(second)
     duration = {"a": first_duration, "b": second_duration}
     if first_duration is not None and second_duration is not None:
         duration["delta"] = second_duration - first_duration

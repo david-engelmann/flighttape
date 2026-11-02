@@ -47,6 +47,31 @@ def parse_timestamp(value):
     return parsed
 
 
+def is_number(value):
+    """True for an int or float that is not a bool."""
+    return isinstance(value, (int, float)) and not isinstance(value, bool)
+
+
+def tape_duration(tape):
+    """A tape's duration in seconds (FT-32), or None.
+
+    The span between the first and last parseable event
+    timestamps, None when fewer than two events carry one.
+    Shared by the comparison and rollup reports so the rule
+    lives in exactly one place.
+    """
+    stamps = []
+    for event in tape["events"]:
+        stamp = event.get("timestamp")
+        if isinstance(stamp, str):
+            parsed = parse_timestamp(stamp)
+            if parsed is not None:
+                stamps.append(parsed)
+    if len(stamps) < 2:
+        return None
+    return (stamps[-1] - stamps[0]).total_seconds()
+
+
 def _nonfinite_defects(tape):
     """Name every non-finite number in the tape, wherever it sits (FT-29).
 

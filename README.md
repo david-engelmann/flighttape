@@ -15,7 +15,7 @@ portfolio, in the Retrospective arc.
 
 ## Programme status
 
-- Closed perfection rounds, 7 of 100. A round counts only when a full
+- Closed perfection rounds, 8 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
 - Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
   reviews and their findings are recorded with the programme. The
@@ -54,6 +54,12 @@ portfolio, in the Retrospective arc.
   arrived, or vanished between them. Obligations FT-31 to
   FT-34 as amended in Round 7, met, with the reviews recorded
   with the programme.
+- Round 8 adds the directory rollup. The rollup command
+  reads every tape file in a directory and reports the set,
+  each tape's digest, outcome, duration, and totals, the
+  sums across the set, and every file it excluded with the
+  reason. Obligations FT-35 to FT-38 as amended in Round 8,
+  met, with the reviews recorded with the programme.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
