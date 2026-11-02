@@ -1,7 +1,7 @@
 """flighttape command line.
 
 Commands, convert, convert-dir, validate, play, digest, verify,
-compare, rollup, slice.
+compare, rollup, slice, screen.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -22,6 +22,7 @@ from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
 from .rollup import rollup_report
+from .screen import screen_tape
 from .slice import SliceError, check_selection, parse_bound, slice_tape
 from .validate import validate_tape
 
@@ -331,6 +332,55 @@ def _slice(path, output, from_text, to_text, kinds):
     return 0
 
 
+
+def _screen(path, output):
+    """Screen one tape for absolute paths (FT-44 to FT-48).
+
+    The tape must load and validate before anything is
+    screened. The report goes to stdout or to the named
+    path, never onto the tape itself, and the exit code
+    carries the verdict: 0 when the tape is clean, 1 when
+    any path is found or the command refuses.
+    """
+    if output and pathlib.Path(output).resolve() == \
+            pathlib.Path(path).resolve():
+        print("error, a screen report never overwrites the tape",
+              file=sys.stderr)
+        return 1
+    tape = _read_tape(path)
+    if tape is FAILED:
+        return 1
+    if _report_defects(path, tape):
+        return 1
+    try:
+        report = screen_tape(tape)
+    except DigestError as error:
+        print(f"error, {path} cannot be digested, {error}",
+              file=sys.stderr)
+        return 1
+    text = json.dumps(report, indent=2) + "\n"
+    try:
+        if output:
+            pathlib.Path(output).write_text(text, encoding="utf-8")
+        else:
+            sys.stdout.write(text)
+            sys.stdout.flush()
+    except OSError:
+        if output:
+            print(f"error, cannot write the report, {output}",
+                  file=sys.stderr)
+        else:
+            print("error, cannot write the report to stdout",
+                  file=sys.stderr)
+            try:
+                sys.stdout.close()
+            except OSError:
+                pass
+            sys.stdout = open(os.devnull, "w", encoding="utf-8")
+        return 1
+    return 0 if report["clean"] else 1
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="flighttape")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -362,6 +412,10 @@ def main(argv=None):
     cut.add_argument("--to", dest="to_seq")
     cut.add_argument("--kind", action="append", dest="kinds")
     cut.add_argument("-o", "--output")
+    scr = sub.add_parser(
+        "screen", help="screen a tape for absolute paths")
+    scr.add_argument("tape")
+    scr.add_argument("-o", "--output")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
@@ -374,6 +428,8 @@ def main(argv=None):
     if args.command == "slice":
         return _slice(args.tape, args.output, args.from_seq,
                       args.to_seq, args.kinds)
+    if args.command == "screen":
+        return _screen(args.tape, args.output)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1
