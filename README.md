@@ -15,7 +15,7 @@ portfolio, in the Retrospective arc.
 
 ## Programme status
 
-- Closed perfection rounds, 9 of 100. A round counts only when a full
+- Closed perfection rounds, 10 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
 - Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
   reviews and their findings are recorded with the programme. The
@@ -68,6 +68,15 @@ portfolio, in the Retrospective arc.
   shared without the whole run. Obligations FT-39 to FT-43
   as amended in Round 9, met, with the reviews recorded
   with the programme.
+- Round 10 adds tape screening. The screen command checks
+  a valid tape from any source for absolute paths in
+  exactly the strings the redaction rule covers, walking
+  containers at any depth, and reports each string the
+  redactor would change by its event, its field, and its
+  path count, never the path itself, so a tape can be
+  verified clean before it is shared. Obligations FT-44
+  to FT-48 as amended in Round 10, met, with the reviews
+  recorded with the programme.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
