@@ -119,27 +119,39 @@ def _convert_dir(source_dir, output_dir):
 FAILED = object()
 
 
-def _read_tape(path):
-    """Load a tape file, printing the named error on failure (FT-21).
+def _load(path):
+    """Load a tape file without printing anything.
 
-    Returns the tape, or the FAILED sentinel when the load
-    failed. A file holding the JSON value null loads as None,
-    which is a tape to be named by the validator, not a load
-    failure, so None cannot be the sentinel.
+    Returns (tape, None) on success and (FAILED, reason) on
+    failure, the reason being the loader's own phrase for the
+    failure. A file holding the JSON value null loads as
+    None, which is a tape to be named by the validator, not
+    a load failure, so None cannot be the sentinel.
     """
     try:
         with open(path, encoding="utf-8") as handle:
-            return json.load(handle)
+            return json.load(handle), None
     except OSError:
-        print(f"error, cannot read the tape file, {path}",
-              file=sys.stderr)
+        return FAILED, "cannot read the tape file"
     except UnicodeDecodeError:
-        print(f"defect, the file is not valid UTF-8, {path}",
-              file=sys.stderr)
+        return FAILED, "the file is not valid UTF-8"
     except (RecursionError, ValueError):
-        print(f"defect, the file is not valid JSON, {path}",
-              file=sys.stderr)
-    return FAILED
+        return FAILED, "the file is not valid JSON"
+
+
+def _print_load_failure(path, reason):
+    if reason == "cannot read the tape file":
+        print(f"error, {reason}, {path}", file=sys.stderr)
+    else:
+        print(f"defect, {reason}, {path}", file=sys.stderr)
+
+
+def _read_tape(path):
+    """Load a tape file, printing the named error on failure (FT-21)."""
+    tape, reason = _load(path)
+    if tape is FAILED:
+        _print_load_failure(path, reason)
+    return tape
 
 
 def _digest_of(tape):
@@ -202,14 +214,16 @@ def _rollup(source_dir):
               file=sys.stderr)
         return 1
     records = []
-    for path in sorted(root.glob("*.json"), key=lambda entry: entry.name):
+    for path in root.glob("*.json"):
         if not path.is_file():
             print(f"error, not a file, skipped, {path}", file=sys.stderr)
             records.append({"file": path.name, "reason": "not a file"})
             continue
-        tape = _read_tape(path)
+        tape, reason = _load(path)
         if tape is FAILED:
-            records.append({"file": path.name, "reason": "unreadable"})
+            _print_load_failure(path, reason)
+            records.append({"file": path.name, "reason": "unreadable",
+                            "error": reason})
             continue
         defects = validate_tape(tape)
         if defects:

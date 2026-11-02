@@ -153,9 +153,15 @@ def test_cli_rollup_reports_a_mixed_directory(tmp_path, capsys):
                        "folder.json": "not a file",
                        "raw.json": "unreadable",
                        "surrogate.json": "undigestible"}
+    assert [entry["file"] for entry in report["excluded"]] == [
+        "bad.json", "folder.json", "raw.json", "surrogate.json"]
     invalid = next(entry for entry in report["excluded"]
                    if entry["file"] == "bad.json")
-    assert invalid["defects"]
+    assert invalid["defects"] == validate_tape(broken)
+    unreadable = next(entry for entry in report["excluded"]
+                      if entry["file"] == "raw.json")
+    assert unreadable["error"] == "the file is not valid UTF-8"
+    assert "raw.json" in captured.err
     undigestible = next(entry for entry in report["excluded"]
                         if entry["file"] == "surrogate.json")
     assert "cannot be encoded" in undigestible["error"]
@@ -193,3 +199,112 @@ def test_cli_rollup_output_is_byte_identical_across_runs(
     printed = capsys.readouterr().out
     assert main(["rollup", str(tmp_path)]) == 0
     assert capsys.readouterr().out == printed
+
+
+def test_cli_rollup_names_a_null_tape_as_invalid(tmp_path, capsys):
+    (tmp_path / "null.json").write_text("null\n", encoding="utf-8")
+    (tmp_path / "good.json").write_text(json.dumps(tape_one()),
+                                        encoding="utf-8")
+    assert main(["rollup", str(tmp_path)]) == 1
+    report = json.loads(capsys.readouterr().out)
+    assert report["counts"] == {"tapes": 1, "excluded": 1, "events": 2}
+    excluded = report["excluded"][0]
+    assert excluded["file"] == "null.json"
+    assert excluded["reason"] == "invalid"
+    assert excluded["defects"] == validate_tape(None)
+
+
+def test_cli_rollup_refuses_a_path_that_is_a_file(tmp_path, capsys):
+    target = tmp_path / "lonely.json"
+    target.write_text(json.dumps(tape_one()), encoding="utf-8")
+    assert main(["rollup", str(target)]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "no such source directory" in captured.err
+
+
+def test_cli_rollup_of_a_directory_without_json_files(
+        tmp_path, capsys):
+    (tmp_path / "notes.txt").write_text("not a tape", encoding="utf-8")
+    (tmp_path / "data.JSON").write_text(json.dumps(tape_one()),
+                                        encoding="utf-8")
+    assert main(["rollup", str(tmp_path)]) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["counts"] == {"tapes": 0, "excluded": 0, "events": 0}
+
+
+def test_cli_rollup_is_identical_across_creation_orders(
+        tmp_path, capsys):
+    (tmp_path / "b.json").write_text(json.dumps(tape_two()),
+                                     encoding="utf-8")
+    (tmp_path / "a.json").write_text(json.dumps(tape_one()),
+                                     encoding="utf-8")
+    assert main(["rollup", str(tmp_path)]) == 0
+    first = capsys.readouterr().out
+    (tmp_path / "a.json").unlink()
+    (tmp_path / "b.json").unlink()
+    (tmp_path / "a.json").write_text(json.dumps(tape_one()),
+                                     encoding="utf-8")
+    (tmp_path / "b.json").write_text(json.dumps(tape_two()),
+                                     encoding="utf-8")
+    assert main(["rollup", str(tmp_path)]) == 0
+    assert capsys.readouterr().out == first
+
+
+def test_a_sum_past_the_rendering_digit_limit_reports_null():
+    # Each value sits exactly at the 4300 digit rendering
+    # limit, so both tapes digest; their sum crosses it.
+    big = 5 * 10 ** 4299
+    first, second = tape_one(), tape_two()
+    first["run"]["totals"] = {"big": big}
+    second["run"]["totals"] = {"big": big}
+    first["run"]["skipped_lines"] = {"big": big}
+    second["run"]["skipped_lines"] = {"big": big}
+    report = rollup_report(
+        records(("a.json", first), ("b.json", second)), "d")
+    assert report["totals"] == {"big": None}
+    assert report["skipped_lines"] == {"big": None}
+    first["run"]["redacted_values"] = big
+    second["run"]["redacted_values"] = big
+    report = rollup_report(
+        records(("a.json", first), ("b.json", second)), "d")
+    assert report["redacted_values"]["total"] is None
+
+
+def test_cli_rollup_renders_a_report_despite_a_huge_sum(
+        tmp_path, capsys):
+    big = int("5" + "0" * 4299)
+    for name in ("a.json", "b.json"):
+        tape = tape_one()
+        tape["run"]["totals"] = {"big": big}
+        (tmp_path / name).write_text(json.dumps(tape),
+                                     encoding="utf-8")
+    assert main(["rollup", str(tmp_path)]) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["counts"]["tapes"] == 2
+    assert report["totals"] == {"big": None}
+
+
+def test_malformed_records_raise_a_named_error():
+    import pytest
+    tape = tape_one()
+    both = {"file": "x.json", "tape": tape, "reason": "invalid",
+            "digest": tape_digest(tape)}
+    with pytest.raises(ValueError, match="x.json"):
+        rollup_report([both], "d")
+    with pytest.raises(ValueError, match="x.json"):
+        rollup_report([{"file": "x.json", "tape": None,
+                        "digest": "0" * 64}], "d")
+    with pytest.raises(ValueError, match="x.json"):
+        rollup_report([{"file": "x.json", "tape": tape}], "d")
+    with pytest.raises(ValueError, match="x.json"):
+        rollup_report([{"file": "x.json"}], "d")
+
+
+def test_an_exclusions_defects_are_copied_not_aliased():
+    defects = ["one defect"]
+    record = {"file": "x.json", "reason": "invalid",
+              "defects": defects}
+    report = rollup_report([record], "d")
+    report["excluded"][0]["defects"].append("another")
+    assert defects == ["one defect"]

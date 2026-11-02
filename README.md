@@ -48,17 +48,17 @@ portfolio, in the Retrospective arc.
   naming any non-finite number a tape holds. Obligations FT-26
   to FT-30 as amended in Round 6, met, with the reviews
   recorded with the programme.
-- Round 8 adds the directory rollup. The rollup command
-  reads every tape file in a directory and reports the set,
-  each tape's digest, outcome, duration, and totals, the
-  sums across the set, and every file it excluded with the
-  reason.
 - Round 7 adds tape comparison. The compare command reports
   two valid tapes side by side, their digests, outcomes,
   durations, run measures, and the events that changed,
   arrived, or vanished between them. Obligations FT-31 to
   FT-34 as amended in Round 7, met, with the reviews recorded
   with the programme.
+- Round 8 adds the directory rollup. The rollup command
+  reads every tape file in a directory and reports the set,
+  each tape's digest, outcome, duration, and totals, the
+  sums across the set, and every file it excluded with the
+  reason.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 

@@ -426,3 +426,13 @@ report is JSON and has no standard value for it.
   stdout. A directory holding no .json entries produces the
   report with zero tapes and no exclusions and exits 0.
   Test, tests/test_rollup.py.
+
+Amendments recorded in the Round 8 repair. FT-36, a sum
+that cannot be rendered in JSON reports as null: the
+redacted_values total when its numeric sum overflows or
+runs past finite, and any totals or skipped_lines sum
+whose integer passes the interpreter's digit limit for
+rendering numbers, a limit a single loaded value cannot
+cross but a sum across tapes can. FT-35, an unreadable
+exclusion records the loader's reason as its error detail,
+as an undigestible exclusion does.
