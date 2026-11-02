@@ -446,7 +446,9 @@ as an undigestible exclusion does.
   outside the tape's range are not errors; they select
   what exists. A bound below zero, a --from above its
   --to, or a --kind outside the tape format's kind enum
-  is a named refusal, exit 1, nothing written. The source
+  is a named refusal, exit 1, nothing written. A selection
+  matching no events is likewise a named refusal, because a
+  tape must hold at least one event. The source
   is loaded and validated the way the other commands load
   and validate; a source that fails either is refused
   with the failure named, exit 1, nothing written. Test,
@@ -457,9 +459,8 @@ as an undigestible exclusion does.
   redacted_values). Its events are the selected events in
   their original order, each event unchanged except its
   seq, renumbered from 0 in selection order, because the
-  validator requires consecutive seq values. A selection
-  matching no events produces a valid tape with an empty
-  events array. Test, tests/test_slice.py.
+  validator requires consecutive seq values. Test,
+  tests/test_slice.py.
 - FT-41. The output records its provenance at
   run.slice_of, the source tape's digest under canonical
   form 1, the range as requested with an omitted bound
@@ -482,3 +483,11 @@ as an undigestible exclusion does.
   file named by -o or to stdout, and a write failure is
   a named error with exit 1, in the family's register.
   Test, tests/test_slice.py.
+
+Amendments recorded in the Round 9 build. FT-40 as first
+written let an empty selection produce a tape with an
+empty events array; the validator requires at least one
+event, so FT-39 as amended makes an empty selection a
+named refusal instead. The outcome basis no-events still
+exists for a tape whose events are all sidechain or
+session_end events, which a slice can produce.

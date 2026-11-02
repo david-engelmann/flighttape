@@ -1,7 +1,7 @@
 """flighttape command line.
 
 Commands, convert, convert-dir, validate, play, digest, verify,
-compare, rollup.
+compare, rollup, slice.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -21,6 +21,7 @@ from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
 from .rollup import rollup_report
+from .slice import SliceError, check_selection, slice_tape
 from .validate import validate_tape
 
 
@@ -249,6 +250,51 @@ def _rollup(source_dir):
     return 1 if report["excluded"] else 0
 
 
+def _slice(path, output, from_seq, to_seq, kinds):
+    """Cut a slice out of a tape and write it (FT-39 to FT-43).
+
+    The selection is checked before the file is read, the
+    source must load and validate, and the built slice must
+    validate before anything is written.
+    """
+    try:
+        check_selection(from_seq, to_seq, kinds)
+    except SliceError as error:
+        print(f"error, {error}", file=sys.stderr)
+        return 1
+    tape = _read_tape(path)
+    if tape is FAILED:
+        return 1
+    defects = validate_tape(tape)
+    if defects:
+        print(f"error, {path} is not a valid tape", file=sys.stderr)
+        for defect in defects:
+            print(f"defect, {defect}", file=sys.stderr)
+        return 1
+    try:
+        result = slice_tape(tape, from_seq, to_seq, kinds)
+    except SliceError as error:
+        print(f"error, {error}", file=sys.stderr)
+        return 1
+    except DigestError as error:
+        print(f"error, {path} cannot be digested, {error}",
+              file=sys.stderr)
+        return 1
+    defects = validate_tape(result)
+    if defects:
+        print("error, the slice is not a valid tape", file=sys.stderr)
+        for defect in defects:
+            print(f"defect, {defect}", file=sys.stderr)
+        return 1
+    try:
+        _write_tape(result, output)
+    except OSError:
+        print(f"error, cannot write the tape file, {output}",
+              file=sys.stderr)
+        return 1
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="flighttape")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -274,6 +320,12 @@ def main(argv=None):
     roll = sub.add_parser(
         "rollup", help="roll up every tape in a directory")
     roll.add_argument("source_dir")
+    cut = sub.add_parser("slice", help="cut a slice out of a tape")
+    cut.add_argument("tape")
+    cut.add_argument("--from", dest="from_seq", type=int)
+    cut.add_argument("--to", dest="to_seq", type=int)
+    cut.add_argument("--kind", action="append", dest="kinds")
+    cut.add_argument("-o", "--output")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
@@ -283,6 +335,9 @@ def main(argv=None):
         return _compare(args.first, args.second)
     if args.command == "rollup":
         return _rollup(args.source_dir)
+    if args.command == "slice":
+        return _slice(args.tape, args.output, args.from_seq,
+                      args.to_seq, args.kinds)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1
