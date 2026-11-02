@@ -217,6 +217,11 @@ def test_a_slice_that_breaks_pairing_is_refused_before_writing(
     assert not out.exists()
 
 
+def test_the_library_refuses_a_slice_that_would_not_validate():
+    with pytest.raises(SliceError):
+        slice_tape(paired_tape(), kinds=["tool_result"])
+
+
 def test_cli_a_write_failure_is_a_named_error(tmp_path, capsys):
     source = write(tmp_path, source_tape())
     assert main(["slice", source, "-o", str(tmp_path)]) == 1

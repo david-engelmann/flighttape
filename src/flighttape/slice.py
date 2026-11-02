@@ -16,7 +16,7 @@ import copy
 
 from .identity import tape_digest
 from .outcome import determine_outcome
-from .validate import EVENT_KINDS
+from .validate import EVENT_KINDS, validate_tape
 
 _HUGE = 10 ** 18
 
@@ -128,4 +128,8 @@ def _build_slice(tape, from_seq, to_seq, kinds):
     result["run"] = run
     result["events"] = selected
     result["outcome"] = determine_outcome(selected)
+    defects = validate_tape(result)
+    if defects:
+        raise SliceError(
+            "the slice is not a valid tape, " + "; ".join(defects))
     return result
