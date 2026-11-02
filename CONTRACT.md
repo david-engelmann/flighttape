@@ -491,3 +491,45 @@ event, so FT-39 as amended makes an empty selection a
 named refusal instead. The outcome basis no-events still
 exists for a tape whose events are all sidechain or
 session_end events, which a slice can produce.
+
+## Screening, Round 10 obligations, written before the code
+
+- FT-44. The screen command takes one tape file. The tape
+  is loaded and validated first; an invalid tape is a
+  named refusal in the validate path's own terms, exit 1,
+  and no report is produced. Test, tests/test_screen.py.
+- FT-45. Screen examines exactly the strings FT-22 names
+  as text: message text, tool result content, and every
+  string leaf and every string key of a tool call's input
+  at any depth. Identifiers, timestamps, the run's
+  bookkeeping, and the outcome are outside the rule,
+  exactly as they are outside FT-22. Detection runs the
+  converter's own redactor: a string the redactor would
+  change is a hit, and paths are counted in a string
+  exactly as FT-24 counts replacements. One definition
+  of an absolute path, FT-23, serves both directions.
+  Test, tests/test_screen.py.
+- FT-46. The report is a JSON object carrying the tape's
+  digest under canonical form 1, the number of strings
+  screened, the number of paths found, a hits list, and
+  a clean flag. Each hit names the event's seq, the
+  field (text, content, or input), whether the paths
+  sat in a key or in a value, and how many paths that
+  string holds. The report never contains a screened
+  string or any part of a path it found; a hit is a
+  location and a count, nothing more. Screen exits 0
+  when the tape is clean and 1 when any path is found,
+  and the report is printed in both cases. Test,
+  tests/test_screen.py.
+- FT-47. Screen never modifies the tape. Its report goes
+  to stdout or to the path named by -o, and an output
+  path that resolves to the tape itself is refused by
+  name. A write failure is a named error with exit 1.
+  Test, tests/test_screen.py.
+- FT-48. The directions agree: a tape the converter
+  produces screens clean, including the converted
+  synthetic fixture, whose paths the redactor already
+  replaced; and a hand-built tape carrying paths in
+  each of the FT-22 carriers (message text, tool result
+  content, an input value, an input key) reports a hit
+  in each carrier. Test, tests/test_screen.py.
