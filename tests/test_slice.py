@@ -188,3 +188,113 @@ def test_cli_an_invalid_source_is_refused_with_its_defects(
     assert "is not a valid tape" in err
     assert "defect," in err
     assert not out.exists()
+
+
+def paired_tape():
+    tape = source_tape()
+    tape["events"] = [
+        event(0, "tool_call", tool="run", call_id="call-1",
+              timestamp=T0),
+        event(1, "tool_result", call_id="call-1", is_error=False,
+              text="ok", timestamp=T1),
+        event(2, "message", role="assistant", text="done",
+              timestamp=T2),
+    ]
+    tape["outcome"] = {"status": "completed",
+                        "basis": "final-assistant-message"}
+    return tape
+
+
+def test_a_slice_that_breaks_pairing_is_refused_before_writing(
+        tmp_path, capsys):
+    source = write(tmp_path, paired_tape())
+    out = tmp_path / "cut.json"
+    assert main(["slice", source, "--kind", "tool_result",
+                 "-o", str(out)]) == 1
+    err = capsys.readouterr().err
+    assert "the slice is not a valid tape" in err
+    assert "answers no earlier" in err
+    assert not out.exists()
+
+
+def test_cli_a_write_failure_is_a_named_error(tmp_path, capsys):
+    source = write(tmp_path, source_tape())
+    assert main(["slice", source, "-o", str(tmp_path)]) == 1
+    assert "cannot write the tape file" in capsys.readouterr().err
+
+
+def test_cli_to_below_zero_and_two_kind_flags(tmp_path, capsys):
+    source = write(tmp_path, source_tape())
+    assert main(["slice", source, "--to=-1"]) == 1
+    assert "below zero" in capsys.readouterr().err
+    assert main(["slice", source, "--kind", "tool_call",
+                 "--kind", "note"]) == 0
+    printed = json.loads(capsys.readouterr().out)
+    assert [e["kind"] for e in printed["events"]] == [
+        "tool_call", "note"]
+
+
+def test_cli_an_undigestible_source_is_refused_by_name(
+        tmp_path, capsys):
+    path = tmp_path / "tape.json"
+    text = json.dumps(source_tape())
+    text = text.replace("do it", "\\ud800")
+    path.write_text(text, encoding="utf-8")
+    loaded = json.loads(path.read_text(encoding="utf-8"))
+    assert validate_tape(loaded) == []
+    assert main(["slice", str(path)]) == 1
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "cannot be digested" in captured.err
+
+
+def test_cli_a_deeply_nested_tape_is_a_named_refusal(
+        tmp_path, capsys):
+    tape = source_tape()
+    nested = current = []
+    for _ in range(600):
+        inner = []
+        current.append(inner)
+        current = inner
+    tape["events"][3]["payload"] = nested
+    source = write(tmp_path, tape)
+    out = tmp_path / "cut.json"
+    assert main(["slice", source, "-o", str(out)]) == 1
+    err = capsys.readouterr().err
+    assert "nested too deeply" in err
+    assert "Traceback" not in err
+    assert not out.exists()
+
+
+def test_cli_absurd_bounds_clamp_and_non_integers_are_named(
+        tmp_path, capsys):
+    source = write(tmp_path, source_tape())
+    huge = "9" * 5000
+    assert main(["slice", source, "--from", huge]) == 1
+    assert "matches no events" in capsys.readouterr().err
+    assert main(["slice", source, "--to", huge]) == 0
+    printed = json.loads(capsys.readouterr().out)
+    assert len(printed["events"]) == 4
+    assert main(["slice", source, "--from", "abc"]) == 1
+    assert "not an integer" in capsys.readouterr().err
+
+
+def test_cli_a_source_holding_an_oversized_number_is_named(
+        tmp_path, capsys):
+    path = tmp_path / "tape.json"
+    text = json.dumps(source_tape())
+    text = text.replace('"input_tokens": 150',
+                        '"input_tokens": ' + "9" * 5000)
+    path.write_text(text, encoding="utf-8")
+    assert main(["slice", str(path)]) == 1
+    assert "number too large" in capsys.readouterr().err
+
+
+def test_library_kinds_may_be_a_one_shot_iterable_and_bounds_are_typed():
+    tape = source_tape()
+    cut = slice_tape(tape, kinds=(k for k in ["note"]))
+    assert [e["kind"] for e in cut["events"]] == ["note"]
+    with pytest.raises(SliceError):
+        slice_tape(tape, from_seq=True)
+    with pytest.raises(SliceError):
+        slice_tape(tape, to_seq=1.5)

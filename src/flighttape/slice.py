@@ -16,29 +16,45 @@ import copy
 
 from .identity import tape_digest
 from .outcome import determine_outcome
+from .validate import EVENT_KINDS
 
-EVENT_KINDS = (
-    "session_start",
-    "message",
-    "tool_call",
-    "tool_result",
-    "diff",
-    "spend",
-    "note",
-    "session_end",
-)
+_HUGE = 10 ** 18
 
 
 class SliceError(ValueError):
     """A selection that cannot be cut, named for the CLI."""
 
 
+def parse_bound(text, flag):
+    """Read one CLI bound (FT-39).
+
+    Bounds arrive as text so that an absurdly long digit
+    string clamps to a huge sentinel instead of dying in
+    the interpreter's integer parsing limit, and a
+    non-integer is a named refusal, never a traceback.
+    """
+    if text is None:
+        return None
+    try:
+        return int(text)
+    except ValueError:
+        digits = text.lstrip("+-")
+        if digits.isdigit() and len(digits) > 18:
+            return -_HUGE if text.startswith("-") else _HUGE
+        raise SliceError(
+            f"the {flag} bound is not an integer, {text}") from None
+
+
 def check_selection(from_seq, to_seq, kinds):
     """Refuse a malformed selection before any file is read."""
-    if from_seq is not None and from_seq < 0:
-        raise SliceError(f"the --from bound is below zero, {from_seq}")
-    if to_seq is not None and to_seq < 0:
-        raise SliceError(f"the --to bound is below zero, {to_seq}")
+    for flag, bound in (("--from", from_seq), ("--to", to_seq)):
+        if bound is None:
+            continue
+        if isinstance(bound, bool) or not isinstance(bound, int):
+            raise SliceError(
+                f"the {flag} bound is not an integer, {bound!r}")
+        if bound < 0:
+            raise SliceError(f"the {flag} bound is below zero, {bound}")
     if (from_seq is not None and to_seq is not None
             and from_seq > to_seq):
         raise SliceError(
@@ -50,14 +66,30 @@ def check_selection(from_seq, to_seq, kinds):
 
 
 def slice_tape(tape, from_seq=None, to_seq=None, kinds=None):
-    """Cut the selected events out of a valid tape (FT-40).
+    """Cut the selected events out of a valid tape.
 
-    The source is not mutated. The digest of the source is
-    taken before anything is built, so a source that cannot
-    be digested raises DigestError here, the way compare and
-    rollup refuse an undigestible tape.
+    Enforces the selection rules (FT-39), builds the slice
+    with its identity carried and its events renumbered
+    (FT-40), records the provenance (FT-41), and recomputes
+    the outcome and the countable totals (FT-42). The
+    source is not mutated. The digest of the source is
+    taken before anything is built, so a source that
+    cannot be digested raises DigestError here, the way
+    compare and rollup refuse an undigestible tape. A tape
+    nested too deeply to copy raises SliceError, a named
+    refusal, never a bare RecursionError.
     """
+    if kinds is not None:
+        kinds = list(kinds)
     check_selection(from_seq, to_seq, kinds)
+    try:
+        return _build_slice(tape, from_seq, to_seq, kinds)
+    except RecursionError:
+        raise SliceError(
+            "the tape is nested too deeply to slice") from None
+
+
+def _build_slice(tape, from_seq, to_seq, kinds):
     digest = tape_digest(tape)
     wanted = set(kinds) if kinds else None
     selected = []
@@ -74,8 +106,12 @@ def slice_tape(tape, from_seq=None, to_seq=None, kinds=None):
         selected.append(clone)
     if not selected:
         raise SliceError("the selection matches no events")
-    result = copy.deepcopy(tape)
-    run = result["run"]
+    result = {
+        key: copy.deepcopy(value)
+        for key, value in tape.items()
+        if key not in ("events", "run", "outcome")
+    }
+    run = copy.deepcopy(tape["run"])
     run["totals"] = {
         "messages": sum(1 for event in selected
                         if event["kind"] == "message"),
@@ -89,6 +125,7 @@ def slice_tape(tape, from_seq=None, to_seq=None, kinds=None):
         "kinds": list(kinds) if kinds else None,
         "events": len(selected),
     }
+    result["run"] = run
     result["events"] = selected
     result["outcome"] = determine_outcome(selected)
     return result
