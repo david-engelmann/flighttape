@@ -119,3 +119,86 @@ def test_the_cli_reports_and_refuses(tmp_path, capsys):
     assert main(["screen", str(path), "-o", str(out)]) == 1
     assert json.loads(out.read_text(encoding="utf-8"))[
         "paths_found"] == 6
+
+
+def test_a_path_inside_a_container_carrier_is_a_hit():
+    blocked = tape([
+        event(0, "message", role="user",
+              text=[{"type": "text",
+                     "text": f"read {SECRET} now"}]),
+        event(1, "message", role="user", text={SECRET: "x"}),
+    ])
+    report = screen_tape(blocked)
+    assert report["clean"] is False
+    assert report["paths_found"] == 2
+    hits = [(h["seq"], h["field"], h["in"], h["paths"])
+            for h in report["hits"]]
+    assert hits == [(0, "text", "value", 1),
+                    (1, "text", "key", 1)]
+
+
+def test_deep_nesting_screens_without_a_traceback(tmp_path,
+                                                   capsys):
+    def nested_tape(depth):
+        deep = SECRET
+        for _ in range(depth):
+            deep = [deep]
+        return tape([event(0, "tool_call", tool="Read",
+                           call_id="c1", input={"nest": deep})])
+
+    path = tmp_path / "deep.tape.json"
+    path.write_text(json.dumps(nested_tape(800)),
+                    encoding="utf-8")
+    assert main(["screen", str(path)]) == 1
+    captured = capsys.readouterr()
+    assert "Traceback" not in captured.err
+    assert json.loads(captured.out)["paths_found"] == 1
+    path.write_text(json.dumps(nested_tape(990)),
+                    encoding="utf-8")
+    assert main(["screen", str(path)]) == 1
+    captured = capsys.readouterr()
+    assert "Traceback" not in captured.err
+    assert "cannot be digested" in captured.err
+
+
+def test_the_clean_cli_arm_exits_zero(tmp_path, capsys):
+    clean = tape([event(0, "message", role="user",
+                        text="nothing to hide")])
+    path = tmp_path / "clean.tape.json"
+    path.write_text(json.dumps(clean), encoding="utf-8")
+    assert main(["screen", str(path)]) == 0
+    report = json.loads(capsys.readouterr().out)
+    assert report["clean"] is True
+    assert report["paths_found"] == 0
+
+
+def test_the_tape_is_not_modified(tmp_path, capsys):
+    path = tmp_path / "dirty.tape.json"
+    path.write_text(json.dumps(dirty_tape()), encoding="utf-8")
+    before = path.read_bytes()
+    out = tmp_path / "report.json"
+    assert main(["screen", str(path), "-o", str(out)]) == 1
+    assert path.read_bytes() == before
+    assert main(["screen", str(path)]) == 1
+    capsys.readouterr()
+    assert path.read_bytes() == before
+
+
+def test_a_write_failure_is_a_named_error(tmp_path, capsys):
+    path = tmp_path / "dirty.tape.json"
+    path.write_text(json.dumps(dirty_tape()), encoding="utf-8")
+    missing = tmp_path / "no-such-dir" / "report.json"
+    assert main(["screen", str(path), "-o", str(missing)]) == 1
+    assert "cannot write the report" in capsys.readouterr().err
+
+
+def test_a_hardlink_output_is_refused(tmp_path, capsys):
+    import os
+    path = tmp_path / "dirty.tape.json"
+    path.write_text(json.dumps(dirty_tape()), encoding="utf-8")
+    before = path.read_bytes()
+    alias = tmp_path / "alias.json"
+    os.link(path, alias)
+    assert main(["screen", str(path), "-o", str(alias)]) == 1
+    assert "never overwrites" in capsys.readouterr().err
+    assert path.read_bytes() == before

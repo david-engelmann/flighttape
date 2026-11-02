@@ -332,7 +332,6 @@ def _slice(path, output, from_text, to_text, kinds):
     return 0
 
 
-
 def _screen(path, output):
     """Screen one tape for absolute paths (FT-44 to FT-48).
 
@@ -342,11 +341,15 @@ def _screen(path, output):
     carries the verdict: 0 when the tape is clean, 1 when
     any path is found or the command refuses.
     """
-    if output and pathlib.Path(output).resolve() == \
-            pathlib.Path(path).resolve():
-        print("error, a screen report never overwrites the tape",
-              file=sys.stderr)
-        return 1
+    tape_path = pathlib.Path(path)
+    if output:
+        out_path = pathlib.Path(output)
+        same_file = (tape_path.exists() and out_path.exists()
+                     and os.path.samefile(out_path, tape_path))
+        if out_path.resolve() == tape_path.resolve() or same_file:
+            print("error, a screen report never overwrites the tape",
+                  file=sys.stderr)
+            return 1
     tape = _read_tape(path)
     if tape is FAILED:
         return 1
@@ -357,6 +360,10 @@ def _screen(path, output):
     except DigestError as error:
         print(f"error, {path} cannot be digested, {error}",
               file=sys.stderr)
+        return 1
+    except RecursionError:
+        print(f"error, {path} is nested beyond the interpreter "
+              "limit", file=sys.stderr)
         return 1
     text = json.dumps(report, indent=2) + "\n"
     try:
@@ -372,6 +379,10 @@ def _screen(path, output):
         else:
             print("error, cannot write the report to stdout",
                   file=sys.stderr)
+            # The broken stream would fail again at interpreter
+            # shutdown and mask this refusal with exit 120 and
+            # an ignored-exception dump, so it is replaced
+            # with a sink before returning.
             try:
                 sys.stdout.close()
             except OSError:
