@@ -436,3 +436,49 @@ rendering numbers, a limit a single loaded value cannot
 cross but a sum across tapes can. FT-35, an unreadable
 exclusion records the loader's reason as its error detail,
 as an undigestible exclusion does.
+
+## Round 9. Tape slicing (FT-39 to FT-43)
+
+- FT-39. Slice takes a tape file and a selection, a seq
+  range given by --from and --to, both inclusive, either
+  bound omittable and defaulting to that end of the tape,
+  and an optional --kind filter that may repeat. Bounds
+  outside the tape's range are not errors; they select
+  what exists. A bound below zero, a --from above its
+  --to, or a --kind outside the tape format's kind enum
+  is a named refusal, exit 1, nothing written. The source
+  is loaded and validated the way the other commands load
+  and validate; a source that fails either is refused
+  with the failure named, exit 1, nothing written. Test,
+  tests/test_slice.py.
+- FT-40. The output is a tape carrying the source's
+  tape_version and its run identity as recorded (harness,
+  session_id, source_format, started_at, skipped_lines,
+  redacted_values). Its events are the selected events in
+  their original order, each event unchanged except its
+  seq, renumbered from 0 in selection order, because the
+  validator requires consecutive seq values. A selection
+  matching no events produces a valid tape with an empty
+  events array. Test, tests/test_slice.py.
+- FT-41. The output records its provenance at
+  run.slice_of, the source tape's digest under canonical
+  form 1, the range as requested with an omitted bound
+  as null, the kind filter as a list or null, and the
+  count of events selected. A slice of a slice records
+  the immediate source's digest, so a provenance chain
+  is walked one digest at a time. Test,
+  tests/test_slice.py.
+- FT-42. The output's outcome is recomputed over the
+  selected events by the same determination the converter
+  uses, never carried from the source. Its run totals are
+  recomputed over the selected events for the counts the
+  events themselves carry, messages and tool_calls, and
+  the token totals are omitted, never carried over and
+  never estimated, because events do not record usage.
+  Test, tests/test_slice.py.
+- FT-43. The output tape is validated before anything is
+  written; a slice that fails validation is a named
+  error, exit 1, nothing written. Output goes to the
+  file named by -o or to stdout, and a write failure is
+  a named error with exit 1, in the family's register.
+  Test, tests/test_slice.py.
