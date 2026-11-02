@@ -1,6 +1,7 @@
 """flighttape command line.
 
-Commands, convert, convert-dir, validate, play, digest, verify.
+Commands, convert, convert-dir, validate, play, digest, verify,
+compare.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -15,6 +16,7 @@ import json
 import pathlib
 import sys
 
+from .compare import compare_tapes
 from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
@@ -147,6 +149,28 @@ def _digest_of(tape):
         return None
 
 
+def _compare(first_path, second_path):
+    """Compare two tape files and print the report (FT-31)."""
+    tapes = []
+    for path in (first_path, second_path):
+        tape = _read_tape(path)
+        if tape is FAILED:
+            return 1
+        tapes.append(tape)
+    refused = False
+    for path, tape in zip((first_path, second_path), tapes):
+        defects = validate_tape(tape)
+        if defects:
+            refused = True
+            print(f"error, {path} is not a valid tape", file=sys.stderr)
+            for defect in defects:
+                print(f"defect, {defect}", file=sys.stderr)
+    if refused:
+        return 1
+    print(json.dumps(compare_tapes(tapes[0], tapes[1]), indent=2))
+    return 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="flighttape")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -166,11 +190,16 @@ def main(argv=None):
     ver = sub.add_parser("verify", help="check a tape against a digest")
     ver.add_argument("tape")
     ver.add_argument("expected")
+    cmp_ = sub.add_parser("compare", help="compare two tapes")
+    cmp_.add_argument("first")
+    cmp_.add_argument("second")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
     if args.command == "convert-dir":
         return _convert_dir(args.source_dir, args.output_dir)
+    if args.command == "compare":
+        return _compare(args.first, args.second)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1

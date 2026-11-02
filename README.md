@@ -48,6 +48,10 @@ portfolio, in the Retrospective arc.
   naming any non-finite number a tape holds. Obligations FT-26
   to FT-30 as amended in Round 6, met, with the reviews
   recorded with the programme.
+- Round 7 adds tape comparison. The compare command reports
+  two valid tapes side by side, their digests, outcomes,
+  durations, run measures, and the events that changed,
+  arrived, or vanished between them.
 - Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
   python3 -m pytest tests -q. CI runs the same commands.
 
