@@ -16,6 +16,7 @@ import json
 import os
 import pathlib
 import sys
+import tempfile
 
 from .compare import compare_tapes
 from .convert_claude import convert_file
@@ -342,11 +343,17 @@ def _screen(path, output):
     any path is found or the command refuses.
     """
     tape_path = pathlib.Path(path)
+    out_path = pathlib.Path(output) if output else None
     if output:
-        out_path = pathlib.Path(output)
-        same_file = (tape_path.exists() and out_path.exists()
-                     and os.path.samefile(out_path, tape_path))
-        if out_path.resolve() == tape_path.resolve() or same_file:
+        try:
+            same_file = (tape_path.exists() and out_path.exists()
+                         and os.path.samefile(out_path, tape_path))
+            resolved = out_path.resolve() == tape_path.resolve()
+        except (OSError, RuntimeError):
+            print("error, the output path cannot be resolved, "
+                  f"{output}", file=sys.stderr)
+            return 1
+        if resolved or same_file:
             print("error, a screen report never overwrites the tape",
                   file=sys.stderr)
             return 1
@@ -366,28 +373,47 @@ def _screen(path, output):
               "limit", file=sys.stderr)
         return 1
     text = json.dumps(report, indent=2) + "\n"
-    try:
-        if output:
-            pathlib.Path(output).write_text(text, encoding="utf-8")
-        else:
-            sys.stdout.write(text)
-            sys.stdout.flush()
-    except OSError:
-        if output:
+    if output:
+        # The report lands atomically (FT-47): written to a
+        # sibling temp file and renamed over the output path,
+        # so the rename changes only the directory entry and
+        # can never write through a link onto the tape, even
+        # if the output path was swapped after the check
+        # above.
+        try:
+            fd, temp = tempfile.mkstemp(
+                dir=str(out_path.parent),
+                prefix=out_path.name + ".")
+            try:
+                with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                    handle.write(text)
+                os.replace(temp, out_path)
+            except OSError:
+                try:
+                    os.unlink(temp)
+                except OSError:
+                    pass
+                raise
+        except OSError:
             print(f"error, cannot write the report, {output}",
                   file=sys.stderr)
-        else:
-            print("error, cannot write the report to stdout",
-                  file=sys.stderr)
-            # The broken stream would fail again at interpreter
-            # shutdown and mask this refusal with exit 120 and
-            # an ignored-exception dump, so it is replaced
-            # with a sink before returning.
-            try:
-                sys.stdout.close()
-            except OSError:
-                pass
-            sys.stdout = open(os.devnull, "w", encoding="utf-8")
+            return 1
+        return 0 if report["clean"] else 1
+    try:
+        sys.stdout.write(text)
+        sys.stdout.flush()
+    except OSError:
+        print("error, cannot write the report to stdout",
+              file=sys.stderr)
+        # The broken stream would fail again at interpreter
+        # shutdown and mask this refusal with exit 120 and
+        # an ignored-exception dump, so it is replaced
+        # with a sink before returning.
+        try:
+            sys.stdout.close()
+        except OSError:
+            pass
+        sys.stdout = open(os.devnull, "w", encoding="utf-8")
         return 1
     return 0 if report["clean"] else 1
 

@@ -202,3 +202,33 @@ def test_a_hardlink_output_is_refused(tmp_path, capsys):
     assert main(["screen", str(path), "-o", str(alias)]) == 1
     assert "never overwrites" in capsys.readouterr().err
     assert path.read_bytes() == before
+
+
+def test_an_unresolvable_output_path_is_a_named_refusal(
+        tmp_path, capsys):
+    import os
+    path = tmp_path / "dirty.tape.json"
+    path.write_text(json.dumps(dirty_tape()), encoding="utf-8")
+    os.symlink("loopy", tmp_path / "loopy")
+    looped = tmp_path / "loopy" / "report.json"
+    assert main(["screen", str(path), "-o", str(looped)]) == 1
+    captured = capsys.readouterr()
+    assert "cannot be resolved" in captured.err
+    assert "Traceback" not in captured.err
+
+
+def test_a_symlink_output_is_replaced_not_followed(
+        tmp_path, capsys):
+    import os
+    path = tmp_path / "dirty.tape.json"
+    path.write_text(json.dumps(dirty_tape()), encoding="utf-8")
+    target = tmp_path / "target.json"
+    target.write_text("original", encoding="utf-8")
+    link = tmp_path / "link.json"
+    os.symlink(target, link)
+    assert main(["screen", str(path), "-o", str(link)]) == 1
+    capsys.readouterr()
+    assert target.read_text(encoding="utf-8") == "original"
+    assert not link.is_symlink()
+    assert json.loads(link.read_text(encoding="utf-8"))[
+        "paths_found"] == 6
