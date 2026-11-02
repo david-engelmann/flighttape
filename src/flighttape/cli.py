@@ -1,7 +1,7 @@
 """flighttape command line.
 
 Commands, convert, convert-dir, validate, play, digest, verify,
-compare.
+compare, rollup.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -20,6 +20,7 @@ from .compare import compare_tapes
 from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
+from .rollup import rollup_report
 from .validate import validate_tape
 
 
@@ -187,6 +188,53 @@ def _compare(first_path, second_path):
     return 0
 
 
+def _rollup(source_dir):
+    """Roll up every tape file in a directory (FT-35).
+
+    Each .json entry is classified as a rolled tape or an
+    exclusion with its reason named on stderr, and the report
+    is printed either way; the exit code follows convert-dir,
+    1 when any file was excluded.
+    """
+    root = pathlib.Path(source_dir)
+    if not root.is_dir():
+        print(f"error, no such source directory, {source_dir}",
+              file=sys.stderr)
+        return 1
+    records = []
+    for path in sorted(root.glob("*.json"), key=lambda entry: entry.name):
+        if not path.is_file():
+            print(f"error, not a file, skipped, {path}", file=sys.stderr)
+            records.append({"file": path.name, "reason": "not a file"})
+            continue
+        tape = _read_tape(path)
+        if tape is FAILED:
+            records.append({"file": path.name, "reason": "unreadable"})
+            continue
+        defects = validate_tape(tape)
+        if defects:
+            print(f"error, {path} is not a valid tape", file=sys.stderr)
+            for defect in defects:
+                print(f"defect, {defect}", file=sys.stderr)
+            records.append({"file": path.name, "reason": "invalid",
+                            "defects": defects})
+            continue
+        try:
+            digest = tape_digest(tape)
+        except DigestError as error:
+            print(f"error, {path} cannot be digested, {error}",
+                  file=sys.stderr)
+            records.append({"file": path.name,
+                            "reason": "undigestible",
+                            "error": str(error)})
+            continue
+        records.append({"file": path.name, "tape": tape,
+                        "digest": digest})
+    report = rollup_report(records, source_dir)
+    print(json.dumps(report, indent=2))
+    return 1 if report["excluded"] else 0
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="flighttape")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -209,6 +257,9 @@ def main(argv=None):
     comp = sub.add_parser("compare", help="compare two tapes")
     comp.add_argument("first")
     comp.add_argument("second")
+    roll = sub.add_parser(
+        "rollup", help="roll up every tape in a directory")
+    roll.add_argument("source_dir")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
@@ -216,6 +267,8 @@ def main(argv=None):
         return _convert_dir(args.source_dir, args.output_dir)
     if args.command == "compare":
         return _compare(args.first, args.second)
+    if args.command == "rollup":
+        return _rollup(args.source_dir)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1
