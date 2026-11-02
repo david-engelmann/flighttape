@@ -342,3 +342,48 @@ the canonical form cannot render, an integer beyond the
 rendering limit being the reachable case. FT-30, verify
 accepts the expected digest in any letter case and ignores
 whitespace around it.
+
+## Tape comparison, Round 7 obligations, written before the code
+
+- FT-31. The compare command takes two tape files. Both are
+  loaded with the shared loader (FT-21) and both must
+  validate; a side that fails validation is named with its
+  defects and the command exits 1 without producing a
+  report, the refusal play makes (FT-13). Comparing two
+  valid tapes always exits 0; differences are data in the
+  report, never a failure. Test, tests/test_compare.py.
+- FT-32. The report carries both tapes' digests (FT-27), each
+  side's outcome status and basis and whether they differ,
+  each side's duration in seconds and the delta when both
+  are known (duration is the span between the first and last
+  parseable event timestamps, null for a side with fewer than
+  two), and a measure for every numeric entry in either
+  side's run totals, plus redacted_values and each
+  skipped_lines reason, giving each side's value and the
+  delta when both sides carry a number for it. Test,
+  tests/test_compare.py.
+- FT-33. Events are matched by seq. The report counts events
+  per side, counts them by kind per side, and lists the seqs
+  whose events differ between the sides (changed, judged by
+  the events' canonical forms under FT-26), the seqs only in
+  the second tape (added), and the seqs only in the first
+  (removed), each list in ascending order. Test,
+  tests/test_compare.py.
+- FT-34. The report is a single JSON object printed to
+  stdout, deterministic: comparing the same two files twice
+  produces byte-identical output, and comparing a tape with
+  itself reports no changes, no added or removed events,
+  equal outcomes, and zero deltas. Test,
+  tests/test_compare.py.
+
+Amendments recorded in the Round 7 repair. FT-31, a side
+that loads and validates but cannot be digested is refused
+with a named error, since the report carries digests.
+FT-32, an outcome that carries no basis reports its basis as
+null, and redacted_values is reported as each side's value
+as it stands, whatever its type, because the validator does
+not constrain that field; the delta still requires numbers
+on both sides. Totals and skipped_lines may be null in a
+valid tape and then carry no measures. A delta whose
+difference is not a finite number is omitted, since the
+report is JSON and has no standard value for it.

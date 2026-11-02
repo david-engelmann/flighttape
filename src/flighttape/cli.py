@@ -1,6 +1,7 @@
 """flighttape command line.
 
-Commands, convert, convert-dir, validate, play, digest, verify.
+Commands, convert, convert-dir, validate, play, digest, verify,
+compare.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -15,6 +16,7 @@ import json
 import pathlib
 import sys
 
+from .compare import compare_tapes
 from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
@@ -131,9 +133,11 @@ def _read_tape(path):
         print(f"error, cannot read the tape file, {path}",
               file=sys.stderr)
     except UnicodeDecodeError:
-        print("defect, the file is not valid UTF-8", file=sys.stderr)
+        print(f"defect, the file is not valid UTF-8, {path}",
+              file=sys.stderr)
     except (RecursionError, ValueError):
-        print("defect, the file is not valid JSON", file=sys.stderr)
+        print(f"defect, the file is not valid JSON, {path}",
+              file=sys.stderr)
     return FAILED
 
 
@@ -145,6 +149,42 @@ def _digest_of(tape):
         print(f"error, the tape cannot be digested, {error}",
               file=sys.stderr)
         return None
+
+
+def _compare(first_path, second_path):
+    """Compare two tape files and print the report (FT-31).
+
+    Every failure on either side is named before the command
+    refuses, load errors first, then validation defects, then
+    a side that cannot be digested.
+    """
+    sides = []
+    refused = False
+    for path in (first_path, second_path):
+        tape = _read_tape(path)
+        if tape is FAILED:
+            refused = True
+        sides.append((path, tape))
+    for path, tape in sides:
+        if tape is FAILED:
+            continue
+        defects = validate_tape(tape)
+        if defects:
+            refused = True
+            print(f"error, {path} is not a valid tape", file=sys.stderr)
+            for defect in defects:
+                print(f"defect, {defect}", file=sys.stderr)
+            continue
+        try:
+            tape_digest(tape)
+        except DigestError as error:
+            refused = True
+            print(f"error, {path} cannot be digested, {error}",
+                  file=sys.stderr)
+    if refused:
+        return 1
+    print(json.dumps(compare_tapes(sides[0][1], sides[1][1]), indent=2))
+    return 0
 
 
 def main(argv=None):
@@ -166,11 +206,16 @@ def main(argv=None):
     ver = sub.add_parser("verify", help="check a tape against a digest")
     ver.add_argument("tape")
     ver.add_argument("expected")
+    comp = sub.add_parser("compare", help="compare two tapes")
+    comp.add_argument("first")
+    comp.add_argument("second")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
     if args.command == "convert-dir":
         return _convert_dir(args.source_dir, args.output_dir)
+    if args.command == "compare":
+        return _compare(args.first, args.second)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1
