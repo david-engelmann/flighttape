@@ -1,9 +1,9 @@
 """Compare two tapes, the second against the first (FT-31 to FT-34).
 
-The report is data for whoever runs before and after runs, a
-person or another tool in the portfolio. Inputs must be valid
-tapes; the command line validates before it compares, the
-same refusal play makes.
+The report is data for the people and tools who compare runs,
+before against after. Inputs must be valid tapes; the command
+line validates before it compares, and refuses a side it
+cannot digest, since the report carries digests.
 """
 
 from .identity import canonical_bytes, tape_digest
@@ -14,7 +14,7 @@ def _is_number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool)
 
 
-def _pair(left, right):
+def _entry(left, right):
     """One side by side entry, delta only when both sides are numbers."""
     entry = {}
     if _is_number(left):
@@ -30,10 +30,27 @@ def _measures(first, second):
     """A side by side entry for every numeric key in either mapping."""
     measures = {}
     for key in sorted(set(first) | set(second)):
-        entry = _pair(first.get(key), second.get(key))
+        entry = _entry(first.get(key), second.get(key))
         if entry:
             measures[key] = entry
     return measures
+
+
+def _carried(first_run, second_run):
+    """The redacted_values entry, each side's value as it stands (FT-32).
+
+    The validator does not constrain this field's type, so the
+    report carries the value itself, with a delta only when
+    both sides are numbers.
+    """
+    entry = {}
+    if "redacted_values" in first_run:
+        entry["a"] = first_run["redacted_values"]
+    if "redacted_values" in second_run:
+        entry["b"] = second_run["redacted_values"]
+    if _is_number(entry.get("a")) and _is_number(entry.get("b")):
+        entry["delta"] = entry["b"] - entry["a"]
+    return entry
 
 
 def _duration(tape):
@@ -50,18 +67,20 @@ def _duration(tape):
     return (stamps[-1] - stamps[0]).total_seconds()
 
 
+def _by_seq(tape):
+    return {event["seq"]: event for event in tape["events"]}
+
+
+def _by_kind(tape):
+    counts = {}
+    for event in tape["events"]:
+        counts[event["kind"]] = counts.get(event["kind"], 0) + 1
+    return counts
+
+
 def _events(first, second):
-    def by_seq(tape):
-        return {event["seq"]: event for event in tape["events"]}
-
-    def by_kind(tape):
-        counts = {}
-        for event in tape["events"]:
-            counts[event["kind"]] = counts.get(event["kind"], 0) + 1
-        return counts
-
-    first_map, second_map = by_seq(first), by_seq(second)
-    first_kinds, second_kinds = by_kind(first), by_kind(second)
+    first_map, second_map = _by_seq(first), _by_seq(second)
+    first_kinds, second_kinds = _by_kind(first), _by_kind(second)
     return {
         "count": {"a": len(first["events"]), "b": len(second["events"])},
         "by_kind": {
@@ -99,11 +118,11 @@ def compare_tapes(first, second):
                            second_outcome.get("basis")),
         },
         "duration_seconds": duration,
-        "measures": _measures(first["run"].get("totals", {}),
-                              second["run"].get("totals", {})),
-        "redacted_values": _pair(first["run"].get("redacted_values"),
-                                 second["run"].get("redacted_values")),
-        "skipped_lines": _measures(first["run"].get("skipped_lines", {}),
-                                   second["run"].get("skipped_lines", {})),
+        "measures": _measures(first["run"].get("totals") or {},
+                              second["run"].get("totals") or {}),
+        "redacted_values": _carried(first["run"], second["run"]),
+        "skipped_lines": _measures(
+            first["run"].get("skipped_lines") or {},
+            second["run"].get("skipped_lines") or {}),
         "events": _events(first, second),
     }

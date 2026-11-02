@@ -150,24 +150,39 @@ def _digest_of(tape):
 
 
 def _compare(first_path, second_path):
-    """Compare two tape files and print the report (FT-31)."""
-    tapes = []
+    """Compare two tape files and print the report (FT-31).
+
+    Every failure on either side is named before the command
+    refuses, load errors first, then validation defects, then
+    a side that cannot be digested.
+    """
+    sides = []
+    refused = False
     for path in (first_path, second_path):
         tape = _read_tape(path)
         if tape is FAILED:
-            return 1
-        tapes.append(tape)
-    refused = False
-    for path, tape in zip((first_path, second_path), tapes):
+            refused = True
+            tape = None
+        sides.append((path, tape))
+    for path, tape in sides:
+        if tape is None:
+            continue
         defects = validate_tape(tape)
         if defects:
             refused = True
             print(f"error, {path} is not a valid tape", file=sys.stderr)
             for defect in defects:
                 print(f"defect, {defect}", file=sys.stderr)
+            continue
+        try:
+            tape_digest(tape)
+        except DigestError as error:
+            refused = True
+            print(f"error, {path} cannot be digested, {error}",
+                  file=sys.stderr)
     if refused:
         return 1
-    print(json.dumps(compare_tapes(tapes[0], tapes[1]), indent=2))
+    print(json.dumps(compare_tapes(sides[0][1], sides[1][1]), indent=2))
     return 0
 
 
@@ -190,9 +205,9 @@ def main(argv=None):
     ver = sub.add_parser("verify", help="check a tape against a digest")
     ver.add_argument("tape")
     ver.add_argument("expected")
-    cmp_ = sub.add_parser("compare", help="compare two tapes")
-    cmp_.add_argument("first")
-    cmp_.add_argument("second")
+    comp = sub.add_parser("compare", help="compare two tapes")
+    comp.add_argument("first")
+    comp.add_argument("second")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)

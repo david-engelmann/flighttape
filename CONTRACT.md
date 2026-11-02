@@ -375,3 +375,13 @@ whitespace around it.
   itself reports no changes, no added or removed events,
   equal outcomes, and zero deltas. Test,
   tests/test_compare.py.
+
+Amendments recorded in the Round 7 repair. FT-31, a side
+that loads and validates but cannot be digested is refused
+with a named error, since the report carries digests.
+FT-32, an outcome that carries no basis reports its basis as
+null, and redacted_values is reported as each side's value
+as it stands, whatever its type, because the validator does
+not constrain that field; the delta still requires numbers
+on both sides. Totals and skipped_lines may be null in a
+valid tape and then carry no measures.
