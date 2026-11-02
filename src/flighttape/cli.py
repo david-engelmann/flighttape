@@ -1,7 +1,7 @@
 """flighttape command line.
 
 Commands, convert, convert-dir, validate, play, digest, verify,
-compare, rollup.
+compare, rollup, slice.
 
 Read failures, missing sources, entries in a converted directory
 that are not files, and output write failures are named errors
@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import pathlib
 import sys
 
@@ -21,6 +22,7 @@ from .convert_claude import convert_file
 from .identity import DigestError, tape_digest
 from .play import render_tape
 from .rollup import rollup_report
+from .slice import SliceError, check_selection, parse_bound, slice_tape
 from .validate import validate_tape
 
 
@@ -135,7 +137,11 @@ def _load(path):
         return FAILED, "cannot read the tape file"
     except UnicodeDecodeError:
         return FAILED, "the file is not valid UTF-8"
-    except (RecursionError, ValueError):
+    except RecursionError:
+        return FAILED, "the file is not valid JSON"
+    except ValueError as error:
+        if "integer string conversion" in str(error):
+            return FAILED, "the file holds a number too large to read"
         return FAILED, "the file is not valid JSON"
 
 
@@ -164,6 +170,31 @@ def _digest_of(tape):
         return None
 
 
+def _report_defects(path, tape):
+    """Validate a tape, printing the family's refusal on defects.
+
+    Returns the defect list; an empty list means the tape is
+    valid. The printed shape is the one compare, rollup, and
+    slice all use.
+    """
+    defects = validate_tape(tape)
+    if defects:
+        print(f"error, {path} is not a valid tape", file=sys.stderr)
+        for defect in defects:
+            print(f"defect, {defect}", file=sys.stderr)
+    return defects
+
+
+def _digest_or_refuse(path, tape):
+    """The tape's digest, or None with the refusal printed."""
+    try:
+        return tape_digest(tape)
+    except DigestError as error:
+        print(f"error, {path} cannot be digested, {error}",
+              file=sys.stderr)
+        return None
+
+
 def _compare(first_path, second_path):
     """Compare two tape files and print the report (FT-31).
 
@@ -181,19 +212,11 @@ def _compare(first_path, second_path):
     for path, tape in sides:
         if tape is FAILED:
             continue
-        defects = validate_tape(tape)
-        if defects:
+        if _report_defects(path, tape):
             refused = True
-            print(f"error, {path} is not a valid tape", file=sys.stderr)
-            for defect in defects:
-                print(f"defect, {defect}", file=sys.stderr)
             continue
-        try:
-            tape_digest(tape)
-        except DigestError as error:
+        if _digest_or_refuse(path, tape) is None:
             refused = True
-            print(f"error, {path} cannot be digested, {error}",
-                  file=sys.stderr)
     if refused:
         return 1
     print(json.dumps(compare_tapes(sides[0][1], sides[1][1]), indent=2))
@@ -225,11 +248,8 @@ def _rollup(source_dir):
             records.append({"file": path.name, "reason": "unreadable",
                             "error": reason})
             continue
-        defects = validate_tape(tape)
+        defects = _report_defects(path, tape)
         if defects:
-            print(f"error, {path} is not a valid tape", file=sys.stderr)
-            for defect in defects:
-                print(f"defect, {defect}", file=sys.stderr)
             records.append({"file": path.name, "reason": "invalid",
                             "defects": defects})
             continue
@@ -247,6 +267,68 @@ def _rollup(source_dir):
     report = rollup_report(records, source_dir)
     print(json.dumps(report, indent=2))
     return 1 if report["excluded"] else 0
+
+
+def _slice(path, output, from_text, to_text, kinds):
+    """Cut a slice out of a tape and write it (FT-39 to FT-43).
+
+    The selection is checked before the file is read, the
+    source must load and validate, and the built slice must
+    validate before anything is written. The write flushes
+    inside its guard, so a failure that only surfaces at the
+    final flush is still a named error with exit 1.
+    """
+    try:
+        from_seq = parse_bound(from_text, "--from")
+        to_seq = parse_bound(to_text, "--to")
+        check_selection(from_seq, to_seq, kinds)
+    except SliceError as error:
+        print(f"error, {error}", file=sys.stderr)
+        return 1
+    tape = _read_tape(path)
+    if tape is FAILED:
+        return 1
+    if _report_defects(path, tape):
+        return 1
+    try:
+        result = slice_tape(tape, from_seq, to_seq, kinds)
+    except SliceError as error:
+        print(f"error, {error}", file=sys.stderr)
+        return 1
+    except DigestError as error:
+        print(f"error, {path} cannot be digested, {error}",
+              file=sys.stderr)
+        return 1
+    if validate_tape(result):
+        print("error, the slice is not a valid tape", file=sys.stderr)
+        for defect in validate_tape(result):
+            print(f"defect, {defect}", file=sys.stderr)
+        return 1
+    text = json.dumps(result, indent=2) + "\n"
+    try:
+        if output:
+            pathlib.Path(output).write_text(text, encoding="utf-8")
+        else:
+            sys.stdout.write(text)
+            sys.stdout.flush()
+    except OSError:
+        if output:
+            print(f"error, cannot write the tape file, {output}",
+                  file=sys.stderr)
+        else:
+            print("error, cannot write the tape to stdout",
+                  file=sys.stderr)
+            # The broken stream would fail again at interpreter
+            # shutdown and mask this refusal with exit 120 and
+            # an ignored-exception dump, so it is replaced
+            # with a sink before returning.
+            try:
+                sys.stdout.close()
+            except OSError:
+                pass
+            sys.stdout = open(os.devnull, "w", encoding="utf-8")
+        return 1
+    return 0
 
 
 def main(argv=None):
@@ -274,6 +356,12 @@ def main(argv=None):
     roll = sub.add_parser(
         "rollup", help="roll up every tape in a directory")
     roll.add_argument("source_dir")
+    cut = sub.add_parser("slice", help="cut a slice out of a tape")
+    cut.add_argument("tape")
+    cut.add_argument("--from", dest="from_seq")
+    cut.add_argument("--to", dest="to_seq")
+    cut.add_argument("--kind", action="append", dest="kinds")
+    cut.add_argument("-o", "--output")
     args = parser.parse_args(argv)
     if args.command == "convert":
         return _convert_one(args.source, args.output)
@@ -283,6 +371,9 @@ def main(argv=None):
         return _compare(args.first, args.second)
     if args.command == "rollup":
         return _rollup(args.source_dir)
+    if args.command == "slice":
+        return _slice(args.tape, args.output, args.from_seq,
+                      args.to_seq, args.kinds)
     tape = _read_tape(args.tape)
     if tape is FAILED:
         return 1
