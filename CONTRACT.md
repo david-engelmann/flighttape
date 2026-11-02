@@ -533,3 +533,34 @@ session_end events, which a slice can produce.
   each of the FT-22 carriers (message text, tool result
   content, an input value, an input key) reports a hit
   in each carrier. Test, tests/test_screen.py.
+
+## Round 10 post-review amendments, recorded before the repairs
+
+- FT-45a. A text or content carrier holding a container
+  is screened at any depth, the way the converter's
+  routing redacts it under FT-22: every string leaf and
+  every string key inside the container is a screened
+  string, and its hits carry the carrier's field name.
+  A screen that examined only top-level strings would
+  pass tapes whose paths ride inside containers, the
+  exact leak the converter's routing exists to close.
+  The first implementation gated the carriers on being
+  strings; the red team drove a path through a
+  block-shaped message text that validated and screened
+  clean. Test, tests/test_screen.py.
+- FT-45b. The screening walk is iterative. No nesting
+  depth a valid tape can hold makes screen fail with a
+  traceback (FT-21); the first implementation recursed
+  and a valid tape nested about 990 deep crashed it.
+  A depth the canonical form itself cannot render is
+  refused through the digest's named error instead.
+  Test, tests/test_screen.py.
+- FT-47a. The overwrite refusal also fires when the
+  output path names the same file as the tape by
+  identity (a hardlink), not only when the resolved
+  paths are equal.
+- FT-48a. The test file also pins what the first tests
+  left loose: the CLI's clean arm (exit 0 with the
+  report printed), the tape's bytes unchanged after
+  screening with and without -o, a write failure as a
+  named error, and the hardlink refusal.
