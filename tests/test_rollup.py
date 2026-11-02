@@ -308,3 +308,14 @@ def test_an_exclusions_defects_are_copied_not_aliased():
     report = rollup_report([record], "d")
     report["excluded"][0]["defects"].append("another")
     assert defects == ["one defect"]
+
+
+def test_a_disabled_digit_limit_renders_every_integer(monkeypatch):
+    import sys
+
+    from flighttape.rollup import _renderable
+    monkeypatch.setattr(sys, "get_int_max_str_digits", lambda: 0)
+    assert _renderable(10 ** 5000) == 10 ** 5000
+    monkeypatch.setattr(sys, "get_int_max_str_digits", lambda: 4300)
+    assert _renderable(10 ** 4300) is None
+    assert _renderable(10 ** 4300 - 1) == 10 ** 4300 - 1

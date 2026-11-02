@@ -25,8 +25,9 @@ def _renderable(total):
     """
     if isinstance(total, float) and not math.isfinite(total):
         return None
-    if (isinstance(total, int)
-            and abs(total) >= 10 ** sys.get_int_max_str_digits()):
+    limit = sys.get_int_max_str_digits()
+    if (limit and isinstance(total, int)
+            and abs(total) >= 10 ** limit):
         return None
     return total
 
