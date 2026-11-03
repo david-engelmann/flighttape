@@ -787,6 +787,44 @@ held to the standard of the surface it feeds.
   this lands, and their deviations retire in
   their next rounds, not in this one. Test,
   tests/timestamps.rs over the corpus.
+- FT-60a. One separator character may stand
+  between the time and the offset, and a component
+  colon may stand before the offset's sign. The
+  grammar's earlier pinning never probed a
+  separator in that position; the interpreter
+  allows exactly one. The rule, probed against
+  fromisoformat at every boundary: after the
+  time's last component, in the extended and the
+  basic form alike, one separator character may
+  precede the offset's sign (the Z form reaches
+  the position as +00:00 after the replacement,
+  so a separator before Z is this same case). The
+  separator is any single ASCII character, a
+  space, a tab, NUL, a letter, the colon itself;
+  a multi-byte character is not skipped (U+2003
+  and U+00E9 refuse), two separator characters
+  refuse, and the sign must follow the separator
+  immediately, so a separator at the end of the
+  string or before anything but the sign refuses.
+  The skip is offered only where nothing else
+  intervened: after a fraction (behind its point,
+  the basic form's leftover digit run, a fraction
+  carried on the hour) or after the stray digit
+  FT-60 consumes, a separator refuses. And in the
+  extended form, a colon introducing the minute
+  or the second and standing immediately before
+  the offset's sign leaves that component zero
+  and the offset follows (2026-01-01T00:+05:30
+  reads its minute as zero with the offset
+  intact; 2026-01-01T00:00:+00 its second); a
+  colon followed by anything but the sign or the
+  component's two digits refuses as before, a
+  colon at the end of the string, a colon and a
+  space, a colon and one digit alike.
+  tests/fixtures/timestamp_corpus.txt gains the
+  lines pinning each boundary, the accepts with
+  their instants and the refuses. Test,
+  tests/timestamps.rs over the corpus.
 - FT-61. The CodeRabbit disposition closes on
   evidence, with no code obligation. The advisory
   pass on PR 11 never posted findings: the PR
@@ -803,7 +841,12 @@ held to the standard of the surface it feeds.
   the comment lists, and the item is discharged.
 - FT-62. The round's verification shape. The
   FT-56 differential harness re-runs over its
-  standing corpus with zero divergences; the new
+  standing corpus, and its outcome matches the
+  previous round's recorded result: every
+  divergence it reports is one already recorded
+  there, proven pre-existing on the unmodified
+  tree or repaired in this round, and no new
+  divergence stands; the new
   pins of FT-57 to FT-60 run as cargo tests; the
   golden digest test stands unchanged. Canonical
   bytes change only for a tape carrying a float

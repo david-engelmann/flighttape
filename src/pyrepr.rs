@@ -203,7 +203,7 @@ mod tests {
             );
             checked += 1;
         }
-        assert!(checked > 6000, "the corpus carries {} lines", checked);
+        assert_eq!(checked, 6576, "the corpus carries {} lines", checked);
     }
 
     #[test]

@@ -22,21 +22,15 @@ impl std::error::Error for DigestError {}
 const RENDER_DEPTH_LIMIT: usize = 1000;
 const INT_DIGIT_LIMIT: usize = 4300;
 
-/// Render a finite float as ECMAScript renders it
-/// (FT-26). The standard library's exponential form
-/// gives the shortest digits that round trip; from
-/// them, point is the count of digits before the
-/// decimal point when the value is written out in
-/// decimal, and the four cases at the end are the
-/// ECMAScript number to string cases.
 /// The shortest digits that round-trip, and the
 /// decimal exponent of the first digit, for a finite
-/// nonzero double. The exact expansion is computed by
-/// integer arithmetic (FT-52): the value is m x 2^e,
-/// and its decimal digits are m x 2^e or m x 5^-e by
-/// repeated multiplication of a digit string. A cut
-/// landing exactly on the half rounds to the even
-/// digit, as the ECMAScript algorithm rounds it.
+/// nonzero double. The digits come from the exact
+/// expansion computed by integer arithmetic (FT-52):
+/// the value is m x 2^e, and its decimal digits are
+/// m x 2^e or m x 5^-e by repeated multiplication of
+/// a digit string. A cut landing exactly on the half
+/// rounds to the even digit, as the ECMAScript
+/// algorithm rounds it.
 /// At each width the rounded candidate is tried
 /// first, then the neighbour on the other side of
 /// the cut (FT-57): at an exact power of two the
@@ -199,23 +193,17 @@ fn round_at(exact: &[u8], width: usize, point: i64) -> (String, i64) {
     if !round_up {
         return (String::from_utf8(kept).expect("digits"), point);
     }
-    let mut digits = kept;
-    let mut index = width;
-    loop {
-        if index == 0 {
-            digits.insert(0, b'1');
-            return (String::from_utf8(digits).expect("digits"), point + 1);
-        }
-        index -= 1;
-        if digits[index] == b'9' {
-            digits[index] = b'0';
-        } else {
-            digits[index] += 1;
-            return (String::from_utf8(digits).expect("digits"), point);
-        }
-    }
+    let truncated = String::from_utf8(kept).expect("digits");
+    increment(&truncated, point)
 }
 
+/// Render a finite float as ECMAScript renders it
+/// (FT-26), over the shortest digits that round
+/// trip. From the digits and their exponent, point
+/// is the count of digits before the decimal point
+/// when the value is written out in decimal, and
+/// the four cases below are the ECMAScript number
+/// to string cases.
 pub fn render_number(value: f64) -> String {
     if value == 0.0 {
         return "0".to_string();
