@@ -321,3 +321,146 @@ fn sub_digits(a: &str, b: &str) -> String {
         trimmed.to_string()
     }
 }
+
+/// Python's truthiness for a JSON value: None, False,
+/// numeric zero, and empty containers and strings are
+/// false; NaN is true, as Python reads it.
+pub fn truthy(value: &Value) -> bool {
+    match value {
+        Value::Null => false,
+        Value::Bool(flag) => *flag,
+        Value::Int(digits) => digits != "0",
+        Value::Float(number) => *number != 0.0,
+        Value::Str(text) => !text.units().is_empty(),
+        Value::Array(items) => !items.is_empty(),
+        Value::Object(pairs) => !pairs.is_empty(),
+    }
+}
+
+/// Python's str() of a JSON value, as text: a string
+/// is itself, True and False and None are their names,
+/// numbers render as their repr, and containers
+/// render as their repr.
+pub fn py_str(value: &Value) -> Text {
+    match value {
+        Value::Str(text) => text.clone(),
+        Value::Null => Text::from_str("None"),
+        Value::Bool(true) => Text::from_str("True"),
+        Value::Bool(false) => Text::from_str("False"),
+        Value::Int(digits) => Text::from_str(digits),
+        Value::Float(number) => Text::from_str(&crate::pyrepr::repr_float(*number)),
+        Value::Array(_) | Value::Object(_) => {
+            Text::from_str(&crate::pyrepr::repr_value(value))
+        }
+    }
+}
+
+/// Compare two texts as Python compares strings: by
+/// code point, where a surrogate pair is one code
+/// point and an unpaired unit is its own value. The
+/// canonical form's key order is the unit order on
+/// Text itself; this is the order sorted() gives.
+pub fn scalar_cmp(a: &Text, b: &Text) -> Ordering {
+    let scalars = |text: &Text| -> Vec<u32> {
+        let units = text.units();
+        let mut out = Vec::with_capacity(units.len());
+        let mut index = 0;
+        while index < units.len() {
+            let unit = units[index];
+            if (0xD800..0xDC00).contains(&unit)
+                && index + 1 < units.len()
+                && (0xDC00..0xE000).contains(&units[index + 1])
+            {
+                out.push(
+                    0x10000
+                        + (((unit as u32 - 0xD800) << 10)
+                            | (units[index + 1] as u32 - 0xDC00)),
+                );
+                index += 2;
+            } else {
+                out.push(unit as u32);
+                index += 1;
+            }
+        }
+        out
+    };
+    scalars(a).cmp(&scalars(b))
+}
+
+/// Build an object value from (key, value) pairs in
+/// the order given, through a helper so the command
+/// modules read like the documents they build.
+pub fn object(pairs: Vec<(&str, Value)>) -> Value {
+    Value::Object(
+        pairs
+            .into_iter()
+            .map(|(key, value)| (Text::from_str(key), value))
+            .collect(),
+    )
+}
+
+/// Set a key on an object value, keeping the key's
+/// first position when it already stands, as a Python
+/// dict assignment does.
+pub fn set_key(object: &mut Value, key: &str, value: Value) {
+    if let Value::Object(pairs) = object {
+        match pairs.iter_mut().find(|(name, _)| name == &key) {
+            Some((_, existing)) => *existing = value,
+            None => pairs.push((Text::from_str(key), value)),
+        }
+    }
+}
+
+/// Python's subtraction for two numbers: exact for
+/// two integers, a float otherwise, and None where
+/// Python raises OverflowError (a huge integer mixed
+/// with a float) for the caller to name.
+pub fn num_sub(left: &Value, right: &Value) -> Option<Value> {
+    // Computes right - left in the callers' terms; see
+    // num_add for the shared conversion.
+    num_add_signed(left, right, true)
+}
+
+/// Python's addition for two numbers, same terms.
+pub fn num_add(left: &Value, right: &Value) -> Option<Value> {
+    num_add_signed(left, right, false)
+}
+
+fn num_add_signed(left: &Value, right: &Value, subtract: bool) -> Option<Value> {
+    match (left, right) {
+        (Value::Int(a), Value::Int(b)) => {
+            if subtract {
+                let negated = if b == "0" {
+                    "0".to_string()
+                } else if let Some(stripped) = b.strip_prefix('-') {
+                    stripped.to_string()
+                } else {
+                    format!("-{}", b)
+                };
+                Some(Value::Int(int_add(a, &negated)))
+            } else {
+                Some(Value::Int(int_add(a, b)))
+            }
+        }
+        _ => {
+            let a = to_float_checked(left)?;
+            let b = to_float_checked(right)?;
+            Some(Value::Float(if subtract { b - a } else { a + b }))
+        }
+    }
+}
+
+fn to_float_checked(value: &Value) -> Option<f64> {
+    match value {
+        Value::Int(digits) => {
+            let parsed: f64 = digits.parse().ok()?;
+            if parsed.is_infinite() {
+                None
+            } else {
+                Some(parsed)
+            }
+        }
+        Value::Float(number) => Some(*number),
+        _ => None,
+    }
+}
