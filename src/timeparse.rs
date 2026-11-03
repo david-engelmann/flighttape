@@ -257,10 +257,11 @@ fn time(cursor: &mut Cursor) -> Option<(i64, i64, i64, i64, i128)> {
         }
     }
     // Leftover digits after the last component: one
-    // stray digit is read and ignored, as the
-    // interpreter reads it; a longer run is the
-    // fraction in the basic form and a refusal in
-    // the extended.
+    // stray digit is read and ignored when the string
+    // continues, as the interpreter reads it, and a
+    // refusal when the run reaches the end of the
+    // string (FT-60); a longer run is the fraction in
+    // the basic form and a refusal in the extended.
     let mut fraction = 0i64;
     let mut remainder_seen = false;
     if matches!(cursor.peek(), Some(b) if b.is_ascii_digit()) {
@@ -272,6 +273,8 @@ fn time(cursor: &mut Cursor) -> Option<(i64, i64, i64, i64, i128)> {
             } else {
                 return None;
             }
+        } else if cursor.at_end() {
+            return None;
         }
     }
     // A fraction behind its point: the digits may be

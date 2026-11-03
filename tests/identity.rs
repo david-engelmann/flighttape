@@ -76,6 +76,45 @@ fn the_swept_corpus_agrees_with_the_python_renderer() {
 }
 
 #[test]
+fn every_power_of_two_renders_at_its_shortest_width() {
+    // FT-57: the class the Round 11 search missed. At
+    // an exact power of two the rounding interval is
+    // asymmetric, the gap below half the gap above, so
+    // the tie-to-even candidate below the cut can fall
+    // outside the interval while the candidate above
+    // sits inside it. 2^-24 is the recorded instance:
+    // its exact expansion 59604644775390625 terminates
+    // one digit past the shortest sequence
+    // 5960464477539063, and the sweep's expected
+    // renderings come from CPython repr's digit
+    // sequence presented the ECMAScript way.
+    assert_eq!(render_number(2f64.powi(-24)), "5.960464477539063e-8");
+    let corpus = include_str!("fixtures/number_sweep.txt");
+    let expected: std::collections::HashMap<u64, &str> = corpus
+        .lines()
+        .map(|line| {
+            let (bits, rendered) = line.split_once(' ').unwrap();
+            (u64::from_str_radix(bits, 16).unwrap(), rendered)
+        })
+        .collect();
+    let mut checked = 0;
+    for exponent in -1074..=1023i32 {
+        let bits = if exponent >= -1022 {
+            ((exponent + 1023) as u64) << 52
+        } else {
+            1u64 << (exponent + 1074)
+        };
+        let value = f64::from_bits(bits);
+        let rendered = expected
+            .get(&bits)
+            .unwrap_or_else(|| panic!("the sweep carries no power 2^{}", exponent));
+        assert_eq!(render_number(value), *rendered, "power 2^{}", exponent);
+        checked += 1;
+    }
+    assert_eq!(checked, 2098);
+}
+
+#[test]
 fn canonical_bytes_are_exact_for_a_small_tape() {
     let tape = obj(vec![
         (

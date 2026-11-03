@@ -15,6 +15,7 @@ pub mod identity;
 pub mod json;
 pub mod outcome;
 pub mod play;
+pub mod printable;
 pub mod pyrepr;
 pub mod rollup;
 pub mod screen;
