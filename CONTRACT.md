@@ -564,3 +564,88 @@ session_end events, which a slice can produce.
   report printed), the tape's bytes unchanged after
   screening with and without -o, a write failure as a
   named error, and the hardlink refusal.
+
+## Round 11. The Rust port (FT-49 to FT-56)
+
+David's ruling of 2026-11-02: the repos are Rust
+libraries. This round ports flighttape, and the Python
+of Rounds 1 to 10 stands as the behavioral spec the
+port must reproduce exactly.
+
+- FT-49. The port reproduces the behavior of Rounds 1
+  to 10 exactly: the same ten commands with the same
+  outputs, exit codes, defect and error texts, and the
+  same digests. Canonical form 1 (FT-26 to FT-28) does
+  not change; the golden fixture digest stands.
+  Anything the port cannot reproduce is named in the
+  round's dossier as a deviation, never silently
+  dropped. Test, the ported suite throughout.
+- FT-50. The crate is a library (lib.rs, one module
+  per Python module) plus a thin binary named
+  flighttape carrying the CLI. The only dependency is
+  sha2, for the digest; everything else is the Rust
+  standard library, matching the Python's stdlib-only
+  discipline. The repository's CI gate becomes cargo
+  test plus the codepoint scan. Test, Cargo.toml and
+  the gate run.
+- FT-51. The Rust JSON reader accepts what Python's
+  json accepts for a tape file: the NaN and Infinity
+  literals as non-finite numbers (named downstream,
+  never smuggled), duplicate keys with the last value
+  standing, integer literals of up to 4300 digits held
+  exactly, and nesting counted whole at any depth the
+  file carries. It refuses the rest with the loader's
+  standing phrases. A hand parser carries this; no
+  general JSON crate's acceptance rules substitute
+  for the spec's. Test, tests in the reader module
+  and the ported robustness suite.
+- FT-52. Numbers render under FT-26 unchanged. The
+  Rust renderer takes its shortest round-trip digits
+  from the standard library's exponential formatting
+  and re-presents them under the FT-26 cases; the
+  ported number table and a swept corpus of doubles
+  generated from the Python renderer pin the
+  agreement digit for digit. Integer rendering
+  refuses a digit string past the 4300-digit limit
+  with the FT-28 phrase, as the Python does. Test,
+  the identity module's tests.
+- FT-53. Text is held as UTF-16 code units where the
+  spec's own rules are stated in them: keys sort by
+  UTF-16 code units, and a string carrying an unpaired
+  surrogate is refused at canonicalization with the
+  FT-28 phrase, as the Python refuses it. Everywhere
+  else a string with an unpaired surrogate is ordinary
+  non-matching text, as it is to the Python's
+  comparisons. Test, the identity and validate
+  modules' tests.
+- FT-54. The canonical renderer refuses a tape nested
+  past 1000 containers with the FT-28 phrase. This
+  fixes a deterministic number where the Python's
+  refusal rides the interpreter's recursion limit;
+  the value is chosen at the Python's own order of
+  magnitude, and the difference is recorded here
+  rather than discovered by a consumer. The
+  validator's iterative walks are uncapped, as the
+  Python's are. Test, the identity module's tests.
+- FT-55. The Python test suite's cases port to cargo
+  tests under the same intent, file for file where
+  the module maps, including the golden digest, the
+  playback golden, and the number table. Cases that
+  exist only because Python values can be cyclic or
+  wrongly keyed in memory have no Rust counterpart,
+  since the Rust value type cannot be built in those
+  shapes; each such case is named in the dossier.
+  The Python files leave the tree only in the
+  landing state of this round, when the port has
+  passed every gate the Python passed. Test, cargo
+  test on the final head.
+- FT-56. Before the port lands, a differential
+  harness runs both implementations over the
+  synthetic corpus (the repository fixtures and
+  generated tapes and session files, all synthetic)
+  and byte-compares stdout, stderr, exit codes, and
+  written files for every command. A single
+  differing byte is a port defect to fix, not a
+  difference to document. The harness and its corpus
+  live with the round's records; the ported cargo
+  suite is what ships. Test, the round's dossier.
