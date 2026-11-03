@@ -12,4 +12,3 @@ target/
 .idea/
 .vscode/
 *.log
-/target

@@ -247,10 +247,8 @@ fn every_part_of_the_tape_moves_the_digest() {
     );
     mutations.push(changed);
     let mut changed = tape.clone();
-    if let Some(events) = changed.get_mut("events") {
-        if let Value::Array(items) = events {
-            items.pop();
-        }
+    if let Some(Value::Array(items)) = changed.get_mut("events") {
+        items.pop();
     }
     mutations.push(changed);
     for mutation in &mutations {

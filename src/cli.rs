@@ -1012,7 +1012,7 @@ fn is_top_help(arg: &str) -> bool {
         return !name.is_empty() && "help".starts_with(name);
     }
     if arg.starts_with('-') && arg.len() > 1 && !is_negative_number(arg) {
-        return arg[1..].chars().next() == Some('h');
+        return arg[1..].starts_with('h');
     }
     false
 }

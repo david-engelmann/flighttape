@@ -55,8 +55,7 @@ fn shortest_digits(value: f64) -> (String, i64) {
         .map(|byte| byte - b'0')
         .rev()
         .collect();
-    let point: i64;
-    if exponent >= 0 {
+    let point: i64 = if exponent >= 0 {
         let mut left = exponent;
         while left >= 30 {
             multiply_chunk(&mut digits, 1 << 30);
@@ -65,7 +64,7 @@ fn shortest_digits(value: f64) -> (String, i64) {
         if left > 0 {
             multiply_chunk(&mut digits, 1 << left);
         }
-        point = digits.len() as i64;
+        digits.len() as i64
     } else {
         let mut left = -exponent;
         while left >= 13 {
@@ -75,8 +74,8 @@ fn shortest_digits(value: f64) -> (String, i64) {
         if left > 0 {
             multiply_chunk(&mut digits, 5u32.pow(left as u32) as u64);
         }
-        point = digits.len() as i64 + exponent;
-    }
+        digits.len() as i64 + exponent
+    };
     // Most significant first, as ASCII, for the cuts.
     let exact: Vec<u8> = digits
         .iter()

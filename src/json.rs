@@ -161,7 +161,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
     }
 }
 
-fn attach(stack: &mut Vec<Frame>, finished: &mut Option<Value>, value: Value) {
+fn attach(stack: &mut [Frame], finished: &mut Option<Value>, value: Value) {
     match stack.last_mut() {
         None => *finished = Some(value),
         Some(Frame::Array(items)) => items.push(value),
@@ -178,7 +178,7 @@ fn attach(stack: &mut Vec<Frame>, finished: &mut Option<Value>, value: Value) {
 fn read_key(
     bytes: &[u8],
     pos: &mut usize,
-    stack: &mut Vec<Frame>,
+    stack: &mut [Frame],
 ) -> Result<(), ParseError> {
     while *pos < bytes.len()
         && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r')

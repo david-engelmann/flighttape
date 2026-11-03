@@ -1,7 +1,7 @@
 //! FT-39 to FT-43, tape slicing, ported from the
 //! Python suite.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use flighttape::dumps::dumps_indent;
 use flighttape::identity::tape_digest;
@@ -353,7 +353,7 @@ fn run_cli(args: &[String]) -> (i32, String, String) {
     )
 }
 
-fn write_tape(dir: &PathBuf, tape: &Value) -> String {
+fn write_tape(dir: &Path, tape: &Value) -> String {
     let path = dir.join("tape.json");
     std::fs::write(&path, dumps_indent(tape)).unwrap();
     path.to_string_lossy().into_owned()

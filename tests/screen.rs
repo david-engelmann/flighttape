@@ -2,7 +2,7 @@
 //! Python suite. Every path in this file is
 //! invented.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use flighttape::convert::convert_file;
 use flighttape::dumps::dumps_indent;
@@ -306,7 +306,7 @@ fn run_cli(args: &[String]) -> (i32, String, String) {
     )
 }
 
-fn write_dirty(dir: &PathBuf) -> String {
+fn write_dirty(dir: &Path) -> String {
     let path = dir.join("dirty.tape.json");
     std::fs::write(&path, dumps_indent(&dirty_tape())).unwrap();
     path.to_string_lossy().into_owned()

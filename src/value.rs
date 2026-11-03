@@ -13,6 +13,12 @@ use std::cmp::Ordering;
 pub struct Text(Vec<u16>);
 
 impl Text {
+    // Named for the standard trait without implementing
+    // it: the construction cannot fail, since every Rust
+    // string is already well-formed UTF-16 source, and a
+    // Result here would tax every call site for an error
+    // that cannot occur.
+    #[allow(clippy::should_implement_trait)]
     pub fn from_str(value: &str) -> Text {
         Text(value.encode_utf16().collect())
     }
@@ -28,11 +34,6 @@ impl Text {
     /// The Rust string, when the units form valid text.
     pub fn as_str(&self) -> Option<String> {
         String::from_utf16(&self.0).ok()
-    }
-
-    /// True when no unit is an unpaired surrogate.
-    pub fn is_well_formed(&self) -> bool {
-        self.as_str().is_some()
     }
 
     /// Render as Python's json.dumps with
@@ -138,39 +139,10 @@ impl Value {
         }
     }
 
-    pub fn as_text(&self) -> Option<&Text> {
-        match self {
-            Value::Str(text) => Some(text),
-            _ => None,
-        }
-    }
-
     /// True for an int or float that is not a bool,
     /// the validator's is_number.
     pub fn is_number(&self) -> bool {
         matches!(self, Value::Int(_) | Value::Float(_))
-    }
-
-    /// The value as f64, as Python would compute with
-    /// it: integers convert (huge ones to infinity),
-    /// anything else is None.
-    pub fn as_f64(&self) -> Option<f64> {
-        match self {
-            Value::Int(digits) => digits.parse::<f64>().ok(),
-            Value::Float(value) => Some(*value),
-            _ => None,
-        }
-    }
-
-    /// The value as an exact integer's digits, when it
-    /// is an integer or a float with an integral value
-    /// Python would still call a float. Only Int
-    /// carries digits; this returns them.
-    pub fn int_digits(&self) -> Option<&str> {
-        match self {
-            Value::Int(digits) => Some(digits),
-            _ => None,
-        }
     }
 
     pub fn is_int(&self) -> bool {
@@ -206,25 +178,6 @@ fn cmp_digits(a: &str, b: &str) -> Ordering {
     a.cmp(b)
 }
 
-/// Add one to a non-negative canonical digit string.
-pub fn int_add_one(digits: &str) -> String {
-    let mut bytes: Vec<u8> = digits.bytes().collect();
-    let mut index = bytes.len();
-    loop {
-        if index == 0 {
-            bytes.insert(0, b'1');
-            break;
-        }
-        index -= 1;
-        if bytes[index] == b'9' {
-            bytes[index] = b'0';
-        } else {
-            bytes[index] += 1;
-            break;
-        }
-    }
-    String::from_utf8(bytes).expect("digits stay digits")
-}
 
 /// Add two canonical digit strings exactly (signs
 /// handled), for token and count sums.

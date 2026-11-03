@@ -207,8 +207,8 @@ pub fn rollup_report(records: Vec<Value>, directory: &str) -> Value {
             _ => String::new(),
         }
     };
-    rolled.sort_by(|a, b| file_key(a).cmp(&file_key(b)));
-    excluded.sort_by(|a, b| file_key(a).cmp(&file_key(b)));
+    rolled.sort_by_key(|a| file_key(a));
+    excluded.sort_by_key(|a| file_key(a));
     let entries: Vec<Value> = rolled.iter().map(tape_entry).collect();
     let runs: Vec<Value> = rolled
         .iter()

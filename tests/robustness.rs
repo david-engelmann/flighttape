@@ -132,7 +132,7 @@ fn undecodable_lines_are_counted_not_fatal() {
         Some(&int("1"))
     );
     assert!(
-        tape.get("events").unwrap().as_array().unwrap().len() >= 1
+        !tape.get("events").unwrap().as_array().unwrap().is_empty()
     );
     let _ = std::fs::remove_dir_all(&dir);
 }
@@ -202,9 +202,13 @@ fn good_tape() -> Value {
     .unwrap()
 }
 
+/// One adversarial edit: a label, the defect word
+/// it must earn, and the edit itself.
+type CaseEdit = Box<dyn Fn(&mut Value)>;
+
 #[test]
 fn adversarial_tapes_are_named_defects_never_exceptions() {
-    let cases: Vec<(&str, &str, Box<dyn Fn(&mut Value)>)> = vec![
+    let cases: Vec<(&str, &str, CaseEdit)> = vec![
         ("kind as list", "kind", Box::new(|tape: &mut Value| {
             let events = match tape.get_mut("events") {
                 Some(Value::Array(events)) => events,

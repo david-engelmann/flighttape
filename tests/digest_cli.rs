@@ -2,7 +2,7 @@
 //! identity suite, ported, run against the built
 //! binary.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use flighttape::convert::convert_file;
 use flighttape::dumps::dumps_indent;
@@ -36,7 +36,7 @@ fn run_cli(args: &[String]) -> (i32, String, String) {
     )
 }
 
-fn fixture_file(dir: &PathBuf) -> String {
+fn fixture_file(dir: &Path) -> String {
     let source = concat!(
         env!("CARGO_MANIFEST_DIR"),
         "/tests/fixtures/claude_session_synthetic.jsonl"

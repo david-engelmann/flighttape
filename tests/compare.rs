@@ -1,7 +1,7 @@
 //! Tests for tape comparison, FT-31 to FT-34,
 //! ported from the Python suite.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use flighttape::compare::compare_tapes;
 use flighttape::convert::convert_lines;
@@ -442,7 +442,7 @@ fn run_cli(args: &[String]) -> (i32, String, String) {
     )
 }
 
-fn write_tape(dir: &PathBuf, name: &str, tape: &Value) -> String {
+fn write_tape(dir: &Path, name: &str, tape: &Value) -> String {
     let path = dir.join(name);
     std::fs::write(&path, dumps_indent(tape)).unwrap();
     path.to_string_lossy().into_owned()
