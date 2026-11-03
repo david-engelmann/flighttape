@@ -77,8 +77,8 @@ portfolio, in the Retrospective arc.
   verified clean before it is shared. Obligations FT-44
   to FT-48 as amended in Round 10, met, with the reviews
   recorded with the programme.
-- Local gate, python3 scripts/codepoint_scan.py and, once tests exist,
-  python3 -m pytest tests -q. CI runs the same commands.
+- Local gate, python3 scripts/codepoint_scan.py and cargo test.
+  CI runs the same commands.
 
 ## Licence
 
