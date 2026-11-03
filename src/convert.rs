@@ -12,6 +12,8 @@
 //! (FT-18): each line converts whole or is counted
 //! whole.
 
+use std::collections::HashMap;
+
 use crate::outcome::determine_outcome;
 use crate::value::{int_add, object, py_str, truthy, Text, Value};
 use crate::TAPE_VERSION;
@@ -302,10 +304,17 @@ pub fn sanitize(value: &Value, counter: &mut u64) -> Value {
             Task::AssembleObject(keys, count) => {
                 let values = results.split_off(results.len() - count);
                 let mut pairs: Vec<(Text, Value)> = Vec::new();
+                // A position index keeps the merge
+                // linear; a search per key made wide
+                // objects quadratic.
+                let mut positions: HashMap<Text, usize> = HashMap::new();
                 for (key, item) in keys.into_iter().zip(values) {
-                    match pairs.iter_mut().find(|(name, _)| *name == key) {
-                        Some((_, existing)) => *existing = item,
-                        None => pairs.push((key, item)),
+                    match positions.get(&key) {
+                        Some(&position) => pairs[position].1 = item,
+                        None => {
+                            positions.insert(key.clone(), pairs.len());
+                            pairs.push((key, item));
+                        }
                     }
                 }
                 results.push(Value::Object(pairs));

@@ -3,6 +3,8 @@
 //! loader's own terms. The parser is iterative, so a
 //! deeply nested file is counted whole, never crashed.
 
+use std::collections::HashMap;
+
 use crate::value::{Text, Value};
 
 #[derive(Clone, Debug, PartialEq)]
@@ -19,7 +21,12 @@ const INT_DIGIT_LIMIT: usize = 4300;
 
 enum Frame {
     Array(Vec<Value>),
-    Object(Vec<(Text, Value)>, Option<Text>),
+    /// The pairs in document order, the pending key,
+    /// and each key's position in the pairs, so a
+    /// repeated key replaces in place without a
+    /// search (a linear search per key made wide
+    /// objects quadratic).
+    Object(Vec<(Text, Value)>, Option<Text>, HashMap<Text, usize>),
 }
 
 pub fn parse(text: &str) -> Result<Value, ParseError> {
@@ -72,7 +79,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                         pos += 1;
                         attach(&mut stack, &mut finished, Value::Object(Vec::new()));
                     } else {
-                        stack.push(Frame::Object(Vec::new(), None));
+                        stack.push(Frame::Object(Vec::new(), None, HashMap::new()));
                         read_key(bytes, &mut pos, &mut stack)?;
                         state = State::Value;
                     }
@@ -140,7 +147,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                     }
                     _ => fail!(),
                 },
-                Some(Frame::Object(_, _)) => match bytes[pos] {
+                Some(Frame::Object(..)) => match bytes[pos] {
                     b',' => {
                         pos += 1;
                         read_key(bytes, &mut pos, &mut stack)?;
@@ -148,7 +155,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                     }
                     b'}' => {
                         pos += 1;
-                        if let Some(Frame::Object(pairs, _)) = stack.pop() {
+                        if let Some(Frame::Object(pairs, ..)) = stack.pop() {
                             attach(&mut stack, &mut finished, Value::Object(pairs));
                         }
                     }
@@ -163,11 +170,14 @@ fn attach(stack: &mut [Frame], finished: &mut Option<Value>, value: Value) {
     match stack.last_mut() {
         None => *finished = Some(value),
         Some(Frame::Array(items)) => items.push(value),
-        Some(Frame::Object(pairs, pending)) => {
+        Some(Frame::Object(pairs, pending, positions)) => {
             let key = pending.take().expect("object value follows its key");
-            match pairs.iter_mut().find(|(name, _)| *name == key) {
-                Some((_, existing)) => *existing = value,
-                None => pairs.push((key, value)),
+            match positions.get(&key) {
+                Some(&position) => pairs[position].1 = value,
+                None => {
+                    positions.insert(key.clone(), pairs.len());
+                    pairs.push((key, value));
+                }
             }
         }
     }
@@ -188,7 +198,7 @@ fn read_key(bytes: &[u8], pos: &mut usize, stack: &mut [Frame]) -> Result<(), Pa
         return Err(ParseError::Invalid);
     }
     *pos += 1;
-    if let Some(Frame::Object(_, pending)) = stack.last_mut() {
+    if let Some(Frame::Object(_, pending, _)) = stack.last_mut() {
         *pending = Some(key);
     }
     Ok(())
@@ -277,13 +287,28 @@ fn parse_string(bytes: &[u8], pos: &mut usize) -> Result<Text, ParseError> {
             }
             0x00..=0x1F => return Err(ParseError::Invalid),
             _ => {
-                // One UTF-8 encoded character, as units.
-                let text = std::str::from_utf8(&bytes[*pos..]).map_err(|_| ParseError::Invalid)?;
-                let ch = text.chars().next().ok_or(ParseError::Invalid)?;
-                let mut buffer = [0u16; 2];
-                let encoded: &[u16] = ch.encode_utf16(&mut buffer);
-                units.extend_from_slice(encoded);
-                *pos += ch.len_utf8();
+                // A run of raw characters up to the
+                // next quote, escape or control
+                // character, decoded in one pass. The
+                // input is a valid UTF-8 str and every
+                // run ends on a character boundary, so
+                // the run always decodes whole.
+                // Validating the remaining input for
+                // each character made long strings
+                // quadratic.
+                let start = *pos;
+                let mut end = start;
+                while end < bytes.len()
+                    && bytes[end] >= 0x20
+                    && bytes[end] != b'"'
+                    && bytes[end] != b'\\'
+                {
+                    end += 1;
+                }
+                let text =
+                    std::str::from_utf8(&bytes[start..end]).map_err(|_| ParseError::Invalid)?;
+                units.extend(text.encode_utf16());
+                *pos = end;
             }
         }
     }
