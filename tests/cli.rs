@@ -162,3 +162,146 @@ fn convert_dir_writes_a_tape_and_a_summary() {
     let _ = std::fs::remove_dir_all(&dir);
     let _ = dumps_indent(&Value::Null);
 }
+
+// The argparse surface, pinned as the differential
+// harness found it: help text, the subcommand and
+// top-level error split, abbreviations, and the
+// required-before-unrecognized order. These strings
+// are written out here on purpose, so an edit to the
+// help text module cannot pass by agreeing with
+// itself.
+
+const TOP_USAGE_ERR: &str = concat!(
+    "usage: flighttape [-h]\n",
+    "                  {convert,convert-dir,validate,play,digest,verify,compare,rollup,slice,screen}\n",
+    "                  ...\n",
+);
+
+#[test]
+fn top_help_opens_with_the_wrapped_usage() {
+    let (code, stdout, _) = run_cli(&["--help".into()]);
+    assert_eq!(code, 0);
+    assert!(stdout.starts_with(TOP_USAGE_ERR), "stdout {}", stdout);
+    assert!(stdout.contains("\npositional arguments:\n"));
+    assert!(stdout.contains("screen              screen a tape for absolute paths"));
+}
+
+#[test]
+fn validate_help_is_byte_exact() {
+    let (code, stdout, _) = run_cli(&["validate".into(), "--help".into()]);
+    assert_eq!(code, 0);
+    assert_eq!(
+        stdout,
+        "usage: flighttape validate [-h] tape\n\npositional arguments:\n  tape\n\noptions:\n  -h, --help  show this help message and exit\n"
+    );
+}
+
+#[test]
+fn no_arguments_is_a_top_level_required_error() {
+    let (code, _, stderr) = run_cli(&[]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        format!(
+            "{}flighttape: error: the following arguments are required: command\n",
+            TOP_USAGE_ERR
+        )
+    );
+}
+
+#[test]
+fn missing_tape_is_a_subcommand_required_error() {
+    let (code, _, stderr) = run_cli(&["validate".into()]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        "usage: flighttape validate [-h] tape\nflighttape validate: error: the following arguments are required: tape\n"
+    );
+}
+
+#[test]
+fn extra_positional_is_a_top_level_unrecognized_error() {
+    let (code, _, stderr) = run_cli(&[
+        "validate".into(),
+        "a.json".into(),
+        "extra".into(),
+    ]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        format!(
+            "{}flighttape: error: unrecognized arguments: extra\n",
+            TOP_USAGE_ERR
+        )
+    );
+}
+
+#[test]
+fn required_is_reported_before_unrecognized() {
+    let (code, _, stderr) = run_cli(&["validate".into(), "--bogus".into()]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        "usage: flighttape validate [-h] tape\nflighttape validate: error: the following arguments are required: tape\n"
+    );
+}
+
+#[test]
+fn unrecognized_before_the_command_waits_for_the_parse() {
+    let (code, _, stderr) = run_cli(&[
+        "--bogus".into(),
+        "validate".into(),
+        "missing.json".into(),
+    ]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        format!(
+            "{}flighttape: error: unrecognized arguments: --bogus\n",
+            TOP_USAGE_ERR
+        )
+    );
+}
+
+#[test]
+fn a_long_option_answers_to_an_unambiguous_prefix() {
+    let (code, _, stderr) = run_cli(&[
+        "slice".into(),
+        "missing.json".into(),
+        "--f".into(),
+        "1".into(),
+    ]);
+    assert_eq!(code, 1);
+    assert_eq!(stderr, "error, cannot read the tape file, missing.json\n");
+}
+
+#[test]
+fn the_glued_equals_form_sets_the_output() {
+    let dir = tmpdir("glued-equals");
+    let out = dir.join("tape.json");
+    let arg = format!("-o={}", out.to_string_lossy());
+    let (code, _, _) = run_cli(&["convert".into(), FIXTURE.into(), arg]);
+    assert_eq!(code, 0);
+    assert!(out.exists());
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
+fn convert_dir_names_both_missing_arguments() {
+    let (code, _, stderr) = run_cli(&["convert-dir".into()]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        "usage: flighttape convert-dir [-h] -o OUTPUT_DIR source_dir\nflighttape convert-dir: error: the following arguments are required: source_dir, -o/--output-dir\n"
+    );
+}
+
+#[test]
+fn slice_usage_wraps_the_way_argparse_wraps_it() {
+    let (code, _, stderr) = run_cli(&["slice".into()]);
+    assert_eq!(code, 2);
+    assert_eq!(
+        stderr,
+        "usage: flighttape slice [-h] [--from FROM_SEQ] [--to TO_SEQ] [--kind KINDS]\n                        [-o OUTPUT]\n                        tape\nflighttape slice: error: the following arguments are required: tape\n"
+    );
+}

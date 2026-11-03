@@ -16,7 +16,8 @@ use std::path::{Path, PathBuf};
 use crate::compare::compare_tapes;
 use crate::convert::convert_file;
 use crate::dumps::dumps_indent;
-use crate::identity::{tape_digest, DigestError};
+use crate::helptext::{sub_help, sub_usage, TOP_HELP, TOP_USAGE};
+use crate::identity::tape_digest;
 use crate::json::{parse, ParseError};
 use crate::play::render_tape;
 use crate::rollup::rollup_report;
@@ -191,9 +192,17 @@ fn path_display(dir: &str, name: &str) -> String {
     format!("{}/{}", trimmed, name)
 }
 
-fn dir_entries(dir: &str, suffix: &str) -> Vec<(String, PathBuf, bool)> {
+fn dir_entries(
+    dir: &str,
+    suffix: &str,
+    sorted: bool,
+) -> Vec<(String, PathBuf, bool)> {
     // (file name, full path, is_file) for entries whose
-    // name ends with the suffix, in name order.
+    // name ends with the suffix. Sorted by name when the
+    // caller sorts (convert-dir does, as the Python's
+    // sorted glob does); rollup passes false and keeps
+    // directory read order, the Python glob's own order,
+    // which its per-file stderr lines follow.
     let mut entries: Vec<(String, PathBuf, bool)> = Vec::new();
     if let Ok(read) = std::fs::read_dir(dir) {
         for entry in read.flatten() {
@@ -207,7 +216,9 @@ fn dir_entries(dir: &str, suffix: &str) -> Vec<(String, PathBuf, bool)> {
             }
         }
     }
-    entries.sort_by(|a, b| a.0.cmp(&b.0));
+    if sorted {
+        entries.sort_by(|a, b| a.0.cmp(&b.0));
+    }
     entries
 }
 
@@ -231,7 +242,7 @@ fn convert_dir(source_dir: &str, output_dir: &str) -> i32 {
     let mut failed: u64 = 0;
     let mut total_events: u64 = 0;
     let mut files: Vec<Value> = Vec::new();
-    for (name, path, is_file) in dir_entries(source_dir, ".jsonl") {
+    for (name, path, is_file) in dir_entries(source_dir, ".jsonl", true) {
         let display = path_display(source_dir, &name);
         if !is_file {
             err_line(&format!("error, not a file, skipped, {}", display));
@@ -368,7 +379,7 @@ fn rollup_command(source_dir: &str) -> i32 {
         return 1;
     }
     let mut records: Vec<Value> = Vec::new();
-    for (name, path, is_file) in dir_entries(source_dir, ".json") {
+    for (name, path, is_file) in dir_entries(source_dir, ".json", false) {
         let display = path_display(source_dir, &name);
         if !is_file {
             err_line(&format!("error, not a file, skipped, {}", display));
@@ -701,99 +712,102 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
     }
 }
 
-const TOP_USAGE: &str = "usage: flighttape [-h] {convert,convert-dir,validate,play,digest,verify,compare,rollup,slice,screen} ...";
-
 fn print_top_help() {
-    out_raw(
-        "usage: flighttape [-h] {convert,convert-dir,validate,play,digest,verify,compare,rollup,slice,screen} ...\n\
-         \n\
-         options:\n\
-         \x20 -h, --help            show this help message and exit\n\
-         \n\
-         subcommands:\n\
-         \x20 {convert,convert-dir,validate,play,digest,verify,compare,rollup,slice,screen}\n\
-         \x20   convert             convert a session file to a tape\n\
-         \x20   convert-dir         convert every session file in a directory\n\
-         \x20   validate            validate a tape file\n\
-         \x20   play                play a tape back as a timeline\n\
-         \x20   digest              print a tape's digest\n\
-         \x20   verify              check a tape against a digest\n\
-         \x20   compare             compare two tapes\n\
-         \x20   rollup              roll up every tape in a directory\n\
-         \x20   slice               cut a slice out of a tape\n\
-         \x20   screen              screen a tape for absolute paths\n",
-    );
+    out_raw(TOP_HELP);
 }
 
-fn usage_error(usage: &str, message: &str) -> i32 {
-    err_line(usage);
+fn print_sub_help(command: &str) {
+    out_raw(sub_help(command));
+}
+
+/// A top-level usage error: the top usage block and a
+/// bare `flighttape: error:` line. Argparse reports
+/// unrecognized arguments and a missing or unknown
+/// command this way.
+fn top_error(message: &str) -> i32 {
+    err_line(TOP_USAGE);
     err_line(&format!("flighttape: error: {}", message));
     2
 }
 
-fn sub_usage(command: &str) -> String {
-    match command {
-        "convert" => "usage: flighttape convert [-h] [-o OUTPUT] source".to_string(),
-        "convert-dir" => {
-            "usage: flighttape convert-dir [-h] -o OUTPUT_DIR source_dir".to_string()
-        }
-        "validate" => "usage: flighttape validate [-h] tape".to_string(),
-        "play" => "usage: flighttape play [-h] tape".to_string(),
-        "digest" => "usage: flighttape digest [-h] tape".to_string(),
-        "verify" => "usage: flighttape verify [-h] tape expected".to_string(),
-        "compare" => "usage: flighttape compare [-h] first second".to_string(),
-        "rollup" => "usage: flighttape rollup [-h] source_dir".to_string(),
-        "slice" => "usage: flighttape slice [-h] [--from FROM_SEQ] [--to TO_SEQ] [--kind KINDS] [-o OUTPUT] tape".to_string(),
-        "screen" => "usage: flighttape screen [-h] [-o OUTPUT] tape".to_string(),
-        _ => TOP_USAGE.to_string(),
+/// A subcommand usage error: the subcommand's usage
+/// block and a `flighttape <command>: error:` line.
+/// Argparse reports missing arguments and an option
+/// left without its value this way.
+fn sub_error(command: &str, message: &str) -> i32 {
+    err_line(sub_usage(command));
+    err_line(&format!("flighttape {}: error: {}", command, message));
+    2
+}
+
+/// Whether a token reads as a negative number, the
+/// one dash-led shape argparse treats as a value or a
+/// positional rather than an option: `-1`, `-1.5` and
+/// `-.5` read as numbers, `-1.` does not.
+fn is_negative_number(token: &str) -> bool {
+    let rest = match token.strip_prefix('-') {
+        Some(rest) if !rest.is_empty() && !rest.starts_with('-') => rest,
+        _ => return false,
+    };
+    let digits = |s: &str| {
+        !s.is_empty() && s.bytes().all(|byte| byte.is_ascii_digit())
+    };
+    match rest.split_once('.') {
+        None => digits(rest),
+        Some((whole, frac)) => (whole.is_empty() || digits(whole)) && digits(frac),
     }
 }
 
-fn print_sub_help(command: &str) {
-    let help = match command {
-        "convert" => "convert a session file to a tape",
-        "convert-dir" => "convert every session file in a directory",
-        "validate" => "validate a tape file",
-        "play" => "play a tape back as a timeline",
-        "digest" => "print a tape's digest",
-        "verify" => "check a tape against a digest",
-        "compare" => "compare two tapes",
-        "rollup" => "roll up every tape in a directory",
-        "slice" => "cut a slice out of a tape",
-        "screen" => "screen a tape for absolute paths",
-        _ => "",
-    };
-    let positionals: &[(&str, &str)] = match command {
-        "convert" => &[("source", "")],
-        "convert-dir" => &[("source_dir", "")],
-        "validate" | "play" | "digest" | "screen" => &[("tape", "")],
-        "verify" => &[("tape", ""), ("expected", "")],
-        "compare" => &[("first", ""), ("second", "")],
-        "rollup" => &[("source_dir", "")],
-        "slice" => &[("tape", "")],
-        _ => &[],
-    };
-    let mut text = format!("{}\n\n{}\n", sub_usage(command), help);
-    if !positionals.is_empty() {
-        text.push_str("\npositional arguments:\n");
-        for (name, _) in positionals {
-            text.push_str(&format!("  {}\n", name));
-        }
-    }
-    text.push_str("\noptions:\n  -h, --help            show this help message and exit\n");
+/// Whether a token would be read as an option string
+/// where a value is expected: dash-led, longer than
+/// the bare dash, and not a negative number.
+fn looks_like_option(token: &str) -> bool {
+    token.starts_with('-') && token.len() > 1 && !is_negative_number(token)
+}
+
+/// A value-taking option of a subcommand.
+#[derive(Clone, Copy)]
+enum Opt {
+    Output,
+    From,
+    To,
+    Kind,
+}
+
+/// The long options of a subcommand, help first. A
+/// None value marks the help option, which takes no
+/// value.
+fn long_options(command: &str) -> Vec<(&'static str, Option<Opt>)> {
+    let mut options = vec![("help", None)];
     match command {
         "convert" | "slice" | "screen" => {
-            text.push_str("  -o OUTPUT, --output OUTPUT\n");
+            options.push(("output", Some(Opt::Output)))
         }
-        "convert-dir" => {
-            text.push_str("  -o OUTPUT_DIR, --output-dir OUTPUT_DIR\n");
-        }
+        "convert-dir" => options.push(("output-dir", Some(Opt::Output))),
         _ => {}
     }
     if command == "slice" {
-        text.push_str("  --from FROM_SEQ\n  --to TO_SEQ\n  --kind KINDS\n");
+        options.push(("from", Some(Opt::From)));
+        options.push(("to", Some(Opt::To)));
+        options.push(("kind", Some(Opt::Kind)));
     }
-    out_raw(&text);
+    options
+}
+
+/// How argparse names an option in its errors.
+fn opt_display(command: &str, opt: &Opt) -> &'static str {
+    match opt {
+        Opt::Output => {
+            if command == "convert-dir" {
+                "-o/--output-dir"
+            } else {
+                "-o/--output"
+            }
+        }
+        Opt::From => "--from",
+        Opt::To => "--to",
+        Opt::Kind => "--kind",
+    }
 }
 
 struct Parsed {
@@ -804,16 +818,33 @@ struct Parsed {
     kinds: Vec<String>,
 }
 
+fn assign(parsed: &mut Parsed, opt: Opt, value: String) {
+    match opt {
+        Opt::Output => parsed.output = Some(value),
+        Opt::From => parsed.from_seq = Some(value),
+        Opt::To => parsed.to_seq = Some(value),
+        Opt::Kind => parsed.kinds.push(value),
+    }
+}
+
 /// Parse one subcommand's arguments the way argparse
-/// does for the shapes these commands declare. On a
-/// usage problem, prints the argparse-shaped error
-/// and returns None with the exit code in the second
-/// field.
-fn parse_args(
-    command: &str,
-    args: &[String],
-) -> Result<Parsed, i32> {
-    let usage = sub_usage(command);
+/// does for the shapes these commands declare: long
+/// options answer to any unambiguous prefix, a value
+/// is never taken from an option-shaped token, tokens
+/// past the declared positional count and unknown
+/// options collect as unrecognized, a missing required
+/// argument is reported by the subcommand first, and
+/// the unrecognized are reported by the top parser.
+/// On a usage problem, prints the argparse-shaped
+/// error and returns its exit code instead.
+fn parse_args(command: &str, args: &[String]) -> Result<Parsed, i32> {
+    let expected = match command {
+        "verify" | "compare" => 2,
+        _ => 1,
+    };
+    let wants_output =
+        matches!(command, "convert" | "convert-dir" | "slice" | "screen");
+    let options = long_options(command);
     let mut parsed = Parsed {
         positional: Vec::new(),
         output: None,
@@ -821,156 +852,237 @@ fn parse_args(
         to_seq: None,
         kinds: Vec::new(),
     };
+    let mut unrecognized: Vec<String> = Vec::new();
+    let mut after_separator = false;
     let mut index = 0;
-    let wants_output = matches!(command, "convert" | "convert-dir" | "slice" | "screen");
     while index < args.len() {
-        let arg = &args[index];
-        if arg == "-h" || arg == "--help" {
-            print_sub_help(command);
-            return Err(0);
+        let arg = args[index].clone();
+        if !after_separator {
+            if arg == "--" {
+                after_separator = true;
+                index += 1;
+                continue;
+            }
+            if arg.starts_with("--") && arg.len() > 2 {
+                let body = &arg[2..];
+                let (name, inline) = match body.find('=') {
+                    Some(eq) => {
+                        (&body[..eq], Some(body[eq + 1..].to_string()))
+                    }
+                    None => (body, None),
+                };
+                let resolved = match options.iter().find(|(known, _)| *known == name) {
+                    Some((_, opt)) => Some(*opt),
+                    None => {
+                        let mut hits = options
+                            .iter()
+                            .filter(|(known, _)| known.starts_with(name));
+                        match (hits.next(), hits.next()) {
+                            (Some((_, opt)), None) => Some(*opt),
+                            _ => None,
+                        }
+                    }
+                };
+                match resolved {
+                    None => unrecognized.push(arg.clone()),
+                    Some(None) => {
+                        if let Some(value) = inline {
+                            return Err(sub_error(
+                                command,
+                                &format!(
+                                    "argument -h/--help: ignored explicit argument '{}'",
+                                    value
+                                ),
+                            ));
+                        }
+                        print_sub_help(command);
+                        return Err(0);
+                    }
+                    Some(Some(opt)) => {
+                        let value = match inline {
+                            Some(value) => value,
+                            None => match args.get(index + 1) {
+                                Some(next) if !looks_like_option(next) => {
+                                    index += 1;
+                                    next.clone()
+                                }
+                                _ => {
+                                    return Err(sub_error(
+                                        command,
+                                        &format!(
+                                            "argument {}: expected one argument",
+                                            opt_display(command, &opt)
+                                        ),
+                                    ))
+                                }
+                            },
+                        };
+                        assign(&mut parsed, opt, value);
+                    }
+                }
+                index += 1;
+                continue;
+            }
+            if arg.starts_with('-') && arg.len() > 1 && !is_negative_number(&arg) {
+                let second = arg[1..].chars().next().unwrap_or('-');
+                if second == 'h' {
+                    print_sub_help(command);
+                    return Err(0);
+                }
+                if second == 'o' && wants_output {
+                    let rest: String = arg[1..].chars().skip(1).collect();
+                    let value = if !rest.is_empty() {
+                        match rest.strip_prefix('=') {
+                            Some(stripped) => stripped.to_string(),
+                            None => rest,
+                        }
+                    } else {
+                        match args.get(index + 1) {
+                            Some(next) if !looks_like_option(next) => {
+                                index += 1;
+                                next.clone()
+                            }
+                            _ => {
+                                return Err(sub_error(
+                                    command,
+                                    &format!(
+                                        "argument {}: expected one argument",
+                                        opt_display(command, &Opt::Output)
+                                    ),
+                                ))
+                            }
+                        }
+                    };
+                    parsed.output = Some(value);
+                    index += 1;
+                    continue;
+                }
+                unrecognized.push(arg.clone());
+                index += 1;
+                continue;
+            }
         }
-        // argparse also takes the equals form of a long
-        // option and the glued form of a short one.
-        let (flag, inline): (String, Option<String>) =
-            if let Some(eq) = arg.find('=') {
-                if arg.starts_with("--") {
-                    (
-                        arg[..eq].to_string(),
-                        Some(arg[eq + 1..].to_string()),
-                    )
-                } else {
-                    (arg.clone(), None)
-                }
-            } else if wants_output
-                && arg.starts_with("-o")
-                && arg.len() > 2
-            {
-                ("-o".to_string(), Some(arg[2..].to_string()))
-            } else {
-                (arg.clone(), None)
-            };
-        let flag = flag.as_str();
-        if wants_output
-            && (flag == "-o" || flag == "--output" || flag == "--output-dir")
-        {
-            if let Some(value) = inline {
-                parsed.output = Some(value);
-            } else {
-                index += 1;
-                if index >= args.len() {
-                    return Err(usage_error(
-                        &usage,
-                        &format!(
-                            "argument -o/--output: expected one argument"
-                        ),
-                    ));
-                }
-                parsed.output = Some(args[index].clone());
-            }
-        } else if command == "slice"
-            && (flag == "--from" || flag == "--to" || flag == "--kind")
-        {
-            let value = if let Some(value) = inline {
-                value
-            } else {
-                index += 1;
-                if index >= args.len() {
-                    return Err(usage_error(
-                        &usage,
-                        &format!(
-                            "argument {}: expected one argument",
-                            flag
-                        ),
-                    ));
-                }
-                args[index].clone()
-            };
-            match flag {
-                "--from" => parsed.from_seq = Some(value),
-                "--to" => parsed.to_seq = Some(value),
-                _ => parsed.kinds.push(value),
-            }
-        } else if arg.starts_with('-') && arg.len() > 1 && arg != "-" {
-            return Err(usage_error(
-                &usage,
-                &format!("unrecognized arguments: {}", arg),
-            ));
+        if parsed.positional.len() < expected {
+            parsed.positional.push(arg);
         } else {
-            parsed.positional.push(arg.clone());
+            unrecognized.push(arg);
         }
         index += 1;
     }
-    let expected = match command {
-        "verify" | "compare" => 2,
-        _ => 1,
+    let names: &[&str] = match command {
+        "convert" => &["source"],
+        "convert-dir" => &["source_dir"],
+        "verify" => &["tape", "expected"],
+        "compare" => &["first", "second"],
+        "rollup" => &["source_dir"],
+        _ => &["tape"],
     };
-    if parsed.positional.len() < expected {
-        let missing: Vec<&str> = match command {
-            "convert" => vec!["source"],
-            "convert-dir" => vec!["source_dir"],
-            "verify" => vec!["tape", "expected"],
-            "compare" => vec!["first", "second"],
-            "rollup" => vec!["source_dir"],
-            _ => vec!["tape"],
-        };
-        let missing = &missing[parsed.positional.len()..];
-        return Err(usage_error(
-            &usage,
+    let mut missing: Vec<String> = names[parsed.positional.len()..]
+        .iter()
+        .map(|name| name.to_string())
+        .collect();
+    if command == "convert-dir" && parsed.output.is_none() {
+        missing.push("-o/--output-dir".to_string());
+    }
+    if !missing.is_empty() {
+        return Err(sub_error(
+            command,
             &format!(
                 "the following arguments are required: {}",
                 missing.join(", ")
             ),
         ));
     }
-    if parsed.positional.len() > expected {
-        let extras = &parsed.positional[expected..];
-        return Err(usage_error(
-            &usage,
-            &format!("unrecognized arguments: {}", extras.join(" ")),
-        ));
-    }
-    if command == "convert-dir" && parsed.output.is_none() {
-        return Err(usage_error(
-            &usage,
-            "the following arguments are required: -o/--output-dir",
-        ));
+    if !unrecognized.is_empty() {
+        return Err(top_error(&format!(
+            "unrecognized arguments: {}",
+            unrecognized.join(" ")
+        )));
     }
     Ok(parsed)
+}
+
+/// Whether a token before the command word asks for
+/// the top-level help: `-h`, a short cluster opening
+/// with h, or a long token naming help exactly or by
+/// unambiguous prefix, the top parser's only option.
+fn is_top_help(arg: &str) -> bool {
+    if let Some(body) = arg.strip_prefix("--") {
+        let name = body.split('=').next().unwrap_or("");
+        return !name.is_empty() && "help".starts_with(name);
+    }
+    if arg.starts_with('-') && arg.len() > 1 && !is_negative_number(arg) {
+        return arg[1..].chars().next() == Some('h');
+    }
+    false
 }
 
 /// The command line entry: returns the exit code.
 pub fn run_cli() -> i32 {
     let args: Vec<String> = std::env::args().skip(1).collect();
-    if args.is_empty() {
-        return usage_error(TOP_USAGE, "the following arguments are required: command");
-    }
-    let command = args[0].as_str();
-    if command == "-h" || command == "--help" {
-        print_top_help();
-        return 0;
-    }
     const COMMANDS: [&str; 10] = [
         "convert", "convert-dir", "validate", "play", "digest", "verify",
         "compare", "rollup", "slice", "screen",
     ];
+    // The top parser reads option-shaped tokens until
+    // the command word: help answers where it stands,
+    // an unknown option is set aside and reported only
+    // once the subcommand has parsed clean, and a word
+    // that is no command is refused where it stands,
+    // argparse's own order throughout.
+    let mut before: Vec<String> = Vec::new();
+    let mut after_separator = false;
+    let mut index = 0;
+    let command: &str = loop {
+        if index >= args.len() {
+            return top_error("the following arguments are required: command");
+        }
+        let arg = &args[index];
+        if !after_separator && arg == "--" {
+            after_separator = true;
+            index += 1;
+            continue;
+        }
+        if !after_separator && looks_like_option(arg) {
+            if is_top_help(arg) {
+                if let Some(eq) = arg.find('=') {
+                    if arg.starts_with("--") {
+                        return top_error(&format!(
+                            "argument -h/--help: ignored explicit argument '{}'",
+                            &arg[eq + 1..]
+                        ));
+                    }
+                }
+                print_top_help();
+                return 0;
+            }
+            before.push(arg.clone());
+            index += 1;
+            continue;
+        }
+        break arg.as_str();
+    };
     if !COMMANDS.contains(&command) {
-        return usage_error(
-            TOP_USAGE,
-            &format!(
-                "argument command: invalid choice: '{}' (choose from {})",
-                command,
-                COMMANDS
-                    .iter()
-                    .map(|name| format!("'{}'", name))
-                    .collect::<Vec<_>>()
-                    .join(", ")
-            ),
-        );
+        return top_error(&format!(
+            "argument command: invalid choice: '{}' (choose from {})",
+            command,
+            COMMANDS
+                .iter()
+                .map(|name| format!("'{}'", name))
+                .collect::<Vec<_>>()
+                .join(", ")
+        ));
     }
-    let parsed = match parse_args(command, &args[1..]) {
+    let parsed = match parse_args(command, &args[index + 1..]) {
         Ok(parsed) => parsed,
         Err(code) => return code,
     };
+    if !before.is_empty() {
+        return top_error(&format!(
+            "unrecognized arguments: {}",
+            before.join(" ")
+        ));
+    }
     match command {
         "convert" => convert_one(&parsed.positional[0], parsed.output.as_deref()),
         "convert-dir" => convert_dir(

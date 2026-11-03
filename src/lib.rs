@@ -10,6 +10,7 @@ pub mod cli;
 pub mod compare;
 pub mod convert;
 pub mod dumps;
+pub mod helptext;
 pub mod identity;
 pub mod outcome;
 pub mod play;

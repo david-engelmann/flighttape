@@ -13,7 +13,7 @@
 //! whole.
 
 use crate::outcome::determine_outcome;
-use crate::value::{int_add, object, py_str, set_key, truthy, Text, Value};
+use crate::value::{int_add, object, py_str, truthy, Text, Value};
 use crate::TAPE_VERSION;
 
 pub const SOURCE_FORMAT: &str = "claude-code-jsonl";
@@ -80,7 +80,6 @@ fn text_from_scalars(scalars: &[u32]) -> Text {
     Text::from_units(units)
 }
 
-const QUOTES: [u32; 3] = [b'"' as u32, b'\'' as u32, b'`' as u32];
 const PREFIX_CHARS: &[u32] = &[
     b'"' as u32, b'\'' as u32, b'`' as u32, b'(' as u32, b'[' as u32,
     b'{' as u32, b'<' as u32,
