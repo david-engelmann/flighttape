@@ -26,9 +26,7 @@ fn events(tape: &Value) -> Vec<Value> {
 fn of_kind(tape: &Value, kind: &str) -> Vec<Value> {
     events(tape)
         .into_iter()
-        .filter(|event| {
-            event.get("kind") == Some(&Value::Str(Text::from_str(kind)))
-        })
+        .filter(|event| event.get("kind") == Some(&Value::Str(Text::from_str(kind))))
         .collect()
 }
 
@@ -101,7 +99,10 @@ fn cache_tokens_are_summed_under_their_own_keys() {
     let tape = convert_lines(lines(&[
         r#"{"type": "assistant", "sessionId": "s3", "message": {"role": "assistant", "usage": {"input_tokens": 100, "output_tokens": 10, "cache_creation_input_tokens": 500, "cache_read_input_tokens": 900}, "content": [{"type": "text", "text": "hi"}]}}"#,
     ]));
-    assert_eq!(total(&tape, "cache_creation_input_tokens"), Some(int("500")));
+    assert_eq!(
+        total(&tape, "cache_creation_input_tokens"),
+        Some(int("500"))
+    );
     assert_eq!(total(&tape, "cache_read_input_tokens"), Some(int("900")));
 }
 
@@ -329,7 +330,11 @@ fn outcome_aborted_on_the_interrupt_marker() {
     expect_outcome(
         vec![
             message("assistant", text("text"), Value::Bool(false)),
-            message("user", text("[Request interrupted by user]"), Value::Bool(false)),
+            message(
+                "user",
+                text("[Request interrupted by user]"),
+                Value::Bool(false),
+            ),
         ],
         "aborted",
         "user-interrupt-marker",
@@ -444,11 +449,7 @@ fn outcome_marker_must_begin_the_text() {
         "[Request interrupted by the system]",
         " [Request interrupted by user]",
     ] {
-        let outcome = outcome_of(vec![message(
-            "user",
-            text(text_value),
-            Value::Bool(false),
-        )]);
+        let outcome = outcome_of(vec![message("user", text(text_value), Value::Bool(false))]);
         assert_eq!(outcome.get("status"), Some(&text("unknown")));
     }
 }
@@ -464,11 +465,7 @@ fn outcome_flags_read_as_booleans_only() {
         assert_eq!(outcome.get("basis"), Some(&text("unresolved-ending")));
     }
     for sidechain in [int("1"), text("yes")] {
-        let outcome = outcome_of(vec![message(
-            "assistant",
-            text("text"),
-            sidechain,
-        )]);
+        let outcome = outcome_of(vec![message("assistant", text("text"), sidechain)]);
         assert_eq!(outcome.get("status"), Some(&text("completed")));
     }
 }
@@ -495,11 +492,7 @@ fn outcome_final_user_message_without_string_text_is_unknown() {
         ("sidechain", Value::Bool(false)),
     ])]);
     assert_eq!(outcome.get("status"), Some(&text("unknown")));
-    let outcome = outcome_of(vec![message(
-        "user",
-        Value::Null,
-        Value::Bool(false),
-    )]);
+    let outcome = outcome_of(vec![message("user", Value::Null, Value::Bool(false))]);
     assert_eq!(outcome.get("status"), Some(&text("unknown")));
 }
 

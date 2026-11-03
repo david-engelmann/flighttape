@@ -30,8 +30,7 @@ pub fn determine_outcome(events: &Value) -> Value {
     let mut main: Vec<&Value> = items
         .iter()
         .filter(|event| {
-            event.as_object().is_some()
-                && event.get("sidechain") != Some(&Value::Bool(true))
+            event.as_object().is_some() && event.get("sidechain") != Some(&Value::Bool(true))
         })
         .collect();
     while let Some(last) = main.last() {

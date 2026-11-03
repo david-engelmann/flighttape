@@ -31,7 +31,8 @@ options:
 
 pub fn sub_help(command: &str) -> &'static str {
     match command {
-        "convert" => r##"usage: flighttape convert [-h] [-o OUTPUT] source
+        "convert" => {
+            r##"usage: flighttape convert [-h] [-o OUTPUT] source
 
 positional arguments:
   source
@@ -39,8 +40,10 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-"##,
-        "convert-dir" => r##"usage: flighttape convert-dir [-h] -o OUTPUT_DIR source_dir
+"##
+        }
+        "convert-dir" => {
+            r##"usage: flighttape convert-dir [-h] -o OUTPUT_DIR source_dir
 
 positional arguments:
   source_dir
@@ -48,32 +51,40 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT_DIR, --output-dir OUTPUT_DIR
-"##,
-        "validate" => r##"usage: flighttape validate [-h] tape
+"##
+        }
+        "validate" => {
+            r##"usage: flighttape validate [-h] tape
 
 positional arguments:
   tape
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "play" => r##"usage: flighttape play [-h] tape
+"##
+        }
+        "play" => {
+            r##"usage: flighttape play [-h] tape
 
 positional arguments:
   tape
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "digest" => r##"usage: flighttape digest [-h] tape
+"##
+        }
+        "digest" => {
+            r##"usage: flighttape digest [-h] tape
 
 positional arguments:
   tape
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "verify" => r##"usage: flighttape verify [-h] tape expected
+"##
+        }
+        "verify" => {
+            r##"usage: flighttape verify [-h] tape expected
 
 positional arguments:
   tape
@@ -81,8 +92,10 @@ positional arguments:
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "compare" => r##"usage: flighttape compare [-h] first second
+"##
+        }
+        "compare" => {
+            r##"usage: flighttape compare [-h] first second
 
 positional arguments:
   first
@@ -90,16 +103,20 @@ positional arguments:
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "rollup" => r##"usage: flighttape rollup [-h] source_dir
+"##
+        }
+        "rollup" => {
+            r##"usage: flighttape rollup [-h] source_dir
 
 positional arguments:
   source_dir
 
 options:
   -h, --help  show this help message and exit
-"##,
-        "slice" => r##"usage: flighttape slice [-h] [--from FROM_SEQ] [--to TO_SEQ] [--kind KINDS]
+"##
+        }
+        "slice" => {
+            r##"usage: flighttape slice [-h] [--from FROM_SEQ] [--to TO_SEQ] [--kind KINDS]
                         [-o OUTPUT]
                         tape
 
@@ -112,8 +129,10 @@ options:
   --to TO_SEQ
   --kind KINDS
   -o OUTPUT, --output OUTPUT
-"##,
-        "screen" => r##"usage: flighttape screen [-h] [-o OUTPUT] tape
+"##
+        }
+        "screen" => {
+            r##"usage: flighttape screen [-h] [-o OUTPUT] tape
 
 positional arguments:
   tape
@@ -121,7 +140,8 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -o OUTPUT, --output OUTPUT
-"##,
+"##
+        }
         _ => "",
     }
 }

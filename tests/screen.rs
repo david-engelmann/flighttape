@@ -13,10 +13,8 @@ use flighttape::validate::validate_tape;
 use flighttape::value::{object, Text, Value};
 
 const T0: &str = "2026-01-01T09:00:00.000Z";
-const SECRET: &str =
-    concat!("/home/synthetic", "-user/work/secret-plan.md");
-const SECRET_KEY: &str =
-    concat!("/home/synthetic", "-user/work/secret-key.md");
+const SECRET: &str = concat!("/home/synthetic", "-user/work/secret-plan.md");
+const SECRET_KEY: &str = concat!("/home/synthetic", "-user/work/secret-key.md");
 
 fn text(value: &str) -> Value {
     Value::Str(Text::from_str(value))
@@ -40,10 +38,7 @@ fn tape(events: Vec<Value>) -> Value {
                 ("redacted_values", int("0")),
                 (
                     "totals",
-                    object(vec![
-                        ("messages", int("0")),
-                        ("tool_calls", int("0")),
-                    ]),
+                    object(vec![("messages", int("0")), ("tool_calls", int("0"))]),
                 ),
             ]),
         ),
@@ -76,10 +71,7 @@ fn dirty_tape() -> Value {
             "message",
             vec![
                 ("role", text("user")),
-                (
-                    "text",
-                    text(&format!("please read {} now", SECRET)),
-                ),
+                ("text", text(&format!("please read {} now", SECRET))),
             ],
         ),
         event(
@@ -112,20 +104,14 @@ fn dirty_tape() -> Value {
                 ("is_error", Value::Bool(false)),
                 (
                     "content",
-                    text(&format!(
-                        "contents of {} and {}",
-                        SECRET, SECRET
-                    )),
+                    text(&format!("contents of {} and {}", SECRET, SECRET)),
                 ),
             ],
         ),
         event(
             3,
             "message",
-            vec![
-                ("role", text("assistant")),
-                ("text", text("all done")),
-            ],
+            vec![("role", text("assistant")), ("text", text("all done"))],
         ),
     ])
 }
@@ -201,10 +187,7 @@ fn clean_text_and_non_paths_screen_clean() {
             vec![
                 ("tool", text("Read")),
                 ("call_id", text("c1")),
-                (
-                    "input",
-                    object(vec![("path", text("src/main.py"))]),
-                ),
+                ("input", object(vec![("path", text("src/main.py"))])),
             ],
         ),
         event(
@@ -249,10 +232,7 @@ fn a_path_inside_a_container_carrier_is_a_hit() {
                     "text",
                     Value::Array(vec![object(vec![
                         ("type", text("text")),
-                        (
-                            "text",
-                            text(&format!("read {} now", SECRET)),
-                        ),
+                        ("text", text(&format!("read {} now", SECRET))),
                     ])]),
                 ),
             ],
@@ -262,10 +242,7 @@ fn a_path_inside_a_container_carrier_is_a_hit() {
             "message",
             vec![
                 ("role", text("user")),
-                (
-                    "text",
-                    object(vec![(SECRET, text("x"))]),
-                ),
+                ("text", object(vec![(SECRET, text("x"))])),
             ],
         ),
     ]);
@@ -284,11 +261,8 @@ fn a_path_inside_a_container_carrier_is_a_hit() {
 // ---- the CLI, exercised through the built binary ----
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-screen-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("flighttape-screen-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -321,18 +295,12 @@ fn cli_reports_and_refuses() {
     assert_eq!(code, 1);
     let report = parse(out.trim_end()).unwrap();
     assert_eq!(report.get("paths_found"), Some(&int("6")));
-    let (code, _, err) = run_cli(&[
-        "screen".into(),
-        path.clone(),
-        "-o".into(),
-        path.clone(),
-    ]);
+    let (code, _, err) = run_cli(&["screen".into(), path.clone(), "-o".into(), path.clone()]);
     assert_eq!(code, 1);
     assert!(err.contains("never overwrites"), "stderr {}", err);
     let bad = dir.join("bad.tape.json");
     std::fs::write(&bad, "{\"tape_version\": \"9.9\"}").unwrap();
-    let (code, _, err) =
-        run_cli(&["screen".into(), bad.to_string_lossy().into_owned()]);
+    let (code, _, err) = run_cli(&["screen".into(), bad.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert!(err.contains("not a valid tape"), "stderr {}", err);
     let out_path = dir.join("report.json");
@@ -392,15 +360,11 @@ fn the_clean_cli_arm_exits_zero() {
     let clean = tape(vec![event(
         0,
         "message",
-        vec![
-            ("role", text("user")),
-            ("text", text("nothing to hide")),
-        ],
+        vec![("role", text("user")), ("text", text("nothing to hide"))],
     )]);
     let path = dir.join("clean.tape.json");
     std::fs::write(&path, dumps_indent(&clean)).unwrap();
-    let (code, out, _) =
-        run_cli(&["screen".into(), path.to_string_lossy().into_owned()]);
+    let (code, out, _) = run_cli(&["screen".into(), path.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let report = parse(out.trim_end()).unwrap();
     assert_eq!(report.get("clean"), Some(&Value::Bool(true)));
@@ -438,8 +402,7 @@ fn a_write_failure_is_a_named_error() {
         .join("report.json")
         .to_string_lossy()
         .into_owned();
-    let (code, _, err) =
-        run_cli(&["screen".into(), path, "-o".into(), missing]);
+    let (code, _, err) = run_cli(&["screen".into(), path, "-o".into(), missing]);
     assert_eq!(code, 1);
     assert!(err.contains("cannot write the report"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
@@ -475,8 +438,7 @@ fn an_unresolvable_output_path_is_a_named_refusal() {
         .join("report.json")
         .to_string_lossy()
         .into_owned();
-    let (code, _, err) =
-        run_cli(&["screen".into(), path, "-o".into(), looped]);
+    let (code, _, err) = run_cli(&["screen".into(), path, "-o".into(), looped]);
     assert_eq!(code, 1);
     assert!(err.contains("cannot be resolved"), "stderr {}", err);
     assert!(!err.contains("Traceback"));
@@ -499,11 +461,7 @@ fn a_symlink_output_is_replaced_not_followed() {
     ]);
     assert_eq!(code, 1);
     assert_eq!(std::fs::read_to_string(&target).unwrap(), "original");
-    assert!(!link
-        .symlink_metadata()
-        .unwrap()
-        .file_type()
-        .is_symlink());
+    assert!(!link.symlink_metadata().unwrap().file_type().is_symlink());
     let written = parse(&std::fs::read_to_string(&link).unwrap()).unwrap();
     assert_eq!(written.get("paths_found"), Some(&int("6")));
     let _ = std::fs::remove_dir_all(&dir);

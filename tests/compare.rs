@@ -113,22 +113,14 @@ fn expected_report() -> Value {
                 ),
                 (
                     "messages",
-                    object(vec![
-                        ("a", int("2")),
-                        ("b", int("2")),
-                        ("delta", int("0")),
-                    ]),
+                    object(vec![("a", int("2")), ("b", int("2")), ("delta", int("0"))]),
                 ),
                 ("tool_calls", object(vec![("b", int("1"))])),
             ]),
         ),
         (
             "redacted_values",
-            object(vec![
-                ("a", int("0")),
-                ("b", int("1")),
-                ("delta", int("1")),
-            ]),
+            object(vec![("a", int("0")), ("b", int("1")), ("delta", int("1"))]),
         ),
         (
             "skipped_lines",
@@ -137,10 +129,7 @@ fn expected_report() -> Value {
         (
             "events",
             object(vec![
-                (
-                    "count",
-                    object(vec![("a", int("2")), ("b", int("3"))]),
-                ),
+                ("count", object(vec![("a", int("2")), ("b", int("3"))])),
                 (
                     "by_kind",
                     object(vec![(
@@ -184,9 +173,7 @@ fn an_outcome_change_is_reported() {
     let outcome = report.get("outcome").unwrap();
     assert_eq!(outcome.get("changed"), Some(&Value::Bool(true)));
     assert_eq!(
-        outcome
-            .get("b")
-            .and_then(|side| side.get("status")),
+        outcome.get("b").and_then(|side| side.get("status")),
         Some(&text("unknown"))
     );
 }
@@ -197,8 +184,7 @@ fn fixture_tape() -> Value {
         "/tests/fixtures/claude_session_synthetic.jsonl"
     ))
     .unwrap();
-    let lines: Vec<Option<String>> =
-        raw.lines().map(|line| Some(line.to_string())).collect();
+    let lines: Vec<Option<String>> = raw.lines().map(|line| Some(line.to_string())).collect();
     convert_lines(lines)
 }
 
@@ -222,10 +208,7 @@ fn a_tape_compared_with_itself_reports_no_differences() {
         }
     }
     assert_eq!(
-        report
-            .get("duration_seconds")
-            .unwrap()
-            .get("delta"),
+        report.get("duration_seconds").unwrap().get("delta"),
         Some(&Value::Float(0.0))
     );
 }
@@ -237,8 +220,7 @@ fn one_changed_line_changes_exactly_its_event() {
         "/tests/fixtures/claude_session_synthetic.jsonl"
     ))
     .unwrap();
-    let lines: Vec<String> =
-        raw.lines().map(|line| line.to_string()).collect();
+    let lines: Vec<String> = raw.lines().map(|line| line.to_string()).collect();
     let mut changed_first = parse(&lines[0]).unwrap();
     {
         let content = changed_first
@@ -246,18 +228,13 @@ fn one_changed_line_changes_exactly_its_event() {
             .and_then(|message| message.get_mut("content"))
             .unwrap();
         if let Value::Array(blocks) = content {
-            set_key(
-                &mut blocks[0],
-                "text",
-                text("A different prompt"),
-            );
+            set_key(&mut blocks[0], "text", text("A different prompt"));
         }
     }
     let mut variant = lines.clone();
     variant[0] = dumps_sorted(&changed_first);
-    let to_lines = |items: Vec<String>| -> Vec<Option<String>> {
-        items.into_iter().map(Some).collect()
-    };
+    let to_lines =
+        |items: Vec<String>| -> Vec<Option<String>> { items.into_iter().map(Some).collect() };
     let report = compare_tapes(
         &convert_lines(to_lines(lines)),
         &convert_lines(to_lines(variant)),
@@ -312,10 +289,7 @@ fn null_totals_and_skipped_lines_compare_cleanly() {
             ("tool_calls", object(vec![("b", int("1"))])),
         ]))
     );
-    assert_eq!(
-        report.get("skipped_lines"),
-        Some(&Value::Object(vec![]))
-    );
+    assert_eq!(report.get("skipped_lines"), Some(&Value::Object(vec![])));
 }
 
 #[test]
@@ -362,10 +336,7 @@ fn self_comparison_zeroes_redacted_and_skipped_deltas() {
     let tape = fixture_tape();
     let report = compare_tapes(&tape, &tape).unwrap();
     assert_eq!(
-        report
-            .get("redacted_values")
-            .unwrap()
-            .get("delta"),
+        report.get("redacted_values").unwrap().get("delta"),
         Some(&int("0"))
     );
     if let Value::Object(entries) = report.get("skipped_lines").unwrap() {
@@ -409,10 +380,7 @@ fn an_unrepresentable_delta_is_omitted_not_emitted() {
     let report = compare_tapes(&first, &second).unwrap();
     let expected_delta = format!("-{}", "9".repeat(400));
     assert_eq!(
-        report
-            .get("redacted_values")
-            .unwrap()
-            .get("delta"),
+        report.get("redacted_values").unwrap().get("delta"),
         Some(&Value::Int(expected_delta))
     );
 }
@@ -420,11 +388,8 @@ fn an_unrepresentable_delta_is_omitted_not_emitted() {
 // ---- the CLI, exercised through the built binary ----
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-compare-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("flighttape-compare-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -476,8 +441,7 @@ fn cli_compare_refuses_an_invalid_tape() {
     }
     let first = write_tape(&dir, "a.json", &tape_a());
     let second = write_tape(&dir, "b.json", &broken);
-    let (code, out, err) =
-        run_cli(&["compare".into(), first, second.clone()]);
+    let (code, out, err) = run_cli(&["compare".into(), first, second.clone()]);
     assert_eq!(code, 1);
     assert_eq!(out, "");
     assert!(err.contains(&second), "stderr {}", err);
@@ -530,8 +494,7 @@ fn cli_compare_names_a_missing_file_and_an_invalid_tape() {
     }
     let broken = write_tape(&dir, "broken.json", &tape);
     let missing = dir.join("nope.json").to_string_lossy().into_owned();
-    let (code, out, err) =
-        run_cli(&["compare".into(), broken.clone(), missing]);
+    let (code, out, err) = run_cli(&["compare".into(), broken.clone(), missing]);
     assert_eq!(code, 1);
     assert_eq!(out, "");
     assert!(err.contains("cannot read"), "stderr {}", err);
@@ -565,8 +528,7 @@ fn cli_compare_names_a_null_tape_instead_of_crashing() {
     std::fs::write(&null_path, "null\n").unwrap();
     let null_file = null_path.to_string_lossy().into_owned();
     let valid = write_tape(&dir, "a.json", &tape_a());
-    let (code, out, err) =
-        run_cli(&["compare".into(), null_file.clone(), valid.clone()]);
+    let (code, out, err) = run_cli(&["compare".into(), null_file.clone(), valid.clone()]);
     assert_eq!(code, 1);
     assert_eq!(out, "");
     assert!(err.contains(&null_file), "stderr {}", err);

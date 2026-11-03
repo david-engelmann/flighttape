@@ -13,9 +13,7 @@ use crate::value::{num_add, object, scalar_cmp, Text, Value};
 fn renderable(total: &Value) -> Value {
     match total {
         Value::Float(number) if !number.is_finite() => Value::Null,
-        Value::Int(digits) if digits.trim_start_matches('-').len() > 4300 => {
-            Value::Null
-        }
+        Value::Int(digits) if digits.trim_start_matches('-').len() > 4300 => Value::Null,
         _ => total.clone(),
     }
 }
@@ -40,7 +38,11 @@ fn classify(record: &Value) -> &'static str {
         panic!("record for {} is both a tape and an exclusion", name);
     }
     if has_tape {
-        if record.get("tape").and_then(|tape| tape.as_object()).is_none() {
+        if record
+            .get("tape")
+            .and_then(|tape| tape.as_object())
+            .is_none()
+        {
             panic!("rolled record for {} holds no tape", name);
         }
         if record.get("digest").is_none() {
@@ -134,12 +136,10 @@ fn sum_maps(maps: &[Value]) -> Value {
                     .map(|(_, total)| total.clone())
                     .unwrap_or(Value::Int("0".to_string()));
                 match num_add(&current, value) {
-                    Some(total) => {
-                        match sums.iter_mut().find(|(name, _)| name == key) {
-                            Some((_, existing)) => *existing = total,
-                            None => sums.push((key.clone(), total)),
-                        }
-                    }
+                    Some(total) => match sums.iter_mut().find(|(name, _)| name == key) {
+                        Some((_, existing)) => *existing = total,
+                        None => sums.push((key.clone(), total)),
+                    },
                     None => {
                         unrenderable.push(key.clone());
                         match sums.iter_mut().find(|(name, _)| name == key) {
@@ -180,7 +180,11 @@ fn redacted_summary(runs: &[Value]) -> Value {
     object(vec![
         (
             "total",
-            if overflowed { Value::Null } else { renderable(&total) },
+            if overflowed {
+                Value::Null
+            } else {
+                renderable(&total)
+            },
         ),
         ("non_numeric", Value::Int(non_numeric.to_string())),
     ])
@@ -222,8 +226,9 @@ pub fn rollup_report(records: Vec<Value>, directory: &str) -> Value {
         .collect();
     let mut outcomes: Vec<(Text, u64)> = Vec::new();
     for entry in &entries {
-        if let Some(Value::Str(status)) =
-            entry.get("outcome").and_then(|outcome| outcome.get("status"))
+        if let Some(Value::Str(status)) = entry
+            .get("outcome")
+            .and_then(|outcome| outcome.get("status"))
         {
             match outcomes.iter_mut().find(|(name, _)| name == status) {
                 Some((_, count)) => *count += 1,
@@ -249,7 +254,12 @@ pub fn rollup_report(records: Vec<Value>, directory: &str) -> Value {
         .sum();
     let totals_maps: Vec<Value> = entries
         .iter()
-        .map(|entry| entry.get("totals").cloned().unwrap_or(Value::Object(Vec::new())))
+        .map(|entry| {
+            entry
+                .get("totals")
+                .cloned()
+                .unwrap_or(Value::Object(Vec::new()))
+        })
         .collect();
     let skipped_maps: Vec<Value> = runs
         .iter()
@@ -288,10 +298,7 @@ pub fn rollup_report(records: Vec<Value>, directory: &str) -> Value {
         (
             "duration_seconds",
             object(vec![
-                (
-                    "total",
-                    Value::Float(known.iter().sum::<f64>()),
-                ),
+                ("total", Value::Float(known.iter().sum::<f64>())),
                 ("known", Value::Int(known.len().to_string())),
                 (
                     "unknown",

@@ -114,9 +114,7 @@ fn paths_in_every_text_field_are_redacted_and_counted() {
     assert!(texts.contains(&text("I read secret-plan.md and it says hello")));
     let calls: Vec<Value> = events(&tape)
         .into_iter()
-        .filter(|event| {
-            event.get("kind") == Some(&text("tool_call"))
-        })
+        .filter(|event| event.get("kind") == Some(&text("tool_call")))
         .collect();
     assert_eq!(
         calls[0].get("input"),
@@ -124,7 +122,10 @@ fn paths_in_every_text_field_are_redacted_and_counted() {
     );
     assert_eq!(
         calls[1].get("input"),
-        Some(&object(vec![("command", text("cat secret-plan.md | wc -l"))]))
+        Some(&object(vec![(
+            "command",
+            text("cat secret-plan.md | wc -l")
+        )]))
     );
 }
 
@@ -170,7 +171,10 @@ fn boundary_shapes_keep_their_punctuation() {
         ("run `SECRET` now", "run `secret-plan.md` now"),
         ("(see SECRET)", "(see secret-plan.md)"),
         ("I read SECRET.", "I read secret-plan.md."),
-        ("I read SECRET, then left", "I read secret-plan.md, then left"),
+        (
+            "I read SECRET, then left",
+            "I read secret-plan.md, then left",
+        ),
         ("file=SECRET", "file=secret-plan.md"),
         ("path:SECRET", "path:secret-plan.md"),
         ("SECRET", "secret-plan.md"),
@@ -253,10 +257,7 @@ fn tool_input_keys_are_redacted_like_values() {
     );
     assert_eq!(redacted(&tape), int("2"));
     let deep = convert_lines(lines(&[&tool_use(
-        &format!(
-            "{{\"outer\": [{{\"deep\": {{\"{}\": true}}}}]}}",
-            SECRET
-        ),
+        &format!("{{\"outer\": [{{\"deep\": {{\"{}\": true}}}}]}}", SECRET),
         "Read",
     )]));
     assert_eq!(
@@ -325,15 +326,27 @@ fn a_non_string_text_value_is_carried_and_its_leaves_redacted() {
 #[test]
 fn paths_glued_into_one_token_are_each_redacted() {
     let cases: [(&str, &str, &str); 9] = [
-        ("see /alpha/one.md,/beta/two.md end", "see one.md,two.md end", "2"),
-        ("paths /alpha/one.md:/beta/two.md end", "paths one.md:two.md end", "2"),
+        (
+            "see /alpha/one.md,/beta/two.md end",
+            "see one.md,two.md end",
+            "2",
+        ),
+        (
+            "paths /alpha/one.md:/beta/two.md end",
+            "paths one.md:two.md end",
+            "2",
+        ),
         ("set a/b=/alpha/one.md end", "set a/b=one.md end", "1"),
         (
             "open /alpha/one.md?next=http://example.com/x end",
             "open one.md?next=http://example.com/x end",
             "1",
         ),
-        ("[report](/alpha/one.md) linked", "[report](one.md) linked", "1"),
+        (
+            "[report](/alpha/one.md) linked",
+            "[report](one.md) linked",
+            "1",
+        ),
         (
             "click [the plan](/alpha/one.md) now",
             "click [the plan](one.md) now",

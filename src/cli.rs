@@ -22,9 +22,7 @@ use crate::json::{parse, ParseError};
 use crate::play::render_tape;
 use crate::rollup::rollup_report;
 use crate::screen::screen_tape;
-use crate::slice::{
-    check_selection, parse_bound, slice_tape, SliceErrorOrDigest,
-};
+use crate::slice::{check_selection, parse_bound, slice_tape, SliceErrorOrDigest};
 use crate::validate::validate_tape;
 use crate::value::{object, Text, Value};
 
@@ -71,9 +69,7 @@ fn load(path: &Path) -> Load {
     };
     match parse(&text) {
         Ok(tape) => Load::Tape(tape),
-        Err(ParseError::TooLarge) => {
-            Load::Failed("the file holds a number too large to read")
-        }
+        Err(ParseError::TooLarge) => Load::Failed("the file holds a number too large to read"),
         Err(ParseError::Invalid) => Load::Failed("the file is not valid JSON"),
     }
 }
@@ -100,10 +96,7 @@ fn digest_of(tape: &Value) -> Option<String> {
     match tape_digest(tape) {
         Ok(digest) => Some(digest),
         Err(error) => {
-            err_line(&format!(
-                "error, the tape cannot be digested, {}",
-                error.0
-            ));
+            err_line(&format!("error, the tape cannot be digested, {}", error.0));
             None
         }
     }
@@ -133,9 +126,7 @@ fn digest_or_refuse(path: &str, tape: &Value) -> Option<String> {
 fn write_tape(tape: &Value, output: Option<&str>) -> Result<(), ()> {
     let text = dumps_indent(tape);
     match output {
-        Some(output) => {
-            std::fs::write(output, format!("{}\n", text)).map_err(|_| ())
-        }
+        Some(output) => std::fs::write(output, format!("{}\n", text)).map_err(|_| ()),
         None => {
             out_line(&text);
             Ok(())
@@ -151,10 +142,7 @@ fn convert_one(source: &str, output: Option<&str>) -> i32 {
     let tape = match convert_file(Path::new(source)) {
         Ok(tape) => tape,
         Err(_) => {
-            err_line(&format!(
-                "error, cannot read the source file, {}",
-                source
-            ));
+            err_line(&format!("error, cannot read the source file, {}", source));
             return 1;
         }
     };
@@ -192,11 +180,7 @@ fn path_display(dir: &str, name: &str) -> String {
     format!("{}/{}", trimmed, name)
 }
 
-fn dir_entries(
-    dir: &str,
-    suffix: &str,
-    sorted: bool,
-) -> Vec<(String, PathBuf, bool)> {
+fn dir_entries(dir: &str, suffix: &str, sorted: bool) -> Vec<(String, PathBuf, bool)> {
     // (file name, full path, is_file) for entries whose
     // name ends with the suffix. Sorted by name when the
     // caller sorts (convert-dir does, as the Python's
@@ -224,10 +208,7 @@ fn dir_entries(
 
 fn convert_dir(source_dir: &str, output_dir: &str) -> i32 {
     if !Path::new(source_dir).is_dir() {
-        err_line(&format!(
-            "error, no such source directory, {}",
-            source_dir
-        ));
+        err_line(&format!("error, no such source directory, {}", source_dir));
         return 1;
     }
     let out = Path::new(output_dir);
@@ -258,10 +239,7 @@ fn convert_dir(source_dir: &str, output_dir: &str) -> i32 {
         let tape = match convert_file(&path) {
             Ok(tape) => tape,
             Err(_) => {
-                err_line(&format!(
-                    "error, cannot read the source file, {}",
-                    display
-                ));
+                err_line(&format!("error, cannot read the source file, {}", display));
                 files.push(object(vec![
                     ("file", Value::Str(Text::from_str(&name))),
                     ("events", Value::Int("0".to_string())),
@@ -363,8 +341,7 @@ fn compare_command(first_path: &str, second_path: &str) -> i32 {
     if refused {
         return 1;
     }
-    let report =
-        compare_tapes(&tapes[0], &tapes[1]).expect("digest-checked sides");
+    let report = compare_tapes(&tapes[0], &tapes[1]).expect("digest-checked sides");
     out_line(&dumps_indent(&report));
     0
 }
@@ -372,10 +349,7 @@ fn compare_command(first_path: &str, second_path: &str) -> i32 {
 fn rollup_command(source_dir: &str) -> i32 {
     let root = Path::new(source_dir);
     if !root.is_dir() {
-        err_line(&format!(
-            "error, no such source directory, {}",
-            source_dir
-        ));
+        err_line(&format!("error, no such source directory, {}", source_dir));
         return 1;
     }
     let mut records: Vec<Value> = Vec::new();
@@ -409,9 +383,7 @@ fn rollup_command(source_dir: &str) -> i32 {
                             Value::Array(
                                 defects
                                     .iter()
-                                    .map(|defect| {
-                                        Value::Str(Text::from_str(defect))
-                                    })
+                                    .map(|defect| Value::Str(Text::from_str(defect)))
                                     .collect(),
                             ),
                         ),
@@ -426,10 +398,7 @@ fn rollup_command(source_dir: &str) -> i32 {
                         ));
                         records.push(object(vec![
                             ("file", Value::Str(Text::from_str(&name))),
-                            (
-                                "reason",
-                                Value::Str(Text::from_str("undigestible")),
-                            ),
+                            ("reason", Value::Str(Text::from_str("undigestible"))),
                             ("error", Value::Str(Text::from_str(&error.0))),
                         ]));
                     }
@@ -493,10 +462,7 @@ fn slice_command(
             return 1;
         }
         Err(SliceErrorOrDigest::Digest(error)) => {
-            err_line(&format!(
-                "error, {} cannot be digested, {}",
-                path, error.0
-            ));
+            err_line(&format!("error, {} cannot be digested, {}", path, error.0));
             return 1;
         }
     };
@@ -512,19 +478,14 @@ fn slice_command(
     match output {
         Some(output) => {
             if std::fs::write(output, text).is_err() {
-                err_line(&format!(
-                    "error, cannot write the tape file, {}",
-                    output
-                ));
+                err_line(&format!("error, cannot write the tape file, {}", output));
                 return 1;
             }
         }
         None => {
             let stdout = std::io::stdout();
             let mut handle = stdout.lock();
-            if handle.write_all(text.as_bytes()).is_err()
-                || handle.flush().is_err()
-            {
+            if handle.write_all(text.as_bytes()).is_err() || handle.flush().is_err() {
                 err_line("error, cannot write the tape to stdout");
                 return 1;
             }
@@ -627,23 +588,19 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
     let tape_path = Path::new(path);
     if let Some(output) = output {
         let out_path = Path::new(output);
-        let (resolved_out, resolved_tape) =
-            (resolve_lexical(out_path), resolve_lexical(tape_path));
-        let (resolved_out, resolved_tape) =
-            match (resolved_out, resolved_tape) {
-                (Some(out), Some(tape)) => (out, tape),
-                _ => {
-                    err_line(&format!(
-                        "error, the output path cannot be resolved, {}",
-                        output
-                    ));
-                    return 1;
-                }
-            };
+        let (resolved_out, resolved_tape) = (resolve_lexical(out_path), resolve_lexical(tape_path));
+        let (resolved_out, resolved_tape) = match (resolved_out, resolved_tape) {
+            (Some(out), Some(tape)) => (out, tape),
+            _ => {
+                err_line(&format!(
+                    "error, the output path cannot be resolved, {}",
+                    output
+                ));
+                return 1;
+            }
+        };
         let same = resolved_out == resolved_tape
-            || (tape_path.exists()
-                && out_path.exists()
-                && same_file(out_path, tape_path));
+            || (tape_path.exists() && out_path.exists() && same_file(out_path, tape_path));
         if same {
             err_line("error, a screen report never overwrites the tape");
             return 1;
@@ -659,10 +616,7 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
     let report = match screen_tape(&tape) {
         Ok(report) => report,
         Err(error) => {
-            err_line(&format!(
-                "error, {} cannot be digested, {}",
-                path, error.0
-            ));
+            err_line(&format!("error, {} cannot be digested, {}", path, error.0));
             return 1;
         }
     };
@@ -678,28 +632,19 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
                 .file_name()
                 .map(|name| name.to_string_lossy().into_owned())
                 .unwrap_or_default();
-            let temp = dir.join(format!(
-                "{}.{}",
-                name,
-                std::process::id()
-            ));
-            let written = std::fs::write(&temp, &text)
-                .and_then(|_| std::fs::rename(&temp, out_path));
+            let temp = dir.join(format!("{}.{}", name, std::process::id()));
+            let written =
+                std::fs::write(&temp, &text).and_then(|_| std::fs::rename(&temp, out_path));
             if written.is_err() {
                 let _ = std::fs::remove_file(&temp);
-                err_line(&format!(
-                    "error, cannot write the report, {}",
-                    output
-                ));
+                err_line(&format!("error, cannot write the report, {}", output));
                 return 1;
             }
         }
         None => {
             let stdout = std::io::stdout();
             let mut handle = stdout.lock();
-            if handle.write_all(text.as_bytes()).is_err()
-                || handle.flush().is_err()
-            {
+            if handle.write_all(text.as_bytes()).is_err() || handle.flush().is_err() {
                 err_line("error, cannot write the report to stdout");
                 return 1;
             }
@@ -749,9 +694,7 @@ fn is_negative_number(token: &str) -> bool {
         Some(rest) if !rest.is_empty() && !rest.starts_with('-') => rest,
         _ => return false,
     };
-    let digits = |s: &str| {
-        !s.is_empty() && s.bytes().all(|byte| byte.is_ascii_digit())
-    };
+    let digits = |s: &str| !s.is_empty() && s.bytes().all(|byte| byte.is_ascii_digit());
     match rest.split_once('.') {
         None => digits(rest),
         Some((whole, frac)) => (whole.is_empty() || digits(whole)) && digits(frac),
@@ -780,9 +723,7 @@ enum Opt {
 fn long_options(command: &str) -> Vec<(&'static str, Option<Opt>)> {
     let mut options = vec![("help", None)];
     match command {
-        "convert" | "slice" | "screen" => {
-            options.push(("output", Some(Opt::Output)))
-        }
+        "convert" | "slice" | "screen" => options.push(("output", Some(Opt::Output))),
         "convert-dir" => options.push(("output-dir", Some(Opt::Output))),
         _ => {}
     }
@@ -842,8 +783,7 @@ fn parse_args(command: &str, args: &[String]) -> Result<Parsed, i32> {
         "verify" | "compare" => 2,
         _ => 1,
     };
-    let wants_output =
-        matches!(command, "convert" | "convert-dir" | "slice" | "screen");
+    let wants_output = matches!(command, "convert" | "convert-dir" | "slice" | "screen");
     let options = long_options(command);
     let mut parsed = Parsed {
         positional: Vec::new(),
@@ -866,17 +806,13 @@ fn parse_args(command: &str, args: &[String]) -> Result<Parsed, i32> {
             if arg.starts_with("--") && arg.len() > 2 {
                 let body = &arg[2..];
                 let (name, inline) = match body.find('=') {
-                    Some(eq) => {
-                        (&body[..eq], Some(body[eq + 1..].to_string()))
-                    }
+                    Some(eq) => (&body[..eq], Some(body[eq + 1..].to_string())),
                     None => (body, None),
                 };
                 let resolved = match options.iter().find(|(known, _)| *known == name) {
                     Some((_, opt)) => Some(*opt),
                     None => {
-                        let mut hits = options
-                            .iter()
-                            .filter(|(known, _)| known.starts_with(name));
+                        let mut hits = options.iter().filter(|(known, _)| known.starts_with(name));
                         match (hits.next(), hits.next()) {
                             (Some((_, opt)), None) => Some(*opt),
                             _ => None,
@@ -1021,8 +957,16 @@ fn is_top_help(arg: &str) -> bool {
 pub fn run_cli() -> i32 {
     let args: Vec<String> = std::env::args().skip(1).collect();
     const COMMANDS: [&str; 10] = [
-        "convert", "convert-dir", "validate", "play", "digest", "verify",
-        "compare", "rollup", "slice", "screen",
+        "convert",
+        "convert-dir",
+        "validate",
+        "play",
+        "digest",
+        "verify",
+        "compare",
+        "rollup",
+        "slice",
+        "screen",
     ];
     // The top parser reads option-shaped tokens until
     // the command word: help answers where it stands,
@@ -1078,10 +1022,7 @@ pub fn run_cli() -> i32 {
         Err(code) => return code,
     };
     if !before.is_empty() {
-        return top_error(&format!(
-            "unrecognized arguments: {}",
-            before.join(" ")
-        ));
+        return top_error(&format!("unrecognized arguments: {}", before.join(" ")));
     }
     match command {
         "convert" => convert_one(&parsed.positional[0], parsed.output.as_deref()),

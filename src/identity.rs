@@ -77,19 +77,10 @@ fn shortest_digits(value: f64) -> (String, i64) {
         digits.len() as i64 + exponent
     };
     // Most significant first, as ASCII, for the cuts.
-    let exact: Vec<u8> = digits
-        .iter()
-        .rev()
-        .map(|digit| digit + b'0')
-        .collect();
+    let exact: Vec<u8> = digits.iter().rev().map(|digit| digit + b'0').collect();
     for width in 1..=17usize {
-        let (candidate, candidate_point) =
-            round_at(&exact, width, point);
-        let probe = format!(
-            "{}e{}",
-            candidate,
-            candidate_point - candidate.len() as i64
-        );
+        let (candidate, candidate_point) = round_at(&exact, width, point);
+        let probe = format!("{}e{}", candidate, candidate_point - candidate.len() as i64);
         if let Ok(parsed) = probe.parse::<f64>() {
             if parsed.to_bits() == value.abs().to_bits() {
                 let trimmed = candidate.trim_end_matches('0');
@@ -141,30 +132,21 @@ fn round_at(exact: &[u8], width: usize, point: i64) -> (String, i64) {
         (kept[width - 1] - b'0') % 2 == 1
     };
     if !round_up {
-        return (
-            String::from_utf8(kept).expect("digits"),
-            point,
-        );
+        return (String::from_utf8(kept).expect("digits"), point);
     }
     let mut digits = kept;
     let mut index = width;
     loop {
         if index == 0 {
             digits.insert(0, b'1');
-            return (
-                String::from_utf8(digits).expect("digits"),
-                point + 1,
-            );
+            return (String::from_utf8(digits).expect("digits"), point + 1);
         }
         index -= 1;
         if digits[index] == b'9' {
             digits[index] = b'0';
         } else {
             digits[index] += 1;
-            return (
-                String::from_utf8(digits).expect("digits"),
-                point,
-            );
+            return (String::from_utf8(digits).expect("digits"), point);
         }
     }
 }

@@ -35,9 +35,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
     }
 
     fn skip_ws(bytes: &[u8], pos: &mut usize) {
-        while *pos < bytes.len()
-            && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r')
-        {
+        while *pos < bytes.len() && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r') {
             *pos += 1;
         }
     }
@@ -175,23 +173,15 @@ fn attach(stack: &mut [Frame], finished: &mut Option<Value>, value: Value) {
     }
 }
 
-fn read_key(
-    bytes: &[u8],
-    pos: &mut usize,
-    stack: &mut [Frame],
-) -> Result<(), ParseError> {
-    while *pos < bytes.len()
-        && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r')
-    {
+fn read_key(bytes: &[u8], pos: &mut usize, stack: &mut [Frame]) -> Result<(), ParseError> {
+    while *pos < bytes.len() && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r') {
         *pos += 1;
     }
     if *pos >= bytes.len() || bytes[*pos] != b'"' {
         return Err(ParseError::Invalid);
     }
     let key = parse_string(bytes, pos)?;
-    while *pos < bytes.len()
-        && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r')
-    {
+    while *pos < bytes.len() && matches!(bytes[*pos], b' ' | b'\t' | b'\n' | b'\r') {
         *pos += 1;
     }
     if *pos >= bytes.len() || bytes[*pos] != b':' {
@@ -205,9 +195,7 @@ fn read_key(
 }
 
 fn literal(bytes: &[u8], pos: &mut usize, word: &str) -> Result<(), ParseError> {
-    if bytes.len() - *pos >= word.len()
-        && &bytes[*pos..*pos + word.len()] == word.as_bytes()
-    {
+    if bytes.len() - *pos >= word.len() && &bytes[*pos..*pos + word.len()] == word.as_bytes() {
         *pos += word.len();
         Ok(())
     } else {
@@ -268,11 +256,9 @@ fn parse_string(bytes: &[u8], pos: &mut usize) -> Result<Text, ParseError> {
                                     let scalar = 0x10000u32
                                         + (((first as u32 - 0xD800) << 10)
                                             | (second as u32 - 0xDC00));
-                                    let ch = char::from_u32(scalar)
-                                        .ok_or(ParseError::Invalid)?;
+                                    let ch = char::from_u32(scalar).ok_or(ParseError::Invalid)?;
                                     let mut buffer = [0u16; 2];
-                                    let encoded: &[u16] =
-                                        ch.encode_utf16(&mut buffer);
+                                    let encoded: &[u16] = ch.encode_utf16(&mut buffer);
                                     units.extend_from_slice(encoded);
                                 } else {
                                     units.push(first);
@@ -292,8 +278,7 @@ fn parse_string(bytes: &[u8], pos: &mut usize) -> Result<Text, ParseError> {
             0x00..=0x1F => return Err(ParseError::Invalid),
             _ => {
                 // One UTF-8 encoded character, as units.
-                let text = std::str::from_utf8(&bytes[*pos..])
-                    .map_err(|_| ParseError::Invalid)?;
+                let text = std::str::from_utf8(&bytes[*pos..]).map_err(|_| ParseError::Invalid)?;
                 let ch = text.chars().next().ok_or(ParseError::Invalid)?;
                 let mut buffer = [0u16; 2];
                 let encoded: &[u16] = ch.encode_utf16(&mut buffer);
@@ -368,8 +353,7 @@ fn parse_number(bytes: &[u8], pos: &mut usize) -> Result<Value, ParseError> {
             *pos += 1;
         }
     }
-    let text = std::str::from_utf8(&bytes[start..*pos])
-        .map_err(|_| ParseError::Invalid)?;
+    let text = std::str::from_utf8(&bytes[start..*pos]).map_err(|_| ParseError::Invalid)?;
     if !is_float {
         let digits: String = if text == "-0" {
             "0".to_string()

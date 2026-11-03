@@ -78,15 +78,15 @@ fn the_swept_corpus_agrees_with_the_python_renderer() {
 #[test]
 fn canonical_bytes_are_exact_for_a_small_tape() {
     let tape = obj(vec![
-        ("b", Value::Array(vec![
-            Value::Int("1".to_string()),
-            Value::Float(2.0),
-            Value::Str(Text::from_str("café")),
-        ])),
-        ("a", obj(vec![
-            ("z", Value::Null),
-            ("m", Value::Bool(true)),
-        ])),
+        (
+            "b",
+            Value::Array(vec![
+                Value::Int("1".to_string()),
+                Value::Float(2.0),
+                Value::Str(Text::from_str("café")),
+            ]),
+        ),
+        ("a", obj(vec![("z", Value::Null), ("m", Value::Bool(true))])),
     ]);
     assert_eq!(
         String::from_utf8(canonical_bytes(&tape).unwrap()).unwrap(),
@@ -116,7 +116,10 @@ fn unpaired_surrogates_are_refused_by_name() {
     let by_value = obj(vec![("text", Value::Str(Text::from_units(vec![0xD800])))]);
     let error = canonical_bytes(&by_value).unwrap_err();
     assert!(error.0.contains("cannot be encoded"), "{}", error.0);
-    let by_key = Value::Object(vec![(Text::from_units(vec![0xD800]), Value::Int("1".to_string()))]);
+    let by_key = Value::Object(vec![(
+        Text::from_units(vec![0xD800]),
+        Value::Int("1".to_string()),
+    )]);
     let error = canonical_bytes(&by_key).unwrap_err();
     assert!(error.0.contains("cannot be encoded"), "{}", error.0);
 }
@@ -159,8 +162,7 @@ fn digest_identifies_content_not_validity() {
     );
 }
 
-const GOLDEN: &str =
-    "cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3";
+const GOLDEN: &str = "cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3";
 
 fn fixture_tape() -> Value {
     let path = concat!(
@@ -168,9 +170,7 @@ fn fixture_tape() -> Value {
         "/tests/fixtures/claude_session_synthetic.jsonl"
     );
     let text = std::fs::read_to_string(path).unwrap();
-    convert_lines(
-        text.lines().map(|line| Some(line.to_string())).collect(),
-    )
+    convert_lines(text.lines().map(|line| Some(line.to_string())).collect())
 }
 
 fn set_path(tape: &mut Value, path: &[&str], value: Value) {
@@ -184,11 +184,7 @@ fn set_path(tape: &mut Value, path: &[&str], value: Value) {
             if !pairs.iter().any(|(name, _)| name == &head) {
                 pairs.push((Text::from_str(head), Value::Null));
             }
-            let entry = &mut pairs
-                .iter_mut()
-                .find(|(name, _)| name == &head)
-                .unwrap()
-                .1;
+            let entry = &mut pairs.iter_mut().find(|(name, _)| name == &head).unwrap().1;
             set_path(entry, &path[1..], value);
         }
         Value::Array(items) => {

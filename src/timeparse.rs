@@ -26,11 +26,14 @@ fn parse_iso(text: &str) -> Option<i128> {
             None
         }
     };
-    let two = |index: usize| -> Option<i64> {
-        Some(digit(index)? * 10 + digit(index + 1)?)
-    };
+    let two = |index: usize| -> Option<i64> { Some(digit(index)? * 10 + digit(index + 1)?) };
     let four = |index: usize| -> Option<i64> {
-        Some(digit(index)? * 1000 + digit(index + 1)? * 100 + digit(index + 2)? * 10 + digit(index + 3)?)
+        Some(
+            digit(index)? * 1000
+                + digit(index + 1)? * 100
+                + digit(index + 2)? * 10
+                + digit(index + 3)?,
+        )
     };
     // Date: YYYY-MM-DD (the compact YYYYMMDD form is
     // also ISO; fromisoformat accepts it).
@@ -53,7 +56,16 @@ fn parse_iso(text: &str) -> Option<i128> {
     let days_in_month = [
         31,
         if leap { 29 } else { 28 },
-        31, 30, 31, 30, 31, 31, 30, 31, 30, 31,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31,
     ][(month - 1) as usize];
     if day < 1 || day > days_in_month {
         return None;
@@ -139,8 +151,7 @@ fn parse_iso(text: &str) -> Option<i128> {
             if offset_hour > 23 || offset_minute > 59 || offset_second > 59 {
                 return None;
             }
-            offset_seconds =
-                Some(sign * (offset_hour * 3600 + offset_minute * 60 + offset_second));
+            offset_seconds = Some(sign * (offset_hour * 3600 + offset_minute * 60 + offset_second));
         }
     }
     if pos != bytes.len() {
@@ -161,7 +172,6 @@ fn days_from_civil(year: i64, month: i64, day: i64) -> i64 {
     let year_of_era = shifted - era * 400;
     let month_prime = (month + 9) % 12;
     let day_of_year = (153 * month_prime + 2) / 5 + day - 1;
-    let day_of_era =
-        year_of_era * 365 + year_of_era / 4 - year_of_era / 100 + day_of_year;
+    let day_of_era = year_of_era * 365 + year_of_era / 4 - year_of_era / 100 + day_of_year;
     era * 146097 + day_of_era - 719468
 }

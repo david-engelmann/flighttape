@@ -14,8 +14,7 @@ use crate::convert::paths_in;
 use crate::identity::tape_digest;
 use crate::value::{object, Text, Value};
 
-const TEXT_FIELDS: [(&str, &str); 2] =
-    [("message", "text"), ("tool_result", "content")];
+const TEXT_FIELDS: [(&str, &str); 2] = [("message", "text"), ("tool_result", "content")];
 
 struct Screening {
     hits: Vec<Value>,
@@ -23,13 +22,7 @@ struct Screening {
     paths: u64,
 }
 
-fn screen_string(
-    text: &Text,
-    seq: &Value,
-    field: &str,
-    where_: &str,
-    state: &mut Screening,
-) {
+fn screen_string(text: &Text, seq: &Value, field: &str, where_: &str, state: &mut Screening) {
     state.strings += 1;
     let found = paths_in(text);
     if found > 0 {
@@ -48,12 +41,7 @@ fn screen_string(
 /// explicit stack, so no nesting depth a valid tape
 /// can hold exhausts a call stack. Object keys are
 /// screened as keys; the values under them as values.
-fn screen_value(
-    value: Option<&Value>,
-    seq: &Value,
-    field: &str,
-    state: &mut Screening,
-) {
+fn screen_value(value: Option<&Value>, seq: &Value, field: &str, state: &mut Screening) {
     let value = match value {
         None => return,
         Some(value) => value,
@@ -146,10 +134,7 @@ pub fn screen_tape(tape: &Value) -> Result<Value, crate::identity::DigestError> 
         }
     }
     Ok(object(vec![
-        (
-            "tape",
-            Value::Str(Text::from_str(&tape_digest(tape)?)),
-        ),
+        ("tape", Value::Str(Text::from_str(&tape_digest(tape)?))),
         ("strings_screened", Value::Int(state.strings.to_string())),
         ("paths_found", Value::Int(state.paths.to_string())),
         ("hits", Value::Array(state.hits)),

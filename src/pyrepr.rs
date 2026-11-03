@@ -33,8 +33,8 @@ pub fn repr_text(text: &Text) -> String {
             && index + 1 < units.len()
             && (0xDC00..0xE000).contains(&units[index + 1])
         {
-            let value = 0x10000u32
-                + (((unit as u32 - 0xD800) << 10) | (units[index + 1] as u32 - 0xDC00));
+            let value =
+                0x10000u32 + (((unit as u32 - 0xD800) << 10) | (units[index + 1] as u32 - 0xDC00));
             (Some(value), 2)
         } else if (0xD800..0xE000).contains(&unit) {
             (None, 1)
@@ -109,10 +109,18 @@ pub fn repr_float(value: f64) -> String {
         return "nan".to_string();
     }
     if value.is_infinite() {
-        return if value > 0.0 { "inf".to_string() } else { "-inf".to_string() };
+        return if value > 0.0 {
+            "inf".to_string()
+        } else {
+            "-inf".to_string()
+        };
     }
     if value == 0.0 {
-        return if value.is_sign_negative() { "-0.0".to_string() } else { "0.0".to_string() };
+        return if value.is_sign_negative() {
+            "-0.0".to_string()
+        } else {
+            "0.0".to_string()
+        };
     }
     // render_number yields the ECMAScript presentation;
     // take its digits and exponent back out and present
@@ -141,7 +149,12 @@ fn fixed(sign: &str, digits: &str, point: i64) -> String {
     if point <= 0 {
         format!("{}0.{}{}", sign, "0".repeat((-point) as usize), digits)
     } else if count <= point {
-        format!("{}{}{}.0", sign, digits, "0".repeat((point - count) as usize))
+        format!(
+            "{}{}{}.0",
+            sign,
+            digits,
+            "0".repeat((point - count) as usize)
+        )
     } else {
         format!(
             "{}{}.{}",

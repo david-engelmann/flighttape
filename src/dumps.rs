@@ -20,9 +20,7 @@ fn escape_string(text: &Text, out: &mut String) {
             && (0xDC00..0xE000).contains(&units[index + 1])
         {
             (
-                0x10000u32
-                    + (((unit as u32 - 0xD800) << 10)
-                        | (units[index + 1] as u32 - 0xDC00)),
+                0x10000u32 + (((unit as u32 - 0xD800) << 10) | (units[index + 1] as u32 - 0xDC00)),
                 2,
             )
         } else {
@@ -66,7 +64,11 @@ fn write_scalar(value: &Value, out: &mut String) {
             if number.is_nan() {
                 out.push_str("NaN");
             } else if number.is_infinite() {
-                out.push_str(if *number > 0.0 { "Infinity" } else { "-Infinity" });
+                out.push_str(if *number > 0.0 {
+                    "Infinity"
+                } else {
+                    "-Infinity"
+                });
             } else {
                 out.push_str(&repr_float(*number));
             }

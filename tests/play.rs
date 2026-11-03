@@ -213,8 +213,7 @@ fn header_states_run_metadata_and_loss_counts() {
 fn error_results_are_marked() {
     let mut tape = fixture_tape();
     for index in 0..events_mut(&mut tape).len() {
-        let is_result = events_mut(&mut tape)[index].get("kind")
-            == Some(&text("tool_result"));
+        let is_result = events_mut(&mut tape)[index].get("kind") == Some(&text("tool_result"));
         if is_result {
             let mut event = events_mut(&mut tape)[index].clone();
             set_key(&mut event, "is_error", Value::Bool(true));

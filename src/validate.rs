@@ -106,7 +106,11 @@ fn nonfinite_defects(tape: &Value) -> Vec<String> {
                 if !number.is_finite() {
                     defects.push(format!(
                         "{} is a non-finite number",
-                        if path.is_empty() { "tape".to_string() } else { path.clone() }
+                        if path.is_empty() {
+                            "tape".to_string()
+                        } else {
+                            path.clone()
+                        }
                     ));
                 }
             }
@@ -126,10 +130,7 @@ fn nonfinite_defects(tape: &Value) -> Vec<String> {
             }
             Value::Array(items) => {
                 for index in (0..items.len()).rev() {
-                    stack.push((
-                        &items[index],
-                        format!("{}[{}]", path, index),
-                    ));
+                    stack.push((&items[index], format!("{}[{}]", path, index)));
                 }
             }
             _ => {}
@@ -192,10 +193,7 @@ fn validate_structure(tape: &Value) -> Vec<String> {
     for field in ["source_format", "started_at"] {
         if let Some(value) = run.get(field) {
             if !value.is_null() && !matches!(value, Value::Str(_)) {
-                defects.push(format!(
-                    "run.{} must be a string when present",
-                    field
-                ));
+                defects.push(format!("run.{} must be a string when present", field));
             }
         }
     }
@@ -205,10 +203,7 @@ fn validate_structure(tape: &Value) -> Vec<String> {
                 continue;
             }
             match value.as_object() {
-                None => defects.push(format!(
-                    "run.{} must be an object when present",
-                    field
-                )),
+                None => defects.push(format!("run.{} must be an object when present", field)),
                 Some(pairs) => {
                     for (key, entry) in pairs {
                         if !is_int(entry) || is_negative_int(entry) {
@@ -350,10 +345,7 @@ fn validate_structure(tape: &Value) -> Vec<String> {
                             Some(parsed) => {
                                 if let Some(last) = last_ts {
                                     if parsed < last {
-                                        defects.push(format!(
-                                            "{}.timestamp runs backward",
-                                            where_
-                                        ));
+                                        defects.push(format!("{}.timestamp runs backward", where_));
                                     } else {
                                         last_ts = Some(parsed);
                                     }
@@ -368,10 +360,7 @@ fn validate_structure(tape: &Value) -> Vec<String> {
                             repr_value(ts)
                         )),
                     },
-                    _ => defects.push(format!(
-                        "{}.timestamp must be a string",
-                        where_
-                    )),
+                    _ => defects.push(format!("{}.timestamp must be a string", where_)),
                 }
             }
         }
@@ -392,20 +381,14 @@ fn validate_structure(tape: &Value) -> Vec<String> {
                         seen_calls.insert(text.clone());
                     }
                 }
-                _ => defects.push(format!(
-                    "{}.call_id must be a non-empty string",
-                    where_
-                )),
+                _ => defects.push(format!("{}.call_id must be a non-empty string", where_)),
             }
             let tool_ok = matches!(
                 event.get("tool"),
                 Some(Value::Str(text)) if !text.units().is_empty()
             );
             if !tool_ok {
-                defects.push(format!(
-                    "{}.tool must be a non-empty string",
-                    where_
-                ));
+                defects.push(format!("{}.tool must be a non-empty string", where_));
             }
         }
         if kind_name.as_deref() == Some("tool_result") {
@@ -422,18 +405,12 @@ fn validate_structure(tape: &Value) -> Vec<String> {
             }
             if let Some(content) = event.get("content") {
                 if !content.is_null() && !matches!(content, Value::Str(_)) {
-                    defects.push(format!(
-                        "{}.content must be a string",
-                        where_
-                    ));
+                    defects.push(format!("{}.content must be a string", where_));
                 }
             }
             if let Some(is_error) = event.get("is_error") {
                 if !matches!(is_error, Value::Bool(_)) {
-                    defects.push(format!(
-                        "{}.is_error must be a boolean",
-                        where_
-                    ));
+                    defects.push(format!("{}.is_error must be a boolean", where_));
                 }
             }
         }

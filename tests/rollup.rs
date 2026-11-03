@@ -104,10 +104,7 @@ fn the_report_is_pinned_field_by_field() {
             ("basis", text("final-assistant-message")),
         ]))
     );
-    assert_eq!(
-        first.get("duration_seconds"),
-        Some(&Value::Float(10.0))
-    );
+    assert_eq!(first.get("duration_seconds"), Some(&Value::Float(10.0)));
     assert_eq!(first.get("events"), Some(&int("2")));
     assert_eq!(
         first.get("totals"),
@@ -116,10 +113,7 @@ fn the_report_is_pinned_field_by_field() {
             ("messages", int("2")),
         ]))
     );
-    assert_eq!(
-        tapes[1].get("duration_seconds"),
-        Some(&Value::Null)
-    );
+    assert_eq!(tapes[1].get("duration_seconds"), Some(&Value::Null));
     assert_eq!(report.get("excluded"), Some(&Value::Array(vec![])));
     assert_eq!(
         report.get("counts"),
@@ -131,10 +125,9 @@ fn the_report_is_pinned_field_by_field() {
     );
     assert_eq!(
         report.get("outcomes"),
-        Some(&object(vec![
-            ("completed", int("1")),
-            ("failed", int("1")),
-        ]))
+        Some(&object(
+            vec![("completed", int("1")), ("failed", int("1")),]
+        ))
     );
     assert_eq!(
         report.get("totals"),
@@ -153,10 +146,7 @@ fn the_report_is_pinned_field_by_field() {
     );
     assert_eq!(
         report.get("skipped_lines"),
-        Some(&object(vec![
-            ("summary", int("1")),
-            ("system", int("3")),
-        ]))
+        Some(&object(vec![("summary", int("1")), ("system", int("3")),]))
     );
     assert_eq!(
         report.get("duration_seconds"),
@@ -174,10 +164,7 @@ fn identical_files_are_two_tapes_not_one() {
         records(&[("a.json", tape_one()), ("copy.json", tape_one())]),
         "d",
     );
-    assert_eq!(
-        report.get("counts").unwrap().get("tapes"),
-        Some(&int("2"))
-    );
+    assert_eq!(report.get("counts").unwrap().get("tapes"), Some(&int("2")));
     assert_eq!(
         report.get("totals").unwrap().get("input_tokens"),
         Some(&int("20"))
@@ -222,10 +209,7 @@ fn a_null_totals_tape_rolls_up_with_empty_totals() {
         Some(&Value::Object(vec![]))
     );
     assert_eq!(report.get("totals"), Some(&Value::Object(vec![])));
-    assert_eq!(
-        report.get("skipped_lines"),
-        Some(&Value::Object(vec![]))
-    );
+    assert_eq!(report.get("skipped_lines"), Some(&Value::Object(vec![])));
 }
 
 #[test]
@@ -270,15 +254,9 @@ fn an_unrepresentable_redacted_total_is_null() {
         ]))
     );
     set_redacted(&mut second, int("1"));
-    let report = rollup_report(
-        records(&[("a.json", first), ("b.json", second)]),
-        "d",
-    );
+    let report = rollup_report(records(&[("a.json", first), ("b.json", second)]), "d");
     assert_eq!(
-        report
-            .get("redacted_values")
-            .unwrap()
-            .get("total"),
+        report.get("redacted_values").unwrap().get("total"),
         Some(&Value::Int(format!("1{}1", "0".repeat(399))))
     );
 }
@@ -317,15 +295,9 @@ fn a_sum_past_the_rendering_digit_limit_reports_null() {
         let run = tape.get_mut("run").unwrap();
         set_key(run, "redacted_values", Value::Int(big.clone()));
     }
-    let report = rollup_report(
-        records(&[("a.json", first), ("b.json", second)]),
-        "d",
-    );
+    let report = rollup_report(records(&[("a.json", first), ("b.json", second)]), "d");
     assert_eq!(
-        report
-            .get("redacted_values")
-            .unwrap()
-            .get("total"),
+        report.get("redacted_values").unwrap().get("total"),
         Some(&Value::Null)
     );
 }
@@ -357,10 +329,7 @@ fn a_rolled_record_without_a_tape_is_refused() {
 #[test]
 #[should_panic(expected = "x.json")]
 fn a_rolled_record_without_a_digest_is_refused() {
-    let record = object(vec![
-        ("file", text("x.json")),
-        ("tape", tape_one()),
-    ]);
+    let record = object(vec![("file", text("x.json")), ("tape", tape_one())]);
     let _ = rollup_report(vec![record], "d");
 }
 
@@ -379,15 +348,11 @@ fn an_exclusions_defects_are_copied_not_aliased() {
     let record = object(vec![
         ("file", text("x.json")),
         ("reason", text("invalid")),
-        (
-            "defects",
-            Value::Array(vec![text("one defect")]),
-        ),
+        ("defects", Value::Array(vec![text("one defect")])),
     ]);
     let report = rollup_report(vec![record], "d");
     assert_eq!(
-        report.get("excluded").unwrap().as_array().unwrap()[0]
-            .get("defects"),
+        report.get("excluded").unwrap().as_array().unwrap()[0].get("defects"),
         Some(&Value::Array(vec![text("one defect")]))
     );
 }
@@ -395,11 +360,8 @@ fn an_exclusions_defects_are_copied_not_aliased() {
 // ---- the CLI, exercised through the built binary ----
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-rollup-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("flighttape-rollup-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -442,8 +404,7 @@ fn cli_rollup_reports_a_mixed_directory() {
     }
     std::fs::write(dir.join("bad.json"), dumps_indent(&broken)).unwrap();
     std::fs::write(dir.join("raw.json"), [0xff, 0xfe, b' ', b'n']).unwrap();
-    let surrogate_text =
-        dumps_indent(&tape_two()).replace("hey", "\\ud800");
+    let surrogate_text = dumps_indent(&tape_two()).replace("hey", "\\ud800");
     std::fs::write(dir.join("surrogate.json"), &surrogate_text).unwrap();
     std::fs::create_dir(dir.join("folder.json")).unwrap();
     std::fs::write(dir.join("notes.txt"), "not a tape").unwrap();
@@ -531,8 +492,7 @@ fn cli_rollup_reports_a_mixed_directory() {
 #[test]
 fn cli_rollup_of_an_empty_directory() {
     let dir = tmpdir("empty");
-    let (code, out, _) =
-        run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
+    let (code, out, _) = run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let report = parse(out.trim_end()).unwrap();
     assert_eq!(report.get("tapes"), Some(&Value::Array(vec![])));
@@ -593,8 +553,7 @@ fn cli_rollup_names_a_null_tape_as_invalid() {
     let dir = tmpdir("null");
     std::fs::write(dir.join("null.json"), "null\n").unwrap();
     std::fs::write(dir.join("good.json"), dumps_indent(&tape_one())).unwrap();
-    let (code, out, _) =
-        run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
+    let (code, out, _) = run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     let report = parse(out.trim_end()).unwrap();
     assert_eq!(
@@ -621,8 +580,7 @@ fn cli_rollup_refuses_a_path_that_is_a_file() {
     let dir = tmpdir("afile");
     let target = dir.join("lonely.json");
     std::fs::write(&target, dumps_indent(&tape_one())).unwrap();
-    let (code, out, err) =
-        run_cli(&["rollup".into(), target.to_string_lossy().into_owned()]);
+    let (code, out, err) = run_cli(&["rollup".into(), target.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert_eq!(out, "");
     assert!(err.contains("no such source directory"), "stderr {}", err);
@@ -634,8 +592,7 @@ fn cli_rollup_of_a_directory_without_json_files() {
     let dir = tmpdir("nojson");
     std::fs::write(dir.join("notes.txt"), "not a tape").unwrap();
     std::fs::write(dir.join("data.JSON"), dumps_indent(&tape_one())).unwrap();
-    let (code, out, _) =
-        run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
+    let (code, out, _) = run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let report = parse(out.trim_end()).unwrap();
     assert_eq!(
@@ -663,14 +620,10 @@ fn cli_rollup_renders_a_report_despite_a_huge_sum() {
         );
         std::fs::write(dir.join(name), dumps_indent(&tape)).unwrap();
     }
-    let (code, out, _) =
-        run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
+    let (code, out, _) = run_cli(&["rollup".into(), dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let report = parse(out.trim_end()).unwrap();
-    assert_eq!(
-        report.get("counts").unwrap().get("tapes"),
-        Some(&int("2"))
-    );
+    assert_eq!(report.get("counts").unwrap().get("tapes"), Some(&int("2")));
     assert_eq!(
         report.get("totals"),
         Some(&object(vec![("big", Value::Null)]))

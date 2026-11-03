@@ -14,11 +14,7 @@ const FIXTURE: &str = concat!(
 );
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-cli-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir = std::env::temp_dir().join(format!("flighttape-cli-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -47,8 +43,7 @@ fn validate_valid_tape_exits_zero() {
         out.to_string_lossy().into_owned(),
     ]);
     assert_eq!(code, 0);
-    let (code, stdout, _) =
-        run_cli(&["validate".into(), out.to_string_lossy().into_owned()]);
+    let (code, stdout, _) = run_cli(&["validate".into(), out.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     assert!(stdout.contains("valid tape"), "stdout {}", stdout);
     let _ = std::fs::remove_dir_all(&dir);
@@ -59,8 +54,7 @@ fn validate_malformed_tape_exits_one() {
     let dir = tmpdir("malformed");
     let bad = dir.join("bad.json");
     std::fs::write(&bad, "{\"tape_version\": \"9.9\"}").unwrap();
-    let (code, _, err) =
-        run_cli(&["validate".into(), bad.to_string_lossy().into_owned()]);
+    let (code, _, err) = run_cli(&["validate".into(), bad.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert!(err.contains("defect"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
@@ -71,8 +65,7 @@ fn convert_empty_session_exits_one() {
     let dir = tmpdir("empty");
     let empty = dir.join("empty.jsonl");
     std::fs::write(&empty, "").unwrap();
-    let (code, _, err) =
-        run_cli(&["convert".into(), empty.to_string_lossy().into_owned()]);
+    let (code, _, err) = run_cli(&["convert".into(), empty.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert!(err.contains("defect"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
@@ -89,8 +82,7 @@ fn play_renders_a_valid_tape() {
         out.to_string_lossy().into_owned(),
     ]);
     assert_eq!(code, 0);
-    let (code, stdout, _) =
-        run_cli(&["play".into(), out.to_string_lossy().into_owned()]);
+    let (code, stdout, _) = run_cli(&["play".into(), out.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let tape = parse(&std::fs::read_to_string(&out).unwrap()).unwrap();
     assert_eq!(stdout, render_tape(&tape));
@@ -117,8 +109,7 @@ fn play_malformed_tape_exits_one_with_no_rendering() {
     let dir = tmpdir("playbad");
     let bad = dir.join("bad.json");
     std::fs::write(&bad, "{\"tape_version\": \"9.9\"}").unwrap();
-    let (code, out, err) =
-        run_cli(&["play".into(), bad.to_string_lossy().into_owned()]);
+    let (code, out, err) = run_cli(&["play".into(), bad.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert!(err.contains("defect"), "stderr {}", err);
     assert!(!out.contains("tape "), "stdout {}", out);
@@ -143,21 +134,10 @@ fn convert_dir_writes_a_tape_and_a_summary() {
         out.to_string_lossy().into_owned(),
     ]);
     assert_eq!(code, 0);
-    let summary =
-        parse(&std::fs::read_to_string(out.join("summary.json")).unwrap())
-            .unwrap();
-    assert_eq!(
-        summary.get("converted"),
-        Some(&Value::Int("1".to_string()))
-    );
-    assert_eq!(
-        summary.get("failed"),
-        Some(&Value::Int("0".to_string()))
-    );
-    assert_eq!(
-        summary.get("events"),
-        Some(&Value::Int("5".to_string()))
-    );
+    let summary = parse(&std::fs::read_to_string(out.join("summary.json")).unwrap()).unwrap();
+    assert_eq!(summary.get("converted"), Some(&Value::Int("1".to_string())));
+    assert_eq!(summary.get("failed"), Some(&Value::Int("0".to_string())));
+    assert_eq!(summary.get("events"), Some(&Value::Int("5".to_string())));
     assert!(out.join("a.tape.json").exists());
     let _ = std::fs::remove_dir_all(&dir);
     let _ = dumps_indent(&Value::Null);
@@ -221,11 +201,7 @@ fn missing_tape_is_a_subcommand_required_error() {
 
 #[test]
 fn extra_positional_is_a_top_level_unrecognized_error() {
-    let (code, _, stderr) = run_cli(&[
-        "validate".into(),
-        "a.json".into(),
-        "extra".into(),
-    ]);
+    let (code, _, stderr) = run_cli(&["validate".into(), "a.json".into(), "extra".into()]);
     assert_eq!(code, 2);
     assert_eq!(
         stderr,
@@ -248,11 +224,7 @@ fn required_is_reported_before_unrecognized() {
 
 #[test]
 fn unrecognized_before_the_command_waits_for_the_parse() {
-    let (code, _, stderr) = run_cli(&[
-        "--bogus".into(),
-        "validate".into(),
-        "missing.json".into(),
-    ]);
+    let (code, _, stderr) = run_cli(&["--bogus".into(), "validate".into(), "missing.json".into()]);
     assert_eq!(code, 2);
     assert_eq!(
         stderr,
@@ -320,18 +292,14 @@ fn rollup_output_does_not_depend_on_creation_order() {
     let first_dir = tmpdir("rollup-order-a");
     std::fs::write(first_dir.join("b.json"), tape("b")).unwrap();
     std::fs::write(first_dir.join("a.json"), tape("a")).unwrap();
-    let (code, first_out, _) = run_cli(&[
-        "rollup".into(),
-        first_dir.to_string_lossy().into_owned(),
-    ]);
+    let (code, first_out, _) =
+        run_cli(&["rollup".into(), first_dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     let second_dir = tmpdir("rollup-order-b");
     std::fs::write(second_dir.join("a.json"), tape("a")).unwrap();
     std::fs::write(second_dir.join("b.json"), tape("b")).unwrap();
-    let (code, second_out, _) = run_cli(&[
-        "rollup".into(),
-        second_dir.to_string_lossy().into_owned(),
-    ]);
+    let (code, second_out, _) =
+        run_cli(&["rollup".into(), second_dir.to_string_lossy().into_owned()]);
     assert_eq!(code, 0);
     // The reports name their directory, so compare with
     // the directory paths normalized away.

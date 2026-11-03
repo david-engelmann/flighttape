@@ -46,9 +46,7 @@ fn fixture_lines() -> Vec<String> {
 
 fn skipped_total(tape: &Value) -> i64 {
     let mut total = 0i64;
-    if let Some(Value::Object(entries)) =
-        tape.get("run").and_then(|run| run.get("skipped_lines"))
-    {
+    if let Some(Value::Object(entries)) = tape.get("run").and_then(|run| run.get("skipped_lines")) {
         for (_, value) in entries {
             if let Value::Int(digits) = value {
                 total += digits.parse::<i64>().unwrap();
@@ -72,20 +70,10 @@ fn corpus_never_raises_and_every_line_leaves_a_trace() {
         let _defects = validate_tape(&tape);
         let skipped = skipped_total(&tape);
         if !line.trim().is_empty() {
-            let events = tape
-                .get("events")
-                .unwrap()
-                .as_array()
-                .unwrap()
-                .len();
+            let events = tape.get("events").unwrap().as_array().unwrap().len();
             assert!(events > 0 || skipped > 0, "line {}", line);
         }
-        total_events += tape
-            .get("events")
-            .unwrap()
-            .as_array()
-            .unwrap()
-            .len();
+        total_events += tape.get("events").unwrap().as_array().unwrap().len();
         total_skipped += skipped;
     }
     assert_eq!(total_events, 81);
@@ -100,16 +88,9 @@ fn a_structured_line_type_is_counted_never_raised() {
             value
         );
         let tape = convert_lines(vec![Some(line)]);
-        assert!(
-            tape.get("events")
-                .unwrap()
-                .as_array()
-                .unwrap()
-                .is_empty()
-        );
+        assert!(tape.get("events").unwrap().as_array().unwrap().is_empty());
         assert_eq!(
-            tape.get("run")
-                .and_then(|run| run.get("skipped_lines")),
+            tape.get("run").and_then(|run| run.get("skipped_lines")),
             Some(&object(vec![("malformed:type", int("1"))]))
         );
     }
@@ -131,9 +112,7 @@ fn undecodable_lines_are_counted_not_fatal() {
             .and_then(|skipped| skipped.get("undecodable")),
         Some(&int("1"))
     );
-    assert!(
-        !tape.get("events").unwrap().as_array().unwrap().is_empty()
-    );
+    assert!(!tape.get("events").unwrap().as_array().unwrap().is_empty());
     let _ = std::fs::remove_dir_all(&dir);
 }
 
@@ -144,43 +123,24 @@ fn huge_integer_line_is_counted_unparseable() {
         "9".repeat(6000)
     );
     let tape = convert_lines(vec![Some(line)]);
-    assert!(
-        tape.get("events")
-            .unwrap()
-            .as_array()
-            .unwrap()
-            .is_empty()
-    );
+    assert!(tape.get("events").unwrap().as_array().unwrap().is_empty());
     assert_eq!(
-        tape.get("run")
-            .and_then(|run| run.get("skipped_lines")),
+        tape.get("run").and_then(|run| run.get("skipped_lines")),
         Some(&object(vec![("unparseable", int("1"))]))
     );
 }
 
 #[test]
 fn deeply_nested_tool_input_is_counted_whole() {
-    let nested = format!(
-        "{}{}1{}",
-        "{\"a\":".repeat(3000),
-        "",
-        "}".repeat(3000)
-    );
+    let nested = format!("{}{}1{}", "{\"a\":".repeat(3000), "", "}".repeat(3000));
     let line = format!(
         "{{\"type\": \"assistant\", \"sessionId\": \"synthetic-deep\", \"message\": {{\"role\": \"assistant\", \"content\": [{{\"type\": \"tool_use\", \"id\": \"c1\", \"name\": \"Read\", \"input\": {}}}]}}}}",
         nested
     );
     let tape = convert_lines(vec![Some(line)]);
-    assert!(
-        tape.get("events")
-            .unwrap()
-            .as_array()
-            .unwrap()
-            .is_empty()
-    );
+    assert!(tape.get("events").unwrap().as_array().unwrap().is_empty());
     assert_eq!(
-        tape.get("run")
-            .and_then(|run| run.get("skipped_lines")),
+        tape.get("run").and_then(|run| run.get("skipped_lines")),
         Some(&object(vec![("too-deep", int("1"))]))
     );
 }
@@ -209,49 +169,49 @@ type CaseEdit = Box<dyn Fn(&mut Value)>;
 #[test]
 fn adversarial_tapes_are_named_defects_never_exceptions() {
     let cases: Vec<(&str, &str, CaseEdit)> = vec![
-        ("kind as list", "kind", Box::new(|tape: &mut Value| {
-            let events = match tape.get_mut("events") {
-                Some(Value::Array(events)) => events,
-                _ => panic!("events"),
-            };
-            set_key(
-                &mut events[0],
-                "kind",
-                Value::Array(vec![text("tool_call")]),
-            );
-        })),
-        ("kind as dict", "kind", Box::new(|tape: &mut Value| {
-            let events = match tape.get_mut("events") {
-                Some(Value::Array(events)) => events,
-                _ => panic!("events"),
-            };
-            set_key(
-                &mut events[0],
-                "kind",
-                object(vec![("k", int("1"))]),
-            );
-        })),
-        ("seq as list", "seq", Box::new(|tape: &mut Value| {
-            let events = match tape.get_mut("events") {
-                Some(Value::Array(events)) => events,
-                _ => panic!("events"),
-            };
-            set_key(
-                &mut events[0],
-                "seq",
-                Value::Array(vec![int("0")]),
-            );
-        })),
+        (
+            "kind as list",
+            "kind",
+            Box::new(|tape: &mut Value| {
+                let events = match tape.get_mut("events") {
+                    Some(Value::Array(events)) => events,
+                    _ => panic!("events"),
+                };
+                set_key(
+                    &mut events[0],
+                    "kind",
+                    Value::Array(vec![text("tool_call")]),
+                );
+            }),
+        ),
+        (
+            "kind as dict",
+            "kind",
+            Box::new(|tape: &mut Value| {
+                let events = match tape.get_mut("events") {
+                    Some(Value::Array(events)) => events,
+                    _ => panic!("events"),
+                };
+                set_key(&mut events[0], "kind", object(vec![("k", int("1"))]));
+            }),
+        ),
+        (
+            "seq as list",
+            "seq",
+            Box::new(|tape: &mut Value| {
+                let events = match tape.get_mut("events") {
+                    Some(Value::Array(events)) => events,
+                    _ => panic!("events"),
+                };
+                set_key(&mut events[0], "seq", Value::Array(vec![int("0")]));
+            }),
+        ),
         (
             "status as list",
             "outcome.status",
             Box::new(|tape: &mut Value| {
                 let outcome = tape.get_mut("outcome").unwrap();
-                set_key(
-                    outcome,
-                    "status",
-                    Value::Array(vec![text("completed")]),
-                );
+                set_key(outcome, "status", Value::Array(vec![text("completed")]));
             }),
         ),
         (
@@ -259,11 +219,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
             "outcome.status",
             Box::new(|tape: &mut Value| {
                 let outcome = tape.get_mut("outcome").unwrap();
-                set_key(
-                    outcome,
-                    "status",
-                    object(vec![("s", int("1"))]),
-                );
+                set_key(outcome, "status", object(vec![("s", int("1"))]));
                 set_key(outcome, "basis", text("no-events"));
             }),
         ),
@@ -272,11 +228,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
             "outcome.basis",
             Box::new(|tape: &mut Value| {
                 let outcome = tape.get_mut("outcome").unwrap();
-                set_key(
-                    outcome,
-                    "basis",
-                    object(vec![("b", int("1"))]),
-                );
+                set_key(outcome, "basis", object(vec![("b", int("1"))]));
             }),
         ),
         (
@@ -284,11 +236,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
             "outcome.basis",
             Box::new(|tape: &mut Value| {
                 let outcome = tape.get_mut("outcome").unwrap();
-                set_key(
-                    outcome,
-                    "basis",
-                    Value::Array(vec![text("no-events")]),
-                );
+                set_key(outcome, "basis", Value::Array(vec![text("no-events")]));
             }),
         ),
         (
@@ -299,11 +247,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
                     Some(Value::Array(events)) => events,
                     _ => panic!("events"),
                 };
-                set_key(
-                    &mut events[1],
-                    "call_id",
-                    Value::Array(vec![text("c1")]),
-                );
+                set_key(&mut events[1], "call_id", Value::Array(vec![text("c1")]));
             }),
         ),
         (
@@ -314,29 +258,21 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
                     Some(Value::Array(events)) => events,
                     _ => panic!("events"),
                 };
-                set_key(
-                    &mut events[0],
-                    "call_id",
-                    object(vec![("c", int("1"))]),
-                );
+                set_key(&mut events[0], "call_id", object(vec![("c", int("1"))]));
             }),
         ),
-        ("run as list", "run", Box::new(|tape: &mut Value| {
-            set_key(
-                tape,
-                "run",
-                Value::Array(vec![text("x")]),
-            );
-        })),
+        (
+            "run as list",
+            "run",
+            Box::new(|tape: &mut Value| {
+                set_key(tape, "run", Value::Array(vec![text("x")]));
+            }),
+        ),
         (
             "events as dict",
             "events",
             Box::new(|tape: &mut Value| {
-                set_key(
-                    tape,
-                    "events",
-                    object(vec![("e", int("1"))]),
-                );
+                set_key(tape, "events", object(vec![("e", int("1"))]));
             }),
         ),
         (
@@ -373,10 +309,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
                 set_key(
                     run,
                     "totals",
-                    object(vec![(
-                        "tool_calls",
-                        object(vec![("n", int("1"))]),
-                    )]),
+                    object(vec![("tool_calls", object(vec![("n", int("1"))]))]),
                 );
             }),
         ),
@@ -384,11 +317,7 @@ fn adversarial_tapes_are_named_defects_never_exceptions() {
             "version as list",
             "tape_version",
             Box::new(|tape: &mut Value| {
-                set_key(
-                    tape,
-                    "tape_version",
-                    Value::Array(vec![text("1.0")]),
-                );
+                set_key(tape, "tape_version", Value::Array(vec![text("1.0")]));
             }),
         ),
         (
@@ -439,11 +368,8 @@ fn a_tape_that_is_not_an_object_is_a_defect() {
 // ---- the CLI, exercised through the built binary ----
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-robust-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir =
+        std::env::temp_dir().join(format!("flighttape-robust-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -469,8 +395,7 @@ fn cli_convert_missing_source_is_a_named_error() {
     assert_eq!(code, 1);
     assert!(err.contains("no such source file"), "stderr {}", err);
     let out = dir.join("out").to_string_lossy().into_owned();
-    let (code, _, err) =
-        run_cli(&["convert-dir".into(), missing, "-o".into(), out]);
+    let (code, _, err) = run_cli(&["convert-dir".into(), missing, "-o".into(), out]);
     assert_eq!(code, 1);
     assert!(err.contains("no such source"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
@@ -481,11 +406,7 @@ fn cli_convert_dir_names_an_entry_that_is_not_a_file() {
     let dir = tmpdir("entries");
     let src = dir.join("sessions");
     std::fs::create_dir_all(src.join("fake.jsonl")).unwrap();
-    std::fs::write(
-        src.join("real.jsonl"),
-        format!("{}\n", fixture_lines()[0]),
-    )
-    .unwrap();
+    std::fs::write(src.join("real.jsonl"), format!("{}\n", fixture_lines()[0])).unwrap();
     let out = dir.join("tapes");
     let (code, _, err) = run_cli(&[
         "convert-dir".into(),
@@ -495,10 +416,7 @@ fn cli_convert_dir_names_an_entry_that_is_not_a_file() {
     ]);
     assert_eq!(code, 1);
     assert!(err.contains("not a file"), "stderr {}", err);
-    let summary = parse(
-        &std::fs::read_to_string(out.join("summary.json")).unwrap(),
-    )
-    .unwrap();
+    let summary = parse(&std::fs::read_to_string(out.join("summary.json")).unwrap()).unwrap();
     assert_eq!(summary.get("converted"), Some(&int("1")));
     assert_eq!(summary.get("failed"), Some(&int("1")));
     let _ = std::fs::remove_dir_all(&dir);
@@ -528,8 +446,7 @@ fn cli_validate_and_play_reject_an_undecodable_file() {
     bytes.extend_from_slice(&[0xff, 0xfe, b'}']);
     std::fs::write(&bad, bytes).unwrap();
     let bad_arg = bad.to_string_lossy().into_owned();
-    let (code, _, err) =
-        run_cli(&["validate".into(), bad_arg.clone()]);
+    let (code, _, err) = run_cli(&["validate".into(), bad_arg.clone()]);
     assert_eq!(code, 1);
     assert!(err.contains("UTF-8"), "stderr {}", err);
     let (code, _, err) = run_cli(&["play".into(), bad_arg]);
@@ -544,11 +461,7 @@ fn cli_validate_a_missing_tape_is_a_named_error() {
     let missing = dir.join("nope.json").to_string_lossy().into_owned();
     let (code, _, err) = run_cli(&["validate".into(), missing]);
     assert_eq!(code, 1);
-    assert!(
-        err.contains("cannot read the tape file"),
-        "stderr {}",
-        err
-    );
+    assert!(err.contains("cannot read the tape file"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
 }
 
@@ -570,8 +483,7 @@ fn cli_play_rejects_a_tape_with_an_unhashable_kind() {
     let path = dir.join("tape.json");
     std::fs::write(&path, dumps_indent(&tape)).unwrap();
     let path_arg = path.to_string_lossy().into_owned();
-    let (code, _, err) =
-        run_cli(&["validate".into(), path_arg.clone()]);
+    let (code, _, err) = run_cli(&["validate".into(), path_arg.clone()]);
     assert_eq!(code, 1);
     assert!(err.contains("kind"), "stderr {}", err);
     let (code, _, err) = run_cli(&["play".into(), path_arg]);

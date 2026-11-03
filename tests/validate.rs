@@ -34,16 +34,9 @@ fn set_path(tape: &mut Value, path: &[&str], value: Value) {
     match tape {
         Value::Object(pairs) => {
             if !pairs.iter().any(|(name, _)| name == &head) {
-                pairs.push((
-                    flighttape::value::Text::from_str(head),
-                    Value::Null,
-                ));
+                pairs.push((flighttape::value::Text::from_str(head), Value::Null));
             }
-            let entry = &mut pairs
-                .iter_mut()
-                .find(|(name, _)| name == &head)
-                .unwrap()
-                .1;
+            let entry = &mut pairs.iter_mut().find(|(name, _)| name == &head).unwrap().1;
             set_path(entry, &path[1..], value);
         }
         Value::Array(items) => {
@@ -80,7 +73,11 @@ fn seq_gap_is_rejected() {
 #[test]
 fn orphan_tool_result_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["events", "1", "call_id"], parse("\"nope\"").unwrap());
+    set_path(
+        &mut tape,
+        &["events", "1", "call_id"],
+        parse("\"nope\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "answers no earlier"));
 }
 
@@ -110,14 +107,22 @@ fn duplicate_call_id_is_rejected() {
 #[test]
 fn bad_outcome_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["outcome", "status"], parse("\"shrug\"").unwrap());
+    set_path(
+        &mut tape,
+        &["outcome", "status"],
+        parse("\"shrug\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "outcome.status"));
 }
 
 #[test]
 fn negative_total_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["run", "totals", "tool_calls"], parse("-1").unwrap());
+    set_path(
+        &mut tape,
+        &["run", "totals", "tool_calls"],
+        parse("-1").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "totals"));
 }
 
@@ -125,8 +130,16 @@ fn negative_total_is_rejected() {
 fn all_defects_are_named_in_one_pass() {
     let mut tape = good_tape();
     set_path(&mut tape, &["tape_version"], parse("\"9.9\"").unwrap());
-    set_path(&mut tape, &["outcome", "status"], parse("\"shrug\"").unwrap());
-    set_path(&mut tape, &["events", "1", "call_id"], parse("\"nope\"").unwrap());
+    set_path(
+        &mut tape,
+        &["outcome", "status"],
+        parse("\"shrug\"").unwrap(),
+    );
+    set_path(
+        &mut tape,
+        &["events", "1", "call_id"],
+        parse("\"nope\"").unwrap(),
+    );
     let defects = validate_tape(&tape);
     assert!(has(&defects, "tape_version"));
     assert!(has(&defects, "outcome.status"));
@@ -137,9 +150,17 @@ fn all_defects_are_named_in_one_pass() {
 #[test]
 fn skipped_lines_values_are_checked() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["run", "skipped_lines"], parse("{\"system\": -3}").unwrap());
+    set_path(
+        &mut tape,
+        &["run", "skipped_lines"],
+        parse("{\"system\": -3}").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "skipped_lines"));
-    set_path(&mut tape, &["run", "skipped_lines"], parse("{\"system\": \"many\"}").unwrap());
+    set_path(
+        &mut tape,
+        &["run", "skipped_lines"],
+        parse("{\"system\": \"many\"}").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "skipped_lines"));
 }
 
@@ -171,14 +192,22 @@ fn integer_call_id_on_a_note_is_rejected() {
 #[test]
 fn boolean_total_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["run", "totals", "tool_calls"], parse("true").unwrap());
+    set_path(
+        &mut tape,
+        &["run", "totals", "tool_calls"],
+        parse("true").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "totals"));
 }
 
 #[test]
 fn non_boolean_sidechain_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["events", "0", "sidechain"], parse("\"yes\"").unwrap());
+    set_path(
+        &mut tape,
+        &["events", "0", "sidechain"],
+        parse("\"yes\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "sidechain"));
 }
 
@@ -207,26 +236,34 @@ fn offset_timestamps_compare_chronologically() {
 #[test]
 fn unparseable_timestamp_is_rejected() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["events", "0", "timestamp"], parse("\"next tuesday\"").unwrap());
+    set_path(
+        &mut tape,
+        &["events", "0", "timestamp"],
+        parse("\"next tuesday\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "ISO 8601"));
 }
 
 #[test]
 fn basis_must_be_a_named_rule_that_pairs_with_the_status() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["outcome", "basis"], parse("\"final-assistant-message\"").unwrap());
+    set_path(
+        &mut tape,
+        &["outcome", "basis"],
+        parse("\"final-assistant-message\"").unwrap(),
+    );
     assert_eq!(validate_tape(&tape), Vec::<String>::new());
     for bad in ["\"\"", "7", "null", "[\"x\"]", "\"banana\"", "\" \""] {
         let mut tape = good_tape();
         set_path(&mut tape, &["outcome", "basis"], parse(bad).unwrap());
-        assert!(
-            has(&validate_tape(&tape), "outcome.basis"),
-            "basis {}",
-            bad
-        );
+        assert!(has(&validate_tape(&tape), "outcome.basis"), "basis {}", bad);
     }
     let mut tape = good_tape();
-    set_path(&mut tape, &["outcome", "basis"], parse("\"final-error-result\"").unwrap());
+    set_path(
+        &mut tape,
+        &["outcome", "basis"],
+        parse("\"final-error-result\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "does not go with"));
     let mut tape = good_tape();
     set_path(
@@ -240,10 +277,18 @@ fn basis_must_be_a_named_rule_that_pairs_with_the_status() {
 #[test]
 fn is_error_must_be_a_boolean_when_present() {
     let mut tape = good_tape();
-    set_path(&mut tape, &["events", "1", "is_error"], parse("true").unwrap());
+    set_path(
+        &mut tape,
+        &["events", "1", "is_error"],
+        parse("true").unwrap(),
+    );
     assert_eq!(validate_tape(&tape), Vec::<String>::new());
     let mut tape = good_tape();
-    set_path(&mut tape, &["events", "1", "is_error"], parse("\"false\"").unwrap());
+    set_path(
+        &mut tape,
+        &["events", "1", "is_error"],
+        parse("\"false\"").unwrap(),
+    );
     assert!(has(&validate_tape(&tape), "is_error"));
 }
 
@@ -274,8 +319,7 @@ fn a_finite_tape_earns_no_non_finite_defect() {
 fn a_shared_substructure_is_named_at_every_location() {
     // The same NaN-bearing object filed under two keys
     // earns its located defect at both paths.
-    let tape = parse(r#"{"a": {"reading": NaN}, "b": {"reading": NaN}}"#)
-        .unwrap();
+    let tape = parse(r#"{"a": {"reading": NaN}, "b": {"reading": NaN}}"#).unwrap();
     let defects = validate_tape(&tape);
     let named: Vec<&String> = defects
         .iter()
@@ -321,9 +365,9 @@ fn an_infinity_in_a_run_totals_field_is_named() {
     );
     let defects = validate_tape(&tape);
     assert!(
-        defects.iter().any(|defect| {
-            defect.contains("non-finite") && defect.contains("totals")
-        }),
+        defects
+            .iter()
+            .any(|defect| { defect.contains("non-finite") && defect.contains("totals") }),
         "{:?}",
         defects
     );

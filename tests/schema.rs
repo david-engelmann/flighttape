@@ -3,9 +3,7 @@
 //! with the crate's own JSON reader.
 
 use flighttape::json::parse;
-use flighttape::validate::{
-    validate_tape, BASES, EVENT_KINDS, OUTCOMES,
-};
+use flighttape::validate::{validate_tape, BASES, EVENT_KINDS, OUTCOMES};
 use flighttape::value::Value;
 use flighttape::TAPE_VERSION;
 
@@ -24,16 +22,9 @@ fn set_path(tape: &mut Value, path: &[&str], value: Value) {
     match tape {
         Value::Object(pairs) => {
             if !pairs.iter().any(|(name, _)| name == &head) {
-                pairs.push((
-                    flighttape::value::Text::from_str(head),
-                    Value::Null,
-                ));
+                pairs.push((flighttape::value::Text::from_str(head), Value::Null));
             }
-            let entry = &mut pairs
-                .iter_mut()
-                .find(|(name, _)| name == &head)
-                .unwrap()
-                .1;
+            let entry = &mut pairs.iter_mut().find(|(name, _)| name == &head).unwrap().1;
             set_path(entry, &path[1..], value);
         }
         Value::Array(items) => {
@@ -70,9 +61,19 @@ fn schema_and_validator_share_the_vocabulary() {
         &Value::Str(flighttape::value::Text::from_str(TAPE_VERSION))
     );
     let kinds = strings(
-        at(&schema, &["properties", "events", "items", "properties", "kind", "enum"])
-            .as_array()
-            .unwrap(),
+        at(
+            &schema,
+            &[
+                "properties",
+                "events",
+                "items",
+                "properties",
+                "kind",
+                "enum",
+            ],
+        )
+        .as_array()
+        .unwrap(),
     );
     let mut expected: Vec<String> = EVENT_KINDS.iter().map(|kind| kind.to_string()).collect();
     let mut actual = kinds.clone();
@@ -80,9 +81,12 @@ fn schema_and_validator_share_the_vocabulary() {
     expected.sort();
     assert_eq!(actual, expected);
     let outcomes = strings(
-        at(&schema, &["properties", "outcome", "properties", "status", "enum"])
-            .as_array()
-            .unwrap(),
+        at(
+            &schema,
+            &["properties", "outcome", "properties", "status", "enum"],
+        )
+        .as_array()
+        .unwrap(),
     );
     let mut expected: Vec<String> = OUTCOMES.iter().map(|name| name.to_string()).collect();
     let mut actual = outcomes;
@@ -90,9 +94,12 @@ fn schema_and_validator_share_the_vocabulary() {
     expected.sort();
     assert_eq!(actual, expected);
     let bases = strings(
-        at(&schema, &["properties", "outcome", "properties", "basis", "enum"])
-            .as_array()
-            .unwrap(),
+        at(
+            &schema,
+            &["properties", "outcome", "properties", "basis", "enum"],
+        )
+        .as_array()
+        .unwrap(),
     );
     let mut expected: Vec<String> = BASES.iter().map(|name| name.to_string()).collect();
     let mut actual = bases;
@@ -157,17 +164,13 @@ fn validator_rejects_the_schema_probes() {
 #[test]
 fn schema_states_the_basis_field() {
     let schema = load_schema();
-    let basis = at(
-        &schema,
-        &["properties", "outcome", "properties", "basis"],
-    );
+    let basis = at(&schema, &["properties", "outcome", "properties", "basis"]);
     assert_eq!(
         basis.get("type"),
         Some(&Value::Str(flighttape::value::Text::from_str("string")))
     );
     let bases = strings(basis.get("enum").unwrap().as_array().unwrap());
-    let mut expected: Vec<String> =
-        BASES.iter().map(|name| name.to_string()).collect();
+    let mut expected: Vec<String> = BASES.iter().map(|name| name.to_string()).collect();
     let mut actual = bases;
     actual.sort();
     expected.sort();
@@ -177,10 +180,7 @@ fn schema_states_the_basis_field() {
 #[test]
 fn schema_types_is_error_as_a_boolean() {
     let schema = load_schema();
-    let props = at(
-        &schema,
-        &["properties", "events", "items", "properties"],
-    );
+    let props = at(&schema, &["properties", "events", "items", "properties"]);
     let expected = parse(r#"{"type": "boolean"}"#).unwrap();
     assert_eq!(props.get("is_error"), Some(&expected));
 }

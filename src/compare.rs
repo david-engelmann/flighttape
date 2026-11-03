@@ -61,10 +61,7 @@ fn sorted_keys(first: &Value, second: &Value) -> Vec<Text> {
 fn measures(first: &Value, second: &Value) -> Value {
     let mut pairs: Vec<(Text, Value)> = Vec::new();
     for key in sorted_keys(first, second) {
-        let entry = entry(
-            first.get(&key_string(&key)),
-            second.get(&key_string(&key)),
-        );
+        let entry = entry(first.get(&key_string(&key)), second.get(&key_string(&key)));
         if !matches!(&entry, Value::Object(items) if items.is_empty()) {
             pairs.push((key, entry));
         }
@@ -188,13 +185,7 @@ fn events_report(first: &Value, second: &Value) -> Value {
     sort_seqs(&mut changed);
     sort_seqs(&mut added);
     sort_seqs(&mut removed);
-    let seq_array = |seqs: Vec<String>| {
-        Value::Array(
-            seqs.into_iter()
-                .map(Value::Int)
-                .collect(),
-        )
-    };
+    let seq_array = |seqs: Vec<String>| Value::Array(seqs.into_iter().map(Value::Int).collect());
     let count_of = |tape: &Value| -> usize {
         tape.get("events")
             .and_then(|value| value.as_array())
@@ -219,10 +210,7 @@ fn events_report(first: &Value, second: &Value) -> Value {
 /// Return the comparison report for two valid tapes,
 /// or the digest error when either side cannot be
 /// digested, as the Python raises there.
-pub fn compare_tapes(
-    first: &Value,
-    second: &Value,
-) -> Result<Value, DigestError> {
+pub fn compare_tapes(first: &Value, second: &Value) -> Result<Value, DigestError> {
     let first_digest = tape_digest(first)?;
     let second_digest = tape_digest(second)?;
     let first_outcome = first.get("outcome").cloned().unwrap_or(Value::Null);
@@ -273,14 +261,8 @@ pub fn compare_tapes(
         (
             "digests",
             object(vec![
-                (
-                    "a",
-                    Value::Str(Text::from_str(&first_digest)),
-                ),
-                (
-                    "b",
-                    Value::Str(Text::from_str(&second_digest)),
-                ),
+                ("a", Value::Str(Text::from_str(&first_digest))),
+                ("b", Value::Str(Text::from_str(&second_digest))),
             ]),
         ),
         (
@@ -292,10 +274,7 @@ pub fn compare_tapes(
             ]),
         ),
         ("duration_seconds", Value::Object(duration_pairs)),
-        (
-            "measures",
-            measures(&totals_of(first), &totals_of(second)),
-        ),
+        ("measures", measures(&totals_of(first), &totals_of(second))),
         (
             "redacted_values",
             carried(

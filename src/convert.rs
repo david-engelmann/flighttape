@@ -53,9 +53,7 @@ fn scalars(text: &Text) -> Vec<u32> {
             && (0xDC00..0xE000).contains(&units[index + 1])
         {
             out.push(
-                0x10000
-                    + (((unit as u32 - 0xD800) << 10)
-                        | (units[index + 1] as u32 - 0xDC00)),
+                0x10000 + (((unit as u32 - 0xD800) << 10) | (units[index + 1] as u32 - 0xDC00)),
             );
             index += 2;
         } else {
@@ -81,16 +79,34 @@ fn text_from_scalars(scalars: &[u32]) -> Text {
 }
 
 const PREFIX_CHARS: &[u32] = &[
-    b'"' as u32, b'\'' as u32, b'`' as u32, b'(' as u32, b'[' as u32,
-    b'{' as u32, b'<' as u32,
+    b'"' as u32,
+    b'\'' as u32,
+    b'`' as u32,
+    b'(' as u32,
+    b'[' as u32,
+    b'{' as u32,
+    b'<' as u32,
 ];
 const TRAILING_PUNCT: &[u32] = &[
-    b'.' as u32, b',' as u32, b';' as u32, b':' as u32, b'!' as u32,
-    b'?' as u32, b')' as u32, b']' as u32, b'}' as u32, b'"' as u32,
-    b'\'' as u32, b'`' as u32,
+    b'.' as u32,
+    b',' as u32,
+    b';' as u32,
+    b':' as u32,
+    b'!' as u32,
+    b'?' as u32,
+    b')' as u32,
+    b']' as u32,
+    b'}' as u32,
+    b'"' as u32,
+    b'\'' as u32,
+    b'`' as u32,
 ];
 const PATH_STOP: &[u32] = &[
-    b',' as u32, b';' as u32, b'?' as u32, b'#' as u32, b'&' as u32,
+    b',' as u32,
+    b';' as u32,
+    b'?' as u32,
+    b'#' as u32,
+    b'&' as u32,
 ];
 
 fn stem_matches(stem: &[u32]) -> bool {
@@ -166,10 +182,7 @@ fn redact_token(token: &[u32], counter: &mut u64) -> Vec<u32> {
         }
         let mut j = i;
         while j < size && !PATH_STOP.contains(&token[j]) {
-            if token[j] == b':' as u32
-                && j + 1 < size
-                && token[j + 1] == b'/' as u32
-            {
+            if token[j] == b':' as u32 && j + 1 < size && token[j + 1] == b'/' as u32 {
                 break;
             }
             j += 1;
@@ -267,10 +280,7 @@ pub fn sanitize(value: &Value, counter: &mut u64) -> Value {
                 Value::Object(pairs) => {
                     let mut keys: Vec<Text> = Vec::with_capacity(pairs.len());
                     for (key, _) in pairs {
-                        let redacted = redact_text(
-                            &Value::Str(key.clone()),
-                            counter,
-                        );
+                        let redacted = redact_text(&Value::Str(key.clone()), counter);
                         match redacted {
                             Value::Str(text) => keys.push(text),
                             _ => keys.push(key.clone()),
@@ -312,8 +322,7 @@ fn result_text(content: Option<&Value>) -> Text {
             let mut parts: Vec<Text> = Vec::new();
             for block in blocks {
                 if block.as_object().is_some()
-                    && block.get("type")
-                        == Some(&Value::Str(Text::from_str("text")))
+                    && block.get("type") == Some(&Value::Str(Text::from_str("text")))
                 {
                     let part = match block.get("text") {
                         None => Text::from_str(""),
@@ -342,7 +351,9 @@ struct Counts {
 
 impl Counts {
     fn new() -> Counts {
-        Counts { entries: Vec::new() }
+        Counts {
+            entries: Vec::new(),
+        }
     }
 
     fn bump(&mut self, key: Text) {
@@ -365,9 +376,7 @@ impl Counts {
         Value::Object(
             self.entries
                 .iter()
-                .map(|(key, count)| {
-                    (key.clone(), Value::Int(count.to_string()))
-                })
+                .map(|(key, count)| (key.clone(), Value::Int(count.to_string())))
                 .collect(),
         )
     }
@@ -412,9 +421,7 @@ impl Totals {
         Value::Object(
             self.entries
                 .iter()
-                .map(|(key, digits)| {
-                    (Text::from_str(key), Value::Int(digits.clone()))
-                })
+                .map(|(key, digits)| (Text::from_str(key), Value::Int(digits.clone())))
                 .collect(),
         )
     }
@@ -429,11 +436,7 @@ struct LineResult {
     started_at: Option<Value>,
 }
 
-fn convert_line(
-    line: &Value,
-    session_id: Option<&Value>,
-    base_seq: usize,
-) -> LineResult {
+fn convert_line(line: &Value, session_id: Option<&Value>, base_seq: usize) -> LineResult {
     let mut events: Vec<Value> = Vec::new();
     let mut skipped = Counts::new();
     let mut totals = Totals::new();
@@ -491,8 +494,7 @@ fn convert_line(
     }
     let line_type = line.get("type").cloned();
     let is_user = line_type == Some(Value::Str(Text::from_str("user")));
-    let is_assistant =
-        line_type == Some(Value::Str(Text::from_str("assistant")));
+    let is_assistant = line_type == Some(Value::Str(Text::from_str("assistant")));
     if !is_user && !is_assistant {
         match &line_type {
             Some(Value::Str(text)) => {
@@ -580,10 +582,13 @@ fn convert_line(
             if let Some(text) = block.get("text") {
                 if truthy(text) {
                     let redacted = redact_text(text, &mut redactions);
-                    emit!("message", vec![
-                        (Text::from_str("role"), role.clone()),
-                        (Text::from_str("text"), redacted),
-                    ]);
+                    emit!(
+                        "message",
+                        vec![
+                            (Text::from_str("role"), role.clone()),
+                            (Text::from_str("text"), redacted),
+                        ]
+                    );
                     totals.add_count("messages");
                     made += 1;
                 }
@@ -594,43 +599,39 @@ fn convert_line(
                 _ => Value::Object(Vec::new()),
             };
             let sanitized = sanitize(&input, &mut redactions);
-            emit!("tool_call", vec![
-                (
-                    Text::from_str("call_id"),
-                    block.get("id").cloned().unwrap_or(Value::Null),
-                ),
-                (
-                    Text::from_str("tool"),
-                    block.get("name").cloned().unwrap_or(Value::Null),
-                ),
-                (Text::from_str("input"), sanitized),
-            ]);
+            emit!(
+                "tool_call",
+                vec![
+                    (
+                        Text::from_str("call_id"),
+                        block.get("id").cloned().unwrap_or(Value::Null),
+                    ),
+                    (
+                        Text::from_str("tool"),
+                        block.get("name").cloned().unwrap_or(Value::Null),
+                    ),
+                    (Text::from_str("input"), sanitized),
+                ]
+            );
             totals.add_count("tool_calls");
             made += 1;
-        } else if block_type
-            == Some(Value::Str(Text::from_str("tool_result")))
-        {
+        } else if block_type == Some(Value::Str(Text::from_str("tool_result"))) {
             let text = result_text(block.get("content"));
-            let redacted = redact_text(
-                &Value::Str(text),
-                &mut redactions,
+            let redacted = redact_text(&Value::Str(text), &mut redactions);
+            emit!(
+                "tool_result",
+                vec![
+                    (
+                        Text::from_str("call_id"),
+                        block.get("tool_use_id").cloned().unwrap_or(Value::Null),
+                    ),
+                    (
+                        Text::from_str("is_error"),
+                        Value::Bool(truthy(block.get("is_error").unwrap_or(&Value::Bool(false)),)),
+                    ),
+                    (Text::from_str("content"), redacted),
+                ]
             );
-            emit!("tool_result", vec![
-                (
-                    Text::from_str("call_id"),
-                    block
-                        .get("tool_use_id")
-                        .cloned()
-                        .unwrap_or(Value::Null),
-                ),
-                (
-                    Text::from_str("is_error"),
-                    Value::Bool(truthy(
-                        block.get("is_error").unwrap_or(&Value::Bool(false)),
-                    )),
-                ),
-                (Text::from_str("content"), redacted),
-            ]);
             made += 1;
         } else {
             let key = match &block_type {
@@ -718,7 +719,10 @@ pub fn convert_lines(lines: Vec<Option<String>>) -> Value {
         _ => Value::Str(Text::from_str("unknown")),
     };
     let mut run_pairs: Vec<(Text, Value)> = vec![
-        (Text::from_str("harness"), Value::Str(Text::from_str("claude-code"))),
+        (
+            Text::from_str("harness"),
+            Value::Str(Text::from_str("claude-code")),
+        ),
         (Text::from_str("session_id"), session_value),
         (
             Text::from_str("source_format"),

@@ -75,12 +75,7 @@ fn seqs_of(tape: &Value) -> Vec<Value> {
         .collect()
 }
 
-fn slice(
-    tape: &Value,
-    from: Option<i128>,
-    to: Option<i128>,
-    kinds: Option<Vec<String>>,
-) -> Value {
+fn slice(tape: &Value, from: Option<i128>, to: Option<i128>, kinds: Option<Vec<String>>) -> Value {
     slice_tape(tape, from, to, kinds).expect("the slice succeeds")
 }
 
@@ -120,10 +115,7 @@ fn bounds_omit_to_the_tapes_ends_and_clamp_to_what_exists() {
         vec![int("0"), int("1"), int("2"), int("3")]
     );
     let past = slice(&tape, None, Some(99), None);
-    assert_eq!(
-        past.get("events").unwrap().as_array().unwrap().len(),
-        4
-    );
+    assert_eq!(past.get("events").unwrap().as_array().unwrap().len(), 4);
     let _ = slice_err(&tape, Some(99), None, None);
 }
 
@@ -149,12 +141,7 @@ fn a_kind_filter_selects_across_the_range() {
 #[test]
 fn provenance_records_the_source_digest_and_the_request() {
     let tape = source_tape();
-    let cut = slice(
-        &tape,
-        Some(1),
-        None,
-        Some(vec!["note".to_string()]),
-    );
+    let cut = slice(&tape, Some(1), None, Some(vec!["note".to_string()]));
     let info = cut
         .get("run")
         .and_then(|run| run.get("slice_of"))
@@ -211,12 +198,7 @@ fn totals_are_recomputed_and_token_totals_are_omitted() {
             ("tool_calls", int("1")),
         ]))
     );
-    let notes = slice(
-        &source_tape(),
-        None,
-        None,
-        Some(vec!["note".to_string()]),
-    );
+    let notes = slice(&source_tape(), None, None, Some(vec!["note".to_string()]));
     assert_eq!(
         notes.get("run").and_then(|run| run.get("totals")),
         Some(&object(vec![
@@ -232,10 +214,7 @@ fn run_identity_is_carried_as_recorded() {
     let run = cut.get("run").unwrap();
     assert_eq!(run.get("harness"), Some(&text("claude-code")));
     assert_eq!(run.get("session_id"), Some(&text("slice-me")));
-    assert_eq!(
-        run.get("source_format"),
-        Some(&text("claude-code-jsonl"))
-    );
+    assert_eq!(run.get("source_format"), Some(&text("claude-code-jsonl")));
     assert_eq!(run.get("started_at"), Some(&text(T0)));
     assert_eq!(
         run.get("skipped_lines"),
@@ -259,12 +238,7 @@ fn a_slice_of_only_session_end_events_has_no_outcome_events() {
             ("timestamp", text(T3)),
         ]));
     }
-    let cut = slice(
-        &tape,
-        None,
-        None,
-        Some(vec!["session_end".to_string()]),
-    );
+    let cut = slice(&tape, None, None, Some(vec!["session_end".to_string()]));
     assert_eq!(
         cut.get("outcome"),
         Some(&object(vec![
@@ -280,12 +254,7 @@ fn malformed_selections_are_refused_by_name() {
     let tape = source_tape();
     let _ = slice_err(&tape, Some(-1), None, None);
     let _ = slice_err(&tape, Some(3), Some(1), None);
-    let message = slice_err(
-        &tape,
-        None,
-        None,
-        Some(vec!["bogus".to_string()]),
-    );
+    let message = slice_err(&tape, None, None, Some(vec!["bogus".to_string()]));
     assert!(message.contains("bogus"), "message {}", message);
 }
 
@@ -331,11 +300,7 @@ fn the_library_refuses_a_slice_that_would_not_validate() {
 // ---- the CLI, exercised through the built binary ----
 
 fn tmpdir(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!(
-        "flighttape-slice-{}-{}",
-        std::process::id(),
-        tag
-    ));
+    let dir = std::env::temp_dir().join(format!("flighttape-slice-{}-{}", std::process::id(), tag));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
@@ -375,12 +340,7 @@ fn cli_slice_to_a_file_and_to_stdout() {
     assert_eq!(code, 0);
     let cut = parse(&std::fs::read_to_string(&out).unwrap()).unwrap();
     assert_eq!(kinds_of(&cut), vec![text("tool_call"), text("note")]);
-    let (code, printed, _) = run_cli(&[
-        "slice".into(),
-        source,
-        "--kind".into(),
-        "note".into(),
-    ]);
+    let (code, printed, _) = run_cli(&["slice".into(), source, "--kind".into(), "note".into()]);
     assert_eq!(code, 0);
     let printed = parse(printed.trim_end()).unwrap();
     assert_eq!(kinds_of(&printed), vec![text("note")]);
@@ -475,7 +435,11 @@ fn cli_a_slice_that_breaks_pairing_is_refused_before_writing() {
         out.to_string_lossy().into_owned(),
     ]);
     assert_eq!(code, 1);
-    assert!(err.contains("the slice is not a valid tape"), "stderr {}", err);
+    assert!(
+        err.contains("the slice is not a valid tape"),
+        "stderr {}",
+        err
+    );
     assert!(err.contains("answers no earlier"), "stderr {}", err);
     assert!(!out.exists());
     let _ = std::fs::remove_dir_all(&dir);
@@ -500,11 +464,7 @@ fn cli_a_write_failure_is_a_named_error() {
 fn cli_to_below_zero_and_two_kind_flags() {
     let dir = tmpdir("flags");
     let source = write_tape(&dir, &source_tape());
-    let (code, _, err) = run_cli(&[
-        "slice".into(),
-        source.clone(),
-        "--to=-1".into(),
-    ]);
+    let (code, _, err) = run_cli(&["slice".into(), source.clone(), "--to=-1".into()]);
     assert_eq!(code, 1);
     assert!(err.contains("below zero"), "stderr {}", err);
     let (code, printed, _) = run_cli(&[
@@ -525,13 +485,11 @@ fn cli_to_below_zero_and_two_kind_flags() {
 fn cli_an_undigestible_source_is_refused_by_name() {
     let dir = tmpdir("undigestible");
     let path = dir.join("tape.json");
-    let tape_text =
-        dumps_indent(&source_tape()).replace("do it", "\\ud800");
+    let tape_text = dumps_indent(&source_tape()).replace("do it", "\\ud800");
     std::fs::write(&path, &tape_text).unwrap();
     let loaded = parse(&tape_text).unwrap();
     assert!(validate_tape(&loaded).is_empty());
-    let (code, out, err) =
-        run_cli(&["slice".into(), path.to_string_lossy().into_owned()]);
+    let (code, out, err) = run_cli(&["slice".into(), path.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert_eq!(out, "");
     assert!(err.contains("cannot be digested"), "stderr {}", err);
@@ -586,24 +544,11 @@ fn cli_absurd_bounds_clamp_and_non_integers_are_named() {
     ]);
     assert_eq!(code, 1);
     assert!(err.contains("matches no events"), "stderr {}", err);
-    let (code, printed, _) = run_cli(&[
-        "slice".into(),
-        source.clone(),
-        "--to".into(),
-        huge,
-    ]);
+    let (code, printed, _) = run_cli(&["slice".into(), source.clone(), "--to".into(), huge]);
     assert_eq!(code, 0);
     let printed = parse(printed.trim_end()).unwrap();
-    assert_eq!(
-        printed.get("events").unwrap().as_array().unwrap().len(),
-        4
-    );
-    let (code, _, err) = run_cli(&[
-        "slice".into(),
-        source,
-        "--from".into(),
-        "abc".into(),
-    ]);
+    assert_eq!(printed.get("events").unwrap().as_array().unwrap().len(), 4);
+    let (code, _, err) = run_cli(&["slice".into(), source, "--from".into(), "abc".into()]);
     assert_eq!(code, 1);
     assert!(err.contains("not an integer"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);
@@ -618,8 +563,7 @@ fn cli_a_source_holding_an_oversized_number_is_named() {
         &format!("\"input_tokens\": {}", "9".repeat(5000)),
     );
     std::fs::write(&path, &tape_text).unwrap();
-    let (code, _, err) =
-        run_cli(&["slice".into(), path.to_string_lossy().into_owned()]);
+    let (code, _, err) = run_cli(&["slice".into(), path.to_string_lossy().into_owned()]);
     assert_eq!(code, 1);
     assert!(err.contains("number too large"), "stderr {}", err);
     let _ = std::fs::remove_dir_all(&dir);

@@ -178,7 +178,6 @@ fn cmp_digits(a: &str, b: &str) -> Ordering {
     a.cmp(b)
 }
 
-
 /// Add two canonical digit strings exactly (signs
 /// handled), for token and count sums.
 pub fn int_add(a: &str, b: &str) -> String {
@@ -302,9 +301,7 @@ pub fn py_str(value: &Value) -> Text {
         Value::Bool(false) => Text::from_str("False"),
         Value::Int(digits) => Text::from_str(digits),
         Value::Float(number) => Text::from_str(&crate::pyrepr::repr_float(*number)),
-        Value::Array(_) | Value::Object(_) => {
-            Text::from_str(&crate::pyrepr::repr_value(value))
-        }
+        Value::Array(_) | Value::Object(_) => Text::from_str(&crate::pyrepr::repr_value(value)),
     }
 }
 
@@ -325,9 +322,7 @@ pub fn scalar_cmp(a: &Text, b: &Text) -> Ordering {
                 && (0xDC00..0xE000).contains(&units[index + 1])
             {
                 out.push(
-                    0x10000
-                        + (((unit as u32 - 0xD800) << 10)
-                            | (units[index + 1] as u32 - 0xDC00)),
+                    0x10000 + (((unit as u32 - 0xD800) << 10) | (units[index + 1] as u32 - 0xDC00)),
                 );
                 index += 2;
             } else {

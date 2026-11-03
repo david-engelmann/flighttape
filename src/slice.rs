@@ -129,12 +129,9 @@ pub fn slice_tape(
     to_seq: Option<i128>,
     kinds: Option<Vec<String>>,
 ) -> Result<Value, SliceErrorOrDigest> {
-    check_selection(from_seq, to_seq, kinds.as_deref())
-        .map_err(SliceErrorOrDigest::Slice)?;
+    check_selection(from_seq, to_seq, kinds.as_deref()).map_err(SliceErrorOrDigest::Slice)?;
     build_slice(tape, from_seq, to_seq, kinds).map_err(|error| match error {
-        SliceErrorOrDigest::Digest(digest_error) => {
-            SliceErrorOrDigest::Digest(digest_error)
-        }
+        SliceErrorOrDigest::Digest(digest_error) => SliceErrorOrDigest::Digest(digest_error),
         other => other,
     })
 }
@@ -169,16 +166,12 @@ fn build_slice(
                 _ => continue,
             };
             if let Some(from) = from_seq {
-                if int_cmp(&seq_digits, &from.to_string())
-                    == std::cmp::Ordering::Less
-                {
+                if int_cmp(&seq_digits, &from.to_string()) == std::cmp::Ordering::Less {
                     continue;
                 }
             }
             if let Some(to) = to_seq {
-                if int_cmp(&seq_digits, &to.to_string())
-                    == std::cmp::Ordering::Greater
-                {
+                if int_cmp(&seq_digits, &to.to_string()) == std::cmp::Ordering::Greater {
                     continue;
                 }
             }
@@ -195,11 +188,7 @@ fn build_slice(
                 }
             }
             let mut clone = event.clone();
-            set_key(
-                &mut clone,
-                "seq",
-                Value::Int(selected.len().to_string()),
-            );
+            set_key(&mut clone, "seq", Value::Int(selected.len().to_string()));
             selected.push(clone);
         }
     }
@@ -223,15 +212,11 @@ fn build_slice(
         .unwrap_or(Value::Object(Vec::new()));
     let messages = selected
         .iter()
-        .filter(|event| {
-            event.get("kind") == Some(&Value::Str(Text::from_str("message")))
-        })
+        .filter(|event| event.get("kind") == Some(&Value::Str(Text::from_str("message"))))
         .count();
     let tool_calls = selected
         .iter()
-        .filter(|event| {
-            event.get("kind") == Some(&Value::Str(Text::from_str("tool_call")))
-        })
+        .filter(|event| event.get("kind") == Some(&Value::Str(Text::from_str("tool_call"))))
         .count();
     set_key(
         &mut run,
@@ -248,11 +233,15 @@ fn build_slice(
             ("digest", Value::Str(Text::from_str(&digest))),
             (
                 "from",
-                from_seq.map(|value| Value::Int(value.to_string())).unwrap_or(Value::Null),
+                from_seq
+                    .map(|value| Value::Int(value.to_string()))
+                    .unwrap_or(Value::Null),
             ),
             (
                 "to",
-                to_seq.map(|value| Value::Int(value.to_string())).unwrap_or(Value::Null),
+                to_seq
+                    .map(|value| Value::Int(value.to_string()))
+                    .unwrap_or(Value::Null),
             ),
             (
                 "kinds",

@@ -14,8 +14,17 @@ use crate::value::{int_add, py_str, scalar_cmp, truthy, Text, Value};
 
 const COUNTED: [(&str, &str); 2] = [("tool_call", "tool calls"), ("message", "messages")];
 const KNOWN_FIELDS: [&str; 11] = [
-    "seq", "kind", "sidechain", "timestamp", "call_id", "tool", "role",
-    "text", "content", "input", "is_error",
+    "seq",
+    "kind",
+    "sidechain",
+    "timestamp",
+    "call_id",
+    "tool",
+    "role",
+    "text",
+    "content",
+    "input",
+    "is_error",
 ];
 
 fn offset(stamp: Option<i128>, origin: Option<i128>) -> String {
@@ -52,7 +61,11 @@ fn field_text(value: Option<&Value>) -> Option<String> {
 fn header_lines(tape: &Value) -> Vec<String> {
     let empty = Value::Object(Vec::new());
     let run = tape.get("run").unwrap_or(&empty);
-    let run = if run.as_object().is_some() { run } else { &empty };
+    let run = if run.as_object().is_some() {
+        run
+    } else {
+        &empty
+    };
     let totals = match run.get("totals") {
         Some(totals) if truthy(totals) => totals.clone(),
         _ => empty.clone(),
@@ -66,9 +79,7 @@ fn header_lines(tape: &Value) -> Vec<String> {
     for (kind, label) in COUNTED {
         let counted = event_items
             .iter()
-            .filter(|event| {
-                event.get("kind") == Some(&Value::Str(Text::from_str(kind)))
-            })
+            .filter(|event| event.get("kind") == Some(&Value::Str(Text::from_str(kind))))
             .count();
         parts.push(format!("{} {}", label, counted));
     }
@@ -104,9 +115,9 @@ fn header_lines(tape: &Value) -> Vec<String> {
                 if !basis.units().is_empty() {
                     text.push_str(&format!(
                         " ({})",
-                        basis.as_str().unwrap_or_else(|| {
-                            String::from_utf16_lossy(basis.units())
-                        })
+                        basis
+                            .as_str()
+                            .unwrap_or_else(|| { String::from_utf16_lossy(basis.units()) })
                     ));
                 }
             }
@@ -153,9 +164,8 @@ fn header_lines(tape: &Value) -> Vec<String> {
                     .map(|(key, value)| {
                         format!(
                             "{} {}",
-                            key.as_str().unwrap_or_else(|| {
-                                String::from_utf16_lossy(key.units())
-                            }),
+                            key.as_str()
+                                .unwrap_or_else(|| { String::from_utf16_lossy(key.units()) }),
                             field_text(Some(value)).unwrap_or_default()
                         )
                     })
@@ -166,11 +176,7 @@ fn header_lines(tape: &Value) -> Vec<String> {
                         total = int_add(&total, digits);
                     }
                 }
-                meta.push(format!(
-                    "skipped lines {} ({})",
-                    total,
-                    detail.join(", ")
-                ));
+                meta.push(format!("skipped lines {} ({})", total, detail.join(", ")));
             }
         }
     }
@@ -268,11 +274,7 @@ pub fn render_tape(tape: &Value) -> String {
         if let Some(pairs) = event.as_object() {
             let extra: Vec<(Text, Value)> = pairs
                 .iter()
-                .filter(|(key, _)| {
-                    !KNOWN_FIELDS
-                        .iter()
-                        .any(|known| key == known)
-                })
+                .filter(|(key, _)| !KNOWN_FIELDS.iter().any(|known| key == known))
                 .cloned()
                 .collect();
             if !extra.is_empty() {
