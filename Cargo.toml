@@ -1,0 +1,17 @@
+[package]
+name = "flighttape"
+version = "1.0.0"
+edition = "2021"
+description = "Flight tapes for agent runs: validate, convert, play back, compare, and screen recorded sessions."
+license = "MIT"
+
+[lib]
+name = "flighttape"
+path = "src/lib.rs"
+
+[[bin]]
+name = "flighttape"
+path = "src/bin/flighttape.rs"
+
+[dependencies]
+sha2 = "0.10"
