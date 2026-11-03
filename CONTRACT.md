@@ -600,15 +600,21 @@ port must reproduce exactly.
   for the spec's. Test, tests in the reader module
   and the ported robustness suite.
 - FT-52. Numbers render under FT-26 unchanged. The
-  Rust renderer takes its shortest round-trip digits
-  from the standard library's exponential formatting
-  and re-presents them under the FT-26 cases; the
-  ported number table and a swept corpus of doubles
-  generated from the Python renderer pin the
-  agreement digit for digit. Integer rendering
-  refuses a digit string past the 4300-digit limit
-  with the FT-28 phrase, as the Python does. Test,
-  the identity module's tests.
+  Rust renderer computes the value's exact decimal
+  expansion by integer arithmetic and takes the
+  shortest prefix that round-trips, rounding a cut
+  that lands exactly on the half to the even digit,
+  as the ECMAScript algorithm and the Python both
+  do; the standard library's own float formatting
+  rounds those ties away from even and cannot be
+  used (found by the swept corpus before the code
+  landed: the double 2163015292276093.25 renders
+  ...3 there, ...2 in the spec). The ported number
+  table and the swept corpus pin the agreement
+  digit for digit. Integer rendering refuses a
+  digit string past the 4300-digit limit with the
+  FT-28 phrase, as the Python does. Test, the
+  identity module's tests.
 - FT-53. Text is held as UTF-16 code units where the
   spec's own rules are stated in them: keys sort by
   UTF-16 code units, and a string carrying an unpaired
