@@ -655,3 +655,207 @@ port must reproduce exactly.
   difference to document. The harness and its corpus
   live with the round's records; the ported cargo
   suite is what ships. Test, the round's dossier.
+
+## Round 12. Rendering edges and the timestamp stray digit (FT-57 to FT-62)
+
+The dispositions collected after Round 11, each
+decided from the surfaces the code actually feeds.
+The crate's rendering helpers split by surface:
+render_number feeds canonical form 1, which FT-26
+defines as the ECMAScript rendering; the pyrepr
+helpers feed only CPython surfaces, the validator's
+defect phrases, the dumps documents, and the str()
+renderings in conversion and playback. A helper is
+held to the standard of the surface it feeds.
+
+- FT-57. render_number's shortest search takes the
+  shortest digit sequence that round-trips, trying
+  both neighbours of the exact expansion at each
+  width. The Round 11 search rounded the exact
+  expansion at the cut, half to even, and accepted
+  the first width whose rounded candidate parsed
+  back; at an exact power of two the rounding
+  interval is asymmetric, the gap below half the
+  gap above, so the tie-to-even candidate below
+  can fall outside the interval while the
+  candidate above sits inside it, and the search
+  walked past the shortest width. The recorded
+  instance: 2^-24, whose exact expansion
+  59604644775390625 terminates one digit past the
+  shortest sequence 5960464477539063; the crate
+  emits the 17 digits, the ECMAScript algorithm
+  the 16. This is a defect against FT-26 itself,
+  not a CPython edge: the helper is not
+  ECMAScript-faithful for the class, so it is
+  fixed, never documented as faithful. FT-52's
+  wording is clarified by this item: the shortest
+  prefix phrase meant the shortest sequence that
+  round-trips, and the search now considers the
+  candidate above the cut whenever the rounded
+  candidate does not round-trip, before moving to
+  the next width. The class is exact powers of
+  two whose expansion terminates just past the
+  shortest width on an exact tie; the crate's own
+  corpora did not exercise it (the number sweep's
+  only fraction-zero entries are 1, -1, and 0.5,
+  and the golden fixture tape carries no float
+  values, its dotted numerals being timestamp
+  text), so the golden digest stands unchanged.
+  The pin: the number sweep gains the class,
+  every representable power of two from 2^-1074
+  to 2^1023, 2^-24 named among them, its expected
+  renderings generated from CPython repr's digit
+  sequence presented the ECMAScript way, a path
+  independent of the crate's exact-expansion
+  search (the two choose the same shortest
+  sequence for every double). What the pre-port
+  Python renderer did on the class is recovered
+  from the tree's history and reported in the
+  dossier either way. Test, tests/identity.rs.
+- FT-58. repr_float is CPython-exact. Its surfaces
+  are all CPython surfaces: the dumps documents
+  the commands print, the defect phrases
+  repr_value builds for the validator, and the
+  str() renderings conversion and playback make
+  through py_str. Round 11 recovered the digits
+  from render_number's presented string, and a
+  presentation is not a digit sequence: the
+  ECMAScript integer presentation of
+  1000000000500000000 appends zeros past the
+  eleven shortest digits, and the recovered
+  digits carried them into the scientific band,
+  rendering 1.000000000500000000e+18 where
+  CPython renders 1.0000000005e+18. The digits
+  now come from the shortest-digit computation
+  itself, the same computation FT-57 corrects,
+  and presentation zeros never enter them. The
+  pin is a differential sweep against CPython
+  repr, not a sample: a repr corpus generated
+  from the interpreter over the number sweep's
+  bit patterns, the band edges at exponents -5
+  to 17, and the padding shapes, integral values
+  whose shortest digits are short and whose
+  presentations are long, asserted through
+  repr_float directly and through the dumps and
+  repr_value paths. Test, tests in the pyrepr
+  module and the ported suites it feeds.
+- FT-59. repr_text's printability is CPython-exact.
+  repr_text feeds only repr surfaces, the
+  validator's defect phrases and the container
+  arm of py_str; no ECMAScript surface consumes
+  it. The Round 11 table was a hand approximation
+  (its own comment said so) and it disagrees with
+  CPython at U+0378, U+0379, U+1AFF, and U+E0001,
+  unassigned codepoints sitting in the table's
+  gaps, which CPython treats as non-printable and
+  escapes. The approximation is replaced by a
+  table generated from CPython, the generating
+  interpreter and its Unicode version recorded
+  in the test as the fold pins record theirs,
+  and the pin sweeps the whole codepoint space:
+  for every scalar value the crate's printability
+  agrees with the generated table, the four
+  recorded points named in the test. A four-point
+  patch is not the fix; the sweep is what proves
+  no further gap stands. Unpaired surrogates stay
+  escaped by construction, as before. Test, tests
+  in the pyrepr module.
+- FT-60. The timestamp grammar refuses a stray
+  digit at the end of the string. CPython's
+  fromisoformat consumes one leftover digit after
+  the time's last component only when the string
+  continues; the crate's time_part consumed it
+  unconditionally, so 2026-01-01T00:00:005,
+  2026-01-01T00000, 2026-01-01T01:010, and
+  2026-01-01T0000005 parse here and refuse in the
+  interpreter. The fix is exactly this: a
+  one-digit run after the last component is
+  consumed only when a further character follows
+  it; when the run reaches the end of the string
+  the parse refuses. Nothing else in the grammar
+  moves; the continuation forms the corpus
+  already pins (the digit before Z at
+  2026-01-01T09:00:005Z and 2026-01-01T09005Z,
+  the two-digit fraction at
+  2026-01-01T0900055Z) stay accepted.
+  tests/fixtures/timestamp_corpus.txt gains the
+  four shapes above as REFUSE lines. The consumer
+  consequence is stated so no reader mistakes
+  the scope: onrecord and wallofwrong pin the
+  crate and named this acceptance as a deviation
+  in their Round 3 dossiers; they re-pin when
+  this lands, and their deviations retire in
+  their next rounds, not in this one. Test,
+  tests/timestamps.rs over the corpus.
+- FT-60a. One separator character may stand
+  between the time and the offset, and a component
+  colon may stand before the offset's sign. The
+  grammar's earlier pinning never probed a
+  separator in that position; the interpreter
+  allows exactly one. The rule, probed against
+  fromisoformat at every boundary: after the
+  time's last component, in the extended and the
+  basic form alike, one separator character may
+  precede the offset's sign (the Z form reaches
+  the position as +00:00 after the replacement,
+  so a separator before Z is this same case). The
+  separator is any single ASCII character, a
+  space, a tab, NUL, a letter, the colon itself;
+  a multi-byte character is not skipped (U+2003
+  and U+00E9 refuse), two separator characters
+  refuse, and the sign must follow the separator
+  immediately, so a separator at the end of the
+  string or before anything but the sign refuses.
+  The skip is offered only where nothing else
+  intervened: after a fraction (behind its point,
+  the basic form's leftover digit run, a fraction
+  carried on the hour) or after the stray digit
+  FT-60 consumes, a separator refuses. And in the
+  extended form, a colon introducing the minute
+  or the second and standing immediately before
+  the offset's sign leaves that component zero
+  and the offset follows (2026-01-01T00:+05:30
+  reads its minute as zero with the offset
+  intact; 2026-01-01T00:00:+00 its second); a
+  colon followed by anything but the sign or the
+  component's two digits refuses as before, a
+  colon at the end of the string, a colon and a
+  space, a colon and one digit alike.
+  tests/fixtures/timestamp_corpus.txt gains the
+  lines pinning each boundary, the accepts with
+  their instants and the refuses. Test,
+  tests/timestamps.rs over the corpus.
+- FT-61. The CodeRabbit disposition closes on
+  evidence, with no code obligation. The advisory
+  pass on PR 11 never posted findings: the PR
+  holds no review comments and no reviews from
+  the bot, and its two bot issue comments are a
+  failure notice (comment 6597505419, "Review
+  failed, the pull request is closed", a
+  walkthrough with no findings list) and an
+  action-not-completed notice (comment
+  6597872800), both consequences of the merge
+  landing while the pass was still processing.
+  There is nothing to fix and nothing to dismiss;
+  the dossier records the absence as read from
+  the comment lists, and the item is discharged.
+- FT-62. The round's verification shape. The
+  FT-56 differential harness re-runs over its
+  standing corpus, and its outcome matches the
+  previous round's recorded result: every
+  divergence it reports is one already recorded
+  there, proven pre-existing on the unmodified
+  tree or repaired in this round, and no new
+  divergence stands; the new
+  pins of FT-57 to FT-60 run as cargo tests; the
+  golden digest test stands unchanged. Canonical
+  bytes change only for a tape carrying a float
+  in FT-57's class, and the dossier enumerates
+  any standing-corpus tape whose digest moved,
+  with none expected: the golden fixture tape
+  carries no member of the class, and the harness
+  surfaces it if that expectation is wrong. The
+  full local gate (cargo test, clippy with
+  warnings denied, fmt, the codepoint scan)
+  passes on the final head before the round's
+  reviews, as every round.

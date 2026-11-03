@@ -1,5 +1,5 @@
 //! Tape identity, the canonical form and the digest
-//! (FT-26 to FT-28, FT-52, FT-54). The canonical form
+//! (FT-26 to FT-28, FT-52, FT-54, FT-57). The canonical form
 //! is language portable on purpose: a verifier in any
 //! language that follows FT-26 reaches the same bytes.
 
@@ -22,22 +22,24 @@ impl std::error::Error for DigestError {}
 const RENDER_DEPTH_LIMIT: usize = 1000;
 const INT_DIGIT_LIMIT: usize = 4300;
 
-/// Render a finite float as ECMAScript renders it
-/// (FT-26). The standard library's exponential form
-/// gives the shortest digits that round trip; from
-/// them, point is the count of digits before the
-/// decimal point when the value is written out in
-/// decimal, and the four cases at the end are the
-/// ECMAScript number to string cases.
 /// The shortest digits that round-trip, and the
 /// decimal exponent of the first digit, for a finite
-/// nonzero double. The exact expansion is computed by
-/// integer arithmetic (FT-52): the value is m x 2^e,
-/// and its decimal digits are m x 2^e or m x 5^-e by
-/// repeated multiplication of a digit string. A cut
-/// landing exactly on the half rounds to the even
-/// digit, as the ECMAScript algorithm rounds it.
-fn shortest_digits(value: f64) -> (String, i64) {
+/// nonzero double. The digits come from the exact
+/// expansion computed by integer arithmetic (FT-52):
+/// the value is m x 2^e, and its decimal digits are
+/// m x 2^e or m x 5^-e by repeated multiplication of
+/// a digit string. A cut landing exactly on the half
+/// rounds to the even digit, as the ECMAScript
+/// algorithm rounds it.
+/// At each width the rounded candidate is tried
+/// first, then the neighbour on the other side of
+/// the cut (FT-57): at an exact power of two the
+/// rounding interval is asymmetric, the gap below
+/// half the gap above, and the neighbour above the
+/// cut can be the shortest sequence that round-trips
+/// when the tie-to-even candidate below falls
+/// outside the interval.
+pub(crate) fn shortest_digits(value: f64) -> (String, i64) {
     let bits = value.abs().to_bits();
     let biased = ((bits >> 52) & 0x7FF) as i64;
     let fraction = bits & ((1u64 << 52) - 1);
@@ -78,18 +80,75 @@ fn shortest_digits(value: f64) -> (String, i64) {
     };
     // Most significant first, as ASCII, for the cuts.
     let exact: Vec<u8> = digits.iter().rev().map(|digit| digit + b'0').collect();
+    let target = value.abs().to_bits();
     for width in 1..=17usize {
         let (candidate, candidate_point) = round_at(&exact, width, point);
-        let probe = format!("{}e{}", candidate, candidate_point - candidate.len() as i64);
-        if let Ok(parsed) = probe.parse::<f64>() {
-            if parsed.to_bits() == value.abs().to_bits() {
-                let trimmed = candidate.trim_end_matches('0');
-                let trimmed = if trimmed.is_empty() { "0" } else { trimmed };
-                return (trimmed.to_string(), candidate_point - 1);
+        if let Some(found) = accept(&candidate, candidate_point, target) {
+            return found;
+        }
+        if exact.len() > width {
+            let (other, other_point) =
+                other_neighbour(&exact, width, point, &candidate, candidate_point);
+            if let Some(found) = accept(&other, other_point, target) {
+                return found;
             }
         }
     }
     unreachable!("every double has a 17-digit round trip")
+}
+
+/// A cut candidate, if it parses back to the target
+/// double: its digits, trimmed of trailing zeros, and
+/// the decimal exponent of its first digit.
+fn accept(candidate: &str, candidate_point: i64, target: u64) -> Option<(String, i64)> {
+    let probe = format!("{}e{}", candidate, candidate_point - candidate.len() as i64);
+    if let Ok(parsed) = probe.parse::<f64>() {
+        if parsed.to_bits() == target {
+            let trimmed = candidate.trim_end_matches('0');
+            let trimmed = if trimmed.is_empty() { "0" } else { trimmed };
+            return Some((trimmed.to_string(), candidate_point - 1));
+        }
+    }
+    None
+}
+
+/// The neighbour of the exact expansion on the other
+/// side of the rounded candidate at this width: the
+/// truncation when the candidate rounded up, one unit
+/// above the truncation when it did not.
+fn other_neighbour(
+    exact: &[u8],
+    width: usize,
+    point: i64,
+    rounded: &str,
+    rounded_point: i64,
+) -> (String, i64) {
+    let truncated = String::from_utf8(exact[..width].to_vec()).expect("digits");
+    if rounded == truncated && rounded_point == point {
+        increment(&truncated, point)
+    } else {
+        (truncated, point)
+    }
+}
+
+/// One unit above a digit string: a carry out of the
+/// top digit grows the point.
+fn increment(digits: &str, point: i64) -> (String, i64) {
+    let mut bytes: Vec<u8> = digits.bytes().collect();
+    let mut index = bytes.len();
+    loop {
+        if index == 0 {
+            bytes.insert(0, b'1');
+            return (String::from_utf8(bytes).expect("digits"), point + 1);
+        }
+        index -= 1;
+        if bytes[index] == b'9' {
+            bytes[index] = b'0';
+        } else {
+            bytes[index] += 1;
+            return (String::from_utf8(bytes).expect("digits"), point);
+        }
+    }
 }
 
 /// Multiply a least-significant-first digit vector by
@@ -134,23 +193,17 @@ fn round_at(exact: &[u8], width: usize, point: i64) -> (String, i64) {
     if !round_up {
         return (String::from_utf8(kept).expect("digits"), point);
     }
-    let mut digits = kept;
-    let mut index = width;
-    loop {
-        if index == 0 {
-            digits.insert(0, b'1');
-            return (String::from_utf8(digits).expect("digits"), point + 1);
-        }
-        index -= 1;
-        if digits[index] == b'9' {
-            digits[index] = b'0';
-        } else {
-            digits[index] += 1;
-            return (String::from_utf8(digits).expect("digits"), point);
-        }
-    }
+    let truncated = String::from_utf8(kept).expect("digits");
+    increment(&truncated, point)
 }
 
+/// Render a finite float as ECMAScript renders it
+/// (FT-26), over the shortest digits that round
+/// trip. From the digits and their exponent, point
+/// is the count of digits before the decimal point
+/// when the value is written out in decimal, and
+/// the four cases below are the ECMAScript number
+/// to string cases.
 pub fn render_number(value: f64) -> String {
     if value == 0.0 {
         return "0".to_string();

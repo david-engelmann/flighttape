@@ -7,7 +7,8 @@
 //! which is not the ECMAScript presentation of the
 //! canonical form.
 
-use crate::identity::render_number;
+use crate::identity::shortest_digits;
+use crate::printable::is_printable;
 use crate::value::{Text, Value};
 
 /// repr of a text value: the quote is a double quote
@@ -72,33 +73,6 @@ pub fn repr_text(text: &Text) -> String {
     out
 }
 
-/// CPython's str.isprintable, approximated on the
-/// categories that matter for defect text: a character
-/// is non-printable when it is a separator other than
-/// the plain space, a control, a format character, a
-/// combining mark in the enclosing classes, an
-/// unassigned code point, or a private use character.
-/// The tape vocabularies and the fixtures are ASCII;
-/// this table covers the common non-printable ranges
-/// and treats the rest as printable.
-fn is_printable(ch: char) -> bool {
-    let value = ch as u32;
-    if value == 0x20 {
-        return true;
-    }
-    if value < 0x20 || (0x7F..0xA0).contains(&value) {
-        return false;
-    }
-    !matches!(value,
-        0x00AD | 0x0600..=0x0605 | 0x061C | 0x06DD | 0x070F | 0x0890..=0x0891
-        | 0x08E2 | 0x180E | 0x200B..=0x200F | 0x2028..=0x202E | 0x2060..=0x2064
-        | 0x2066..=0x206F | 0x3000 | 0xFEFF | 0xFFF0..=0xFFFF
-        | 0x1BCA0..=0x1BCA3 | 0x1D173..=0x1D182 | 0xE000..=0xF8FF
-        | 0xF0000..=0xFFFFF | 0x100000..=0x10FFFF)
-        && !(0x202A..=0x202E).contains(&value)
-        && !matches!(value, 0x00A0 | 0x1680 | 0x2000..=0x200A | 0x202F | 0x205F)
-}
-
 /// Python's float repr: the same shortest digits as
 /// the canonical renderer, presented Python's way.
 /// Fixed notation outside the scientific band, a
@@ -122,15 +96,16 @@ pub fn repr_float(value: f64) -> String {
             "0.0".to_string()
         };
     }
-    // render_number yields the ECMAScript presentation;
-    // take its digits and exponent back out and present
-    // them Python's way. The digits are the same by
-    // construction (FT-52).
-    let rendered = render_number(value.abs());
-    let (digits, point) = digits_and_point(&rendered);
+    // The digits are the shortest computation's own
+    // (FT-58): a presentation is not a digit sequence,
+    // and the ECMAScript integer presentation pads an
+    // integral value with zeros past its shortest
+    // digits, zeros a repr in the scientific band must
+    // not inherit.
+    let (digits, exp10) = shortest_digits(value.abs());
+    let point = exp10 + 1;
     let sign = if value < 0.0 { "-" } else { "" };
     let count = digits.len() as i64;
-    let exp10 = point - 1;
     // CPython's band: scientific when the exponent is
     // below -4 or at least 16, fixed between.
     if !(-4..16).contains(&exp10) {
@@ -165,27 +140,6 @@ fn fixed(sign: &str, digits: &str, point: i64) -> String {
     }
 }
 
-fn digits_and_point(rendered: &str) -> (String, i64) {
-    // Inverse of the ECMAScript presentation: recover
-    // the shortest digits and the point (the count of
-    // digits before the decimal point).
-    if let Some((mantissa, exponent)) = rendered.split_once('e') {
-        let exp: i64 = exponent.parse().expect("exponent is an integer");
-        let digits: String = mantissa.chars().filter(|ch| *ch != '.').collect();
-        return (digits, exp + 1);
-    }
-    if let Some((whole, fraction)) = rendered.split_once('.') {
-        if whole == "0" {
-            let leading = fraction.chars().take_while(|ch| *ch == '0').count();
-            let digits: String = fraction.trim_start_matches('0').to_string();
-            return (digits, -(leading as i64));
-        }
-        let digits = format!("{}{}", whole, fraction);
-        return (digits, whole.len() as i64);
-    }
-    (rendered.to_string(), rendered.len() as i64)
-}
-
 /// repr of any tape value.
 pub fn repr_value(value: &Value) -> String {
     match value {
@@ -206,5 +160,98 @@ pub fn repr_value(value: &Value) -> String {
                 .collect();
             format!("{{{}}}", parts.join(", "))
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{repr_float, repr_text, repr_value};
+    use crate::dumps::{dumps_indent, dumps_sorted};
+    use crate::printable::is_printable;
+    use crate::value::{Text, Value};
+
+    #[test]
+    fn the_repr_corpus_agrees_with_cpython() {
+        // FT-58: the corpus is generated from the
+        // interpreter (CPython 3.12.3) over the number
+        // sweep's bit patterns, the band edges at
+        // exponents -5 to 17, and the padding shapes,
+        // integral values whose shortest digits are
+        // short and whose presentations are long. The
+        // recorded instance heads the family: its
+        // ECMAScript presentation pads eleven shortest
+        // digits with zeros the repr must not inherit.
+        assert_eq!(repr_float(1000000000500000000.0), "1.0000000005e+18");
+        let corpus = include_str!("../tests/fixtures/repr_corpus.txt");
+        let mut checked = 0;
+        for line in corpus.lines() {
+            let (bits, expected) = line.split_once(' ').unwrap();
+            let value = f64::from_bits(u64::from_str_radix(bits, 16).unwrap());
+            assert_eq!(repr_float(value), expected, "bits {}", bits);
+            assert_eq!(repr_value(&Value::Float(value)), expected, "bits {}", bits);
+            assert_eq!(
+                dumps_sorted(&Value::Float(value)),
+                expected,
+                "bits {}",
+                bits
+            );
+            assert_eq!(
+                dumps_indent(&Value::Float(value)),
+                expected,
+                "bits {}",
+                bits
+            );
+            checked += 1;
+        }
+        assert_eq!(checked, 6576, "the corpus carries {} lines", checked);
+    }
+
+    #[test]
+    fn printability_agrees_with_the_generated_table() {
+        // FT-59: the table was generated from CPython
+        // 3.12.3 (Unicode 15.0.0) over the whole
+        // codepoint space. The sweep checks the full
+        // classification, not only its size: the
+        // digest runs over one byte per scalar value
+        // (1 for non-printable) in codepoint order,
+        // with the surrogate range (unrepresentable
+        // as a char) removed, and equals the digest
+        // of the interpreter's own classification. A
+        // count-preserving swap in the table fails
+        // the digest even though it keeps the count.
+        use sha2::{Digest, Sha256};
+        let mut non_printable = 0usize;
+        let mut classification = Vec::with_capacity(0x110000);
+        for value in 0..=0x10FFFFu32 {
+            if let Some(ch) = char::from_u32(value) {
+                if is_printable(ch) {
+                    classification.push(0u8);
+                } else {
+                    classification.push(1u8);
+                    non_printable += 1;
+                }
+            }
+        }
+        assert_eq!(non_printable, 963_066);
+        let digest = Sha256::digest(&classification);
+        assert_eq!(
+            format!("{:x}", digest),
+            "ef14f07518448575acee2ff886575d7cd03f612071f6da473ab34754a797940d"
+        );
+        // The four recorded disagreements of the hand
+        // approximation, named: unassigned codepoints
+        // the interpreter treats as non-printable.
+        for point in [0x0378u32, 0x0379, 0x1AFF, 0xE0001] {
+            let ch = char::from_u32(point).unwrap();
+            assert!(!is_printable(ch), "U+{:04X} must be non-printable", point);
+        }
+    }
+
+    #[test]
+    fn the_recorded_unassigned_points_escape_in_repr() {
+        assert_eq!(repr_text(&Text::from_str("\u{378}")), "'\\u0378'");
+        assert_eq!(repr_text(&Text::from_str("\u{379}")), "'\\u0379'");
+        assert_eq!(repr_text(&Text::from_str("\u{1AFF}")), "'\\u1aff'");
+        assert_eq!(repr_text(&Text::from_str("\u{E0001}")), "'\\U000e0001'");
     }
 }
