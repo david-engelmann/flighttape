@@ -206,8 +206,8 @@ pub fn slice_tape(
         literal: value.to_string(),
     };
     check_selection(
-        from_seq.map(&bound_of).as_ref(),
-        to_seq.map(&bound_of).as_ref(),
+        from_seq.map(bound_of).as_ref(),
+        to_seq.map(bound_of).as_ref(),
         kinds.as_deref(),
     )
     .map_err(SliceErrorOrDigest::Slice)?;
