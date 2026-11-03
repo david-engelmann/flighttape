@@ -269,3 +269,63 @@ fn a_non_finite_number_is_named_on_an_early_return_path() {
 fn a_finite_tape_earns_no_non_finite_defect() {
     assert!(!has(&validate_tape(&good_tape()), "non-finite"));
 }
+
+#[test]
+fn a_shared_substructure_is_named_at_every_location() {
+    // The same NaN-bearing object filed under two keys
+    // earns its located defect at both paths.
+    let tape = parse(r#"{"a": {"reading": NaN}, "b": {"reading": NaN}}"#)
+        .unwrap();
+    let defects = validate_tape(&tape);
+    let named: Vec<&String> = defects
+        .iter()
+        .filter(|defect| defect.contains("non-finite"))
+        .collect();
+    assert!(
+        named.iter().any(|defect| defect.contains("a.reading")),
+        "{:?}",
+        named
+    );
+    assert!(
+        named.iter().any(|defect| defect.contains("b.reading")),
+        "{:?}",
+        named
+    );
+}
+
+#[test]
+fn walk_defects_arrive_in_document_order() {
+    let tape = parse(r#"{"z": NaN, "a": NaN}"#).unwrap();
+    let defects = validate_tape(&tape);
+    let named: Vec<&str> = defects
+        .iter()
+        .filter(|defect| defect.contains("non-finite"))
+        .map(|defect| defect.as_str())
+        .collect();
+    assert_eq!(
+        named,
+        ["z is a non-finite number", "a is a non-finite number"]
+    );
+}
+
+#[test]
+fn an_infinity_in_a_run_totals_field_is_named() {
+    // The Python case places Infinity at run.totals.cost
+    // of the fixture tape and asserts the walk names the
+    // totals location and the canonical form refuses.
+    let mut tape = good_tape();
+    set_path(
+        &mut tape,
+        &["run", "totals", "cost"],
+        Value::Float(f64::INFINITY),
+    );
+    let defects = validate_tape(&tape);
+    assert!(
+        defects.iter().any(|defect| {
+            defect.contains("non-finite") && defect.contains("totals")
+        }),
+        "{:?}",
+        defects
+    );
+    assert!(flighttape::identity::canonical_bytes(&tape).is_err());
+}

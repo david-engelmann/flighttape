@@ -6,8 +6,11 @@
 //! a non-finite number or an over-deep structure
 //! renders instead of being named.
 
+use flighttape::convert::convert_lines;
+use flighttape::dumps::dumps_sorted;
 use flighttape::identity::{canonical_bytes, render_number, tape_digest};
-use flighttape::value::{Text, Value};
+use flighttape::json::parse;
+use flighttape::value::{container_depth, Text, Value};
 
 fn obj(pairs: Vec<(&str, Value)>) -> Value {
     Value::Object(
@@ -153,5 +156,129 @@ fn digest_identifies_content_not_validity() {
     assert_eq!(
         tape_digest(&tape).unwrap(),
         "ab587bf78c80e183317a77423a19a8f3b2633d98b1b3ed95b63d315b4d6f3c07"
+    );
+}
+
+const GOLDEN: &str =
+    "cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3";
+
+fn fixture_tape() -> Value {
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/claude_session_synthetic.jsonl"
+    );
+    let text = std::fs::read_to_string(path).unwrap();
+    convert_lines(
+        text.lines().map(|line| Some(line.to_string())).collect(),
+    )
+}
+
+fn set_path(tape: &mut Value, path: &[&str], value: Value) {
+    if path.is_empty() {
+        *tape = value;
+        return;
+    }
+    let head = path[0];
+    match tape {
+        Value::Object(pairs) => {
+            if !pairs.iter().any(|(name, _)| name == &head) {
+                pairs.push((Text::from_str(head), Value::Null));
+            }
+            let entry = &mut pairs
+                .iter_mut()
+                .find(|(name, _)| name == &head)
+                .unwrap()
+                .1;
+            set_path(entry, &path[1..], value);
+        }
+        Value::Array(items) => {
+            let index: usize = head.parse().unwrap();
+            set_path(&mut items[index], &path[1..], value);
+        }
+        _ => panic!("path crosses a scalar"),
+    }
+}
+
+#[test]
+fn key_order_and_whitespace_do_not_change_the_digest() {
+    // The Python case reloads the fixture tape through a
+    // key-sorted, reindented serialization. dumps_sorted
+    // is that serialization; the digest and the canonical
+    // bytes must not notice it happened.
+    let tape = fixture_tape();
+    let reloaded = parse(&dumps_sorted(&tape)).unwrap();
+    assert_eq!(tape_digest(&reloaded).unwrap(), GOLDEN);
+    assert_eq!(
+        canonical_bytes(&reloaded).unwrap(),
+        canonical_bytes(&tape).unwrap()
+    );
+}
+
+#[test]
+fn every_part_of_the_tape_moves_the_digest() {
+    let tape = fixture_tape();
+    let mut mutations = Vec::new();
+    let mut changed = tape.clone();
+    set_path(
+        &mut changed,
+        &["run", "id"],
+        Value::Str(Text::from_str("another-session")),
+    );
+    mutations.push(changed);
+    let mut changed = tape.clone();
+    set_path(
+        &mut changed,
+        &["events", "1", "text"],
+        Value::Str(Text::from_str("changed wording")),
+    );
+    mutations.push(changed);
+    let mut changed = tape.clone();
+    set_path(
+        &mut changed,
+        &["run", "totals", "tool_calls"],
+        Value::Int("99".to_string()),
+    );
+    mutations.push(changed);
+    let mut changed = tape.clone();
+    set_path(
+        &mut changed,
+        &["outcome", "status"],
+        Value::Str(Text::from_str("failed")),
+    );
+    mutations.push(changed);
+    let mut changed = tape.clone();
+    if let Some(events) = changed.get_mut("events") {
+        if let Value::Array(items) = events {
+            items.pop();
+        }
+    }
+    mutations.push(changed);
+    for mutation in &mutations {
+        assert_ne!(tape_digest(mutation).unwrap(), GOLDEN);
+    }
+}
+
+#[test]
+fn the_ft54_boundary_renders_at_1000_and_refuses_at_1001() {
+    // FT-54 fixes the renderer's limit at 1000 nested
+    // containers: a tape nested exactly 1000 deep renders,
+    // 1001 is refused in the FT-28 phrase. A guard off by
+    // any small amount fails one side of this pair.
+    let mut at_limit = Value::Array(vec![]);
+    for _ in 0..999 {
+        at_limit = Value::Array(vec![at_limit]);
+    }
+    assert_eq!(container_depth(&at_limit), 1000);
+    assert!(canonical_bytes(&at_limit).is_ok());
+    let mut past_limit = Value::Array(vec![]);
+    for _ in 0..1000 {
+        past_limit = Value::Array(vec![past_limit]);
+    }
+    assert_eq!(container_depth(&past_limit), 1001);
+    let error = canonical_bytes(&past_limit).unwrap_err();
+    assert!(
+        error.0.contains("nested beyond the interpreter limit"),
+        "{}",
+        error.0
     );
 }

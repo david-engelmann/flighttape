@@ -3,7 +3,9 @@
 //! with the crate's own JSON reader.
 
 use flighttape::json::parse;
-use flighttape::validate::{BASES, EVENT_KINDS, OUTCOMES};
+use flighttape::validate::{
+    validate_tape, BASES, EVENT_KINDS, OUTCOMES,
+};
 use flighttape::value::Value;
 use flighttape::TAPE_VERSION;
 
@@ -11,6 +13,35 @@ fn load_schema() -> Value {
     let path = concat!(env!("CARGO_MANIFEST_DIR"), "/schema/tape.schema.json");
     let text = std::fs::read_to_string(path).unwrap();
     parse(&text).unwrap()
+}
+
+fn set_path(tape: &mut Value, path: &[&str], value: Value) {
+    if path.is_empty() {
+        *tape = value;
+        return;
+    }
+    let head = path[0];
+    match tape {
+        Value::Object(pairs) => {
+            if !pairs.iter().any(|(name, _)| name == &head) {
+                pairs.push((
+                    flighttape::value::Text::from_str(head),
+                    Value::Null,
+                ));
+            }
+            let entry = &mut pairs
+                .iter_mut()
+                .find(|(name, _)| name == &head)
+                .unwrap()
+                .1;
+            set_path(entry, &path[1..], value);
+        }
+        Value::Array(items) => {
+            let index: usize = head.parse().unwrap();
+            set_path(&mut items[index], &path[1..], value);
+        }
+        _ => panic!("path crosses a scalar"),
+    }
 }
 
 fn strings(values: &[Value]) -> Vec<String> {
@@ -85,16 +116,71 @@ fn schema_requires_non_empty_call_and_tool() {
 }
 
 #[test]
-fn schema_version_is_the_tape_version() {
-    // The remaining Python schema cases pin the same
-    // vocabulary sharing from other angles; the two
-    // above carry them. This one pins the schema's own
-    // version marker against the crate's.
+fn validator_rejects_the_schema_probes() {
+    // A valid base tape in the schema's shape, then the
+    // three probes the Python case mutates into it: a
+    // negative skipped_lines count, a numeric started_at,
+    // and a numeric call_id. Each must earn a defect.
+    let base = parse(
+        r#"{
+        "tape_version": "1.0",
+        "run": {"harness": "claude-code", "session_id": "s1"},
+        "events": [{"seq": 0, "kind": "note", "sidechain": false}],
+        "outcome": {"status": "completed"}
+    }"#,
+    )
+    .unwrap();
+    assert_eq!(validate_tape(&base), Vec::<String>::new());
+    let mut probe = base.clone();
+    set_path(
+        &mut probe,
+        &["run", "skipped_lines"],
+        parse(r#"{"system": -3}"#).unwrap(),
+    );
+    assert!(!validate_tape(&probe).is_empty());
+    let mut probe = base.clone();
+    set_path(
+        &mut probe,
+        &["run", "started_at"],
+        Value::Int("12345".to_string()),
+    );
+    assert!(!validate_tape(&probe).is_empty());
+    let mut probe = base.clone();
+    set_path(
+        &mut probe,
+        &["events", "0", "call_id"],
+        Value::Int("7".to_string()),
+    );
+    assert!(!validate_tape(&probe).is_empty());
+}
+
+#[test]
+fn schema_states_the_basis_field() {
     let schema = load_schema();
-    if let Some(version) = schema.get("$id").or_else(|| schema.get("version")) {
-        if let Value::Str(text) = version {
-            let rendered = text.as_str().unwrap();
-            assert!(rendered.contains(TAPE_VERSION) || rendered.contains("tape"));
-        }
-    }
+    let basis = at(
+        &schema,
+        &["properties", "outcome", "properties", "basis"],
+    );
+    assert_eq!(
+        basis.get("type"),
+        Some(&Value::Str(flighttape::value::Text::from_str("string")))
+    );
+    let bases = strings(basis.get("enum").unwrap().as_array().unwrap());
+    let mut expected: Vec<String> =
+        BASES.iter().map(|name| name.to_string()).collect();
+    let mut actual = bases;
+    actual.sort();
+    expected.sort();
+    assert_eq!(actual, expected);
+}
+
+#[test]
+fn schema_types_is_error_as_a_boolean() {
+    let schema = load_schema();
+    let props = at(
+        &schema,
+        &["properties", "events", "items", "properties"],
+    );
+    let expected = parse(r#"{"type": "boolean"}"#).unwrap();
+    assert_eq!(props.get("is_error"), Some(&expected));
 }

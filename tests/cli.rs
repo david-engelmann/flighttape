@@ -305,3 +305,43 @@ fn slice_usage_wraps_the_way_argparse_wraps_it() {
         "usage: flighttape slice [-h] [--from FROM_SEQ] [--to TO_SEQ] [--kind KINDS]\n                        [-o OUTPUT]\n                        tape\nflighttape slice: error: the following arguments are required: tape\n"
     );
 }
+
+#[test]
+fn rollup_output_does_not_depend_on_creation_order() {
+    // Ported from the Python suite: the same two tapes
+    // filed in opposite creation orders roll up to the
+    // same report, byte for byte.
+    fn tape(session: &str) -> String {
+        format!(
+            "{{\"tape_version\": \"1.0\", \"run\": {{\"harness\": \"claude-code\", \"session_id\": \"{}\", \"totals\": {{}}, \"redacted_values\": 0, \"skipped_lines\": {{}}}}, \"events\": [{{\"seq\": 0, \"kind\": \"message\", \"role\": \"user\", \"sidechain\": false, \"text\": \"hi\", \"timestamp\": \"2026-01-01T09:00:00.000Z\"}}], \"outcome\": {{\"status\": \"completed\", \"basis\": \"final-assistant-message\"}}}}",
+            session
+        )
+    }
+    let first_dir = tmpdir("rollup-order-a");
+    std::fs::write(first_dir.join("b.json"), tape("b")).unwrap();
+    std::fs::write(first_dir.join("a.json"), tape("a")).unwrap();
+    let (code, first_out, _) = run_cli(&[
+        "rollup".into(),
+        first_dir.to_string_lossy().into_owned(),
+    ]);
+    assert_eq!(code, 0);
+    let second_dir = tmpdir("rollup-order-b");
+    std::fs::write(second_dir.join("a.json"), tape("a")).unwrap();
+    std::fs::write(second_dir.join("b.json"), tape("b")).unwrap();
+    let (code, second_out, _) = run_cli(&[
+        "rollup".into(),
+        second_dir.to_string_lossy().into_owned(),
+    ]);
+    assert_eq!(code, 0);
+    // The reports name their directory, so compare with
+    // the directory paths normalized away.
+    let normalize = |text: &str, dir: &std::path::Path| {
+        text.replace(&dir.to_string_lossy().into_owned(), "DIR")
+    };
+    assert_eq!(
+        normalize(&first_out, &first_dir),
+        normalize(&second_out, &second_dir)
+    );
+    let _ = std::fs::remove_dir_all(&first_dir);
+    let _ = std::fs::remove_dir_all(&second_dir);
+}
