@@ -15,7 +15,7 @@ portfolio, in the Retrospective arc.
 
 ## Programme status
 
-- Closed perfection rounds, 10 of 100. A round counts only when a full
+- Closed perfection rounds, 11 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
 - Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
   reviews and their findings are recorded with the programme. The
@@ -77,6 +77,17 @@ portfolio, in the Retrospective arc.
   verified clean before it is shared. Obligations FT-44
   to FT-48 as amended in Round 10, met, with the reviews
   recorded with the programme.
+- Round 11 ports flighttape to Rust. The crate is a
+  behavior-exact port of the Python of Rounds 1 to 10:
+  the same commands, outputs, refusal texts, exit codes
+  and digests, with canonical form 1 untouched, proven
+  by a byte-comparing differential harness over the
+  synthetic corpus and by the corpus of timestamp
+  readings pinned against the interpreter itself. The
+  Python package and its suite leave the tree; cargo
+  tests are the suite. Obligations FT-49 to FT-56 in
+  Round 11, met, with the reviews recorded with the
+  programme.
 - Local gate, python3 scripts/codepoint_scan.py and cargo test.
   CI runs the same commands.
 
