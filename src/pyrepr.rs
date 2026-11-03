@@ -210,20 +210,34 @@ mod tests {
     fn printability_agrees_with_the_generated_table() {
         // FT-59: the table was generated from CPython
         // 3.12.3 (Unicode 15.0.0) over the whole
-        // codepoint space. The sweep counts the
-        // non-printable scalar values: 963,066, the
-        // interpreter's count with the surrogate range
-        // (unrepresentable as a char) removed. A drift
-        // in the table moves the count.
+        // codepoint space. The sweep checks the full
+        // classification, not only its size: the
+        // digest runs over one byte per scalar value
+        // (1 for non-printable) in codepoint order,
+        // with the surrogate range (unrepresentable
+        // as a char) removed, and equals the digest
+        // of the interpreter's own classification. A
+        // count-preserving swap in the table fails
+        // the digest even though it keeps the count.
+        use sha2::{Digest, Sha256};
         let mut non_printable = 0usize;
+        let mut classification = Vec::with_capacity(0x110000);
         for value in 0..=0x10FFFFu32 {
             if let Some(ch) = char::from_u32(value) {
-                if !is_printable(ch) {
+                if is_printable(ch) {
+                    classification.push(0u8);
+                } else {
+                    classification.push(1u8);
                     non_printable += 1;
                 }
             }
         }
         assert_eq!(non_printable, 963_066);
+        let digest = Sha256::digest(&classification);
+        assert_eq!(
+            format!("{:x}", digest),
+            "ef14f07518448575acee2ff886575d7cd03f612071f6da473ab34754a797940d"
+        );
         // The four recorded disagreements of the hand
         // approximation, named: unassigned codepoints
         // the interpreter treats as non-printable.

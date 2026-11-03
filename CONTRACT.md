@@ -852,8 +852,8 @@ held to the standard of the surface it feeds.
   bytes change only for a tape carrying a float
   in FT-57's class, and the dossier enumerates
   any standing-corpus tape whose digest moved,
-  with none expected: the sweep and the fixture
-  carry no member of the class, and the harness
+  with none expected: the golden fixture tape
+  carries no member of the class, and the harness
   surfaces it if that expectation is wrong. The
   full local gate (cargo test, clippy with
   warnings denied, fmt, the codepoint scan)
