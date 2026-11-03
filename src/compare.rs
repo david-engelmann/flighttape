@@ -4,7 +4,7 @@
 //! refuses a side it cannot digest, since the report
 //! carries digests.
 
-use crate::identity::{canonical_bytes, tape_digest};
+use crate::identity::{canonical_bytes, tape_digest, DigestError};
 use crate::validate::tape_duration;
 use crate::value::{object, scalar_cmp, Text, Value};
 
@@ -14,7 +14,7 @@ use crate::value::{object, scalar_cmp, Text, Value};
 /// more than a double holds; the report is JSON, so
 /// an unrepresentable delta is omitted.
 fn delta(left: &Value, right: &Value) -> Option<Value> {
-    let result = crate::value::num_sub(left, right)?;
+    let result = crate::value::num_sub(right, left)?;
     match result {
         Value::Float(number) if !number.is_finite() => None,
         _ => Some(result),
@@ -216,8 +216,15 @@ fn events_report(first: &Value, second: &Value) -> Value {
     ])
 }
 
-/// Return the comparison report for two valid tapes.
-pub fn compare_tapes(first: &Value, second: &Value) -> Value {
+/// Return the comparison report for two valid tapes,
+/// or the digest error when either side cannot be
+/// digested, as the Python raises there.
+pub fn compare_tapes(
+    first: &Value,
+    second: &Value,
+) -> Result<Value, DigestError> {
+    let first_digest = tape_digest(first)?;
+    let second_digest = tape_digest(second)?;
     let first_outcome = first.get("outcome").cloned().unwrap_or(Value::Null);
     let second_outcome = second.get("outcome").cloned().unwrap_or(Value::Null);
     let first_duration = tape_duration(first);
@@ -262,21 +269,17 @@ pub fn compare_tapes(first: &Value, second: &Value) -> Value {
             _ => empty.clone(),
         }
     };
-    object(vec![
+    Ok(object(vec![
         (
             "digests",
             object(vec![
                 (
                     "a",
-                    Value::Str(Text::from_str(
-                        &tape_digest(first).unwrap_or_default(),
-                    )),
+                    Value::Str(Text::from_str(&first_digest)),
                 ),
                 (
                     "b",
-                    Value::Str(Text::from_str(
-                        &tape_digest(second).unwrap_or_default(),
-                    )),
+                    Value::Str(Text::from_str(&second_digest)),
                 ),
             ]),
         ),
@@ -305,5 +308,5 @@ pub fn compare_tapes(first: &Value, second: &Value) -> Value {
             measures(&skipped_of(first), &skipped_of(second)),
         ),
         ("events", events_report(first, second)),
-    ])
+    ]))
 }

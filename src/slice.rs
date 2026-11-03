@@ -146,12 +146,46 @@ pub enum SliceErrorOrDigest {
     Digest(DigestError),
 }
 
+/// The deepest container nesting in a value, counted
+/// iteratively. The Python copies the tape before it
+/// slices, and a tape nested past the interpreter
+/// limit refuses there with its own phrase; the port
+/// measures depth instead and refuses past the
+/// canonical renderer's limit (FT-54) in that phrase.
+fn container_depth(tape: &Value) -> usize {
+    let mut deepest = 0usize;
+    let mut stack: Vec<(&Value, usize)> = vec![(tape, 0)];
+    while let Some((value, depth)) = stack.pop() {
+        match value {
+            Value::Array(items) => {
+                deepest = deepest.max(depth + 1);
+                for item in items {
+                    stack.push((item, depth + 1));
+                }
+            }
+            Value::Object(pairs) => {
+                deepest = deepest.max(depth + 1);
+                for (_, item) in pairs {
+                    stack.push((item, depth + 1));
+                }
+            }
+            _ => {}
+        }
+    }
+    deepest
+}
+
 fn build_slice(
     tape: &Value,
     from_seq: Option<i128>,
     to_seq: Option<i128>,
     kinds: Option<Vec<String>>,
 ) -> Result<Value, SliceErrorOrDigest> {
+    if container_depth(tape) > 1000 {
+        return Err(SliceErrorOrDigest::Slice(SliceError(
+            "the tape is nested too deeply to slice".to_string(),
+        )));
+    }
     let digest = tape_digest(tape).map_err(SliceErrorOrDigest::Digest)?;
     let wanted: Option<Vec<String>> = kinds.clone();
     let mut selected: Vec<Value> = Vec::new();

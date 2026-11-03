@@ -352,7 +352,9 @@ fn compare_command(first_path: &str, second_path: &str) -> i32 {
     if refused {
         return 1;
     }
-    out_line(&dumps_indent(&compare_tapes(&tapes[0], &tapes[1])));
+    let report =
+        compare_tapes(&tapes[0], &tapes[1]).expect("digest-checked sides");
+    out_line(&dumps_indent(&report));
     0
 }
 
@@ -778,29 +780,66 @@ fn parse_args(
             print_sub_help(command);
             return Err(0);
         }
-        if wants_output && (arg == "-o" || arg == "--output" || arg == "--output-dir") {
-            index += 1;
-            if index >= args.len() {
-                return Err(usage_error(
-                    &usage,
-                    &format!("argument -o/--output: expected one argument"),
-                ));
-            }
-            parsed.output = Some(args[index].clone());
-        } else if command == "slice"
-            && (arg == "--from" || arg == "--to" || arg == "--kind")
+        // argparse also takes the equals form of a long
+        // option and the glued form of a short one.
+        let (flag, inline): (String, Option<String>) =
+            if let Some(eq) = arg.find('=') {
+                if arg.starts_with("--") {
+                    (
+                        arg[..eq].to_string(),
+                        Some(arg[eq + 1..].to_string()),
+                    )
+                } else {
+                    (arg.clone(), None)
+                }
+            } else if wants_output
+                && arg.starts_with("-o")
+                && arg.len() > 2
+            {
+                ("-o".to_string(), Some(arg[2..].to_string()))
+            } else {
+                (arg.clone(), None)
+            };
+        let flag = flag.as_str();
+        if wants_output
+            && (flag == "-o" || flag == "--output" || flag == "--output-dir")
         {
-            index += 1;
-            if index >= args.len() {
-                return Err(usage_error(
-                    &usage,
-                    &format!("argument {}: expected one argument", arg),
-                ));
+            if let Some(value) = inline {
+                parsed.output = Some(value);
+            } else {
+                index += 1;
+                if index >= args.len() {
+                    return Err(usage_error(
+                        &usage,
+                        &format!(
+                            "argument -o/--output: expected one argument"
+                        ),
+                    ));
+                }
+                parsed.output = Some(args[index].clone());
             }
-            match arg.as_str() {
-                "--from" => parsed.from_seq = Some(args[index].clone()),
-                "--to" => parsed.to_seq = Some(args[index].clone()),
-                _ => parsed.kinds.push(args[index].clone()),
+        } else if command == "slice"
+            && (flag == "--from" || flag == "--to" || flag == "--kind")
+        {
+            let value = if let Some(value) = inline {
+                value
+            } else {
+                index += 1;
+                if index >= args.len() {
+                    return Err(usage_error(
+                        &usage,
+                        &format!(
+                            "argument {}: expected one argument",
+                            flag
+                        ),
+                    ));
+                }
+                args[index].clone()
+            };
+            match flag {
+                "--from" => parsed.from_seq = Some(value),
+                "--to" => parsed.to_seq = Some(value),
+                _ => parsed.kinds.push(value),
             }
         } else if arg.starts_with('-') && arg.len() > 1 && arg != "-" {
             return Err(usage_error(
