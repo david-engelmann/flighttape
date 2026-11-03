@@ -630,3 +630,23 @@ fn cli_rollup_renders_a_report_despite_a_huge_sum() {
     );
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+#[test]
+fn an_empty_rollup_reports_a_positive_zero_duration_total() {
+    // Red team m1: with no known durations the total
+    // is zero with a positive sign, as Python's sum
+    // from zero renders it.
+    let report = rollup_report(records(&[]), "dir");
+    let total = report
+        .get("duration_seconds")
+        .and_then(|durations| durations.get("total"))
+        .expect("the report carries a duration total");
+    match total {
+        Value::Float(value) => assert_eq!(
+            value.to_bits(),
+            0.0f64.to_bits(),
+            "the total is positive zero"
+        ),
+        other => panic!("the total is not a float: {:?}", other),
+    }
+}

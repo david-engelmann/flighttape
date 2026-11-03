@@ -434,20 +434,22 @@ fn slice_command(
     to_text: Option<&str>,
     kinds: Option<Vec<String>>,
 ) -> i32 {
-    let (from_seq, to_seq) = match (
+    let (from_bound, to_bound) = match (
         parse_bound(from_text, "--from"),
         parse_bound(to_text, "--to"),
     ) {
-        (Ok(from_seq), Ok(to_seq)) => (from_seq, to_seq),
+        (Ok(from_bound), Ok(to_bound)) => (from_bound, to_bound),
         (Err(error), _) | (_, Err(error)) => {
             err_line(&format!("error, {}", error.0));
             return 1;
         }
     };
-    if let Err(error) = check_selection(from_seq, to_seq, kinds.as_deref()) {
+    if let Err(error) = check_selection(from_bound.as_ref(), to_bound.as_ref(), kinds.as_deref()) {
         err_line(&format!("error, {}", error.0));
         return 1;
     }
+    let from_seq = from_bound.map(|bound| bound.value);
+    let to_seq = to_bound.map(|bound| bound.value);
     let tape = match read_tape(path) {
         Load::Failed(_) => return 1,
         Load::Tape(tape) => tape,
@@ -862,6 +864,43 @@ fn parse_args(command: &str, args: &[String]) -> Result<Parsed, i32> {
             if arg.starts_with('-') && arg.len() > 1 && !is_negative_number(&arg) {
                 let second = arg[1..].chars().next().unwrap_or('-');
                 if second == 'h' {
+                    // A cluster opening with h: argparse
+                    // settles the rest of the cluster
+                    // before the help action fires. When
+                    // the rest opens the output option,
+                    // that option's value, or its
+                    // absence, is settled first.
+                    let rest: String = arg[1..].chars().skip(1).collect();
+                    if rest.starts_with('o') && wants_output {
+                        let tail = &rest[1..];
+                        let value = if !tail.is_empty() {
+                            Some(match tail.strip_prefix('=') {
+                                Some(stripped) => stripped.to_string(),
+                                None => tail.to_string(),
+                            })
+                        } else {
+                            match args.get(index + 1) {
+                                Some(next) if !looks_like_option(next) => Some(next.clone()),
+                                _ => None,
+                            }
+                        };
+                        match value {
+                            Some(value) => {
+                                parsed.output = Some(value);
+                                print_sub_help(command);
+                                return Err(0);
+                            }
+                            None => {
+                                return Err(sub_error(
+                                    command,
+                                    &format!(
+                                        "argument {}: expected one argument",
+                                        opt_display(command, &Opt::Output)
+                                    ),
+                                ))
+                            }
+                        }
+                    }
                     print_sub_help(command);
                     return Err(0);
                 }
@@ -975,19 +1014,20 @@ pub fn run_cli() -> i32 {
     // that is no command is refused where it stands,
     // argparse's own order throughout.
     let mut before: Vec<String> = Vec::new();
-    let mut after_separator = false;
     let mut index = 0;
     let command: &str = loop {
         if index >= args.len() {
             return top_error("the following arguments are required: command");
         }
         let arg = &args[index];
-        if !after_separator && arg == "--" {
-            after_separator = true;
-            index += 1;
-            continue;
+        if arg == "--" {
+            // Before the command word the separator is
+            // the command word itself, as the pattern
+            // argparse matches assigns it, and the
+            // choice check below refuses it.
+            break arg.as_str();
         }
-        if !after_separator && looks_like_option(arg) {
+        if looks_like_option(arg) {
             if is_top_help(arg) {
                 if let Some(eq) = arg.find('=') {
                     if arg.starts_with("--") {

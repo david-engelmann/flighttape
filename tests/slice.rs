@@ -498,9 +498,11 @@ fn cli_an_undigestible_source_is_refused_by_name() {
 
 #[test]
 fn cli_a_deeply_nested_tape_is_a_named_refusal() {
-    // The port refuses past the canonical limit of
-    // 1000 nested containers (FT-54); the Python
-    // refuses earlier, at its interpreter limit.
+    // Past the canonical limit of 1000 nested
+    // containers both sides refuse (FT-54), and the
+    // refusal is the digest's: the Python digests
+    // before it copies, so its digest refusal is the
+    // one reported (red team m5).
     let dir = tmpdir("deep");
     let mut tape = source_tape();
     let mut nested = Value::Array(vec![]);
@@ -525,7 +527,7 @@ fn cli_a_deeply_nested_tape_is_a_named_refusal() {
         out.to_string_lossy().into_owned(),
     ]);
     assert_eq!(code, 1);
-    assert!(err.contains("nested too deeply"), "stderr {}", err);
+    assert!(err.contains("cannot be digested"), "stderr {}", err);
     assert!(!err.contains("Traceback"));
     assert!(!out.exists());
     let _ = std::fs::remove_dir_all(&dir);
@@ -574,4 +576,58 @@ fn the_t0_constant_is_the_fixture_start() {
     assert_eq!(T0, "2026-01-01T09:00:00.000Z");
     let _ = T1;
     let _ = T2;
+}
+
+#[test]
+fn a_huge_negative_bound_is_named_as_written() {
+    // Red team m2: the refusal names the integer the
+    // caller wrote, at any length, never the clamped
+    // value the comparison ran on.
+    use flighttape::slice::{check_selection, parse_bound};
+    let written = format!("-{}", "9".repeat(100));
+    let bound = parse_bound(Some(&written), "--from")
+        .expect("the bound parses")
+        .expect("the bound stands");
+    let error = check_selection(Some(&bound), None, None).expect_err("a negative bound is refused");
+    assert_eq!(
+        error.0,
+        format!("the --from bound is below zero, {}", written)
+    );
+}
+
+#[test]
+fn huge_bounds_compare_by_their_whole_literals() {
+    use flighttape::slice::{check_selection, parse_bound};
+    let above = format!("2{}", "0".repeat(100));
+    let below = format!("1{}", "0".repeat(100));
+    let from = parse_bound(Some(&above), "--from").unwrap().unwrap();
+    let to = parse_bound(Some(&below), "--to").unwrap().unwrap();
+    let error =
+        check_selection(Some(&from), Some(&to), None).expect_err("the wider bound is above");
+    assert_eq!(
+        error.0,
+        format!(
+            "the --from bound {} is above the --to bound {}",
+            above, below
+        )
+    );
+}
+
+#[test]
+fn past_the_render_depth_the_digest_refusal_speaks_first() {
+    // Red team m5: the Python digests before it
+    // copies, so at depths both sides refuse, the
+    // refusal is the digest's, not the slice's own.
+    let mut deep = Value::Null;
+    for _ in 0..1001 {
+        deep = Value::Array(vec![deep]);
+    }
+    let tape = object(vec![("events", Value::Array(vec![deep]))]);
+    match slice_tape(&tape, None, None, None) {
+        Err(SliceErrorOrDigest::Digest(_)) => {}
+        Err(SliceErrorOrDigest::Slice(error)) => {
+            panic!("a slice refusal, not the digest's: {}", error.0)
+        }
+        Ok(_) => panic!("the slice unexpectedly succeeded"),
+    }
 }

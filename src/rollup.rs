@@ -298,7 +298,14 @@ pub fn rollup_report(records: Vec<Value>, directory: &str) -> Value {
         (
             "duration_seconds",
             object(vec![
-                ("total", Value::Float(known.iter().sum::<f64>())),
+                // A fold from positive zero: the
+                // standard sum seeds an empty fold
+                // with negative zero, where Python's
+                // sum starts at zero itself.
+                (
+                    "total",
+                    Value::Float(known.iter().fold(0.0, |total, each| total + each)),
+                ),
                 ("known", Value::Int(known.len().to_string())),
                 (
                     "unknown",

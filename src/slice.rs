@@ -25,12 +25,27 @@ impl std::error::Error for SliceError {}
 
 const HUGE: i128 = 1_000_000_000_000_000_000;
 
+/// A parsed selection bound. The value is what
+/// comparisons run on; a digit string too long for
+/// the value clamps to a huge sentinel instead of
+/// dying in the interpreter's integer parsing limit,
+/// the way Python's arbitrary precision int simply
+/// holds it, and every comparison still lands the
+/// same way. The literal is the integer the caller
+/// wrote, normalized the way Python prints an int,
+/// and it is what the refusal messages name at any
+/// length.
+#[derive(Clone, Debug, PartialEq)]
+pub struct Bound {
+    pub value: i128,
+    pub literal: String,
+}
+
 /// Read one CLI bound (FT-39). Bounds arrive as text
-/// so that an absurdly long digit string clamps to a
-/// huge sentinel instead of dying in the interpreter's
-/// integer parsing limit, and a non-integer is a named
-/// refusal, never a traceback.
-pub fn parse_bound(text: Option<&str>, flag: &str) -> Result<Option<i128>, SliceError> {
+/// so that an absurdly long digit string survives,
+/// and a non-integer is a named refusal, never a
+/// traceback.
+pub fn parse_bound(text: Option<&str>, flag: &str) -> Result<Option<Bound>, SliceError> {
     let text = match text {
         None => return Ok(None),
         Some(text) => text,
@@ -38,25 +53,43 @@ pub fn parse_bound(text: Option<&str>, flag: &str) -> Result<Option<i128>, Slice
     // Python's int() accepts surrounding whitespace, a
     // sign, and digit separators (single underscores
     // between digits); it refuses the rest.
-    match parse_python_int(text) {
-        Some(value) => Ok(Some(value)),
-        None => {
-            let digits = text.trim_start_matches(['+', '-']);
-            if !digits.is_empty()
-                && digits.chars().all(|ch| ch.is_ascii_digit())
-                && digits.len() > 18
-            {
-                return Ok(Some(if text.starts_with('-') { -HUGE } else { HUGE }));
-            }
-            Err(SliceError(format!(
-                "the {} bound is not an integer, {}",
-                flag, text
-            )))
+    match normalize_python_int(text) {
+        Some((negative, digits)) => {
+            let value = if digits.len() > 18 {
+                if negative {
+                    -HUGE
+                } else {
+                    HUGE
+                }
+            } else {
+                let magnitude: i128 = digits.parse().expect("at most 18 digits");
+                if negative {
+                    -magnitude
+                } else {
+                    magnitude
+                }
+            };
+            let literal = if digits == "0" {
+                "0".to_string()
+            } else if negative {
+                format!("-{}", digits)
+            } else {
+                digits
+            };
+            Ok(Some(Bound { value, literal }))
         }
+        None => Err(SliceError(format!(
+            "the {} bound is not an integer, {}",
+            flag, text
+        ))),
     }
 }
 
-fn parse_python_int(text: &str) -> Option<i128> {
+/// A Python int literal, normalized: the sign and
+/// the digits with separators and leading zeros
+/// removed, at any length. None when the text is no
+/// int literal at all.
+fn normalize_python_int(text: &str) -> Option<(bool, String)> {
     let trimmed = text.trim_matches(|ch: char| {
         matches!(ch,
             '\u{09}'..='\u{0D}' | '\u{20}' | '\u{85}' | '\u{A0}' | '\u{1680}'
@@ -66,9 +99,9 @@ fn parse_python_int(text: &str) -> Option<i128> {
     if trimmed.is_empty() {
         return None;
     }
-    let (sign, rest) = match trimmed.strip_prefix('-') {
-        Some(rest) => (-1i128, rest),
-        None => (1i128, trimmed.strip_prefix('+').unwrap_or(trimmed)),
+    let (negative, rest) = match trimmed.strip_prefix('-') {
+        Some(rest) => (true, rest),
+        None => (false, trimmed.strip_prefix('+').unwrap_or(trimmed)),
     };
     if rest.is_empty() {
         return None;
@@ -83,34 +116,70 @@ fn parse_python_int(text: &str) -> Option<i128> {
     {
         return None;
     }
-    if cleaned.len() > 18 {
-        return None;
+    let digits = cleaned.trim_start_matches('0');
+    Some((
+        negative,
+        if digits.is_empty() {
+            "0".to_string()
+        } else {
+            digits.to_string()
+        },
+    ))
+}
+
+/// Compare two normalized int literals exactly, at
+/// any length: by sign, then by digit count, then
+/// by the digits themselves.
+fn literal_cmp(first: &str, second: &str) -> std::cmp::Ordering {
+    use std::cmp::Ordering;
+    let (first_negative, first_digits) = match first.strip_prefix('-') {
+        Some(digits) => (true, digits),
+        None => (false, first),
+    };
+    let (second_negative, second_digits) = match second.strip_prefix('-') {
+        Some(digits) => (true, digits),
+        None => (false, second),
+    };
+    if first_negative != second_negative {
+        return if first_negative {
+            Ordering::Less
+        } else {
+            Ordering::Greater
+        };
     }
-    cleaned.parse::<i128>().ok().map(|value| sign * value)
+    let magnitude = first_digits
+        .len()
+        .cmp(&second_digits.len())
+        .then_with(|| first_digits.cmp(second_digits));
+    if first_negative {
+        magnitude.reverse()
+    } else {
+        magnitude
+    }
 }
 
 /// Refuse a malformed selection before any file is
-/// read. Bounds here are the parsed values.
+/// read. The messages name the bounds as written.
 pub fn check_selection(
-    from_seq: Option<i128>,
-    to_seq: Option<i128>,
+    from_seq: Option<&Bound>,
+    to_seq: Option<&Bound>,
     kinds: Option<&[String]>,
 ) -> Result<(), SliceError> {
     for (flag, bound) in [("--from", from_seq), ("--to", to_seq)] {
         if let Some(bound) = bound {
-            if bound < 0 {
+            if bound.value < 0 {
                 return Err(SliceError(format!(
                     "the {} bound is below zero, {}",
-                    flag, bound
+                    flag, bound.literal
                 )));
             }
         }
     }
     if let (Some(from), Some(to)) = (from_seq, to_seq) {
-        if from > to {
+        if literal_cmp(&from.literal, &to.literal) == std::cmp::Ordering::Greater {
             return Err(SliceError(format!(
                 "the --from bound {} is above the --to bound {}",
-                from, to
+                from.literal, to.literal
             )));
         }
     }
@@ -129,7 +198,19 @@ pub fn slice_tape(
     to_seq: Option<i128>,
     kinds: Option<Vec<String>>,
 ) -> Result<Value, SliceErrorOrDigest> {
-    check_selection(from_seq, to_seq, kinds.as_deref()).map_err(SliceErrorOrDigest::Slice)?;
+    // The values this seam carries are already
+    // numbers, so each one's literal is its own
+    // printing.
+    let bound_of = |value: i128| Bound {
+        value,
+        literal: value.to_string(),
+    };
+    check_selection(
+        from_seq.map(&bound_of).as_ref(),
+        to_seq.map(&bound_of).as_ref(),
+        kinds.as_deref(),
+    )
+    .map_err(SliceErrorOrDigest::Slice)?;
     build_slice(tape, from_seq, to_seq, kinds).map_err(|error| match error {
         SliceErrorOrDigest::Digest(digest_error) => SliceErrorOrDigest::Digest(digest_error),
         other => other,
@@ -149,12 +230,16 @@ fn build_slice(
     to_seq: Option<i128>,
     kinds: Option<Vec<String>>,
 ) -> Result<Value, SliceErrorOrDigest> {
+    // The digest is computed before the depth guard,
+    // as the Python computes it before its copy: past
+    // the renderer's depth the refusal that surfaces
+    // is the digest's, not the slice's own.
+    let digest = tape_digest(tape).map_err(SliceErrorOrDigest::Digest)?;
     if crate::value::container_depth(tape) > 1000 {
         return Err(SliceErrorOrDigest::Slice(SliceError(
             "the tape is nested too deeply to slice".to_string(),
         )));
     }
-    let digest = tape_digest(tape).map_err(SliceErrorOrDigest::Digest)?;
     let wanted: Option<Vec<String>> = kinds.clone();
     let mut selected: Vec<Value> = Vec::new();
     let empty = Value::Array(Vec::new());

@@ -313,3 +313,51 @@ fn rollup_output_does_not_depend_on_creation_order() {
     let _ = std::fs::remove_dir_all(&first_dir);
     let _ = std::fs::remove_dir_all(&second_dir);
 }
+
+#[test]
+fn the_ho_cluster_without_a_value_is_the_output_error() {
+    // Red team m3: argparse settles the cluster's
+    // trailing output option before the help action,
+    // so a missing value is the error, not the help.
+    let (code, stdout, stderr) = run_cli(&["convert".into(), FIXTURE.into(), "-ho".into()]);
+    assert_eq!(code, 2);
+    assert_eq!(stdout, "");
+    assert_eq!(
+        stderr,
+        "usage: flighttape convert [-h] [-o OUTPUT] source\nflighttape convert: error: argument -o/--output: expected one argument\n"
+    );
+}
+
+#[test]
+fn the_ho_cluster_with_a_value_prints_the_help() {
+    let dir = tmpdir("hocluster");
+    let out = dir.join("tape.json");
+    let (code, stdout, stderr) = run_cli(&[
+        "convert".into(),
+        FIXTURE.into(),
+        "-ho".into(),
+        out.to_string_lossy().into_owned(),
+    ]);
+    assert_eq!(code, 0);
+    assert!(
+        stdout.starts_with("usage: flighttape convert [-h] [-o OUTPUT] source\n"),
+        "stdout {}",
+        stdout
+    );
+    assert_eq!(stderr, "");
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
+fn a_leading_separator_is_refused_as_the_command_word() {
+    // Red team m4: before the command word, the
+    // separator stands where the command stands, and
+    // the choice check refuses it.
+    let (code, _, stderr) = run_cli(&["--".into(), "validate".into(), "tape.json".into()]);
+    assert_eq!(code, 2);
+    assert!(
+        stderr.contains("argument command: invalid choice: '--'"),
+        "stderr {}",
+        stderr
+    );
+}
