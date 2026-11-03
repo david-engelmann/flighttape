@@ -43,8 +43,16 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
     }
 
     // The machine reads one value at a time; containers
-    // push frames, completed values attach upward.
-    let mut expecting_value = true;
+    // push frames, completed values attach upward. The
+    // state is explicit: after an opening bracket or a
+    // key the machine expects a value; after a value it
+    // expects a comma or a close.
+    #[derive(PartialEq)]
+    enum State {
+        Value,
+        AfterValue,
+    }
+    let mut state = State::Value;
     loop {
         skip_ws(bytes, &mut pos);
         if finished.is_some() {
@@ -56,7 +64,8 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
         if pos >= bytes.len() {
             fail!();
         }
-        if expecting_value {
+        if state == State::Value {
+            state = State::AfterValue;
             match bytes[pos] {
                 b'{' => {
                     pos += 1;
@@ -67,6 +76,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                     } else {
                         stack.push(Frame::Object(Vec::new(), None));
                         read_key(bytes, &mut pos, &mut stack)?;
+                        state = State::Value;
                     }
                 }
                 b'[' => {
@@ -77,6 +87,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                         attach(&mut stack, &mut finished, Value::Array(Vec::new()));
                     } else {
                         stack.push(Frame::Array(Vec::new()));
+                        state = State::Value;
                     }
                 }
                 b'"' => {
@@ -109,18 +120,19 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                 }
                 _ => fail!(),
             }
-            expecting_value = false;
         } else {
             // After a value inside a container: comma or close.
             match stack.last_mut() {
                 None => {
                     // A finished top-level value is handled
-                    // at the loop head.
+                    // at the loop head; anything else here
+                    // is trailing content.
+                    fail!();
                 }
                 Some(Frame::Array(_)) => match bytes[pos] {
                     b',' => {
                         pos += 1;
-                        expecting_value = true;
+                        state = State::Value;
                     }
                     b']' => {
                         pos += 1;
@@ -134,7 +146,7 @@ pub fn parse(text: &str) -> Result<Value, ParseError> {
                     b',' => {
                         pos += 1;
                         read_key(bytes, &mut pos, &mut stack)?;
-                        expecting_value = true;
+                        state = State::Value;
                     }
                     b'}' => {
                         pos += 1;

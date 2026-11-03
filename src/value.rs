@@ -114,6 +114,16 @@ impl Value {
         }
     }
 
+    pub fn get_mut(&mut self, key: &str) -> Option<&mut Value> {
+        match self {
+            Value::Object(pairs) => pairs
+                .iter_mut()
+                .find(|(name, _)| name == &key)
+                .map(|(_, value)| value),
+            _ => None,
+        }
+    }
+
     pub fn as_object(&self) -> Option<&Vec<(Text, Value)>> {
         match self {
             Value::Object(pairs) => Some(pairs),

@@ -8,6 +8,9 @@
 
 pub mod identity;
 pub mod json;
+pub mod pyrepr;
+pub mod timeparse;
+pub mod validate;
 pub mod value;
 
 /// The tape format version this crate speaks.
