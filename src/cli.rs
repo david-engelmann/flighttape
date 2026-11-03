@@ -525,9 +525,34 @@ fn slice_command(
 /// Resolve a path the way pathlib's resolve does for
 /// the screen guard: absolute, with symlinks in the
 /// existing prefix resolved and the rest lexical.
-fn resolve_lexical(path: &Path) -> PathBuf {
+/// Whether two existing paths name the same file,
+/// the os.path.samefile test: device and inode.
+#[cfg(unix)]
+fn same_file(first: &Path, second: &Path) -> bool {
+    use std::os::unix::fs::MetadataExt;
+    match (std::fs::metadata(first), std::fs::metadata(second)) {
+        (Ok(a), Ok(b)) => a.dev() == b.dev() && a.ino() == b.ino(),
+        _ => false,
+    }
+}
+
+#[cfg(not(unix))]
+fn same_file(_first: &Path, _second: &Path) -> bool {
+    false
+}
+
+/// Resolve a path the way the guard needs, or None
+/// when resolution itself fails, as it does on a
+/// symlink loop (the Python's resolve raises there
+/// and the command names the path unresolvable).
+fn resolve_lexical(path: &Path) -> Option<PathBuf> {
     if let Ok(canonical) = std::fs::canonicalize(path) {
-        return canonical;
+        return Some(canonical);
+    }
+    if let Err(error) = std::fs::canonicalize(path) {
+        if error.raw_os_error() == Some(libc_eloop()) {
+            return None;
+        }
     }
     let absolute = if path.is_absolute() {
         path.to_path_buf()
@@ -546,7 +571,14 @@ fn resolve_lexical(path: &Path) -> PathBuf {
             for part in remainder.iter().rev() {
                 resolved.push(part);
             }
-            return normalize_lexical(&resolved);
+            return Some(normalize_lexical(&resolved));
+        }
+        if std::fs::symlink_metadata(&existing).is_ok() {
+            if let Err(error) = std::fs::canonicalize(&existing) {
+                if error.raw_os_error() == Some(libc_eloop()) {
+                    return None;
+                }
+            }
         }
         match existing.file_name() {
             Some(name) => {
@@ -556,9 +588,14 @@ fn resolve_lexical(path: &Path) -> PathBuf {
                     .map(|parent| parent.to_path_buf())
                     .unwrap_or_else(|| PathBuf::from("/"));
             }
-            None => return normalize_lexical(&absolute),
+            None => return Some(normalize_lexical(&absolute)),
         }
     }
+}
+
+/// The ELOOP errno without a libc dependency.
+fn libc_eloop() -> i32 {
+    40
 }
 
 fn normalize_lexical(path: &Path) -> PathBuf {
@@ -579,12 +616,24 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
     let tape_path = Path::new(path);
     if let Some(output) = output {
         let out_path = Path::new(output);
-        let resolved = resolve_lexical(out_path) == resolve_lexical(tape_path);
-        let same_file = tape_path.exists()
-            && out_path.exists()
-            && std::fs::canonicalize(tape_path).ok()
-                == std::fs::canonicalize(out_path).ok();
-        if resolved || same_file {
+        let (resolved_out, resolved_tape) =
+            (resolve_lexical(out_path), resolve_lexical(tape_path));
+        let (resolved_out, resolved_tape) =
+            match (resolved_out, resolved_tape) {
+                (Some(out), Some(tape)) => (out, tape),
+                _ => {
+                    err_line(&format!(
+                        "error, the output path cannot be resolved, {}",
+                        output
+                    ));
+                    return 1;
+                }
+            };
+        let same = resolved_out == resolved_tape
+            || (tape_path.exists()
+                && out_path.exists()
+                && same_file(out_path, tape_path));
+        if same {
             err_line("error, a screen report never overwrites the tape");
             return 1;
         }

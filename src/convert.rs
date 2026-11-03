@@ -693,6 +693,15 @@ pub fn convert_lines(lines: Vec<Option<String>>) -> Value {
             skipped.bump(Text::from_str("non-object"));
             continue;
         }
+        if crate::value::container_depth(&line) > 1000 {
+            // The Python's parser and converter raise
+            // RecursionError there and count the line
+            // too-deep; the port counts whole at any
+            // depth (FT-51) and refuses past the
+            // canonical limit instead (FT-54).
+            skipped.bump(Text::from_str("too-deep"));
+            continue;
+        }
         let result = convert_line(&line, session_id.as_ref(), events.len());
         events.extend(result.events);
         skipped.absorb(result.skipped);

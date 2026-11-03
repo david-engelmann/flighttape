@@ -390,6 +390,34 @@ pub fn scalar_cmp(a: &Text, b: &Text) -> Ordering {
 /// Build an object value from (key, value) pairs in
 /// the order given, through a helper so the command
 /// modules read like the documents they build.
+/// The deepest container nesting in a value,
+/// counted iteratively: a scalar is 0, an empty
+/// container is 1, and each level of nesting adds
+/// one. Several commands refuse past the canonical
+/// limit of 1000 in their own phrases (FT-54).
+pub fn container_depth(value: &Value) -> usize {
+    let mut deepest = 0usize;
+    let mut stack: Vec<(&Value, usize)> = vec![(value, 0)];
+    while let Some((item, depth)) = stack.pop() {
+        match item {
+            Value::Array(items) => {
+                deepest = deepest.max(depth + 1);
+                for child in items {
+                    stack.push((child, depth + 1));
+                }
+            }
+            Value::Object(pairs) => {
+                deepest = deepest.max(depth + 1);
+                for (_, child) in pairs {
+                    stack.push((child, depth + 1));
+                }
+            }
+            _ => {}
+        }
+    }
+    deepest
+}
+
 pub fn object(pairs: Vec<(&str, Value)>) -> Value {
     Value::Object(
         pairs
