@@ -15,7 +15,10 @@ fn containers_with_content_parse() {
 
 #[test]
 fn the_python_literals_parse_as_non_finite_numbers() {
-    assert_eq!(parse("NaN").unwrap(), Value::Float(f64::NAN));
+    match parse("NaN").unwrap() {
+        Value::Float(number) => assert!(number.is_nan()),
+        other => panic!("expected a float, got {:?}", other),
+    }
     assert_eq!(parse("Infinity").unwrap(), Value::Float(f64::INFINITY));
     assert_eq!(parse("-Infinity").unwrap(), Value::Float(f64::NEG_INFINITY));
     assert!(parse("{\"score\": NaN}").is_ok());
