@@ -86,12 +86,12 @@ fn parse_iso(text: &str) -> Option<i128> {
     if cursor.at_end() {
         return Some(micros);
     }
-    // One separator character, anything but NUL;
-    // the time must follow it.
+    // One separator character, any single character
+    // at all; the time must follow it. NUL is a
+    // separator like any other (FT-68): the Round 12
+    // clause that barred it measured only the
+    // positions where a full time did not follow.
     let separator = text[cursor.pos..].chars().next()?;
-    if separator == '\0' {
-        return None;
-    }
     cursor.pos += separator.len_utf8();
     let (hour, minute, second, fraction, offset) = time(&mut cursor)?;
     micros += (hour * 3600 + minute * 60 + second) as i128 * 1_000_000;
@@ -293,10 +293,12 @@ fn tail_fraction(tail: &[u8], mode: Mode, seconds_read: bool, has_offset: bool) 
         // it. It wears every dress alike, a stray
         // digit, an empty fraction's point, a colon,
         // any other ASCII byte; at the end of the
-        // string it refuses in all of them. A
-        // multi-byte character is never one byte and
-        // is not skipped.
-        return if has_offset && tail[0].is_ascii() {
+        // string it refuses in all of them but one,
+        // the lone NUL, which the interpreter reads
+        // as the string's end (FT-68). A multi-byte
+        // character is never one byte and is not
+        // skipped.
+        return if (has_offset && tail[0].is_ascii()) || tail[0] == 0 {
             Some(0)
         } else {
             None
@@ -347,8 +349,11 @@ fn tail_fraction(tail: &[u8], mode: Mode, seconds_read: bool, has_offset: bool) 
 /// remaining, exactly min(R, 6) are read and all
 /// must be digits; digits past the window are
 /// skipped; anything left after the skipped digits
-/// is unexamined leftover, which stands only when
-/// an offset follows it.
+/// is unexamined leftover, which stands when an
+/// offset follows it, or when the leftover's first
+/// byte is NUL, the interpreter's end of string
+/// (FT-68). A NUL later in the leftover, behind
+/// other junk, does not stand.
 fn fraction_run(rest: &[u8], separated: bool, has_offset: bool) -> Option<i64> {
     if rest.is_empty() {
         // An empty fraction stands only before an
@@ -369,7 +374,7 @@ fn fraction_run(rest: &[u8], separated: bool, has_offset: bool) -> Option<i64> {
         while end < rest.len() && rest[end].is_ascii_digit() {
             end += 1;
         }
-        if end < rest.len() && !has_offset {
+        if end < rest.len() && !has_offset && rest[end] != 0 {
             return None;
         }
     }
@@ -425,22 +430,42 @@ fn offset(cursor: &mut Cursor) -> Option<i128> {
     // seconds (FT-63). The offset is consumed
     // exactly: the fraction needs at least one
     // digit, and nothing may stand after its digits
-    // (FT-65).
+    // (FT-65), save the FT-68 suffix below.
     let mut fraction = 0i64;
     let separated = matches!(cursor.peek(), Some(b'.') | Some(b','))
         || (cursor.peek() == Some(b':') && mode == Mode::Extended && seconds_read);
     if separated {
         cursor.pos += 1;
         let rest = &cursor.bytes[cursor.pos..];
-        if rest.is_empty() || !rest.iter().all(|byte| byte.is_ascii_digit()) {
+        let run = rest.iter().take_while(|byte| byte.is_ascii_digit()).count();
+        if run == 0 {
             return None;
         }
-        fraction = fraction_micros(rest);
-        cursor.pos += rest.len();
+        fraction = fraction_micros(&rest[..run]);
+        cursor.pos += run;
+        let suffix = &rest[run..];
+        if !suffix.is_empty() {
+            // Past the digit run the offset is consumed
+            // exactly, with one exception (FT-68): when
+            // the run filled the window, a suffix whose
+            // first byte is NUL is the interpreter's end
+            // of string, and the rest is ignored whole.
+            if run >= 6 && suffix[0] == 0 {
+                cursor.pos = cursor.bytes.len();
+            } else {
+                return None;
+            }
+        }
     }
     let total_seconds = hours * 3600 + minutes * 60 + seconds;
     if total_seconds >= 86_400 {
         return None;
+    }
+    if !separated && cursor.bytes[cursor.pos..] == [0] {
+        // A lone NUL after the offset's last component
+        // is the string's end (FT-68); anything else
+        // standing there is the caller's to refuse.
+        cursor.pos += 1;
     }
     if total_seconds == 0 {
         // A zero offset is the UTC fast path in the
