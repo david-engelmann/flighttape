@@ -859,3 +859,54 @@ held to the standard of the surface it feeds.
   warnings denied, fmt, the codepoint scan)
   passes on the final head before the round's
   reviews, as every round.
+- FT-63. Round 13 adopts the fraction law the
+  probe grid measured (277 probes, report at
+  chat2-ft-round13/probe-report.md). The colon
+  is a fraction separator after the seconds,
+  in the time and in the offset: the separator
+  candidate step after each component consumes
+  exactly one character, and a colon standing
+  after the seconds is eaten by that step, so
+  what follows it is fraction digits. No colon
+  group, concatenation, or nesting exists. The
+  FT-60 stray digit, the FT-60a skipped byte,
+  and the empty fraction are faces of this one
+  step.
+- FT-64. The fraction window: with R characters
+  remaining in the time part after the fraction
+  separator, exactly min(R, 6) characters are
+  read and all must be digits; the value is
+  those digits right-padded to six. Digits past
+  the window are skipped. This holds for ".",
+  ",", and ":" separators and for basic times,
+  whose fraction is bare digits after the
+  seconds under the same rules.
+- FT-65. The unexamined leftover: when R is
+  greater than 6, once the window digits and
+  the skipped digits end, any remaining
+  characters of the time part before the
+  offset boundary are not examined at all, and
+  the string accepts with the same instant, as
+  long as an offset boundary follows; a string
+  ending inside the leftover refuses. The
+  offset boundary is the first "Z", "+", or
+  "-" byte of the time string. The leftover
+  rule is time only: the offset substring must
+  be consumed exactly, so a non-digit leftover
+  after an offset fraction refuses, while
+  skipped digits remain free there.
+- FT-66. Offset values under colon fractions
+  follow the standing rules unchanged: the
+  drop rule (a zero whole-seconds part drops
+  the fraction entirely) and the strict
+  under-24-hours bound applied to the enlarged
+  total.
+- FT-67. The round extends the timestamp
+  corpus with the grid's candidates (accepting
+  and refusing shapes mixed), and verifies by
+  the full local gate plus a differential run
+  of the grid generators against the crate.
+  The Round 12 owed item on late CodeRabbit
+  findings is discharged here: the findings
+  arrived during Round 12 and were fixed
+  in-round, so nothing is owed from it.
