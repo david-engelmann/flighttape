@@ -910,3 +910,23 @@ held to the standard of the surface it feeds.
   findings is discharged here: the findings
   arrived during Round 12 and were fixed
   in-round, so nothing is owed from it.
+- FT-68. Amendment, from the Round 13 red team:
+  the interpreter reads a lone NUL byte as the
+  end of the string at its completion points
+  (measured: after the hour, minute, and
+  seconds in both time modes, after a full
+  six-digit fraction, after a complete offset,
+  and in the date and time separator position),
+  while a NUL anywhere else refuses (inside a
+  component, after a short fraction, after the
+  date alone, doubled, or followed by more
+  content). The crate models the lone NUL as a
+  terminator at exactly the measured points.
+  The repair's probe pass fixes the boundary
+  cells the first battery left open (including
+  NUL after skipped fraction digits and after
+  each offset component) before the rule is
+  implemented, and the corpus gains the NUL
+  cells. The corpus count guard also becomes
+  an exact pin in this repair, per FT-58's
+  precedent.
