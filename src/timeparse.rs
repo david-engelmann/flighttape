@@ -56,15 +56,6 @@ impl<'a> Cursor<'a> {
         matches!(self.peek(), Some(b) if b.is_ascii_digit())
             && matches!(self.peek_at(1), Some(b) if b.is_ascii_digit())
     }
-
-    /// The digit run at the cursor, consumed.
-    fn digit_run(&mut self) -> &'a [u8] {
-        let start = self.pos;
-        while matches!(self.peek(), Some(b) if b.is_ascii_digit()) {
-            self.pos += 1;
-        }
-        &self.bytes[start..self.pos]
-    }
 }
 
 /// Fraction digits as microseconds: the first six
@@ -250,6 +241,7 @@ fn time(cursor: &mut Cursor) -> Option<(i64, i64, i64, i64, i128)> {
             return None;
         }
     }
+    let mut seconds_read = false;
     if mode == Mode::Extended && colon_before_sign(cursor) {
         cursor.pos += 1;
     } else if mode == Mode::Extended && cursor.peek() == Some(b':') {
@@ -258,69 +250,130 @@ fn time(cursor: &mut Cursor) -> Option<(i64, i64, i64, i64, i128)> {
         if second > 59 {
             return None;
         }
+        seconds_read = true;
     } else if mode == Mode::Basic && cursor.two_digits_here() {
         second = cursor.digits(2)?;
         if second > 59 {
             return None;
         }
+        seconds_read = true;
     }
-    // Leftover digits after the last component: one
-    // stray digit is read and ignored when the string
-    // continues, as the interpreter reads it, and a
-    // refusal when the run reaches the end of the
-    // string (FT-60); a longer run is the fraction in
-    // the basic form and a refusal in the extended.
-    let mut fraction = 0i64;
-    let mut remainder_seen = false;
-    if matches!(cursor.peek(), Some(b) if b.is_ascii_digit()) {
-        remainder_seen = true;
-        let run = cursor.digit_run();
-        if run.len() > 1 {
-            if mode == Mode::Basic {
-                fraction = fraction_micros(run);
-            } else {
-                return None;
-            }
-        } else if cursor.at_end() {
-            return None;
-        }
-    }
-    // A fraction behind its point: the digits may be
-    // empty when an offset follows, never at the end.
-    let mut fraction_seen = false;
-    if !remainder_seen && matches!(cursor.peek(), Some(b'.') | Some(b',')) {
-        cursor.pos += 1;
-        let run = cursor.digit_run();
-        if run.is_empty() && cursor.at_end() {
-            return None;
-        }
-        fraction_seen = true;
-        fraction = fraction_micros(run);
-    }
-    // One separator character may stand between the
-    // time and the offset (FT-60a): any single ASCII
-    // character, the offset's sign immediately after
-    // it, and only where no fraction and no leftover
-    // digit intervened. A multi-byte character is
-    // not skipped.
-    if !remainder_seen && !fraction_seen {
-        if let Some(byte) = cursor.peek() {
-            if byte != b'+' && byte != b'-' {
-                if !byte.is_ascii() {
-                    return None;
-                }
-                cursor.pos += 1;
-                if !matches!(cursor.peek(), Some(b'+') | Some(b'-')) {
-                    return None;
-                }
-            }
-        }
-    }
+    // The tail after the last component, up to the
+    // offset boundary: the first sign byte of what
+    // remains (FT-65). The tail carries the stray
+    // digit (FT-60), the skipped separator byte
+    // (FT-60a), and the fraction behind its point or
+    // behind the colon that stands after the seconds
+    // (FT-63), read under the window law (FT-64).
+    let rest = &cursor.bytes[cursor.pos..];
+    let boundary = rest
+        .iter()
+        .position(|byte| *byte == b'+' || *byte == b'-')
+        .unwrap_or(rest.len());
+    let fraction = tail_fraction(&rest[..boundary], mode, seconds_read, boundary < rest.len())?;
+    cursor.pos += boundary;
     let offset = offset(cursor)?;
     if !cursor.at_end() {
         return None;
     }
     Some((hour, minute, second, fraction, offset))
+}
+
+/// The tail of a time, from just after its last
+/// component to the offset boundary. `has_offset`
+/// says a sign follows the tail.
+fn tail_fraction(tail: &[u8], mode: Mode, seconds_read: bool, has_offset: bool) -> Option<i64> {
+    if tail.is_empty() {
+        return Some(0);
+    }
+    if tail.len() == 1 {
+        // The separator candidate step (FT-60, FT-60a):
+        // one character after the last component,
+        // consumed and ignored when the offset follows
+        // it. It wears every dress alike, a stray
+        // digit, an empty fraction's point, a colon,
+        // any other ASCII byte; at the end of the
+        // string it refuses in all of them. A
+        // multi-byte character is never one byte and
+        // is not skipped.
+        return if has_offset && tail[0].is_ascii() {
+            Some(0)
+        } else {
+            None
+        };
+    }
+    let first = tail[0];
+    // A fraction behind its point, at any component.
+    if first == b'.' || first == b',' {
+        return fraction_run(&tail[1..], true, has_offset);
+    }
+    if first == b':' {
+        // After the seconds the colon is the fraction
+        // separator (FT-63); in a basic time it lands
+        // inside the fraction window instead.
+        if mode == Mode::Extended && seconds_read {
+            return fraction_run(&tail[1..], true, has_offset);
+        }
+        if mode == Mode::Basic {
+            return fraction_run(tail, false, has_offset);
+        }
+        return None;
+    }
+    if first.is_ascii_digit() {
+        let run_len = tail.iter().take_while(|byte| byte.is_ascii_digit()).count();
+        // One stray digit followed by more of the tail
+        // refuses; the lone stray digit was the
+        // candidate step's business above (FT-60).
+        if run_len == 1 {
+            return None;
+        }
+        // A longer digit run is the fraction in the
+        // basic form, once the seconds stand read, and
+        // a refusal in the extended.
+        if mode == Mode::Basic && seconds_read {
+            return fraction_run(tail, false, has_offset);
+        }
+        return None;
+    }
+    // Any other character here stands two or more
+    // deep in the tail, past the candidate step, and
+    // refuses.
+    None
+}
+
+/// The fraction's characters after its separator
+/// (or, in a basic time, after the seconds), under
+/// the window law (FT-64, FT-65): of the characters
+/// remaining, exactly min(R, 6) are read and all
+/// must be digits; digits past the window are
+/// skipped; anything left after the skipped digits
+/// is unexamined leftover, which stands only when
+/// an offset follows it.
+fn fraction_run(rest: &[u8], separated: bool, has_offset: bool) -> Option<i64> {
+    if rest.is_empty() {
+        // An empty fraction stands only before an
+        // offset sign, never at the end of the string.
+        return if separated && has_offset {
+            Some(0)
+        } else {
+            None
+        };
+    }
+    let window = rest.len().min(6);
+    if !rest[..window].iter().all(|byte| byte.is_ascii_digit()) {
+        return None;
+    }
+    let fraction = fraction_micros(&rest[..window]);
+    if rest.len() > 6 {
+        let mut end = 6;
+        while end < rest.len() && rest[end].is_ascii_digit() {
+            end += 1;
+        }
+        if end < rest.len() && !has_offset {
+            return None;
+        }
+    }
+    Some(fraction)
 }
 
 /// A component colon standing immediately before
@@ -358,22 +411,32 @@ fn offset(cursor: &mut Cursor) -> Option<i128> {
         mode = Mode::Basic;
         minutes = cursor.digits(2)?;
     }
+    let mut seconds_read = false;
     if mode == Mode::Extended && cursor.peek() == Some(b':') {
         cursor.pos += 1;
         seconds = cursor.digits(2)?;
+        seconds_read = true;
     } else if mode == Mode::Basic && cursor.two_digits_here() {
         seconds = cursor.digits(2)?;
+        seconds_read = true;
     }
-    // Fields past two digits are trailing content,
-    // which the caller refuses.
+    // The offset's fraction, behind its point or
+    // behind the colon that stands after the offset
+    // seconds (FT-63). The offset is consumed
+    // exactly: the fraction needs at least one
+    // digit, and nothing may stand after its digits
+    // (FT-65).
     let mut fraction = 0i64;
-    if matches!(cursor.peek(), Some(b'.') | Some(b',')) {
+    let separated = matches!(cursor.peek(), Some(b'.') | Some(b','))
+        || (cursor.peek() == Some(b':') && mode == Mode::Extended && seconds_read);
+    if separated {
         cursor.pos += 1;
-        let run = cursor.digit_run();
-        if run.is_empty() {
+        let rest = &cursor.bytes[cursor.pos..];
+        if rest.is_empty() || !rest.iter().all(|byte| byte.is_ascii_digit()) {
             return None;
         }
-        fraction = fraction_micros(run);
+        fraction = fraction_micros(rest);
+        cursor.pos += rest.len();
     }
     let total_seconds = hours * 3600 + minutes * 60 + seconds;
     if total_seconds >= 86_400 {
