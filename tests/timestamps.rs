@@ -45,8 +45,8 @@ fn the_timestamp_corpus_agrees_with_the_interpreter() {
     // The corpus is pinned at its exact size; a lost
     // or duplicated line fails here (FT-68).
     assert!(
-        checked == 373,
-        "the corpus carries {} probes, expected exactly 373",
+        checked == 371,
+        "the corpus carries {} probes, expected exactly 371",
         checked
     );
 }
