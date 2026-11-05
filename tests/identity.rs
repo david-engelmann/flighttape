@@ -72,7 +72,7 @@ fn the_swept_corpus_agrees_with_the_python_renderer() {
         assert_eq!(render_number(value), rendered, "bits {}", bits);
         checked += 1;
     }
-    assert!(checked > 4000);
+    assert!(checked == 6284);
 }
 
 #[test]
