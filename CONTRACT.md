@@ -930,3 +930,30 @@ held to the standard of the surface it feeds.
   cells. The corpus count guard also becomes
   an exact pin in this repair, per FT-58's
   precedent.
+- FT-69. Round 14 is corpus hygiene, and it
+  changes no behavior. Two lines in the
+  timestamp corpus stand duplicated (the offset
+  drop case and the colon-group refusal, each
+  appended twice across Rounds 12 and 13); the
+  duplicates are removed, the corpus stands at
+  371 probes, and the corpus count guard in
+  tests/timestamps.rs moves from 373 to the
+  exact 371 in the same step, per the FT-58
+  precedent that a generated set's guard pins
+  its exact count. The number sweep corpus
+  stands at 6,284 entries, all unique; its
+  guard in tests/identity.rs, an inequality
+  today, becomes the exact pin in the same
+  round. No other corpus, guard, or source file
+  moves.
+- FT-70. The CodeRabbit disposition owed from
+  Round 13 discharges here on evidence: the
+  Round 13 pull request carries zero inline
+  findings on read-back (the bot's later reply
+  was "Action not completed - Pull request is
+  closed," checked 2026-11-04), so there is
+  nothing to fix and the absence is the
+  disposition.
+- FT-71. README records 14 of 100 only in the
+  closure commit written after this round's
+  three reviews and owner verification.
