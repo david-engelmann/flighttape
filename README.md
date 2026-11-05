@@ -15,7 +15,7 @@ portfolio, in the Retrospective arc.
 
 ## Programme status
 
-- Closed perfection rounds, 13 of 100. A round counts only when a full
+- Closed perfection rounds, 14 of 100. A round counts only when a full
   cycle of work, audit, review, red team, and approval has closed.
 - Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
   reviews and their findings are recorded with the programme. The
