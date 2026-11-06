@@ -10,6 +10,7 @@
 //! behind these commands never raise on malformed
 //! input (FT-18, FT-19).
 
+use std::ffi::OsStr;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 
@@ -586,6 +587,119 @@ fn normalize_lexical(path: &Path) -> PathBuf {
     out
 }
 
+/// Absolutize a path lexically, the way os.path.abspath
+/// does for tempfile's dir argument: join the current
+/// directory when relative, then normalize, with no
+/// link resolution (FT-75). A failed current directory
+/// read fails the call, as it does in the oracle.
+fn lexical_abspath(path: &Path) -> std::io::Result<PathBuf> {
+    if path.as_os_str().is_empty() {
+        return std::env::current_dir();
+    }
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        std::env::current_dir()?.join(path)
+    };
+    Ok(normalize_lexical(&absolute))
+}
+
+/// One drawn temp suffix, exactly eight characters
+/// (FT-74). The draw mixes the process id, the wall
+/// clock, and the attempt counter through SHA-256 and
+/// renders four bytes as hex, so successive attempts
+/// and successive processes draw independently.
+fn temp_suffix(attempt: u64, parent: &Path, name: &OsStr) -> String {
+    use sha2::{Digest, Sha256};
+    let nanos = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|elapsed| elapsed.as_nanos())
+        .unwrap_or(0);
+    let mut hasher = Sha256::new();
+    hasher.update(std::process::id().to_le_bytes());
+    hasher.update(nanos.to_le_bytes());
+    hasher.update(attempt.to_le_bytes());
+    #[cfg(unix)]
+    {
+        use std::os::unix::ffi::OsStrExt;
+        hasher.update(parent.as_os_str().as_bytes());
+        hasher.update(name.as_bytes());
+    }
+    #[cfg(not(unix))]
+    {
+        hasher.update(parent.to_string_lossy().as_bytes());
+        hasher.update(name.to_string_lossy().as_bytes());
+    }
+    let digest = hasher.finalize();
+    digest[..4]
+        .iter()
+        .map(|byte| format!("{:02x}", byte))
+        .collect()
+}
+
+/// Assemble a temp candidate from raw bytes end to end
+/// (FT-77): the parent, the output name, a dot, and the
+/// drawn suffix, with no lossy text conversion.
+fn temp_candidate(parent: &Path, name: &OsStr, suffix: &str) -> PathBuf {
+    #[cfg(unix)]
+    {
+        use std::os::unix::ffi::OsStrExt;
+        use std::os::unix::ffi::OsStringExt;
+        let mut bytes = parent.as_os_str().as_bytes().to_vec();
+        if !bytes.is_empty() && bytes.last() != Some(&b'/') {
+            bytes.push(b'/');
+        }
+        bytes.extend_from_slice(name.as_bytes());
+        bytes.push(b'.');
+        bytes.extend_from_slice(suffix.as_bytes());
+        PathBuf::from(std::ffi::OsString::from_vec(bytes))
+    }
+    #[cfg(not(unix))]
+    {
+        parent.join(format!("{}.{}", name.to_string_lossy(), suffix))
+    }
+}
+
+/// Write the screen report the way the oracle's
+/// mkstemp and os.replace pair does (FT-74 to FT-77):
+/// the temp is created exclusively under the lexically
+/// absolutized parent with mode 0600, a collision draws
+/// again, and the rename lands on the spelled output.
+fn write_report_atomically(out_path: &Path, text: &str) -> std::io::Result<()> {
+    let spelled_parent = out_path.parent().unwrap_or_else(|| Path::new(""));
+    let parent = lexical_abspath(spelled_parent)?;
+    let name = out_path.file_name().unwrap_or_default();
+    for attempt in 0..64 {
+        let temp = temp_candidate(&parent, name, &temp_suffix(attempt, &parent, name));
+        let mut options = std::fs::OpenOptions::new();
+        options.write(true).create_new(true);
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::OpenOptionsExt;
+            options.mode(0o600);
+        }
+        let mut file = match options.open(&temp) {
+            Ok(file) => file,
+            Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => continue,
+            Err(error) => return Err(error),
+        };
+        let written = file.write_all(text.as_bytes());
+        drop(file);
+        if let Err(error) = written {
+            let _ = std::fs::remove_file(&temp);
+            return Err(error);
+        }
+        match std::fs::rename(&temp, out_path) {
+            Ok(()) => return Ok(()),
+            Err(error) => {
+                let _ = std::fs::remove_file(&temp);
+                return Err(error);
+            }
+        }
+    }
+    Err(std::io::Error::from(std::io::ErrorKind::AlreadyExists))
+}
+
 fn screen_command(path: &str, output: Option<&str>) -> i32 {
     let tape_path = Path::new(path);
     if let Some(output) = output {
@@ -628,17 +742,9 @@ fn screen_command(path: &str, output: Option<&str>) -> i32 {
         Some(output) => {
             // The report lands atomically (FT-47): a
             // sibling temp file renamed over the output.
+            // FT-74 to FT-77 state the candidate law.
             let out_path = Path::new(output);
-            let dir = out_path.parent().unwrap_or_else(|| Path::new("."));
-            let name = out_path
-                .file_name()
-                .map(|name| name.to_string_lossy().into_owned())
-                .unwrap_or_default();
-            let temp = dir.join(format!("{}.{}", name, std::process::id()));
-            let written =
-                std::fs::write(&temp, &text).and_then(|_| std::fs::rename(&temp, out_path));
-            if written.is_err() {
-                let _ = std::fs::remove_file(&temp);
+            if write_report_atomically(out_path, &text).is_err() {
                 err_line(&format!("error, cannot write the report, {}", output));
                 return 1;
             }
@@ -1138,5 +1244,119 @@ pub fn run_cli() -> i32 {
             out_line(&format!("valid tape, {} events", events));
             0
         }
+    }
+}
+
+#[cfg(all(test, unix))]
+mod screen_temp_tests {
+    use super::*;
+    use std::os::unix::ffi::OsStringExt;
+    use std::os::unix::fs::PermissionsExt;
+
+    fn tmpdir(tag: &str) -> PathBuf {
+        let dir = std::env::temp_dir().join(format!(
+            "flighttape-temp-seam-{}-{}",
+            std::process::id(),
+            tag
+        ));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        dir
+    }
+
+    fn entries(dir: &Path) -> Vec<std::ffi::OsString> {
+        let mut names: Vec<std::ffi::OsString> = std::fs::read_dir(dir)
+            .unwrap()
+            .map(|entry| entry.unwrap().file_name())
+            .collect();
+        names.sort();
+        names
+    }
+
+    #[test]
+    fn the_candidate_suffix_is_eight_and_the_mode_is_mkstemp() {
+        for attempt in 0..4 {
+            assert_eq!(
+                temp_suffix(attempt, Path::new("/tmp"), OsStr::new("report.json")).len(),
+                8
+            );
+        }
+        let dir = tmpdir("mode");
+        let out = dir.join("report.json");
+        write_report_atomically(&out, "report\n").unwrap();
+        assert_eq!(std::fs::read_to_string(&out).unwrap(), "report\n");
+        let mode = std::fs::metadata(&out).unwrap().permissions().mode();
+        assert_eq!(mode & 0o777, 0o600);
+        assert_eq!(entries(&dir), vec![std::ffi::OsString::from("report.json")]);
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn a_planted_file_or_directory_at_the_old_candidate_stands() {
+        let dir = tmpdir("planted");
+        let pid = std::process::id();
+        let out = dir.join("report.json");
+        let planted = dir.join(format!("report.json.{}", pid));
+        std::fs::write(&planted, "sentinel").unwrap();
+        write_report_atomically(&out, "report\n").unwrap();
+        assert_eq!(std::fs::read_to_string(&planted).unwrap(), "sentinel");
+        assert_eq!(std::fs::read_to_string(&out).unwrap(), "report\n");
+        let out_dir = dir.join("other.json");
+        let planted_dir = dir.join(format!("other.json.{}", pid));
+        std::fs::create_dir(&planted_dir).unwrap();
+        write_report_atomically(&out_dir, "report\n").unwrap();
+        assert!(planted_dir.is_dir());
+        assert_eq!(std::fs::read_to_string(&out_dir).unwrap(), "report\n");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn the_temp_is_created_under_the_lexical_parent() {
+        // The physical parent exists, the lexical does not:
+        // creation at the lexical parent fails and nothing
+        // lands in the physical directory.
+        let dir = tmpdir("popped-phys");
+        std::fs::create_dir_all(dir.join("elsewhere/real")).unwrap();
+        std::os::unix::fs::symlink("elsewhere/real", dir.join("link")).unwrap();
+        std::fs::create_dir_all(dir.join("elsewhere/outdir")).unwrap();
+        let out = dir.join("link/../outdir/report.json");
+        assert!(write_report_atomically(&out, "report\n").is_err());
+        assert!(!dir.join("elsewhere/outdir/report.json").exists());
+        // The lexical parent exists, the physical does not:
+        // the rename refuses and the temp is removed.
+        let dir = tmpdir("popped-lex");
+        std::fs::create_dir_all(dir.join("elsewhere/real")).unwrap();
+        std::os::unix::fs::symlink("elsewhere/real", dir.join("link")).unwrap();
+        std::fs::create_dir_all(dir.join("outdir")).unwrap();
+        let out = dir.join("link/../outdir/report.json");
+        assert!(write_report_atomically(&out, "report\n").is_err());
+        assert_eq!(
+            entries(&dir.join("outdir")),
+            Vec::<std::ffi::OsString>::new()
+        );
+        let _ = std::fs::remove_dir_all(dir.join("..").join(format!(
+            "flighttape-temp-seam-{}-popped-phys",
+            std::process::id()
+        )));
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn the_raw_byte_boundary_counts_bytes() {
+        let dir = tmpdir("raw");
+        let raw_name = |total: usize| {
+            let mut bytes = vec![b'n'; total - 6];
+            bytes.push(0xff);
+            bytes.extend_from_slice(b".json");
+            assert_eq!(bytes.len(), total);
+            std::ffi::OsString::from_vec(bytes)
+        };
+        let out = dir.join(raw_name(246));
+        write_report_atomically(&out, "report\n").unwrap();
+        assert_eq!(std::fs::read(&out).unwrap(), b"report\n");
+        let too_long = dir.join(raw_name(247));
+        assert!(write_report_atomically(&too_long, "report\n").is_err());
+        assert!(!too_long.exists());
+        let _ = std::fs::remove_dir_all(&dir);
     }
 }
