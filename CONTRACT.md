@@ -1089,3 +1089,25 @@ held to the standard of the surface it feeds.
 - FT-79. README records 15 of 100 only in the
   closure commit written after this round's
   three reviews and owner verification.
+- FT-80. Two wording corrections to this
+  round's own clauses, on the reviews'
+  Minors. FT-78's mutant sentence is scoped
+  to the battery that ran: the width mutant
+  was run over the 32 boundary cells only
+  (16 lengths in each pid posture), failing
+  14 of them, all at lengths 240 to 246 and
+  none at 247 or beyond; no absence outside
+  the boundary lengths was measured, and
+  none is claimed. FT-74's pins are
+  enumerated by instrument: the cargo tests
+  pin the boundary at the ambient pid, and
+  the twin probe battery pins it at pid 1
+  under a pid namespace and through both
+  popped-parent directions at the ambient
+  pid; the popped form at pid 1 was not run.
+  The red team adds one arm the lane's
+  snapshot did not compare: the shipped
+  seam landed reports at mode 0644 under
+  umask 022 where the Python lands 0600,
+  and FT-76's mode 0600 covers it; the
+  repair closes it.
