@@ -957,3 +957,157 @@ held to the standard of the surface it feeds.
 - FT-71. README records 14 of 100 only in the
   closure commit written after this round's
   three reviews and owner verification.
+- FT-72. The CodeRabbit disposition owed from
+  Round 14 discharges here on evidence read
+  back on 2026-11-06. PR 14 carries zero review
+  comments and zero reviews from the bot. Its
+  four issue comments are the owner's trigger
+  (comment 6652814021), the bot shell (comment
+  6652816969, "Review failed, the pull request
+  is closed," a walkthrough of the corpus guard
+  changes with no findings list and merge risk
+  Low), the owner's landing note (comment
+  6652864479), and the bot's action notice
+  (comment 6652930573, "Action not completed,
+  pull request is closed"). The shape is the
+  failed-because-closed shape of FT-61. No
+  finding was ever posted, so there is nothing
+  to fix and nothing to dismiss, and the item
+  is discharged.
+- FT-73. Round 15 takes up the one atomic
+  write in the crate, the screen report's
+  sibling temp file (FT-47). Every other write
+  is a plain direct write on both sides, the
+  converter's, convert-dir's, and slice's
+  outputs matching the oracle's plain write
+  calls, and none of them carries a temp seam.
+  The oracle's screen write is tempfile.mkstemp
+  with the output's parent as dir and the
+  output's name plus a dot as prefix, then
+  os.replace over the spelled output. mkstemp's
+  candidate carries a suffix of exactly eight
+  characters, is created exclusively with mode
+  0600, and its dir is absolutized lexically,
+  the current directory joined and the result
+  normalized with no link resolution. The port
+  at the round's branch point instead joined
+  the spelled parent to the output name plus a
+  dot plus the decimal process id, and wrote it
+  with a single create-or-truncate write before
+  the rename. Twin probes against the oracle
+  measured the three arms of that difference,
+  and FT-74 to FT-77 state each one and its
+  repair.
+- FT-74. The width law. The candidate's
+  effective overhead past the output name is
+  one dot plus exactly eight characters, so a
+  plain output name of 246 bytes writes and
+  247 bytes answers the cannot-write refusal,
+  at every process id. The branch-point port's
+  overhead was one dot plus the pid's decimal
+  digits, measured at 6 under the ambient
+  five-digit pids (writes through 249, refuses
+  at 250) and at 2 in a pid namespace where the
+  binary runs as pid 1 (writes through 253,
+  refuses at 254), against the oracle's 246
+  and 247 in both. The repair draws a fresh
+  suffix of exactly eight characters for each
+  candidate. The boundary is pinned at the CLI
+  in both pid postures, plain and through a
+  popped parent.
+- FT-75. The placement law. The temp file is
+  created under the lexically absolutized
+  parent of the output, while the rename target
+  stays the spelled output path. Where a popped
+  symlink makes the lexical parent exist and
+  the physical parent not, creation succeeds at
+  the lexical parent and the rename refuses
+  with the cannot-write message, leaving no
+  file. Where the physical parent exists and
+  the lexical parent does not, the oracle
+  refuses with the cannot-write message and
+  writes nothing, and the branch-point port
+  wrote the report into the physical directory
+  instead. The repair creates the temp under
+  the lexical parent, and both directions are
+  pinned, the physical direction at a short
+  name and at 246 bytes.
+- FT-76. The candidate is not predictable.
+  mkstemp creates its candidate exclusively and
+  draws again on a collision, so an existing
+  file or directory at any one candidate name
+  is never truncated, consumed, or a refusal.
+  The branch-point port's candidate was the
+  process id itself, and the probes measured a
+  planted file at that name consumed by the
+  write and rename, and a planted directory at
+  that name refusing the report outright, where
+  the oracle wrote the report and left both
+  standing. The repair creates each candidate
+  with create-new semantics and draws again on
+  AlreadyExists, up to 64 attempts, creates the
+  temp with mode 0600 as mkstemp does, removes
+  the temp on any failure after creation, and
+  keeps the rename target and the cannot-write
+  message as they stand. The planted shapes at
+  the old deterministic name are pinned.
+- FT-77. The byte-counting arm. The temp
+  candidate is assembled from the output file
+  name's raw OS bytes end to end, never through
+  a lossy text conversion, so the FT-74
+  boundary counts bytes, one raw byte counting
+  once. The branch-point seam read the name
+  through to_string_lossy, the SB-37 shape. At
+  the CLI the raw-byte cells measure a separate
+  and older posture first, the entry point's
+  std::env::args collection panics on a
+  non-UTF8 argument and the library wrapper
+  returns 1, where the oracle writes its short
+  and 246-byte raw names and refuses the
+  247-byte one. That posture belongs to the
+  whole argv layer and predates the seam, and
+  this round does not widen into it. The seam's
+  own byte law is repaired here and pinned by
+  unit tests that hand the write raw-byte
+  paths directly, at 246 and 247 bytes.
+- FT-78. The round's verification shape. The
+  twin probe battery re-runs against the
+  repaired binary, and every cell agrees except
+  the raw-byte CLI cells whose divergence
+  FT-77 names to the argv layer. A mutant with
+  the suffix widened past eight fails the
+  boundary cells and no others, and a mutant
+  with the candidate name built lossily fails
+  the FT-77 unit pin. The FT-56 differential
+  harness re-runs in its standing shape with no
+  new divergence, the corpus guards stand exact
+  at 371 and 6,284, and the full local gate
+  (cargo test, clippy with warnings denied,
+  fmt, the codepoint scan) passes on the final
+  head before the round's reviews, as every
+  round.
+- FT-79. README records 15 of 100 only in the
+  closure commit written after this round's
+  three reviews and owner verification.
+- FT-80. Two wording corrections to this
+  round's own clauses, on the reviews'
+  Minors. FT-78's mutant sentence is scoped
+  to the battery that ran: the width mutant
+  was run over the 32 boundary cells only
+  (16 lengths in each pid posture), failing
+  14 of them, all at lengths 240 to 246 and
+  none at 247 or beyond; no absence outside
+  the boundary lengths was measured, and
+  none is claimed. FT-74's pins are
+  enumerated by instrument: the cargo tests
+  pin the boundary at the ambient pid, and
+  the twin probe battery pins it at pid 1
+  under a pid namespace and through both
+  popped-parent directions at the ambient
+  pid; the popped form at pid 1 was not run.
+  The red team adds one arm the lane's
+  snapshot did not compare: the shipped
+  seam landed reports at mode 0644 under
+  umask 022 where the Python lands 0600,
+  and FT-76's mode 0600 covers it; the
+  repair closes it.

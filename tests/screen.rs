@@ -446,6 +446,58 @@ fn an_unresolvable_output_path_is_a_named_refusal() {
 }
 
 #[test]
+fn the_temp_boundary_is_fixed_at_eight_suffix_characters() {
+    // FT-74: the candidate overhead is a dot plus eight
+    // characters at any pid, so 246 bytes writes and 247
+    // refuses, where the pid-built candidate moved the
+    // flip with the pid's digit count.
+    let dir = tmpdir("boundary");
+    let path = write_dirty(&dir);
+    let name = |total: usize| format!("{}.json", "n".repeat(total - 5));
+    let writes = dir.join(name(246));
+    let (code, _, _) = run_cli(&[
+        "screen".into(),
+        path.clone(),
+        "-o".into(),
+        writes.to_string_lossy().into_owned(),
+    ]);
+    assert_eq!(code, 1);
+    assert!(writes.exists());
+    let refuses = dir.join(name(247));
+    let (code, _, err) = run_cli(&[
+        "screen".into(),
+        path,
+        "-o".into(),
+        refuses.to_string_lossy().into_owned(),
+    ]);
+    assert_eq!(code, 1);
+    assert!(err.contains("cannot write the report"), "stderr {}", err);
+    assert!(!refuses.exists());
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
+fn a_popped_parent_creates_the_temp_lexically() {
+    // FT-75: the physical parent exists and the lexical
+    // parent does not, so the report refuses and nothing
+    // lands in the physical directory.
+    let dir = tmpdir("popped");
+    let path = write_dirty(&dir);
+    std::fs::create_dir_all(dir.join("elsewhere/real")).unwrap();
+    std::os::unix::fs::symlink("elsewhere/real", dir.join("link")).unwrap();
+    std::fs::create_dir_all(dir.join("elsewhere/outdir")).unwrap();
+    let out = dir
+        .join("link/../outdir/report.json")
+        .to_string_lossy()
+        .into_owned();
+    let (code, _, err) = run_cli(&["screen".into(), path, "-o".into(), out]);
+    assert_eq!(code, 1);
+    assert!(err.contains("cannot write the report"), "stderr {}", err);
+    assert!(!dir.join("elsewhere/outdir/report.json").exists());
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+#[test]
 fn a_symlink_output_is_replaced_not_followed() {
     let dir = tmpdir("symlink");
     let path = write_dirty(&dir);
