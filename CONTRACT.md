@@ -1268,3 +1268,39 @@ held to the standard of the surface it feeds.
   its output directory's names and
   bytes were re-verified on the
   finisher's genuine staging.
+- FT-87. CodeRabbit's review of this
+  round's pull request (PR 17) posted
+  four findings, all of them on the
+  README, and this item disposes of
+  them. Two are repaired here. The
+  first screen now states the
+  converter's current scope in its
+  introduction, that the converter
+  reads Claude Code session files,
+  where before that fact stood only
+  in Status. And the two synthetic
+  session files the Usage examples
+  run on are now shipped in the
+  repository under examples/, and the
+  Usage preamble stages the working
+  directory from them, so the whole
+  sequence reproduces from a clean
+  checkout. The shipped files are
+  byte-identical to the capture
+  inputs, hash-paired in the lane
+  record. Two findings are dismissed
+  with their reasons. The Install
+  block needs no added PATH prose,
+  because the block itself puts the
+  scratch installation's bin
+  directory on PATH and was verified
+  verbatim in that form. And the
+  Quickstart's outputs stand without
+  shell comment marks, because the
+  block is a captured transcript in
+  the fleet's uniform form, not a
+  script. This item lands after the
+  closure commit by the server-side
+  sequence this round used, and the
+  rounds line the closure set is
+  untouched and still exact.

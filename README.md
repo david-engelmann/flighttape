@@ -2,7 +2,7 @@
 
 Every agent run, from every harness, lands as one flight tape: events, tool calls, diffs, spend, timings, and the outcome, in a bundle any tool can read back.
 
-Flighttape defines one bundle format for a finished agent run, and the tools that work over it. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. Flighttape records the run, onrecord remembers across runs.
+Flighttape defines one bundle format for a finished agent run, and the tools that work over it. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. The converter reads Claude Code session files. Flighttape records the run, onrecord remembers across runs.
 
 ![ci](https://github.com/david-engelmann/flighttape/actions/workflows/ci.yml/badge.svg)
 
@@ -49,7 +49,7 @@ cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
 
 ## Usage
 
-The examples below run in a directory holding two small synthetic session files, session-a.jsonl and session-b.jsonl, with the same two files in a subdirectory named sessions. Every output is captured from the tool itself.
+The examples below run in a working directory staged from the two small synthetic session files shipped with this repository. Copy examples/session-a.jsonl and examples/session-b.jsonl into a new directory, and the same two files into a subdirectory of it named sessions, and run the commands there. Every output is captured from the tool itself.
 
 Convert the two session files into a directory named tapes.
 
