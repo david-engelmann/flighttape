@@ -1111,3 +1111,95 @@ held to the standard of the surface it feeds.
   umask 022 where the Python lands 0600,
   and FT-76's mode 0600 covers it; the
   repair closes it.
+
+- FT-81. The CodeRabbit disposition owed
+  from Round 15 discharges here on evidence
+  read back on 2026-11-07. PR 15 carries
+  exactly two review comments, both the
+  bot's and both before the merge: comment
+  4492864381 on src/cli.rs, the root
+  output's temporary parent, posted
+  2026-11-06T13:23:47Z, and comment
+  4492864412 on tests/screen.rs, the
+  boundary test's filesystem assumption,
+  posted 13:23:48Z. Its one review
+  (5800660627, COMMENTED, 13:23:49Z) states
+  two actionable comments posted. Its four
+  issue comments are the owner's trigger
+  (6685759206), the bot shell (6685762788, a
+  completed walkthrough holding no Review
+  failed marker and no findings beyond the
+  two inline comments, last updated
+  13:23:54Z), the bot's second action
+  notice (6685907255, "Action not
+  completed, Already reviewed the last
+  commit"), and the owner's landing note
+  (6685931904). The merge landed at
+  13:27:08Z; every bot timestamp precedes
+  it and nothing arrived after, so no late
+  finding exists, and this read-back
+  confirms the merge-time record whole.
+  Both findings stand dismissed for the
+  reasons recorded when they were answered:
+  the root output's failure is total on
+  both sides, a twin probe of -o / showing
+  both exit 1 with byte-identical stderr
+  and no residue, and the 255-byte
+  component limit is this contract's
+  measured law on the target filesystem,
+  verified on this box and in CI, so sizing
+  the boundary test down to a probed limit
+  would unpin the law the round existed to
+  pin.
+- FT-82. Round 16 brings the README to the
+  fleet storefront standard. The first
+  screen stands in order: the title, a lede
+  identical to the repository description,
+  one short paragraph, the one ci badge,
+  and one block of captured output. Then
+  Install, Quickstart, Usage, Status, and
+  License. The badge is verified: the ci
+  workflow (403262171) stands active, its
+  latest run on main at this round's base
+  completed success on 2026-11-07, and the
+  badge image renders "ci - passing". The
+  Install block runs verbatim from a clean
+  state into a scratch CARGO_HOME, and
+  every captured block is output from runs
+  over a synthetic session written for the
+  page; no real trace stands anywhere in
+  it. The copy bar's one exception is
+  recorded here: the repository description
+  carries a colon, and it stands verbatim
+  in the lede and nowhere else in the
+  README's prose.
+- FT-83. The storefront checklist's item 3
+  does not pass and is recorded open. The
+  repository description reads "Every agent
+  run, from every harness, lands as one
+  flight tape: events, tool calls, diffs,
+  spend, timings, and the outcome, in a
+  bundle any tool can read back." The
+  README's lede matches it byte for byte
+  from this round. Cargo.toml's description
+  is a third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  named here and not repaired inside this
+  round's README-only bound.
+- FT-84. The round's verification shape.
+  The full local gate passes on the final
+  head (cargo test at the standing 247,
+  clippy with warnings denied, fmt, the
+  codepoint scan over every tracked file),
+  and the FT-56 differential harness
+  re-runs in its standing shape with no new
+  divergence: 117 cases, the one recorded
+  divergence at case 64 standing in the
+  FT-54 band, zero file divergences, and
+  the corpus guards exact at 371 and
+  6,284.
+- FT-85. README records 16 of 100 only in
+  the closure commit written after this
+  round's three reviews and owner
+  verification.
