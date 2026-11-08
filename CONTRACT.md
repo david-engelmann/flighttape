@@ -1111,3 +1111,196 @@ held to the standard of the surface it feeds.
   umask 022 where the Python lands 0600,
   and FT-76's mode 0600 covers it; the
   repair closes it.
+
+- FT-81. The CodeRabbit disposition owed
+  from Round 15 discharges here on evidence
+  read back on 2026-11-07. PR 15 carries
+  exactly two review comments, both the
+  bot's and both before the merge: comment
+  4492864381 on src/cli.rs, the root
+  output's temporary parent, posted
+  2026-11-06T13:23:47Z, and comment
+  4492864412 on tests/screen.rs, the
+  boundary test's filesystem assumption,
+  posted 13:23:48Z. Its one review
+  (5800660627, COMMENTED, 13:23:49Z) states
+  two actionable comments posted. Its four
+  issue comments are the owner's trigger
+  (6685759206), the bot shell (6685762788, a
+  completed walkthrough holding no Review
+  failed marker and no findings beyond the
+  two inline comments, last updated
+  13:23:54Z), the bot's second action
+  notice (6685907255, "Action not
+  completed, Already reviewed the last
+  commit"), and the owner's landing note
+  (6685931904). The merge landed at
+  13:27:08Z; every bot timestamp precedes
+  it and nothing arrived after, so no late
+  finding exists, and this read-back
+  confirms the merge-time record whole.
+  Both findings stand dismissed for the
+  reasons recorded when they were answered:
+  the root output's failure is total on
+  both sides, a twin probe of -o / showing
+  both exit 1 with byte-identical stderr
+  and no residue, and the 255-byte
+  component limit is this contract's
+  measured law on the target filesystem,
+  verified on this box and in CI, so sizing
+  the boundary test down to a probed limit
+  would unpin the law the round existed to
+  pin.
+- FT-82. Round 16 brings the README to the
+  fleet storefront standard. The first
+  screen stands in order: the title, a lede
+  identical to the repository description,
+  one short paragraph, the one ci badge,
+  and one block of captured output. Then
+  Install, Quickstart, Usage, Status, and
+  License. The badge is verified: the ci
+  workflow (403262171) stands active, its
+  latest run on main at this round's base
+  completed success on 2026-11-07, and the
+  badge image renders "ci - passing". The
+  Install block runs verbatim from a clean
+  state into a scratch CARGO_HOME, and
+  every captured block is output from runs
+  over a synthetic session written for the
+  page; no real trace stands anywhere in
+  it. The copy bar's one exception is
+  recorded here: the repository description
+  carries a colon, and it stands verbatim
+  in the lede and nowhere else in the
+  README's prose.
+- FT-83. The storefront checklist's item 3
+  does not pass and is recorded open. The
+  repository description reads "Every agent
+  run, from every harness, lands as one
+  flight tape: events, tool calls, diffs,
+  spend, timings, and the outcome, in a
+  bundle any tool can read back." The
+  README's lede matches it byte for byte
+  from this round. Cargo.toml's description
+  is a third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  named here and not repaired inside this
+  round's README-only bound.
+- FT-84. The round's verification shape.
+  The full local gate passes on the final
+  head (cargo test at the standing 247,
+  clippy with warnings denied, fmt, the
+  codepoint scan over every tracked file),
+  and the FT-56 differential harness
+  re-runs in its standing shape with no new
+  divergence: 117 cases, the one recorded
+  divergence at case 64 standing in the
+  FT-54 band, zero file divergences, and
+  the corpus guards exact at 371 and
+  6,284.
+- FT-85. README records 16 of 100 only in
+  the closure commit written after this
+  round's three reviews and owner
+  verification.
+- FT-86. The three reviews of this round
+  found one shared defect in the README,
+  and this item records it and its
+  repair. The Usage sequence as first
+  printed implied that the rollup block
+  reads the directory the convert-dir
+  block builds, and following the page
+  in one directory could not produce
+  the output shown. convert-dir names
+  its tapes after their source sessions
+  and writes a summary.json beside
+  them, so the directory it builds
+  holds session-named tapes and a
+  summary, and a rollup over that
+  directory, measured firsthand in the
+  closure, lists the summary as
+  excluded with its defects named on
+  stderr and exits 1. The rollup the
+  page printed ran instead over a
+  separately staged directory holding
+  the two individually converted tapes.
+  Every block was a genuine capture,
+  and the capture ledger stated the
+  staging plainly, but the page did
+  not. The repair restages the chain.
+  The two tapes now come from the
+  convert steps the page shows, a
+  mkdir and two converts writing
+  tapes/run-a.tape.json and
+  tapes/run-b.tape.json, every later
+  Usage command reads the tapes at
+  those paths, and the rollup block
+  runs over that directory with its
+  captured output unchanged.
+  convert-dir stands on its own,
+  writing to a directory of its own,
+  and its lead-in states its real
+  behavior, the session-named tapes,
+  the summary.json beside them, and
+  the rollup over such a directory
+  counting the summary as excluded
+  and exiting 1. The repaired sequence
+  was run in one clean directory in
+  the page's order against the tip
+  binary, and every shown output
+  compared byte for byte with the page
+  and with the finisher's banked
+  captures, eighteen checks of
+  eighteen passing. Two substitutions
+  stand recorded rather than hidden.
+  The convert steps' file writes and
+  the slice step's are refused by the
+  sandbox write fault this session, so
+  their bytes were staged from the
+  banked tapes and checked through
+  the binary's stdout forms,
+  hash-paired at every step. And
+  convert-dir's live re-run was
+  refused across the session's
+  attempts and rides a spaced driver;
+  its shown line stands on the
+  finisher's hash-paired capture, and
+  its output directory's names and
+  bytes were re-verified on the
+  finisher's genuine staging.
+- FT-87. CodeRabbit's review of this
+  round's pull request (PR 17) posted
+  four findings, all of them on the
+  README, and this item disposes of
+  them. Two are repaired here. The
+  first screen now states the
+  converter's current scope in its
+  introduction, that the converter
+  reads Claude Code session files,
+  where before that fact stood only
+  in Status. And the two synthetic
+  session files the Usage examples
+  run on are now shipped in the
+  repository under examples/, and the
+  Usage preamble stages the working
+  directory from them, so the whole
+  sequence reproduces from a clean
+  checkout. The shipped files are
+  byte-identical to the capture
+  inputs, hash-paired in the lane
+  record. Two findings are dismissed
+  with their reasons. The Install
+  block needs no added PATH prose,
+  because the block itself puts the
+  scratch installation's bin
+  directory on PATH and was verified
+  verbatim in that form. And the
+  Quickstart's outputs stand without
+  shell comment marks, because the
+  block is a captured transcript in
+  the fleet's uniform form, not a
+  script. This item lands after the
+  closure commit by the server-side
+  sequence this round used, and the
+  rounds line the closure set is
+  untouched and still exact.
