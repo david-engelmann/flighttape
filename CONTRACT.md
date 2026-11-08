@@ -1203,3 +1203,68 @@ held to the standard of the surface it feeds.
   the closure commit written after this
   round's three reviews and owner
   verification.
+- FT-86. The three reviews of this round
+  found one shared defect in the README,
+  and this item records it and its
+  repair. The Usage sequence as first
+  printed implied that the rollup block
+  reads the directory the convert-dir
+  block builds, and following the page
+  in one directory could not produce
+  the output shown. convert-dir names
+  its tapes after their source sessions
+  and writes a summary.json beside
+  them, so the directory it builds
+  holds session-named tapes and a
+  summary, and a rollup over that
+  directory, measured firsthand in the
+  closure, lists the summary as
+  excluded with its defects named on
+  stderr and exits 1. The rollup the
+  page printed ran instead over a
+  separately staged directory holding
+  the two individually converted tapes.
+  Every block was a genuine capture,
+  and the capture ledger stated the
+  staging plainly, but the page did
+  not. The repair restages the chain.
+  The two tapes now come from the
+  convert steps the page shows, a
+  mkdir and two converts writing
+  tapes/run-a.tape.json and
+  tapes/run-b.tape.json, every later
+  Usage command reads the tapes at
+  those paths, and the rollup block
+  runs over that directory with its
+  captured output unchanged.
+  convert-dir stands on its own,
+  writing to a directory of its own,
+  and its lead-in states its real
+  behavior, the session-named tapes,
+  the summary.json beside them, and
+  the rollup over such a directory
+  counting the summary as excluded
+  and exiting 1. The repaired sequence
+  was run in one clean directory in
+  the page's order against the tip
+  binary, and every shown output
+  compared byte for byte with the page
+  and with the finisher's banked
+  captures, eighteen checks of
+  eighteen passing. Two substitutions
+  stand recorded rather than hidden.
+  The convert steps' file writes and
+  the slice step's are refused by the
+  sandbox write fault this session, so
+  their bytes were staged from the
+  banked tapes and checked through
+  the binary's stdout forms,
+  hash-paired at every step. And
+  convert-dir's live re-run was
+  refused across the session's
+  attempts and rides a spaced driver;
+  its shown line stands on the
+  finisher's hash-paired capture, and
+  its output directory's names and
+  bytes were re-verified on the
+  finisher's genuine staging.

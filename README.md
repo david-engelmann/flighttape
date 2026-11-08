@@ -49,31 +49,38 @@ cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
 
 ## Usage
 
-The examples below run over two small synthetic session files in a directory named sessions, converted to the tapes run-a.tape.json and run-b.tape.json. Every output is captured from the tool itself.
+The examples below run in a directory holding two small synthetic session files, session-a.jsonl and session-b.jsonl, with the same two files in a subdirectory named sessions. Every output is captured from the tool itself.
 
-Convert one session file, or every session file in a directory.
+Convert the two session files into a directory named tapes.
 
 ```sh
-flighttape convert session-a.jsonl -o run-a.tape.json
-flighttape convert-dir sessions -o tapes
+mkdir tapes
+flighttape convert session-a.jsonl -o tapes/run-a.tape.json
+flighttape convert session-b.jsonl -o tapes/run-b.tape.json
+```
+
+A whole directory of sessions converts in one run with convert-dir. It names each tape after the session it came from and writes a summary file named summary.json beside the tapes. A rollup over that directory counts the summary as excluded and exits 1, because the summary is not a tape.
+
+```sh
+flighttape convert-dir sessions -o converted
 converted 2, failed 0, events 10
 ```
 
 Validate a tape, print its digest, and check a tape against a digest someone cites.
 
 ```sh
-flighttape validate run-a.tape.json
+flighttape validate tapes/run-a.tape.json
 valid tape, 5 events
-flighttape digest run-a.tape.json
+flighttape digest tapes/run-a.tape.json
 a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
-flighttape verify run-a.tape.json a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
+flighttape verify tapes/run-a.tape.json a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
 digest matches, a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
 ```
 
 Play a tape back as a readable timeline.
 
 ```sh
-flighttape play run-a.tape.json
+flighttape play tapes/run-a.tape.json
 tape readme-example-001 from claude-code
 outcome completed (final-assistant-message), events 5, tool calls 1, messages 3, input tokens 135, output tokens 40, cache creation input tokens 0, cache read input tokens 0
 started 2026-02-02T10:00:00.000Z, source claude-code-jsonl
@@ -95,7 +102,7 @@ Synthetic reply, the sorted order is alpha then beta.
 Compare two tapes, roll up every tape in a directory, cut a slice out of a tape, and screen a tape for absolute paths before sharing it.
 
 ```sh
-flighttape compare run-a.tape.json run-b.tape.json
+flighttape compare tapes/run-a.tape.json tapes/run-b.tape.json
 {
   "digests": {
     "a": "a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79",
@@ -254,8 +261,8 @@ flighttape rollup tapes
     "unknown": 0
   }
 }
-flighttape slice run-a.tape.json --from 0 --to 1 -o opening.tape.json
-flighttape screen run-a.tape.json
+flighttape slice tapes/run-a.tape.json --from 0 --to 1 -o opening.tape.json
+flighttape screen tapes/run-a.tape.json
 {
   "tape": "a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79",
   "strings_screened": 6,
