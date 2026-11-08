@@ -1,96 +1,276 @@
 # flighttape
 
-Every agent run from every harness lands as one flight tape holding events, tool calls, diffs, spend, timings, and the outcome, in a bundle any tool can read back.
+Every agent run, from every harness, lands as one flight tape: events, tool calls, diffs, spend, timings, and the outcome, in a bundle any tool can read back.
 
-## What this is
+Flighttape defines one bundle format for a finished agent run, and the tools that work over it. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. Flighttape records the run, onrecord remembers across runs.
 
-Each harness keeps its own books in its own dialect, and the shared standards for agent traces are still experimental, so the history of a mixed fleet is unreadable as one record. Flighttape defines one bundle format for a finished run and ships converters that turn each harness's session files into tapes. Any tool that needs to study past runs reads tapes instead of reverse engineering every harness on its own. The boundary with its siblings is one sentence. Flighttape records the run, onrecord remembers across runs, badbatch stamps what the run left behind.
+![ci](https://github.com/david-engelmann/flighttape/actions/workflows/ci.yml/badge.svg)
+
+```text
+tape readme-example-001 from claude-code
+outcome completed (final-assistant-message), events 5, tool calls 1, messages 3, input tokens 135, output tokens 40, cache creation input tokens 0, cache read input tokens 0
+started 2026-02-02T10:00:00.000Z, source claude-code-jsonl
+
+[+0.00s] #0 message user
+Synthetic prompt, sort the example records by name.
+[+4.00s] #1 message assistant
+Synthetic reply, reading the records first.
+[+4.00s] #2 tool_call Read call toolu_readme_1
+{"path": "records.txt"}
+[+5.00s] #3 tool_result call toolu_readme_1
+beta
+alpha
+
+[+20.0s] #4 message assistant
+Synthetic reply, the sorted order is alpha then beta.
+```
+
+## Install
+
+```sh
+git clone https://github.com/david-engelmann/flighttape.git
+cd flighttape
+cargo install --path .
+```
+
+The install needs Git and a Rust toolchain.
+
+## Quickstart
+
+The repository ships a small synthetic Claude Code session for trying the tool. Convert it to a tape, then check the tape and print its digest.
+
+```sh
+flighttape convert tests/fixtures/claude_session_synthetic.jsonl -o example.tape.json
+flighttape validate example.tape.json
+valid tape, 5 events
+flighttape digest example.tape.json
+cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+```
+
+## Usage
+
+The examples below run over two small synthetic session files in a directory named sessions, converted to the tapes run-a.tape.json and run-b.tape.json. Every output is captured from the tool itself.
+
+Convert one session file, or every session file in a directory.
+
+```sh
+flighttape convert session-a.jsonl -o run-a.tape.json
+flighttape convert-dir sessions -o tapes
+converted 2, failed 0, events 10
+```
+
+Validate a tape, print its digest, and check a tape against a digest someone cites.
+
+```sh
+flighttape validate run-a.tape.json
+valid tape, 5 events
+flighttape digest run-a.tape.json
+a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
+flighttape verify run-a.tape.json a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
+digest matches, a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79
+```
+
+Play a tape back as a readable timeline.
+
+```sh
+flighttape play run-a.tape.json
+tape readme-example-001 from claude-code
+outcome completed (final-assistant-message), events 5, tool calls 1, messages 3, input tokens 135, output tokens 40, cache creation input tokens 0, cache read input tokens 0
+started 2026-02-02T10:00:00.000Z, source claude-code-jsonl
+
+[+0.00s] #0 message user
+Synthetic prompt, sort the example records by name.
+[+4.00s] #1 message assistant
+Synthetic reply, reading the records first.
+[+4.00s] #2 tool_call Read call toolu_readme_1
+{"path": "records.txt"}
+[+5.00s] #3 tool_result call toolu_readme_1
+beta
+alpha
+
+[+20.0s] #4 message assistant
+Synthetic reply, the sorted order is alpha then beta.
+```
+
+Compare two tapes, roll up every tape in a directory, cut a slice out of a tape, and screen a tape for absolute paths before sharing it.
+
+```sh
+flighttape compare run-a.tape.json run-b.tape.json
+{
+  "digests": {
+    "a": "a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79",
+    "b": "90dbaa3f361d39e19bce0c5b08781b17bfa3673692704d688f381c1cd2a94d61"
+  },
+  "outcome": {
+    "a": {
+      "status": "completed",
+      "basis": "final-assistant-message"
+    },
+    "b": {
+      "status": "completed",
+      "basis": "final-assistant-message"
+    },
+    "changed": false
+  },
+  "duration_seconds": {
+    "a": 20.0,
+    "b": 20.0,
+    "delta": 0.0
+  },
+  "measures": {
+    "cache_creation_input_tokens": {
+      "a": 0,
+      "b": 0,
+      "delta": 0
+    },
+    "cache_read_input_tokens": {
+      "a": 0,
+      "b": 0,
+      "delta": 0
+    },
+    "input_tokens": {
+      "a": 135,
+      "b": 135,
+      "delta": 0
+    },
+    "messages": {
+      "a": 3,
+      "b": 3,
+      "delta": 0
+    },
+    "output_tokens": {
+      "a": 40,
+      "b": 40,
+      "delta": 0
+    },
+    "tool_calls": {
+      "a": 1,
+      "b": 1,
+      "delta": 0
+    }
+  },
+  "redacted_values": {
+    "a": 0,
+    "b": 0,
+    "delta": 0
+  },
+  "skipped_lines": {},
+  "events": {
+    "count": {
+      "a": 5,
+      "b": 5
+    },
+    "by_kind": {
+      "message": {
+        "a": 3,
+        "b": 3
+      },
+      "tool_call": {
+        "a": 1,
+        "b": 1
+      },
+      "tool_result": {
+        "a": 1,
+        "b": 1
+      }
+    },
+    "changed": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "added": [],
+    "removed": []
+  }
+}
+flighttape rollup tapes
+{
+  "directory": "tapes",
+  "tapes": [
+    {
+      "file": "run-a.tape.json",
+      "digest": "a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79",
+      "outcome": {
+        "status": "completed",
+        "basis": "final-assistant-message"
+      },
+      "duration_seconds": 20.0,
+      "events": 5,
+      "totals": {
+        "input_tokens": 135,
+        "output_tokens": 40,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "tool_calls": 1,
+        "messages": 3
+      }
+    },
+    {
+      "file": "run-b.tape.json",
+      "digest": "90dbaa3f361d39e19bce0c5b08781b17bfa3673692704d688f381c1cd2a94d61",
+      "outcome": {
+        "status": "completed",
+        "basis": "final-assistant-message"
+      },
+      "duration_seconds": 20.0,
+      "events": 5,
+      "totals": {
+        "input_tokens": 135,
+        "output_tokens": 40,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "tool_calls": 1,
+        "messages": 3
+      }
+    }
+  ],
+  "excluded": [],
+  "counts": {
+    "tapes": 2,
+    "excluded": 0,
+    "events": 10
+  },
+  "outcomes": {
+    "completed": 2
+  },
+  "totals": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 270,
+    "messages": 6,
+    "output_tokens": 80,
+    "tool_calls": 2
+  },
+  "redacted_values": {
+    "total": 0,
+    "non_numeric": 0
+  },
+  "skipped_lines": {},
+  "duration_seconds": {
+    "total": 40.0,
+    "known": 2,
+    "unknown": 0
+  }
+}
+flighttape slice run-a.tape.json --from 0 --to 1 -o opening.tape.json
+flighttape screen run-a.tape.json
+{
+  "tape": "a88422b41393c0f6be88b624ce7595c1615af3c8eb0af3ae3d15dda622080e79",
+  "strings_screened": 6,
+  "paths_found": 0,
+  "hits": [],
+  "clean": true
+}
+```
 
 ## Status
 
-Seeded in October 2026. The first slice is built locally on the first slice branch, a tape schema, a Claude Code converter, and a validator.
-The remote seeding pass is waiting on a token access fix, so work is
-banked locally until pushes clear. Part of the impatient programming
-portfolio, in the Retrospective arc.
+The tape format and all ten commands are built and run as a Rust binary, with the Python of the first ten rounds standing as the behavior reference the port is pinned against. The converter reads Claude Code session files. Converters for other harnesses are not built yet, and the format is the part that is meant to outlast any one harness.
 
-## Programme status
+Closed perfection rounds, 15 of 100. A round counts only when a full cycle of work, audit, review, red team, and approval has closed.
 
-- Closed perfection rounds, 15 of 100. A round counts only when a full
-  cycle of work, audit, review, red team, and approval has closed.
-- Contract, FT-1 to FT-9 as amended in Round 1, met. The Round 1
-  reviews and their findings are recorded with the programme. The
-  slice done criterion, a week of real lane sessions converting and
-  validating, is still outstanding and is not claimed here, the
-  converter ships a convert-dir command so a session set can be
-  converted in one run when the sessions exist.
-- Round 2 adds playback, the play command renders a valid tape as
-  a readable timeline, held to a golden file. Obligations FT-10 to
-  FT-13 as amended in Round 2, met, with the reviews recorded with
-  the programme. Malformed tapes refuse to play, by FT-13 design.
-- Round 3 adds outcome determination, the converter derives the
-  outcome status from the tape's own events and records the basis,
-  the rule that fired, beside it, instead of stamping every tape
-  unknown. Obligations FT-14 to FT-17 as amended in Round 3, met, with the reviews recorded with the programme.
-- Round 4 hardens the trust boundary, the converter and the
-  validator now name every malformed input instead of ever
-  raising on it, held by a deterministic robustness corpus of
-  mutated fixture lines and a table of adversarial tapes.
-  Obligations FT-18 to FT-21 as amended in Round 4, met, with the reviews recorded with the programme.
-- Round 5 completes the redaction rule, one redactor now covers
-  every text string the converter emits, so an absolute path
-  inside a message, a tool result, or a command string is
-  reduced to its final component and counted, where before only
-  a tool input value that was itself a whole path was reduced.
-  Obligations FT-22 to FT-25 as amended in Round 5, met, with the reviews recorded with the programme.
-- Round 6 adds tape identity, a canonical form and a SHA-256
-  digest let a consumer cite a tape by its content, with digest
-  and verify commands to print and check it, and the validator
-  naming any non-finite number a tape holds. Obligations FT-26
-  to FT-30 as amended in Round 6, met, with the reviews
-  recorded with the programme.
-- Round 7 adds tape comparison. The compare command reports
-  two valid tapes side by side, their digests, outcomes,
-  durations, run measures, and the events that changed,
-  arrived, or vanished between them. Obligations FT-31 to
-  FT-34 as amended in Round 7, met, with the reviews recorded
-  with the programme.
-- Round 8 adds the directory rollup. The rollup command
-  reads every tape file in a directory and reports the set,
-  each tape's digest, outcome, duration, and totals, the
-  sums across the set, and every file it excluded with the
-  reason. Obligations FT-35 to FT-38 as amended in Round 8,
-  met, with the reviews recorded with the programme.
-- Round 9 adds tape slicing. The slice command cuts a seq
-  range or a kind selection out of a valid tape and writes
-  a valid tape, its events renumbered, its outcome and
-  countable totals recomputed, and its provenance recorded
-  with the source tape's digest, so a cited moment can be
-  shared without the whole run. Obligations FT-39 to FT-43
-  as amended in Round 9, met, with the reviews recorded
-  with the programme.
-- Round 10 adds tape screening. The screen command checks
-  a valid tape from any source for absolute paths in
-  exactly the strings the redaction rule covers, walking
-  containers at any depth, and reports each string the
-  redactor would change by its event, its field, and its
-  path count, never the path itself, so a tape can be
-  verified clean before it is shared. Obligations FT-44
-  to FT-48 as amended in Round 10, met, with the reviews
-  recorded with the programme.
-- Round 11 ports flighttape to Rust. The crate is a
-  behavior-exact port of the Python of Rounds 1 to 10:
-  the same commands, outputs, refusal texts, exit codes
-  and digests, with canonical form 1 untouched, proven
-  by a byte-comparing differential harness over the
-  synthetic corpus and by the corpus of timestamp
-  readings pinned against the interpreter itself. The
-  Python package and its suite leave the tree; cargo
-  tests are the suite. Obligations FT-49 to FT-56 in
-  Round 11, met, with the reviews recorded with the
-  programme.
-- Local gate, python3 scripts/codepoint_scan.py and cargo test.
-  CI runs the same commands.
-
-## Licence
+## License
 
 MIT. See LICENSE.
