@@ -1489,3 +1489,56 @@ held to the standard of the surface it feeds.
   the closure commit written after this
   round's three reviews and owner
   verification.
+- FT-94. The CodeRabbit disposition for
+  this round's own pull request discharges
+  here, on the read-back of PR 18 taken on
+  2026-11-09. The pull request carries one
+  review (5829637950, COMMENTED, actionable
+  comments posted: 2, with one nitpick in
+  its body), two review comments, and a
+  completed walkthrough shell; its second
+  notice (6746380776) is the
+  action-not-completed form stating the
+  last commit was already reviewed. No
+  Docstring Coverage item stands anywhere
+  on the pull request. The two actionable
+  items are both Minor and both dismissed.
+  The first (4515589769, on this contract)
+  asks that the PATH dismissal recorded at
+  FT-88 be corrected and the Cargo
+  installation directory documented,
+  because a reader-chosen CARGO_HOME or
+  install root can sit outside the PATH.
+  Dismissed: that arrangement is a
+  reader's own non-default configuration,
+  true of any tool cargo distributes, and
+  it does not touch the ground FT-88
+  states, that the block runs verbatim as
+  printed under the stated prerequisites,
+  the default toolchain install placing
+  the cargo bin directory on the PATH
+  where cargo install lands the binary.
+  The second (4515589782, on the README)
+  holds that the rounds line records 17
+  before the reviews and owner
+  verification FT-93 names. Dismissed: the
+  closure commit on the round's branch is
+  this contract's standing sequence (FT-85
+  recorded the same for Round 16), the
+  count takes effect only when the pull
+  request merges after those reviews, and
+  main reads 16 of 100 until it does. The
+  nitpick is repaired: it asked for a
+  regression pin on keys sharing an astral
+  prefix, whose order turns on the code
+  units after a shared surrogate pair, and
+  the UTF-16 ordering test in
+  tests/identity.rs now carries that pair
+  in reversed insertion order against the
+  complete canonical output. The suite
+  stands at 247 after the repair, the pin
+  riding inside the existing test. This
+  item lands after the closure commit by
+  the server-side sequence this round
+  used, and the rounds line the closure
+  set is untouched and still exact.
