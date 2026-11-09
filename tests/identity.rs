@@ -148,6 +148,17 @@ fn keys_sort_by_utf16_code_units() {
         "astral key first under UTF-16 order: {}",
         rendered
     );
+    // Keys sharing an astral prefix order by the code
+    // units after the shared surrogate pair, so the
+    // comparison must not stop at the first pair.
+    let tape = obj(vec![
+        ("\u{10000}b", Value::Int("1".to_string())),
+        ("\u{10000}a", Value::Int("2".to_string())),
+    ]);
+    assert_eq!(
+        String::from_utf8(canonical_bytes(&tape).unwrap()).unwrap(),
+        "{\"\u{10000}a\":2,\"\u{10000}b\":1}"
+    );
 }
 
 #[test]

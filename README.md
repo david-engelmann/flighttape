@@ -2,7 +2,7 @@
 
 Every agent run, from every harness, lands as one flight tape: events, tool calls, diffs, spend, timings, and the outcome, in a bundle any tool can read back.
 
-Flighttape defines one bundle format for a finished agent run, and the tools that work over it. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. The converter reads Claude Code session files. Flighttape records the run, onrecord remembers across runs.
+Flighttape defines one bundle format for a finished agent run, and the tools that work over it. The format is specified in CONTRACT.md and in the schema at schema/tape.schema.json. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. The converter reads Claude Code session files. Flighttape records the run, onrecord remembers across runs.
 
 ![ci](https://github.com/david-engelmann/flighttape/actions/workflows/ci.yml/badge.svg)
 
@@ -276,7 +276,7 @@ flighttape screen tapes/run-a.tape.json
 
 The tape format and all ten commands are built and run as a Rust binary, with the Python of the first ten rounds standing as the behavior reference the port is pinned against. The converter reads Claude Code session files. Converters for other harnesses are not built yet, and the format is the part that is meant to outlast any one harness.
 
-Closed perfection rounds, 16 of 100. A round counts only when a full cycle of work, audit, review, red team, and approval has closed.
+Closed perfection rounds, 17 of 100. A round counts only when a full cycle of work, audit, review, red team, and approval has closed.
 
 ## License
 
