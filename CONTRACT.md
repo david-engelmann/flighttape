@@ -289,9 +289,10 @@ bracket (the function call form).
 
 - FT-26. A tape's canonical form, named canonical form 1 of the
   tape format, is defined as follows. Objects render with their
-  keys sorted by Unicode code point, arrays in order, no
-  whitespace anywhere, strings as JSON strings with non-ASCII
-  characters written unescaped, the whole encoded as UTF-8.
+  keys sorted by their UTF-16 code units, arrays in order,
+  no whitespace anywhere, strings as JSON strings with
+  non-ASCII characters written unescaped, the whole encoded
+  as UTF-8.
   Integers render in decimal exactly. A finite floating point
   number renders as the ECMAScript number to string algorithm
   renders it, the rendering the JSON canonicalization scheme
@@ -1304,3 +1305,187 @@ held to the standard of the surface it feeds.
   sequence this round used, and the
   rounds line the closure set is
   untouched and still exact.
+- FT-88. The CodeRabbit disposition owed
+  from Round 16 discharges here on evidence
+  read back on 2026-11-09. PR 17 carries
+  nine reviews, twelve review comments,
+  and four issue comments. Its one
+  substantive review (5815938269) states
+  four actionable comments posted, and the
+  four are the review comments on the
+  README: 4504494477 (the introduction's
+  scope), 4504494497 (the Usage examples'
+  shipped inputs), 4504494486 (PATH prose
+  at the Install block), and 4504494494
+  (comment marks in the Quickstart block),
+  all Minor. FT-87 disposed of the four
+  before the merge, two repaired and two
+  dismissed, each with its reply on its
+  own thread, and three of the bot's
+  acknowledgments accept the answers, one
+  withdrawing its suggestion outright.
+  The fourth acknowledgment (4504512381,
+  posted 2026-11-08T01:33:46Z, after the
+  merge at 01:33:21Z) does not accept. It
+  states that the Install block in the
+  README sets neither CARGO_HOME nor PATH,
+  which differs from FT-87's description,
+  and asks whether another revision should
+  be checked. Read back firsthand in this
+  round, the bot is right on the fact. The
+  block at the merged head f16d9b3b and on
+  main is the three commands, clone, cd,
+  and cargo install, and it sets neither.
+  The scratch CARGO_HOME and the PATH
+  entry were the verification arrangement
+  FT-82 records around the block, not
+  lines in it, and FT-87's sentence, the
+  thread reply (4504510615), and the
+  round's landing note each misdescribe
+  the block on that point. This item
+  corrects the record. The dismissal
+  itself stands on the corrected ground:
+  the block runs verbatim as printed for
+  a reader holding the stated
+  prerequisites, Git and a Rust toolchain,
+  and a toolchain install places its own
+  bin directory on the PATH where cargo
+  install lands the binary, so no added
+  PATH prose is owed. There is no other
+  revision to check, f16d9b3b is the
+  merged head, and a reply on the thread
+  records this item as the answer. The
+  pull request's bot shell is a completed
+  walkthrough updated through f16d9b3b
+  with merge risk Low and no findings
+  beyond the four, its second notice
+  (6715616222) is the action-not-completed
+  form stating the last commit was already
+  reviewed and holds no findings, and no
+  Docstring Coverage item stands anywhere
+  on the pull request.
+- FT-89. FT-26's statement now carries
+  its Round 6 amendment in its own text.
+  The item as first written sorted keys by
+  Unicode code point, and the Round 6
+  repair recorded in the amendments
+  paragraph after FT-30 that keys are
+  sorted by their UTF-16 code units, the
+  ordering the JSON canonicalization
+  scheme uses. That ordering clause is
+  folded into FT-26 itself, so the item
+  reads whole in one place. The amendments
+  paragraph stands unedited as the record
+  of when the correction was made, and
+  this item is the record of the fold,
+  because this contract's convention is
+  that a correction is recorded in writing
+  and never made silently. The fold
+  changes no behavior and no wording
+  beyond the ordering clause. The renderer
+  already sorted by UTF-16 code units
+  (FT-53), the golden fixture digest
+  stands at
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the order is re-pinned at the
+  shipped binary by this round's
+  measurement under FT-91.
+- FT-90. The README names the tape
+  format's normative home. A sentence in
+  the introduction states that the format
+  is specified in CONTRACT.md and in the
+  schema at schema/tape.schema.json, so a
+  reader implementing the format from this
+  repository alone finds the specification
+  where the tool is introduced, the
+  contract's items and the machine
+  readable schema together.
+- FT-91. The canonical surfaces are
+  measured fresh at the shipped binary,
+  against an independent oracle in Python
+  that sorts keys by their UTF-16 code
+  units and renders floats from the
+  CPython repr digit sequence presented
+  the ECMAScript way, the independent path
+  FT-57 established. The battery runs 54
+  cells and all 54 hold. Twelve key cells:
+  the divergence pair U+E000 and U+10000,
+  whose Unicode code point order and
+  UTF-16 order disagree, digests in UTF-16
+  order at the binary; a six key mixed set
+  across that boundary; astral against
+  astral and low BMP against astral
+  controls, where the orders agree; a
+  shared prefix diverging at its second
+  character; a duplicate key standing
+  after escape decoding (FT-51); the empty
+  key; the order applied at depth in
+  nested objects; a surrogate pair spelled
+  by escapes digesting as the literal
+  character; and the characters either
+  side of the surrogate range. Unpaired
+  surrogates in a key and in a string
+  value each refuse at digest with the
+  text that cannot be encoded named, exit
+  1 (FT-28 as amended, FT-53). Twenty
+  eight float cells: twenty four
+  renderings including the point
+  thresholds at 21 (1e20 in full, 1e21 as
+  1e+21) and at minus 6 (1e-6 in fixed
+  form, 1e-7 in exponent form), negative
+  zero, the smallest subnormal 5e-324, the
+  largest finite double, the FT-52 tie
+  instance 2163015292276093.25 rendering to
+  the lower neighbour, and 2 to the minus
+  24 rendering 5.960464477539063e-8; three
+  spelling invariance cells, 1e-7 under
+  four spellings digesting once among
+  them; and a non-finite value refusing
+  with the non-finite number named.
+  Fourteen stability cells over one tape:
+  the golden fixture converts, validates,
+  plays, and digests to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  verifies against that digest in either
+  letter case, refuses a wrong digest with
+  the mismatch named, compares against
+  itself naming the digest on both sides,
+  rolls up from its directory with the
+  digest carried in the report, slices to
+  its first two sequence numbers with the
+  source digest recorded in the slice's
+  run block and the slice validating, and
+  converts again through convert-dir to
+  the same digest beside its batch
+  summary; and a crafted tape carrying the
+  divergence pair as tool input keys, with
+  the edge floats as their values,
+  validates and digests to the oracle's
+  digest of the whole tape. FT-77's
+  posture stands measured once more: a
+  non-UTF8 argument ends the run at exit 1
+  on the argument collection panic and no
+  digest is printed. No cell convicts and
+  no repair is owed.
+- FT-92. This round's verification runs on
+  the final tree. Cargo test 247 passed,
+  cargo clippy --all-targets -D warnings
+  clean, cargo fmt --check clean, and the
+  codepoint scan over every tracked file
+  at U+2014=0 and U+2013=0. The FT-56
+  differential harness runs against the
+  Python oracle on this round's binary:
+  117 cases, one divergence at case 64 in
+  the FT-54 band exactly as Round 16
+  recorded it, zero file divergences, and
+  the corpus guards stand exact at 371 and
+  6,284. The round changes no behavior,
+  one contract item's wording, one README
+  sentence, and this round's records, so
+  the harness's Round 16 result is
+  re-measured here rather than assumed,
+  and it stands unchanged.
+- FT-93. README records 17 of 100 only in
+  the closure commit written after this
+  round's three reviews and owner
+  verification.
