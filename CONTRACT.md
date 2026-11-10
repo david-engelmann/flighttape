@@ -1706,3 +1706,21 @@ held to the standard of the surface it feeds.
   object. The format the fleet consumes
   pinned is the format the head ships, at
   every surface this check touches.
+- FT-99. This round's verification runs
+  on the final tree. Cargo test 247
+  passed, cargo clippy --all-targets with
+  warnings denied clean, cargo fmt
+  --check clean, and the codepoint scan
+  over every tracked file at U+2014=0 and
+  U+2013=0. The round changes no behavior:
+  its whole delta is this contract's
+  appends and the README rounds line, and
+  the measurements at FT-96 to FT-98 were
+  taken on a tree whose source is
+  identical to the final tree's.
+- FT-100. README records 18 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by that
+  item's own assignment.
