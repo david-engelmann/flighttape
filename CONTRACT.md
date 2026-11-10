@@ -1542,3 +1542,167 @@ held to the standard of the surface it feeds.
   the server-side sequence this round
   used, and the rounds line the closure
   set is untouched and still exact.
+- FT-95. The read-back of PR 18, taken
+  whole in this round before any other
+  work. The pull request's full record is
+  five reviews, six review comments, and
+  five issue comments, every body read to
+  its end. One review is substantive
+  (5829637950, COMMENTED, on the
+  pre-amendment head cf392c49, actionable
+  comments posted: 2, with one nitpick in
+  its body); the other four are empty
+  COMMENTED carriers. The six review
+  comments are the two findings below,
+  the owner's two replies, and the bot's
+  two follow-ups. The first finding
+  (4515589769, Minor, on this contract)
+  asked again that the PATH dismissal
+  FT-88 corrected be replaced with Cargo
+  installation directory guidance. It
+  stands dismissed at FT-94 on the ground
+  FT-94 states, a reader-chosen CARGO_HOME
+  or install root outside the PATH is the
+  reader's own non-default configuration,
+  true of any tool cargo distributes, and
+  the bot's follow-up (4515677055)
+  acknowledges the record. The second
+  finding (4515589782, Minor, on the
+  README) held the rounds line recorded
+  17 before the reviews and owner
+  verification were complete. It stands
+  dismissed at FT-94 on the standing
+  sequence, and the bot's follow-up
+  (4515683506) withdraws the finding
+  itself and resolves the thread; its
+  closing note, that the bot had not
+  verified the reviews' completion, is a
+  caveat and not a finding, and the merge
+  recorded at 6747241722 is the completion
+  it asked to see verified. The nitpick
+  asked for a regression pin on keys
+  sharing an astral prefix; it stands
+  repaired on the amendment head
+  8284aeac, and the pair stands verified
+  in tests/identity.rs on this round's
+  base, the keys U+10000 followed by b and
+  by a inserted in reverse and asserted
+  against the complete canonical output.
+  The shell (6746176204) stands in its
+  final form as a rate-limit notice
+  (Review limit reached, run 2f4679c5)
+  over the amendment range cf392c49 to
+  8284aeac across CONTRACT.md and
+  tests/identity.rs, the first review's
+  walkthrough retained below the banner,
+  Merge Risk Low, and pre-merge checks 4
+  passed, Description, Title, Linked
+  Issues, and Out of Scope, with no
+  further rows; the amendment range was
+  never bot-reviewed, and the round's
+  three reviews are its review of record.
+  The action-not-completed notice
+  (6746380776, already reviewed the last
+  commit) stands enumerated here and at
+  FT-94. Two compressions in FT-94's own
+  census are corrected on this record:
+  FT-94 says two review comments where
+  the record holds six, and a completed
+  walkthrough shell where the shell's
+  final form is the rate-limit form
+  above. No disposition's ground is
+  falsified by anything on the pull
+  request: FT-88's correction stands
+  untouched, the PATH dismissal rests on
+  its restated ground and not on FT-87's
+  premise, and the rounds dismissal was
+  overtaken by the bot's own withdrawal.
+- FT-96. The canonical surfaces are
+  measured fresh at the binary built from
+  this round's base tree, the worktree
+  hash-verified blob for blob against the
+  remote tree before the build. The
+  battery of FT-91 runs again in full: 54
+  cells, all 54 hold, the twelve key
+  cells, the twenty eight float cells,
+  and the fourteen stability cells over
+  the golden fixture, which digests to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  exactly, and FT-77's posture cell holds
+  as contracted. The FT-56 differential
+  harness runs against the Python oracle
+  on this round's binary: 117 cases, one
+  divergence at case 64 (slice
+  deep600.json) in the FT-54 band exactly
+  as Rounds 16 and 17 recorded it, zero
+  file divergences, and the corpus guards
+  stand exact at 371 and 6,284. No cell
+  convicts and no repair is owed.
+- FT-97. The realistic-volume pass. A
+  synthetic corpus built for this round
+  and measured from itself: 21,035
+  session lines, 7,736,621 bytes, 27
+  sessions. One long-haul session file of
+  6,003 lines (two system lines and one
+  foreign-session line among them,
+  counted as skipped) converts to 7,500
+  events, its
+  totals standing at 750,000 input
+  tokens, 135,000 output tokens, 748,500
+  cache-read tokens, 1,500 tool calls,
+  and 4,500 messages. A day of 24
+  sessions carries 14,728 lines. One
+  deep and wide session carries a tool
+  payload nested 122 deep, an object of
+  500 keys with astral-prefixed and
+  U+E000-prefixed keys among them, a text
+  of near 200 KB, and float-edge leaves.
+  One dirty session of 300 lines carries
+  an absolute path and a
+  credential-shaped synthetic string
+  through its texts, inputs, and results.
+  Nineteen cells run over both
+  implementations, the Python oracle and
+  the shipped binary, and every cell
+  agrees byte for byte in stdout, stderr,
+  exit code, and written files: convert,
+  digest, verify, validate, play, rollup,
+  and compare over the long-haul tape;
+  slice across sequences 2000 to 2500 and
+  the digest of the slice; convert-dir
+  over the day, its 25-file output tree
+  identical on both sides; convert,
+  digest, validate, and play over the
+  deep and wide tape; convert and screen,
+  to stdout and to a report file, over
+  the dirty tape; and screen over the
+  long-haul tape. The digest law holds
+  across commands at this volume: the
+  digest the digest command prints is the
+  digest the verify command accepts, on
+  both implementations.
+- FT-98. The pin check. The fleet
+  consumes canonical form 1 pinned at
+  commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  the Round 13 merge, whose tree
+  (afd4d7d13520411e003762548fc79082a1b9cf6e)
+  was extracted and hash-verified blob
+  for blob, 50 files, before its binary
+  was built. Thirteen cells run the pin
+  binary and this round's binary over the
+  same inputs, and the two agree byte for
+  byte in stdout, stderr, exit code, and
+  written files on every cell: convert,
+  digest, validate, play, verify,
+  compare, rollup, slice, and screen over
+  the golden fixture, the golden digest
+  printed identically by both, and four
+  digest probes, the U+E000 and U+10000
+  divergence pair, the shared astral
+  prefix pair, float edges holding the
+  smallest subnormal and the largest
+  finite double, and a nested mixed
+  object. The format the fleet consumes
+  pinned is the format the head ships, at
+  every surface this check touches.
