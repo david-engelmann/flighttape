@@ -1746,3 +1746,405 @@ held to the standard of the surface it feeds.
   sequence this round used, and the
   rounds line the closure set is
   untouched and still exact.
+- FT-102. The read-back of PR 19, taken
+  whole in this round before any other
+  work, through the API: the reviews
+  list, the review comments list, the
+  issue comments list, and the review
+  threads, every body read to its end.
+  The full record is no reviews, no
+  review comments, no review threads,
+  and four issue comments. The final
+  head's identity stands verified
+  through the API in FT-101's place:
+  a885977ebe931987cbe2bcffc4db4f84bde5d0bb,
+  whose tree is
+  5b9e0ca995559ae6afe9afad8a977fde9a441f4b,
+  and the merge that closed the pull
+  request (8ac81952, parents cefd6047
+  and a885977e) carries the identical
+  tree. The four issue comments are the
+  owner's trigger (6775748199,
+  @coderabbitai review), the shell
+  (6775748471), the bot's auto-reply
+  (6775849828, the action-not-completed
+  form stating the last commit was
+  already reviewed), and the owner's
+  landing comment (6776560381), which
+  records the merge, the round's gate
+  (specification PASS with no findings,
+  standards APPROVE with one Minor, the
+  red team APPROVE with the same Minor),
+  and the charge this item discharges.
+  The shell stands in its final form
+  exactly as follows. A rate-limit
+  banner heads it (Review limit reached,
+  run 4778027c-2869-4bc5-b390-4e2e34e46c89)
+  over the amendment range 5837edfa to
+  a885977e, files selected for
+  processing CONTRACT.md alone, and the
+  banner's own line that no actionable
+  comments were generated in the recent
+  review. Below the banner the first
+  review's walkthrough stands retained
+  (run c1814679-5e0c-4fe2-b698-a84d7a2821de,
+  over cefd6047 to 5837edfa, files
+  CONTRACT.md and README.md, its change
+  assessment naming 5837edfa, effort 2
+  Simple at about 10 minutes, Change
+  Other). Merge Risk stands Minimal in
+  the final form, its coverage naming
+  5837edfabb4504bb319fa84a717efa5f2a724087
+  as both the source and the covered
+  commit, kind reviewed, the changes
+  documentation only with no identified
+  merge-blocking issue. The pre-merge
+  checks in the final form stand at 4
+  passed, Description, Title, Linked
+  Issues, and Out of Scope, with no
+  further rows. FT-101 stated the shell
+  in its first form, a completed
+  walkthrough over the final head
+  5837edfa with pre-merge checks 5
+  passed and a Docstring Coverage row
+  among them; that form was superseded
+  when the amendment push edited the
+  shell, the Docstring Coverage row
+  stands only in the superseded form,
+  and the amendment range was never
+  substantively bot-reviewed, the same
+  standing form PR 18's shell reached.
+  The disposition FT-101 recorded stands
+  true under the final form, no
+  actionable comments having been
+  generated in either form, so nothing
+  stood to fix and nothing to dismiss,
+  and no bot follow-up corrects any
+  disposition on the pull request. The
+  pull request body as it finally stands
+  carries the bot's release-notes
+  appendix after the round's
+  review-readiness block.
+- FT-103. The canonical surfaces are
+  measured fresh at the binary built
+  from this round's base tree, the
+  staged tree hash-verified blob for
+  blob against the remote tree, 52
+  blobs, no mismatches, before the
+  build. The battery of FT-91 runs again
+  in full: 54 cells, all 54 hold, the
+  twelve key cells, the twenty eight
+  float cells, and the fourteen
+  stability cells over the golden
+  fixture, which digests to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  exactly, and FT-77's posture cell holds
+  as contracted. The FT-56 differential
+  harness runs against the Python oracle
+  on this round's binary: 117 cases, one
+  divergence at case 64 (slice
+  deep600.json) in the FT-54 band exactly
+  as Rounds 16, 17, and 18 recorded it,
+  zero file divergences, and the corpus
+  guards stand exact at 371 and 6,284.
+  No cell convicts and no repair is owed.
+- FT-104. The deepest joints FT-95 to
+  FT-101 and the canonical form 1 items
+  (FT-26 to FT-30, FT-39 to FT-43) leave
+  open or unmeasured are probed at the
+  same binary, against the Python oracle
+  where the oracle can speak and against
+  the contract's own text at the CLI
+  seams: 24 cells, and every cell holds.
+  Six verify-boundary cells: a digest
+  padded with spaces verifies, and a
+  digest padded with a tab, uppercased,
+  and closed with a space verifies, the
+  FT-30 amendment's whitespace and case
+  law measured at the command; a
+  truncated digest of 63 hex characters,
+  an extended digest of 65, a non-hex
+  digest of 64 characters, and an empty
+  expected digest each refuse at exit 1
+  with the mismatch named, the tape's
+  own digest printed in the refusal.
+  Six digest-rendering cells: the
+  integers 2 to the 64th, a 30-digit
+  integer, and minus 2 to the 63rd minus
+  1 each digest to the oracle's digest,
+  so integer rendering carries no
+  machine-word wall at those points; a
+  value nested in arrays 1,000 deep
+  digests to the oracle's digest and
+  1,001 deep refuses at exit 1 as nested
+  beyond the interpreter limit, the
+  FT-28 and FT-54 boundary standing at
+  exactly that depth for arrays; a
+  1e400 literal refuses at exit 1 as a
+  non-finite number, nothing printed;
+  and a string holding U+0001, U+001F,
+  U+007F, U+2028, U+2029, U+FFFE, and
+  U+FFFF digests to the oracle's digest.
+  Five convert-dir seam cells: a
+  subdirectory named with the session
+  extension counts as failed with the
+  error not a file and the run exits 1
+  while its sibling converts; an
+  uppercase-extension session file is
+  passed over whole, counted nowhere,
+  and the run exits 0; an empty source
+  directory exits 0 with a summary of
+  zero converted, zero failed, zero
+  events, and no files; a mixed
+  directory fails its unparseable
+  session with the defect that events
+  must hold at least one event, passes
+  its non-session file over whole, and
+  exits 1; and a session inside a nested
+  subdirectory is not descended to, the
+  run exiting 0 on the top-level session
+  alone. Seven slice seam cells: a range
+  wholly beyond the tape refuses at exit
+  1 that the selection matches no events
+  and writes nothing; a --from above its
+  --to refuses naming both bounds; a
+  negative bound refuses naming the
+  bound's value; a slice with both
+  bounds omitted writes the whole tape
+  to stdout, its slice_of recording the
+  golden digest with from, to, and kinds
+  null and the full event count; a slice
+  of a slice records the immediate
+  source's digest, not the original's;
+  a kind outside the enum refuses as an
+  unknown event kind naming the kind,
+  and a repeated kind filter selects
+  exactly that kind; and a kind filter
+  matching no events refuses as the
+  empty selection FT-39 names. No cell
+  convicts and no repair is owed.
+- FT-105. The realistic-volume pass. The
+  synthetic corpus of FT-97 is rebuilt
+  and measured from itself again: 21,035
+  session lines, 7,736,621 bytes, 27
+  sessions, the long-haul session
+  converting to 7,500 events with totals
+  750,000 input tokens, 135,000 output
+  tokens, 748,500 cache-read tokens,
+  1,500 tool calls, and 4,500 messages,
+  the deep session's payload nested 122
+  deep and its widest object at 500
+  keys. Nineteen cells run over both
+  implementations, the Python oracle and
+  the shipped binary, and every cell
+  agrees byte for byte in stdout,
+  stderr, exit code, and written files,
+  over the same surfaces FT-97 names.
+  The digest law holds across commands
+  at this volume: the digest the digest
+  command prints is the digest the
+  verify command accepts, on both
+  implementations.
+- FT-106. This round's verification runs
+  on the final tree. Cargo test 247
+  passed and 0 failed, cargo clippy
+  --all-targets with warnings denied
+  clean, cargo fmt --check clean, and
+  the codepoint scan over every tracked
+  file at U+2014=0 and U+2013=0. The
+  round changes no behavior: its whole
+  delta is this contract's appends and
+  the README rounds line, and the
+  measurements at FT-103 to FT-105 were
+  taken on a tree whose source is
+  identical to the final tree's.
+- FT-107. README records 19 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by that
+  item's own assignment.
+- FT-108. A completion and correction
+  item, landing on this round's own branch
+  before its pull request opens. First,
+  the shell length FT-102's charge
+  required: the shell (6775748471) in its
+  final form is 13,022 characters long,
+  counted on the body as the API returns
+  it. Second, the tape_version joint,
+  probed by name on both arms at the same
+  binary and oracle: validate accepts the
+  version string 1.0, and refuses 1.1,
+  2.0, 1, the empty string, and a missing
+  tape_version, each refusal naming the
+  field in the form tape_version must be
+  1.0 with the value found, and the two
+  arms agree on every probe in exit code,
+  stdout, and stderr; digests over the
+  same probe tapes agree across the arms
+  as well. Third, the deepest cell of
+  FT-104 restated from a fresh
+  measurement: inside a tape whose event
+  object wraps the value, the shipped
+  binary digests arrays nested 997 deep
+  and refuses at 998, so its boundary
+  stands at exactly total depth 1,000
+  digesting and 1,001 refusing, as FT-104
+  claims. The Python oracle's command line
+  accepts the same tape shape to 991
+  arrays and refuses at 992 under its own
+  interpreter limit, and the two arms
+  print identical digests at every depth
+  both can reach, so the split band
+  between 992 and 997 is the FT-54
+  interpreter-limit band and no new
+  divergence; FT-104's clause that the
+  1,000-deep value digests to the oracle's
+  digest stands corrected on that
+  sub-clause only, the oracle being unable
+  to speak at that depth through its
+  command line, and the cell rests on the
+  contract's own text as FT-104's preamble
+  provides. No code defect stands
+  convicted by any of these measurements,
+  and no repair to code is owed.
+- FT-109. The CodeRabbit disposition for
+  this round's own pull request discharges
+  here, on the read-back of PR 20 taken on
+  2026-11-11. The pull request carries one
+  review (5862113756, COMMENTED, on the
+  closure head b82e1df2, actionable
+  comments posted: 1), one review comment,
+  and three issue comments: the owner's
+  trigger (6801394410), the shell
+  (6801394975), and the bot's
+  action-not-completed notice (6801563796,
+  review rate limited, in the standing
+  form). The shell stands at 12,216
+  characters in its rate-limit form over
+  the range b82e1df2 to b3565a87, the
+  first review's walkthrough retained
+  below the banner, Merge Risk Low, and
+  pre-merge checks 5 passed, Description,
+  Title, Docstring Coverage, Linked
+  Issues, and Out of Scope, the Docstring
+  Coverage row passing with no eligible
+  functions found in the changed files.
+  The one actionable item (4540570231,
+  Minor, on this contract) is valid and
+  stands repaired here: it holds that
+  FT-106's verification record overstates
+  the codepoint scan's scope, and it is
+  right. The repository's
+  scripts/codepoint_scan.py scans Markdown
+  and text files only (the .md and .txt
+  suffixes, .git excluded), not every
+  tracked file, and FT-106's phrase over
+  every tracked file stands corrected to
+  that scope. The counts themselves stand
+  as recorded, and this round's own Python
+  scan over all 52 blobs of the final
+  tree, source files included, counts
+  U+2014=0 and U+2013=0 as well, so the
+  gate's substance is unchanged and only
+  its scope statement was wrong. Nothing
+  else stands to fix and nothing stands to
+  dismiss. This item lands after the
+  FT-108 commit by the server-side
+  sequence this round used, and the rounds
+  line the closure set is untouched and
+  still exact.
+- FT-110. The correction record for this
+  round's step 0 item and the repair record
+  for its reviews. FT-109 as first written
+  contracted the census of this pull request
+  at three issue comments (6801394410,
+  6801394975, 6801563796) and the walkthrough
+  shell (6801394975) at 12,216 characters
+  over the range b82e1df2 to b3565a87, with
+  five pre-merge checks passed and a
+  Docstring Coverage row standing. Both
+  statements were superseded after the
+  FT-109 commit landed, by the second
+  review trigger the lane posted after it
+  (6801678371) and the bot's
+  action-not-completed notice answering it
+  (6801687652). The census as it stands at
+  the FT-109 head e86c3c22 is one review,
+  one review comment, and five issue
+  comments. The shell as it stands at that
+  head is 11,353 characters, its recent
+  review run f4d7e394 over the range
+  b82e1df2 to e86c3c22, Merge Risk Low, the
+  pre-merge checks counter at four passed
+  (Description Check, Title check, Linked
+  Issues check, Out of Scope Changes check)
+  with no Docstring Coverage row standing
+  in the form. FT-109's disposition stands
+  unchanged. The Minor against FT-106's
+  scan scope was valid, and its repair at
+  FT-109 holds. The shell's form after
+  this repair's head is charged to Round
+  20's read-back, in the pattern FT-102
+  set for a closed record. The reviews of
+  the FT-109 head returned spec fidelity
+  NOT PASS with two Majors, the two
+  statements corrected here, standards
+  APPROVE with no findings, and red team
+  APPROVE with no findings.
+- FT-111. A second correction and the
+  union repair record. Two owner seats
+  reviewed this round after a restart split
+  the owner chat; FT-110 records one seat's
+  set (spec NOT PASS with two Majors,
+  standards APPROVE with no findings, red
+  team APPROVE with no findings) and
+  discharged the census and shell findings
+  both sets share. The other seat's set
+  returned spec fidelity NOT PASS with one
+  Major and two Minors, standards NOT
+  APPROVE with two Majors and three Minors,
+  and red team APPROVE with one Minor, and
+  the union of the two sets is this round's
+  review record. Four findings of the
+  second set stood outside FT-110's scope
+  and are corrected here. FT-108's opening
+  sentence says its item landed before the
+  pull request opens; the pull request was
+  created at 2026-11-11T16:31:57Z and the
+  FT-108 commit is timestamped
+  2026-11-11T16:35:53Z, so the item landed
+  after the pull request opened, and the
+  sentence stands corrected to that.
+  FT-106's opening sentence says this
+  round's verification runs on the final
+  tree; the gates ran on the staged tree
+  whose source is identical to the final
+  tree's, as the pull request body's
+  Verified block states, and the sentence
+  stands corrected to that relationship.
+  FT-104 says the value nested 1,001 deep
+  refuses as nested beyond the interpreter
+  limit; the refusal stands at the FT-28
+  and FT-54 boundary, the crate's own fixed
+  limit, and the interpreter limit is the
+  Python oracle's alone (its command line
+  refusing at 992 arrays under it, per
+  FT-108), so the attribution stands
+  retracted. And the scan scope, completing
+  the correction FT-109 began:
+  scripts/codepoint_scan.py walks the whole
+  tree below its root, skipping any path
+  with a .git part, and counts in files
+  carrying the .md or .txt suffix, tracked
+  and untracked alike; it does not scan
+  every tracked file, and FT-84's identical
+  phrase stands corrected by the same
+  statement. The shell moved once more
+  after FT-110's read (11,355 characters at
+  its 2026-11-11T17:16:42Z edit); its form
+  after this item is Round 20's charge, as
+  FT-110 set. The pull request body's
+  summary of FT-109 stands corrected by the
+  owner's body edit to point at FT-110 and
+  this item for the census and the shell.
