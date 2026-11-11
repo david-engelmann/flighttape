@@ -2335,3 +2335,9 @@ held to the standard of the surface it feeds.
   FT-113 to FT-115 were taken on the
   base tree, whose source the final
   tree shares.
+- FT-117. README records 20 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by
+  that item's own assignment.
