@@ -2092,3 +2092,59 @@ held to the standard of the surface it feeds.
   statements corrected here, standards
   APPROVE with no findings, and red team
   APPROVE with no findings.
+- FT-111. A second correction and the
+  union repair record. Two owner seats
+  reviewed this round after a restart split
+  the owner chat; FT-110 records one seat's
+  set (spec NOT PASS with two Majors,
+  standards APPROVE with no findings, red
+  team APPROVE with no findings) and
+  discharged the census and shell findings
+  both sets share. The other seat's set
+  returned spec fidelity NOT PASS with one
+  Major and two Minors, standards NOT
+  APPROVE with two Majors and three Minors,
+  and red team APPROVE with one Minor, and
+  the union of the two sets is this round's
+  review record. Four findings of the
+  second set stood outside FT-110's scope
+  and are corrected here. FT-108's opening
+  sentence says its item landed before the
+  pull request opens; the pull request was
+  created at 2026-11-11T16:31:57Z and the
+  FT-108 commit is timestamped
+  2026-11-11T16:35:53Z, so the item landed
+  after the pull request opened, and the
+  sentence stands corrected to that.
+  FT-106's opening sentence says this
+  round's verification runs on the final
+  tree; the gates ran on the staged tree
+  whose source is identical to the final
+  tree's, as the pull request body's
+  Verified block states, and the sentence
+  stands corrected to that relationship.
+  FT-104 says the value nested 1,001 deep
+  refuses as nested beyond the interpreter
+  limit; the refusal stands at the FT-28
+  and FT-54 boundary, the crate's own fixed
+  limit, and the interpreter limit is the
+  Python oracle's alone (its command line
+  refusing at 992 arrays under it, per
+  FT-108), so the attribution stands
+  retracted. And the scan scope, completing
+  the correction FT-109 began:
+  scripts/codepoint_scan.py walks the whole
+  tree below its root, skipping any path
+  with a .git part, and counts in files
+  carrying the .md or .txt suffix, tracked
+  and untracked alike; it does not scan
+  every tracked file, and FT-84's identical
+  phrase stands corrected by the same
+  statement. The shell moved once more
+  after FT-110's read (11,355 characters at
+  its 2026-11-11T17:16:42Z edit); its form
+  after this item is Round 20's charge, as
+  FT-110 set. The pull request body's
+  summary of FT-109 stands corrected by the
+  owner's body edit to point at FT-110 and
+  this item for the census and the shell.
