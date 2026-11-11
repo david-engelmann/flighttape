@@ -1964,3 +1964,47 @@ held to the standard of the surface it feeds.
   it, a third variant awaiting the
   line-wide pass, unrepaired here by that
   item's own assignment.
+- FT-108. A completion and correction
+  item, landing on this round's own branch
+  before its pull request opens. First,
+  the shell length FT-102's charge
+  required: the shell (6775748471) in its
+  final form is 13,022 characters long,
+  counted on the body as the API returns
+  it. Second, the tape_version joint,
+  probed by name on both arms at the same
+  binary and oracle: validate accepts the
+  version string 1.0, and refuses 1.1,
+  2.0, 1, the empty string, and a missing
+  tape_version, each refusal naming the
+  field in the form tape_version must be
+  1.0 with the value found, and the two
+  arms agree on every probe in exit code,
+  stdout, and stderr; digests over the
+  same probe tapes agree across the arms
+  as well. Third, the deepest cell of
+  FT-104 restated from a fresh
+  measurement: inside a tape whose event
+  object wraps the value, the shipped
+  binary digests arrays nested 997 deep
+  and refuses at 998, so its boundary
+  stands at exactly total depth 1,000
+  digesting and 1,001 refusing, as FT-104
+  claims. The Python oracle's command line
+  accepts the same tape shape to 991
+  arrays and refuses at 992 under its own
+  interpreter limit, and the two arms
+  print identical digests at every depth
+  both can reach, so the split band
+  between 992 and 997 is the FT-54
+  interpreter-limit band and no new
+  divergence; FT-104's clause that the
+  1,000-deep value digests to the oracle's
+  digest stands corrected on that
+  sub-clause only, the oracle being unable
+  to speak at that depth through its
+  command line, and the cell rests on the
+  contract's own text as FT-104's preamble
+  provides. No code defect stands
+  convicted by any of these measurements,
+  and no repair to code is owed.
