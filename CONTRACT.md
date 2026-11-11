@@ -1746,3 +1746,202 @@ held to the standard of the surface it feeds.
   sequence this round used, and the
   rounds line the closure set is
   untouched and still exact.
+- FT-102. The read-back of PR 19, taken
+  whole in this round before any other
+  work, through the API: the reviews
+  list, the review comments list, the
+  issue comments list, and the review
+  threads, every body read to its end.
+  The full record is no reviews, no
+  review comments, no review threads,
+  and four issue comments. The final
+  head's identity stands verified
+  through the API in FT-101's place:
+  a885977ebe931987cbe2bcffc4db4f84bde5d0bb,
+  whose tree is
+  5b9e0ca995559ae6afe9afad8a977fde9a441f4b,
+  and the merge that closed the pull
+  request (8ac81952, parents cefd6047
+  and a885977e) carries the identical
+  tree. The four issue comments are the
+  owner's trigger (6775748199,
+  @coderabbitai review), the shell
+  (6775748471), the bot's auto-reply
+  (6775849828, the action-not-completed
+  form stating the last commit was
+  already reviewed), and the owner's
+  landing comment (6776560381), which
+  records the merge, the round's gate
+  (specification PASS with no findings,
+  standards APPROVE with one Minor, the
+  red team APPROVE with the same Minor),
+  and the charge this item discharges.
+  The shell stands in its final form
+  exactly as follows. A rate-limit
+  banner heads it (Review limit reached,
+  run 4778027c-2869-4bc5-b390-4e2e34e46c89)
+  over the amendment range 5837edfa to
+  a885977e, files selected for
+  processing CONTRACT.md alone, and the
+  banner's own line that no actionable
+  comments were generated in the recent
+  review. Below the banner the first
+  review's walkthrough stands retained
+  (run c1814679-5e0c-4fe2-b698-a84d7a2821de,
+  over cefd6047 to 5837edfa, files
+  CONTRACT.md and README.md, its change
+  assessment naming 5837edfa, effort 2
+  Simple at about 10 minutes, Change
+  Other). Merge Risk stands Minimal in
+  the final form, its coverage naming
+  5837edfabb4504bb319fa84a717efa5f2a724087
+  as both the source and the covered
+  commit, kind reviewed, the changes
+  documentation only with no identified
+  merge-blocking issue. The pre-merge
+  checks in the final form stand at 4
+  passed, Description, Title, Linked
+  Issues, and Out of Scope, with no
+  further rows. FT-101 stated the shell
+  in its first form, a completed
+  walkthrough over the final head
+  5837edfa with pre-merge checks 5
+  passed and a Docstring Coverage row
+  among them; that form was superseded
+  when the amendment push edited the
+  shell, the Docstring Coverage row
+  stands only in the superseded form,
+  and the amendment range was never
+  substantively bot-reviewed, the same
+  standing form PR 18's shell reached.
+  The disposition FT-101 recorded stands
+  true under the final form, no
+  actionable comments having been
+  generated in either form, so nothing
+  stood to fix and nothing to dismiss,
+  and no bot follow-up corrects any
+  disposition on the pull request. The
+  pull request body as it finally stands
+  carries the bot's release-notes
+  appendix after the round's
+  review-readiness block.
+- FT-103. The canonical surfaces are
+  measured fresh at the binary built
+  from this round's base tree, the
+  staged tree hash-verified blob for
+  blob against the remote tree, 52
+  blobs, no mismatches, before the
+  build. The battery of FT-91 runs again
+  in full: 54 cells, all 54 hold, the
+  twelve key cells, the twenty eight
+  float cells, and the fourteen
+  stability cells over the golden
+  fixture, which digests to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  exactly, and FT-77's posture cell holds
+  as contracted. The FT-56 differential
+  harness runs against the Python oracle
+  on this round's binary: 117 cases, one
+  divergence at case 64 (slice
+  deep600.json) in the FT-54 band exactly
+  as Rounds 16, 17, and 18 recorded it,
+  zero file divergences, and the corpus
+  guards stand exact at 371 and 6,284.
+  No cell convicts and no repair is owed.
+- FT-104. The deepest joints FT-95 to
+  FT-101 and the canonical form 1 items
+  (FT-26 to FT-30, FT-39 to FT-43) leave
+  open or unmeasured are probed at the
+  same binary, against the Python oracle
+  where the oracle can speak and against
+  the contract's own text at the CLI
+  seams: 24 cells, and every cell holds.
+  Six verify-boundary cells: a digest
+  padded with spaces verifies, and a
+  digest padded with a tab, uppercased,
+  and closed with a space verifies, the
+  FT-30 amendment's whitespace and case
+  law measured at the command; a
+  truncated digest of 63 hex characters,
+  an extended digest of 65, a non-hex
+  digest of 64 characters, and an empty
+  expected digest each refuse at exit 1
+  with the mismatch named, the tape's
+  own digest printed in the refusal.
+  Six digest-rendering cells: the
+  integers 2 to the 64th, a 30-digit
+  integer, and minus 2 to the 63rd minus
+  1 each digest to the oracle's digest,
+  so integer rendering carries no
+  machine-word wall at those points; a
+  value nested in arrays 1,000 deep
+  digests to the oracle's digest and
+  1,001 deep refuses at exit 1 as nested
+  beyond the interpreter limit, the
+  FT-28 and FT-54 boundary standing at
+  exactly that depth for arrays; a
+  1e400 literal refuses at exit 1 as a
+  non-finite number, nothing printed;
+  and a string holding U+0001, U+001F,
+  U+007F, U+2028, U+2029, U+FFFE, and
+  U+FFFF digests to the oracle's digest.
+  Five convert-dir seam cells: a
+  subdirectory named with the session
+  extension counts as failed with the
+  error not a file and the run exits 1
+  while its sibling converts; an
+  uppercase-extension session file is
+  passed over whole, counted nowhere,
+  and the run exits 0; an empty source
+  directory exits 0 with a summary of
+  zero converted, zero failed, zero
+  events, and no files; a mixed
+  directory fails its unparseable
+  session with the defect that events
+  must hold at least one event, passes
+  its non-session file over whole, and
+  exits 1; and a session inside a nested
+  subdirectory is not descended to, the
+  run exiting 0 on the top-level session
+  alone. Seven slice seam cells: a range
+  wholly beyond the tape refuses at exit
+  1 that the selection matches no events
+  and writes nothing; a --from above its
+  --to refuses naming both bounds; a
+  negative bound refuses naming the
+  bound's value; a slice with both
+  bounds omitted writes the whole tape
+  to stdout, its slice_of recording the
+  golden digest with from, to, and kinds
+  null and the full event count; a slice
+  of a slice records the immediate
+  source's digest, not the original's;
+  a kind outside the enum refuses as an
+  unknown event kind naming the kind,
+  and a repeated kind filter selects
+  exactly that kind; and a kind filter
+  matching no events refuses as the
+  empty selection FT-39 names. No cell
+  convicts and no repair is owed.
+- FT-105. The realistic-volume pass. The
+  synthetic corpus of FT-97 is rebuilt
+  and measured from itself again: 21,035
+  session lines, 7,736,621 bytes, 27
+  sessions, the long-haul session
+  converting to 7,500 events with totals
+  750,000 input tokens, 135,000 output
+  tokens, 748,500 cache-read tokens,
+  1,500 tool calls, and 4,500 messages,
+  the deep session's payload nested 122
+  deep and its widest object at 500
+  keys. Nineteen cells run over both
+  implementations, the Python oracle and
+  the shipped binary, and every cell
+  agrees byte for byte in stdout,
+  stderr, exit code, and written files,
+  over the same surfaces FT-97 names.
+  The digest law holds across commands
+  at this volume: the digest the digest
+  command prints is the digest the
+  verify command accepts, on both
+  implementations.
