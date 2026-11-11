@@ -2008,3 +2008,49 @@ held to the standard of the surface it feeds.
   provides. No code defect stands
   convicted by any of these measurements,
   and no repair to code is owed.
+- FT-109. The CodeRabbit disposition for
+  this round's own pull request discharges
+  here, on the read-back of PR 20 taken on
+  2026-11-11. The pull request carries one
+  review (5862113756, COMMENTED, on the
+  closure head b82e1df2, actionable
+  comments posted: 1), one review comment,
+  and three issue comments: the owner's
+  trigger (6801394410), the shell
+  (6801394975), and the bot's
+  action-not-completed notice (6801563796,
+  review rate limited, in the standing
+  form). The shell stands at 12,216
+  characters in its rate-limit form over
+  the range b82e1df2 to b3565a87, the
+  first review's walkthrough retained
+  below the banner, Merge Risk Low, and
+  pre-merge checks 5 passed, Description,
+  Title, Docstring Coverage, Linked
+  Issues, and Out of Scope, the Docstring
+  Coverage row passing with no eligible
+  functions found in the changed files.
+  The one actionable item (4540570231,
+  Minor, on this contract) is valid and
+  stands repaired here: it holds that
+  FT-106's verification record overstates
+  the codepoint scan's scope, and it is
+  right. The repository's
+  scripts/codepoint_scan.py scans Markdown
+  and text files only (the .md and .txt
+  suffixes, .git excluded), not every
+  tracked file, and FT-106's phrase over
+  every tracked file stands corrected to
+  that scope. The counts themselves stand
+  as recorded, and this round's own Python
+  scan over all 52 blobs of the final
+  tree, source files included, counts
+  U+2014=0 and U+2013=0 as well, so the
+  gate's substance is unchanged and only
+  its scope statement was wrong. Nothing
+  else stands to fix and nothing stands to
+  dismiss. This item lands after the
+  FT-108 commit by the server-side
+  sequence this round used, and the rounds
+  line the closure set is untouched and
+  still exact.
