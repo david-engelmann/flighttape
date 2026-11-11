@@ -1945,3 +1945,22 @@ held to the standard of the surface it feeds.
   command prints is the digest the
   verify command accepts, on both
   implementations.
+- FT-106. This round's verification runs
+  on the final tree. Cargo test 247
+  passed and 0 failed, cargo clippy
+  --all-targets with warnings denied
+  clean, cargo fmt --check clean, and
+  the codepoint scan over every tracked
+  file at U+2014=0 and U+2013=0. The
+  round changes no behavior: its whole
+  delta is this contract's appends and
+  the README rounds line, and the
+  measurements at FT-103 to FT-105 were
+  taken on a tree whose source is
+  identical to the final tree's.
+- FT-107. README records 19 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by that
+  item's own assignment.
