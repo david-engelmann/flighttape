@@ -2620,3 +2620,10 @@ held to the standard of the surface it feeds.
   measurements at FT-119 to FT-122 were
   taken on the base tree, whose source
   the final tree shares.
+
+- FT-124. README records 21 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by
+  that item's own assignment.
