@@ -2341,3 +2341,293 @@ held to the standard of the surface it feeds.
   it, a third variant awaiting the
   line-wide pass, unrepaired here by
   that item's own assignment.
+
+- FT-118. The read-back of PR 21, taken
+  whole in this round before any other
+  work, through the API: the pull
+  request body, the reviews list, the
+  review comments list, and the issue
+  comments list, every body read to its
+  end. The pull request stands closed by
+  the merge
+  516a8f608399f9039ea81e5632bbaa17b97a1c02,
+  whose tree
+  70977b5f6386caad9a94dc86a8e037b8a9e3f8a2
+  equals the closure head
+  6b3008f040dd3026fa783a70cfd8195b4edc2be7's
+  tree, and the README on main records
+  20 of 100. The body stands in its
+  final form at 5,169 characters, last
+  edited 2026-11-12T00:19:47Z, carrying
+  the owner's repair of its FT-114
+  summary to the scoped form, identical
+  digests at the two spot-checked
+  depths, 900 and 989 arrays, and its
+  process note on the first push stands
+  confirmed by the record, the re-landed
+  heads' trees equal to the local trees
+  and the merge tree equal to the
+  closure tree. The census is zero
+  reviews, zero review comments, and
+  five issue comments: the walkthrough
+  shell (6810035910), the owner's
+  trigger (6810039054), the bot's
+  action-not-completed auto-reply
+  (6810103385, already reviewed the last
+  commit), the owner's step 0 account
+  (6810294006), and the owner's landing
+  comment (6810542335). The shell stands
+  in its final form exactly as follows.
+  It was created at
+  2026-11-11T23:49:24Z, last edited at
+  2026-11-12T00:06:27Z, and is 11,119
+  characters long. No rate-limit banner
+  heads it. Its walkthrough stands over
+  the whole range, base 1c758ffb to the
+  closure head 6b3008f0, its change
+  assessment marker standing at the
+  closure head itself, and its files
+  selected are CONTRACT.md and
+  README.md. Merge Risk stands Minimal,
+  its coverage naming 6b300, the closure
+  head. The pre-merge checks stand at 4
+  passed, Title, Linked Issues, Out of
+  Scope Changes, and Description, and no
+  Docstring Coverage row stands in the
+  form. Its own line stands: no
+  actionable comments were generated in
+  the recent review. The owner's step 0
+  account read the shell at 11,117
+  characters; the shell's final edit, at
+  2026-11-12T00:06:27Z, added two
+  characters and changed nothing the
+  dispositions rest on, the checks, the
+  Merge Risk, the coverage, and the
+  no-actionable-comments line standing
+  as the account recorded them. The
+  dispositions stand as Round 20 left
+  them and are confirmed against the
+  closed record: the bot reviewed on
+  open, no actionable comments stood,
+  nothing stood to fix and nothing stood
+  to dismiss, and no Round 20
+  disposition is falsified.
+
+- FT-119. FT-114's attribution, restated
+  on fresh measurement. The probes are
+  tapes built by string construction, a
+  single tool_call event whose input
+  carries the payload, the counted unit
+  the nested arrays wrapping the scalar
+  1 inside the input. At zero added
+  wraps the input is the arrays
+  themselves; at one, two, and three
+  added wraps the arrays sit inside that
+  many nested single-key objects inside
+  the input. Each arm's digest point is
+  found by binary search and stated as
+  the last depth digested and the first
+  refused. The shipped binary: 997 and
+  998 at zero wraps, 996 and 997 at one,
+  995 and 996 at two, 994 and 995 at
+  three, its own fixed render depth law
+  counting every container on the path,
+  object or array. The Python oracle by
+  the fleet standard runner, python3 -c
+  importing flighttape.cli's main with
+  the oracle source on PYTHONPATH: 991
+  and 992 at zero wraps, 990 and 991 at
+  one, 989 and 990 at two, 988 and 989
+  at three. The same oracle by the
+  module route, python3 -m
+  flighttape.cli on the same PYTHONPATH:
+  989 and 990 at zero wraps, 988 and 989
+  at one, 987 and 988 at two, 986 and
+  987 at three. Twelve point
+  determinations, and two laws stand out
+  of them. First, each added container
+  level moves every arm's point by
+  exactly one array, the binary's
+  included: the tape's own structure
+  consumes the depth budget one level
+  for one level. Second, on identical
+  files the oracle's two invocation
+  routes stand exactly two arrays apart
+  at every level, the module route
+  reaching its limit two arrays earlier:
+  the invocation baseline consumes
+  headroom the standard runner leaves
+  free. The oracle's digest point is
+  therefore interpreter-headroom
+  relative, consumed by the tape's
+  structure and by the invocation route
+  alike, and no figure for it stands in
+  this contract without its route beside
+  it. FT-108's 991 and 992 stand as the
+  fleet standard runner's points on its
+  shape, and FT-114's 989 and 990 stand
+  as the module route's points on its
+  shape; both rounds measured truly, and
+  FT-114's clause, the oracle's point
+  riding the tape's own structure as an
+  interpreter limit does, stands
+  corrected to the two-consumer
+  statement above. Every refusal in the
+  grid wears the one form, exit 1, the
+  tape is nested beyond the interpreter
+  limit, the binary's wording mirroring
+  the oracle's by the port's design. No
+  cell convicts and no repair is owed.
+
+- FT-120. FT-114's digest identity,
+  contracted in its scoped form on fresh
+  measurement. On the zero-wrap tapes of
+  FT-119, the three arms print the
+  identical digest at exactly the
+  spot-checked depths 100, 500, 900,
+  950, and 989 arrays, the printed
+  digests compared byte for byte, five
+  depths, three arms each, no
+  divergence. At 990 and 991 arrays the
+  binary and the fleet standard runner
+  print the identical digest and the
+  module route refuses; at 997 the
+  binary alone digests, both oracle
+  routes refusing. The bands at zero
+  wraps stand therefore, acceptance
+  stated apart from agreement: every
+  arm digests to 989, agreement
+  holding only at the measured depths
+  named above; at 990 and 991 the
+  binary and the standard runner
+  digest and, both depths measured,
+  agree; from 992 to 997 the binary
+  digests alone; at 998 no arm digests.
+  Identity is asserted at
+  exactly the depths named here and at
+  no others: where two arms digest the
+  same tape they print the same digest
+  at every depth this round checked, and
+  the invocation route moves only where
+  the refusal falls, never the digest
+  printed. FT-114's sentence, at every
+  depth both arms digest, spot-checked
+  at 900 and 989 arrays, the two print
+  the identical digest, stands replaced
+  by this item's enumeration.
+
+- FT-121. FT-114's validate probe set,
+  named as a set on fresh measurement.
+  The shipped binary validates the
+  zero-wrap tapes of FT-119 at exactly
+  these eighteen depths, exit 0 at every
+  one, no refusal and no crash: 990,
+  991, 992, 997, 998, 999, 1000, 1001,
+  2000, 5000, 9994, 9995, 10000, 20000,
+  50000, 100000, 150000, and 200000
+  arrays. Its reader and its validator's
+  walks are uncapped across the whole
+  named set. The oracle's reader point
+  at the same seam, found by binary
+  search on the same tapes: by the fleet
+  standard runner it accepts at 9,994
+  arrays and refuses at 9,995; by the
+  module route it accepts at 9,991 and
+  refuses at 9,992; the two routes stand
+  three arrays apart at the reader seam,
+  against the two of FT-119's digest
+  seam. The structure law of FT-119
+  holds at this seam as well: on the
+  standard route each added wrap moves
+  the reader point exactly one array,
+  9993 and 9994 at one wrap, 9992 and
+  9993 at two, 9991 and 9992 at three,
+  and the module route at one wrap
+  stands at 9990 and 9991. The refusal
+  on both routes wears the reader's
+  form, exit 1, defect, the file is not
+  valid JSON. FT-114's 9,995 stands as
+  the fleet standard runner's point.
+  FT-114's sentence, the binary
+  validating at every probed depth from
+  990 through 200,000 arrays, now stands
+  beside this item's named set, the
+  eighteen depths this round probed; the
+  two sets are not claimed to be the
+  same set, Round 20's probe log being
+  lost.
+
+- FT-122. The realistic-volume pass, the
+  golden fixture, and the fleet pin. The
+  synthetic corpus of FT-97 is rebuilt
+  with a new seed, 20261112, Round 20's
+  having been 20261110, and measured
+  from itself: 21,035 session lines,
+  7,736,621 bytes, 27 sessions, the deep
+  session's payload nested 122 deep and
+  its widest object at 500 keys, the
+  long-haul session converting to 7,500
+  events with totals 750,000 input
+  tokens, 135,000 output tokens, 748,500
+  cache-read tokens, 1,500 tool calls,
+  and 4,500 messages. The shape figures
+  stand exactly as FT-115 recorded them
+  under the other seed, and the content
+  moved with the seed: the long-haul
+  tape digests to
+  8b1d63f93938c654eb682ce48474c247d27c638bc4800522eb74ed7502988b4c,
+  against Round 20's
+  658d692144781141c77267f959c5f24b38dce2ca26453b860254943cb10d64e9.
+  Nineteen cells run over both
+  implementations, the Python oracle by
+  the fleet standard runner and the
+  shipped binary, and every cell agrees
+  byte for byte in stdout, stderr, exit
+  code, and written files, over the same
+  surfaces FT-97 names. The digest law
+  holds across commands at this volume:
+  the digest the digest command prints
+  is the digest the verify command
+  accepts, on both implementations. The
+  golden fixture: converting
+  tests/fixtures/claude_session_synthetic.jsonl
+  on both implementations writes
+  byte-identical tapes of 1,663 bytes,
+  and the binary and both oracle routes
+  print the golden digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin stands
+  re-confirmed against the live commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e:
+  its tree is
+  afd4d7d13520411e003762548fc79082a1b9cf6e,
+  whose recursive listing counts 58
+  entries, 50 of them blobs, as FT-98
+  recorded.
+
+- FT-123. This round's verification runs
+  on a tree whose source is identical to
+  the final tree's. Cargo test 247
+  passed and 0 failed, cargo clippy
+  --all-targets with warnings denied
+  clean, cargo fmt --check clean, and
+  the codepoint scan stated at its true
+  scope: the repository script counts
+  U+2014=0 and U+2013=0 over the tree's
+  Markdown and text files, and this
+  round's own scan over all 52 blobs of
+  the final tree, source files included,
+  counts U+2014=0 and U+2013=0 as well.
+  The round changes no behavior: its
+  whole delta is this contract's appends
+  and the README rounds line, and the
+  measurements at FT-119 to FT-122 were
+  taken on the base tree, whose source
+  the final tree shares.
+
+- FT-124. README records 21 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by
+  that item's own assignment.
