@@ -3008,3 +3008,38 @@ held to the standard of the surface it feeds.
   it, a third variant awaiting the
   line-wide pass, unrepaired here by that
   item's own assignment.
+
+- FT-133. Two corrections to this
+  round's own items, appended on the
+  owner's reviews, the originals
+  standing. First, FT-130's closing
+  clause. It says this round's own
+  instruments stand in its lane scratch
+  and are named in its pull request
+  body. Both halves are wrong on this
+  round's record: the build lane was
+  interrupted by a box restart after
+  banking the round's four commits, its
+  scratch, instruments, and progress
+  file were lost with /tmp, as the pull
+  request body's disclosure states, and
+  the body names no instruments or
+  scratch path. The round's durable
+  record is this contract and the pull
+  request record. FT-130's discharge
+  itself stands as written. Second,
+  FT-126's verification channel. It
+  says the Python oracle was verified
+  blob for blob against its pre-port
+  tree through the API, at commit
+  eca7b60dac2114ff026f8856fd19de05867d7304.
+  The blob-for-blob fact is true and
+  was re-verified by the red team, but
+  the channel does not reproduce as
+  stated: that commit is not reachable
+  through the GitHub API in this
+  repository, and the verification
+  stands through the local clone's
+  object store, whose history carries
+  the commit. No measurement in either
+  item is touched by these corrections.
