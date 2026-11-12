@@ -2494,12 +2494,16 @@ held to the standard of the surface it feeds.
   module route refuses; at 997 the
   binary alone digests, both oracle
   routes refusing. The bands at zero
-  wraps stand therefore: to 989 every
-  arm speaks and agrees; at 990 and 991
-  the binary and the standard runner
-  speak and agree; from 992 to 997 the
-  binary speaks alone; at 998 no arm
-  speaks. Identity is asserted at
+  wraps stand therefore, acceptance
+  stated apart from agreement: every
+  arm digests to 989, agreement
+  holding only at the measured depths
+  named above; at 990 and 991 the
+  binary and the standard runner
+  digest and, both depths measured,
+  agree; from 992 to 997 the binary
+  digests alone; at 998 no arm digests.
+  Identity is asserted at
   exactly the depths named here and at
   no others: where two arms digest the
   same tape they print the same digest
