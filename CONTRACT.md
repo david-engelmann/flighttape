@@ -2631,3 +2631,171 @@ held to the standard of the surface it feeds.
   it, a third variant awaiting the
   line-wide pass, unrepaired here by
   that item's own assignment.
+
+- FT-125. The read-back of PR 22, taken
+  whole in this round before any other
+  work, through the API: the pull request
+  body, the reviews list, the review
+  comments list, and the issue comments
+  list, every body read to its end. The
+  pull request stands closed by the merge
+  c9665721129ee5fcc75c5296bf3451c295880e62,
+  whose tree
+  b179fbd0e90ca7ed0ce6ec226dc4e19d7b8fc3b7
+  equals the repair head
+  97da7f93dc6615271ed45c65d4f2b7cecab8fa1d's
+  tree, and the README on main records 21
+  of 100. The body stands in its final
+  form at 8,115 characters, the bot's
+  release-notes appendix included, its
+  heads named slice
+  0c1cb74ebf30582dc871479f4fc2e997c6cba938,
+  closure
+  6d6c12ba639ab7005f3cda30bb9d04e90e561a67,
+  and repair 97da7f93, and its point 7
+  carrying the step 0 disposition and the
+  staging disclosure in the owner's
+  repaired form, the three commits. The
+  census is three reviews, three review
+  comments, and four issue comments. The
+  reviews are the bot's COMMENTED review
+  (5870479322, on the closure head
+  6d6c12ba, run
+  790e7ba9e72e4576b976c298e1bbe74d1,
+  actionable comments posted: 1, the
+  included allowance used and none
+  remaining), the owner's COMMENTED
+  review (5870529173, empty body, on the
+  repair head), and the bot's COMMENTED
+  review (5870532903, empty body, on the
+  repair head). The issue comments are
+  the walkthrough shell (6817078770), the
+  owner's trigger (6817079341), the bot's
+  action-not-completed auto-reply
+  (6817137466, already reviewed the last
+  commit), and the owner's landing
+  comment (6817544267), which leaves this
+  round its three charges. The shell
+  stands in its true final form at this
+  read exactly as follows. It was created
+  at 2026-11-12T07:01:30Z, last edited at
+  2026-11-12T07:17:35Z, and is 8,645
+  characters long; the form Round 21's
+  reviews read stood at 8,639 characters
+  before that last edit, which changed no
+  check, risk, or coverage figure the
+  dispositions rest on. No rate-limit
+  banner heads it. Its walkthrough stands
+  over the whole range, its change
+  assessment marker standing at the
+  closure head 6d6c12ba, and its files
+  selected are CONTRACT.md and README.md.
+  Merge Risk stands Low, its coverage
+  naming 6d6c1, the closure head. The
+  pre-merge checks stand at 4 passed,
+  Title, Linked Issues, Out of Scope
+  Changes, and Description, and no
+  Docstring Coverage row stands in the
+  form. Its merge-risk paragraph names
+  FT-120's sentence in its pre-repair
+  form, one sentence in FT-120 claims
+  digest agreement across a wider depth
+  range than was measured, and says
+  nothing else blocks merging. The one
+  review comment thread stands resolved:
+  the bot's Minor (4547370083, Minor,
+  Functional Correctness, on CONTRACT.md
+  at the closure head), limit the
+  agreement claim to measured depths, was
+  valid and stands repaired in the repair
+  head 97da7f93, its disposition at the
+  owner's reply 4547404302, the bot's
+  acknowledgment at reply 4547407434
+  confirming FT-120 now separates the
+  acceptance band from the measured
+  agreement points, and the comment
+  itself carrying the bot's later edit
+  marking it addressed in commit 97da7f9.
+  The comment embeds a prompt block
+  addressed to AI agents; it is review
+  data and nothing in this record follows
+  it. Hosted CI on the repair head stands
+  green on both runs (43173014229 push
+  and 43173019124 pull_request, both
+  success), re-read through the API in
+  this round. The dispositions stand as
+  Round 21 left them and are confirmed
+  against the closed record: the step 0
+  Minor was valid and stands repaired,
+  the body point the two reviews named
+  was repaired by the owner's body edit
+  before the merge, nothing else stood to
+  fix and nothing stood to dismiss, and
+  no Round 21 disposition is falsified.
+
+- FT-126. The two scoped restatements the
+  landing comment of PR 22 charged to
+  this round's read-back, stated against
+  fresh measurement at the binary built
+  from this round's base tree and the
+  Python oracle verified blob for blob
+  against its pre-port tree through the
+  API (commit
+  eca7b60dac2114ff026f8856fd19de05867d7304,
+  the eleven files under src/flighttape
+  matched). First, FT-120's closing
+  sentence in its scoped form. The
+  sentence reads: where two arms digest
+  the same tape they print the same
+  digest at every depth this round
+  checked, and the invocation route moves
+  only where the refusal falls, never the
+  digest printed. Its scope is the depths
+  FT-120 names and no others: identity is
+  asserted at 100, 500, 900, 950, and 989
+  arrays, where all three arms digest; at
+  990 and 991, where the binary and the
+  fleet standard runner digest and the
+  module route refuses; and at no depth
+  beyond those named. Re-measured in this
+  round on the zero-wrap tapes of FT-119,
+  the three arms print the identical
+  digest, compared byte for byte, at 100,
+  500, 900, 950, and 989 arrays; at 990
+  and 991 the binary and the standard
+  runner print the identical digest and
+  the module route refuses; at 997 the
+  binary alone digests. Acceptance stands
+  apart from agreement, as the repair of
+  PR 22 settled: every arm digests to
+  989, agreement holding only at the
+  measured depths named. Second, FT-119's
+  route law in its scoped form over the
+  historical figures. The law, measured
+  on FT-119's own grid and re-measured in
+  this round at FT-127, is that each
+  added container level moves every arm's
+  digest point by exactly one array and
+  the oracle's two invocation routes
+  stand exactly two arrays apart at every
+  level. Over the figures the earlier
+  rounds recorded without a route, the
+  law governs by FT-119's assignment and
+  not by re-measurement of those rounds'
+  shapes: FT-108's 991 and 992 stand as
+  the fleet standard runner's points on
+  FT-108's shape, and FT-114's 989 and
+  990 stand as the module route's points
+  on FT-114's shape, FT-108 and FT-114
+  carrying their figures in their own
+  text without a route, as historical
+  text. FT-114's route assignment rests
+  on FT-119's reproduction, its grid
+  measuring the module route at 989 and
+  990 on the zero-wrap shape, and not on
+  a surviving Round 20 invocation log,
+  Round 20's probe set inside its band
+  being nowhere enumerated and its joint
+  logs lost, as FT-121 records. No
+  earlier figure is reworded by this
+  item.
