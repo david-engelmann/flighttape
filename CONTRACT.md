@@ -2862,3 +2862,107 @@ held to the standard of the surface it feeds.
   reader's form, exit 1, defect, the file
   is not valid JSON. No cell convicts and
   no repair is owed.
+
+- FT-128. The two harnesses run in full
+  in their own right, measured fresh at
+  the binary built from this round's base
+  tree, the drivers the Round 20 lane
+  banked in the workspace re-pointed at
+  this round's binary and scratch. The
+  battery of FT-91 runs as its two
+  drivers: 40 cells in the first (the
+  twelve key cells and the twenty eight
+  float cells) and 14 stability cells in
+  the second, 54 cells in all, and all 54
+  hold, the golden fixture digesting to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  exactly, and FT-77's posture cell
+  holding as contracted. The FT-56
+  differential harness runs against the
+  Python oracle on this round's binary:
+  117 cases, one divergence at case 64
+  (slice deep600.json, exit 1 against 0)
+  in the FT-54 band exactly as Rounds 16
+  through 21 recorded it, zero file
+  divergences, and the corpus guards
+  stand exact at 371 and 6,284, the
+  timestamp corpus and the number sweep
+  counted in lines on this tree. No cell
+  convicts and no repair is owed.
+
+- FT-129. The realistic-volume pass, the
+  golden fixture, and the fleet pin. The
+  synthetic corpus of FT-97 is rebuilt
+  with a new seed, 20261113, Round 21's
+  having been 20261112, and measured from
+  itself: 21,035 session lines, 7,736,621
+  bytes, 27 sessions, the deep session's
+  payload nested 122 deep and its widest
+  object at 500 keys, the long-haul
+  session converting to 7,500 events with
+  totals 750,000 input tokens, 135,000
+  output tokens, 748,500 cache-read
+  tokens, 1,500 tool calls, and 4,500
+  messages. The shape figures stand
+  exactly as FT-115 and FT-122 recorded
+  them under the other seeds, and the
+  content moved with the seed: the
+  long-haul tape digests to
+  f9e23830070deba9a7e5dd4f31ec213803bedf4609b85ef6bc5c12a50bf456d2,
+  against Round 21's
+  8b1d63f93938c654eb682ce48474c247d27c638bc4800522eb74ed7502988b4c
+  and Round 20's
+  658d692144781141c77267f959c5f24b38dce2ca26453b860254943cb10d64e9.
+  Nineteen cells run over both
+  implementations, the Python oracle by
+  the fleet standard runner and the
+  shipped binary, and every cell agrees
+  byte for byte in stdout, stderr, exit
+  code, and written files, over the same
+  surfaces FT-97 names. The digest law
+  holds across commands at this volume:
+  the digest the digest command prints is
+  the digest the verify command accepts,
+  on both implementations. The golden
+  fixture: converting
+  tests/fixtures/claude_session_synthetic.jsonl
+  on both implementations writes
+  byte-identical tapes of 1,663 bytes,
+  and the binary and both oracle routes
+  print the golden digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin stands
+  re-confirmed against the live commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e:
+  its tree is
+  afd4d7d13520411e003762548fc79082a1b9cf6e,
+  whose recursive listing counts 58
+  entries, 50 of them blobs, read back
+  through the API in this round.
+
+- FT-130. The owed workspace copies of
+  Round 21's scratch, charged by PR 22's
+  landing comment, stand discharged as
+  unrecoverable and are not
+  reconstructed. At this round's read,
+  /tmp/ft21 does not exist: the scratch
+  the Round 21 lane staged there (its
+  progress file, probe.py and probe2.py,
+  results, volume21.py,
+  items-wrapped.txt, and gate logs) was
+  wiped with /tmp after that round
+  closed, and the workspace directory
+  that stood ready for the copies,
+  ~/workspace/retro-line/ft21-scratch/,
+  stands empty. No copy can be made from
+  a source that no longer stands, and no
+  instrument is rebuilt under this item,
+  a rebuilt instrument being a new
+  measurement rather than a copy. The
+  figures the scratch held stand in
+  FT-118 to FT-124 and in PR 22's body
+  and landing record, which are that
+  round's durable record; this round's
+  own instruments stand in its lane
+  scratch and are named in its pull
+  request body.
