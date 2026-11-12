@@ -2966,3 +2966,45 @@ held to the standard of the surface it feeds.
   own instruments stand in its lane
   scratch and are named in its pull
   request body.
+
+- FT-131. This round's verification runs
+  on a tree whose source is identical to
+  the final tree's. Cargo test 247 passed
+  and 0 failed, stated with its method:
+  the suite ran target by target (the
+  library's 7, then cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13,
+  json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3,
+  schema 5, screen 15, slice 24,
+  timestamps 1, and validate 25, with doc
+  tests at 0), the counts summing to 247,
+  because a single parallel invocation
+  filled the shared temporary filesystem
+  mid-link and the workspace target
+  directory stood refused by the
+  file-count quota; every target's own
+  result line stands in the lane's gate
+  log. Cargo clippy --all-targets with
+  warnings denied clean, cargo fmt
+  --check clean, and the codepoint scan
+  stated at its true scope: the
+  repository script counts U+2014=0 and
+  U+2013=0 over the tree's Markdown and
+  text files, and this round's own scan
+  over all 52 blobs of the final tree,
+  source files included, counts U+2014=0
+  and U+2013=0 as well. The round changes
+  no behavior: its whole delta is this
+  contract's appends and the README
+  rounds line, and the measurements at
+  FT-126 to FT-129 were taken on the base
+  tree, whose source the final tree
+  shares.
+
+- FT-132. README records 22 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by that
+  item's own assignment.
