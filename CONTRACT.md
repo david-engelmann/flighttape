@@ -2799,3 +2799,66 @@ held to the standard of the surface it feeds.
   logs lost, as FT-121 records. No
   earlier figure is reworded by this
   item.
+
+- FT-127. The depth law re-measured fresh
+  at both seams and both oracle routes,
+  at wrap levels zero and four, the
+  probes in FT-119's shape built by
+  string construction at the binary built
+  from this round's base tree, each arm's
+  point found by binary search and stated
+  as the last depth accepted and the
+  first refused, the invocation route
+  pinned beside every oracle figure. At
+  the digest seam at zero wraps: the
+  shipped binary 997 and 998; the oracle
+  by the fleet standard runner 991 and
+  992; the oracle by the module route 989
+  and 990, FT-119's grid reproduced
+  exactly. At four wraps: the binary 993
+  and 994; the standard runner 987 and
+  988; the module route 985 and 986, the
+  figures the Round 21 red team's
+  out-of-sample extension measured, now
+  measured by the round itself. The two
+  laws of FT-119 hold at both levels:
+  each added container level moves every
+  arm's point by exactly one array, four
+  wraps standing exactly four below zero
+  wraps on all three arms, and the
+  oracle's two routes stand exactly two
+  arrays apart at each level. Every
+  digest refusal in the grid wears the
+  one form on all three arms, exit 1, the
+  tape is nested beyond the interpreter
+  limit. At the validate seam: the
+  shipped binary validates the zero-wrap
+  tapes at exactly the eighteen depths
+  FT-121 names, 990 through 200,000
+  arrays, exit 0 at every one, its reader
+  and its validator's walks uncapped
+  across the named set. The oracle's
+  reader point at zero wraps stands by
+  the standard runner at 9,994 and 9,995
+  and by the module route at 9,991 and
+  9,992, the two routes three arrays
+  apart at this seam, as FT-121 records;
+  the structure law re-measured on the
+  standard route at one, two, and three
+  wraps (9,993 and 9,994; 9,992 and
+  9,993; 9,991 and 9,992) and on the
+  module route at one wrap (9,990 and
+  9,991), FT-121's figures reproduced. At
+  four wraps, measured in this round for
+  the first time at this seam: the
+  standard runner accepts at 9,990 and
+  refuses at 9,991, the module route
+  accepts at 9,987 and refuses at 9,988;
+  each route's point stands exactly four
+  arrays below its zero-wrap point, and
+  the routes stand exactly three apart at
+  this level as at zero. The validate
+  refusal on both routes wears the
+  reader's form, exit 1, defect, the file
+  is not valid JSON. No cell convicts and
+  no repair is owed.
