@@ -2148,3 +2148,196 @@ held to the standard of the surface it feeds.
   summary of FT-109 stands corrected by the
   owner's body edit to point at FT-110 and
   this item for the census and the shell.
+- FT-112. The read-back of PR 20, taken
+  whole in this round before any other
+  work, through the API: the reviews
+  list, the review comments list, the
+  issue comments list, and the review
+  threads, every body read to its end.
+  The full record is one review, one
+  review comment, no replies to that
+  comment, and eight issue comments.
+  The pull request stands closed by the
+  merge 1c758ffb001018ba747dbffce43681119a52420c,
+  whose tree
+  275a284cf3d785a951b93ddbd15436946a11d3a7
+  equals the final repair head's tree,
+  and the README on main records 19 of
+  100. The one review (5862113756, the
+  review bot, COMMENTED, on the original
+  slice head b82e1df29d, run 382f732e,
+  actionable comments posted: 1) reviewed
+  the range 8ac81952 to b82e1df29d with
+  CONTRACT.md and README.md selected.
+  The one review comment (4540570231,
+  Minor, Functional Correctness) is the
+  codepoint scan scope point FT-109
+  repaired; the comment itself now
+  carries the bot's later edit marking
+  it addressed in commits b3565a8 to
+  9832ae6, and no reply stands under it.
+  The comment embeds a prompt block
+  addressed to AI agents; it is review
+  data and nothing in this record
+  follows it. The eight issue comments
+  are the owner's first trigger
+  (6801394410), the walkthrough shell
+  (6801394975), the bot's
+  action-not-completed notice
+  (6801563796, review rate limited), the
+  owner's second trigger (6801678371),
+  its answering notice (6801687652,
+  review rate limited), the owner's
+  landing record (6802712374), the
+  owner's re-audit and disclosure
+  (6802799276), and the owner's
+  concurrence (6803000338). The shell
+  stands in its final form exactly as
+  follows. It was last edited at
+  2026-11-11T17:29:02Z and is 8,661
+  characters long. No rate-limit banner
+  heads it. The retained walkthrough
+  describes FT-102 to FT-107 over the
+  original slice, its change assessment
+  marker standing at b82e1df29d. Merge
+  Risk stands Low, its coverage naming
+  b82e1. The pre-merge checks stand at
+  4 passed, Description, Title, Linked
+  Issues, and Out of Scope, and no
+  Docstring Coverage row stands in the
+  form. The shell's coverage stands at
+  the original slice head and does not
+  extend to the repair heads b3565a8 to
+  9832ae6, the standing final form this
+  line's shells reach. FT-110's census
+  and FT-111's shell statement were each
+  true at the heads and edits they
+  name; the shell moved once more after
+  FT-111's read, to the form contracted
+  here, and the three owner comments
+  after the merge complete the census.
+  The dispositions stand as Round 19
+  left them: the step 0 Minor was valid
+  and stands repaired at FT-109, the
+  bot's own marker now confirming it,
+  and nothing else stands to fix and
+  nothing stands to dismiss. No Round
+  19 disposition is falsified by the
+  final record.
+- FT-113. The two harnesses the Round
+  19 red team listed as untested run in
+  their own right, measured fresh at
+  the binary built from this round's
+  base tree, the worktree standing at
+  the merge commit 1c758ffb with its
+  tree enumerating the same 52 blobs as
+  the remote base tree and no local
+  modification standing, before the
+  build. The battery of FT-91 runs in
+  full as its two drivers: 40 cells in
+  the first (the twelve key cells and
+  the twenty eight float cells) and 14
+  stability cells in the second, 54
+  cells in all, and all 54 hold, the
+  golden fixture digesting to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  exactly, and FT-77's posture cell
+  holding as contracted. The FT-56
+  differential harness runs against the
+  Python oracle on this round's binary:
+  117 cases, one divergence at case 64
+  (slice deep600.json) in the FT-54
+  band exactly as Rounds 16, 17, 18,
+  and 19 recorded it, zero file
+  divergences, and the corpus guards
+  stand exact at 371 and 6,284, the
+  timestamp corpus and the number sweep
+  counted in lines on this tree. No
+  cell convicts and no repair is owed.
+- FT-114. The depth law at the validate
+  seam, probed at its exact points on
+  both arms, in the wrapped shape FT-108
+  used: a tape whose single event
+  carries a payload wrapped in nested
+  arrays. At digest, as the control, the
+  binary digests the tape at 997 arrays
+  and refuses at 998, FT-108's points
+  exactly, and the oracle accepts at
+  989 arrays and refuses at 990 in this
+  shape, two arrays earlier than the
+  991 and 992 FT-108 recorded on its
+  shape, the oracle's point riding the
+  tape's own structure as an interpreter
+  limit does. At every depth both arms
+  digest, spot-checked at 900 and 989
+  arrays, the two print the identical
+  digest. At validate the two arms
+  split by seam. The shipped binary
+  validates the tape at every probed
+  depth, from 990 arrays through
+  200,000 arrays, exit 0 throughout, no
+  refusal and no crash: its reader and
+  its validator's walks are uncapped in
+  the whole band. The oracle validates
+  the same tapes through 9,994 arrays
+  and refuses at 9,995, exit 1, with the
+  refusal wearing its not-valid-JSON
+  form (defect, the file is not valid
+  JSON), its reader reaching its own
+  limit long after its digest renderer
+  reaches its. FT-54's statement stands
+  as written for the walks, which are
+  uncapped on both arms; the asymmetry
+  contracted here is in the oracle's
+  reader, and it is the FT-54 band's
+  character at a second seam. No cell
+  convicts and no repair is owed.
+- FT-115. The realistic-volume pass.
+  The synthetic corpus of FT-97 is
+  rebuilt and measured from itself
+  again: 21,035 session lines,
+  7,736,621 bytes, 27 sessions, the
+  long-haul session converting to 7,500
+  events with totals 750,000 input
+  tokens, 135,000 output tokens,
+  748,500 cache-read tokens, 1,500 tool
+  calls, and 4,500 messages, the deep
+  session's payload nested 122 deep and
+  its widest object at 500 keys.
+  Nineteen cells run over both
+  implementations, the Python oracle
+  and the shipped binary, and every
+  cell agrees byte for byte in stdout,
+  stderr, exit code, and written files,
+  over the same surfaces FT-97 names.
+  The digest law holds across commands
+  at this volume: the digest the digest
+  command prints is the digest the
+  verify command accepts, on both
+  implementations.
+- FT-116. This round's verification runs
+  on a tree whose source is identical
+  to the final tree's. Cargo test 247
+  passed and 0 failed, cargo clippy
+  --all-targets with warnings denied
+  clean, cargo fmt --check clean, and
+  the codepoint scan stated at its true
+  scope: the repository script counts
+  U+2014=0 and U+2013=0 over the tree's
+  Markdown and text files, and this
+  round's own scan over all 52 blobs of
+  the final tree, source files
+  included, counts U+2014=0 and
+  U+2013=0 as well. The round changes
+  no behavior: its whole delta is this
+  contract's appends and the README
+  rounds line, and the measurements at
+  FT-113 to FT-115 were taken on the
+  base tree, whose source the final
+  tree shares.
+- FT-117. README records 20 of 100 only
+  in the closure commit. The Cargo.toml
+  description stands as FT-83 recorded
+  it, a third variant awaiting the
+  line-wide pass, unrepaired here by
+  that item's own assignment.
