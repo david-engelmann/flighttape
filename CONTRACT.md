@@ -3565,9 +3565,9 @@ held to the standard of the surface it feeds.
   cells; and the long-haul screen. The
   long-haul digest is the corpus's own
   under this seed,
-  bf8e119aa43249cbdb262401c68b146c296d2dc145d
-  f2bddbb0cfb8b1d5f06f3, and differs from Round
-  23's as the new draw requires. The golden
+  bf8e119aa43249cbdb262401c68b146c296d2dc145df2bddbb0cfb8b1d5f06f3,
+  and differs from Round 23's as the new
+  draw requires. The golden
   fixture executes byte for byte:
   converting tests/fixtures/
   claude_session_synthetic.jsonl writes
@@ -3575,8 +3575,8 @@ held to the standard of the surface it feeds.
   the binary and on both oracle routes,
   and the binary and both oracle routes
   print digest
-  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b
-  5d61f6776903fa955a3 for it. The fleet pin
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin
   re-confirms live through the API: the
   commit 74a83298aeb31c82e62b9fb0c613f5bc8600799e
   resolves, its tree
@@ -3648,3 +3648,40 @@ held to the standard of the surface it feeds.
   the harnesses, the probes, the volume
   pass, and the gate each stand at the
   scope their items name.
+
+- FT-146. Repair record, appended after
+  the gate and before the merge. The spec
+  fidelity review and the red team
+  re-audit each returned the same Major
+  against this round, and this item
+  repairs it. PR 25's step 0 disposition
+  dismissed the one actionable finding of
+  the step 0 review (review 5898574244,
+  review comment 4569074982, that FT-143's
+  two digests stand split across this
+  file's wrap and should stand whole on
+  one line) on grounds the record does
+  not bear. The census at the reviewed
+  head
+  3ba9de4f9b7993d2421ee7a0900f8e57ca115b5d
+  stands: fifteen digests of 64 hex
+  characters stand whole on single lines
+  in this file and exactly two stand
+  split, both of them FT-143's, and
+  FT-137's long-haul and golden digests
+  stand whole on single lines at the
+  base. The finding was valid. It is
+  repaired here, not dismissed: FT-143's
+  long-haul digest and golden digest now
+  stand whole on single lines in FT-137's
+  standing form, their values unchanged,
+  and the repair moves the two digests to
+  the whole side of the census, so no
+  digest in this file now stands split.
+  The dismissal paragraph in PR 25's body
+  stands corrected by an owner repair
+  note of the same date as this item.
+  Apart from FT-143's two digest lines
+  and the lines their joining reflows,
+  everything in FT-140 to FT-145 stands
+  as reviewed, byte for byte.
