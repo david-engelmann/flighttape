@@ -276,7 +276,7 @@ flighttape screen tapes/run-a.tape.json
 
 The tape format and all ten commands are built and run as a Rust binary, with the Python of the first ten rounds standing as the behavior reference the port is pinned against. The converter reads Claude Code session files. Converters for other harnesses are not built yet, and the format is the part that is meant to outlast any one harness.
 
-Closed perfection rounds, 22 of 100. A round counts only when a full cycle of work, audit, review, red team, and approval has closed.
+Closed perfection rounds, 23 of 100. A round counts only when a full cycle of work, audit, review, red team, and approval has closed.
 
 ## License
 
