@@ -3043,3 +3043,113 @@ held to the standard of the surface it feeds.
   object store, whose history carries
   the commit. No measurement in either
   item is touched by these corrections.
+
+- FT-134. Round 22's pull request 23 read
+  back whole on its closed record through
+  the GitHub API: zero reviews, zero review
+  comments, and four issue comments, the
+  trigger 6834513671 the owner posted, the
+  shell 6834515668, the auto-reply
+  6834551159 (573 characters, already
+  reviewed), and the landing comment
+  6835143290 (2,262 characters). The Round
+  22 spec note for this read-back, and the
+  owner's brief for this round after it,
+  both carried the census as three reviews
+  and three review comments; those figures
+  are pull request 22's, contracted at
+  FT-125, and the correction stands here on
+  the record rather than in a summary: pull
+  request 23's census on its closed record
+  is zero, zero, and four. The shell stands
+  in its true final form at this read at
+  11,202 characters, created
+  2026-11-12T20:02:06Z and last edited
+  2026-11-12T20:24:46Z, a completed review
+  and not a skip: a walkthrough over FT-125
+  to FT-132; Merge Risk Minimal up to 7d616,
+  the closure head
+  7d61681d74d31ed373ea5fa6d35166550cf48e15,
+  with the change assessment marked at that
+  head, the commits reviewed c9665721 to
+  7d61681d, and the files selected for
+  processing CONTRACT.md and README.md; the
+  pre-merge checks at four passed, Title
+  Check, Linked Issues Check, Out of Scope
+  Changes Check, and Description Check, with
+  none failed and none inconclusive;
+  Docstring at zero occurrences; no
+  rate-limit banner in the body; the line
+  that no actionable comments were generated
+  in the recent review standing in it; and
+  Run ID
+  15e9efc0-1f08-400b-8000-47d7c2cda6a5, with
+  the included allowance used and zero
+  remaining after it. The shell moved
+  through four generations under that one
+  comment ID: 11,196 characters in its first
+  completed form, recorded
+  2026-11-12T20:03:32Z; 11,198 at the edit
+  of 2026-11-12T20:06:37Z; 13,900 at the
+  edit of 2026-11-12T20:23:09Z with coverage
+  at the repair head a4b6fab55; and the
+  final edit at 2026-11-12T20:24:46Z
+  standing at 11,202 in a closure-head
+  generation, its coverage at the closure
+  head only, neither repair head named. The
+  owner's body restatement is bound to the
+  third generation and is true at that
+  moment on every figure it quotes: 13,900
+  characters, the repair head named, the
+  census at three issue comments at that
+  edit, and the completed-review posture.
+  The final edit superseded figures only and
+  no disposition fact: no actionable comment
+  stands in any generation, and the four
+  passed checks, the Minimal risk, and the
+  absent Docstring section hold in the first
+  generation and the last alike. The landing
+  comment records the final form already, so
+  nothing in the Round 22 step 0 account is
+  corrected here beyond the census figures
+  above: the restatement stands,
+  moment-bounded as it was written. Charge
+  (b), FT-125's Run ID rendering: pull
+  request 22's record carries its run ID
+  hyphenated, in review 5870479322, as
+  790e7ba9-e72e-4576-976c-298e1bbe74d1,
+  thirty-two digits with four hyphens.
+  FT-125 renders it
+  790e7ba9e72e4576b976c298e1bbe74d1: the
+  hyphens are dropped, as the Round 22 spec
+  note said, and a further b stands at the
+  seventeenth character where the record has
+  none, making thirty-three characters
+  against the record's thirty-two with the
+  hyphens removed, so the rendering as
+  printed identifies no run. The true
+  hyphenated form stands in this item. The
+  ID is a citation no tooling resolves and
+  no disposition in any round rested on it,
+  so the correction changes no disposition;
+  it repairs the citation, and it stands as
+  a correction of the record FT-125 made,
+  its original text unrewritten. Charge (c):
+  no late CodeRabbit finding stands on pull
+  request 23. Nothing was posted there after
+  the landing comment, the shell's last edit
+  predates the merge, and the auto-reply's
+  already reviewed is the last word the bot
+  left, so nothing is owed a disposition. No
+  disposition the Round 22 reviews made is
+  falsified by the closed record: the step 0
+  census and figures Minor was repaired by
+  the owner's moment-bounded restatement,
+  FT-125's and FT-126's contract Minors were
+  repaired by FT-133 with both delta reviews
+  clean, and the red team's Minor on
+  FT-114's attribution stands answered by
+  FT-127's re-measurement on FT-119's law.
+  FT-83 stands open and unrepaired, assigned
+  outside this round's scope to a line-wide
+  pass, and is carried open by name here.
