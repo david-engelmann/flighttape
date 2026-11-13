@@ -3224,3 +3224,75 @@ held to the standard of the surface it feeds.
   wears the reader's form, exit 1 with a
   defect reporting the file is not valid
   JSON.
+
+- FT-136. The FT-91 battery and the FT-56
+  differential run in full against the
+  binary built from Round 22's closing tree.
+  The battery passes 54 of 54 cells over its
+  two named drivers: the original driver's
+  40 cells over canonical key order and
+  float rendering, and battery2.py's 14
+  cells over stability, determinism, and
+  edge cases, the golden digest standing in
+  battery2.py's convert-dir cell and the
+  FT-77 posture cell holding its contracted
+  shape. The total is stated from those
+  named parts, 40 and 14, and from no wider
+  run. The differential runs its 117 cases
+  with a single divergence at case 64, slice
+  over deep600.json, exit 1 against 0 in the
+  FT-54 band where the binary's own depth
+  refusal is the contracted behaviour, the
+  output divergence riding on that exit gap,
+  and zero file divergences over the 117
+  cases. Its corpus guards stand exact on
+  the closing tree, counted in lines on this
+  tree: tests/fixtures/timestamp_corpus.txt
+  at 371 lines and
+  tests/fixtures/number_sweep.txt at 6,284
+  lines. The oracle both harnesses measured
+  against stands verified at FT-138 through
+  the channel named there.
+
+- FT-137. The FT-97 volume pass runs at a
+  new seed, 20261115, Round 22's having been
+  20261113, the same shape the generator has
+  held since Round 20 coming out of a fresh
+  draw: the corpus measures from itself at
+  21,035 lines, 7,736,621 bytes, and 27
+  sessions, the deep payload reaching 122
+  containers and the widest object holding
+  500 keys, and the long-haul session
+  carrying 7,500 events with run totals of
+  750,000 input tokens, 135,000 output
+  tokens, 748,500 cache-read tokens, 1,500
+  tool calls, and 4,500 messages. All 19
+  cells stand byte-identical over both
+  implementations with no failures: convert,
+  digest, verify, validate, play, rollup,
+  self-compare, and slice across the
+  long-haul session; digest over the window
+  counts; the directory and tree
+  conversions; the deep-and-wide tape's
+  convert, digest, validate, and play; the
+  dirty tape's convert and its two screen
+  cells; and the long-haul screen. The
+  long-haul digest is the corpus's own under
+  this seed,
+  47c56b707f65b71c144ab98df8455fa41cac58202f371a226eb6185ad7562c25,
+  and differs from Round 22's as the new
+  draw requires. The golden fixture executes
+  byte for byte: converting
+  tests/fixtures/claude_session_synthetic.jsonl
+  writes tapes of 1,663 bytes,
+  byte-identical on the binary and on the
+  standard runner, and the binary and both
+  oracle routes print digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin re-confirms live
+  through the API: the commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  resolves, its tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e
+  lists 58 entries untruncated, and exactly
+  50 of them are blobs.
