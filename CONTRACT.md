@@ -3372,3 +3372,66 @@ held to the standard of the surface it feeds.
   a surface it did not run: the harnesses,
   the probes, the volume pass, and the gate
   each stand at the scope their items name.
+
+- FT-140. Round 23's pull request 24 read
+  back whole on its closed record through
+  the GitHub API: zero reviews, zero review
+  comments, and four issue comments, the
+  shell 6850284721, the trigger 6850288280
+  the owner posted, the auto-reply
+  6850315396 (573 characters, already
+  reviewed), and the landing comment
+  6850656068 (1,807 characters). The shell
+  stands in its true final form at this
+  read at 11,023 characters, created
+  2026-11-13T10:27:33Z and last edited
+  2026-11-13T10:37:08Z, a completed review
+  of the final head itself and not a skip:
+  a walkthrough over FT-134 to FT-139;
+  Merge Risk Minimal up to f7b95, the
+  closure head
+  f7b9571a28f470b2315b8cb22c9b5c4ee731b739,
+  with the change assessment marked at
+  that head, the commits reviewed 429f7048
+  to f7b9571a, and the files selected for
+  processing CONTRACT.md and README.md; the
+  pre-merge checks at four passed, Title
+  Check, Linked Issues Check, Out of Scope
+  Changes Check, and Description Check,
+  with none failed and none inconclusive;
+  Docstring at zero occurrences; no
+  rate-limit banner in the body; the line
+  that no actionable comments were
+  generated in the recent review standing
+  in it; and Run ID
+  b0a5f2ca-dafd-4a32-9c26-3df44b254d5e, with
+  the included allowance used and zero
+  remaining after it. The shell moved
+  through two generations under that one
+  comment ID: the pull request body's step
+  0 account read it at 11,021 characters,
+  last edited 2026-11-13T10:28:53Z, and the
+  final edit of 2026-11-13T10:37:08Z stands
+  at 11,023, the two-character drift the
+  landing comment records. The body's
+  account is bound to its read and is true
+  at that moment on every figure it quotes;
+  the final edit superseded figures only
+  and no disposition fact: no actionable
+  comment stands in either generation, and
+  the four passed checks, the Minimal risk,
+  and the absent Docstring section hold in
+  both. No owner restatement stands in the
+  body; the drift is recorded by the
+  landing comment instead, so nothing in
+  the Round 23 step 0 account is corrected
+  here. Charge (b): FT-83 stands open and
+  unrepaired, assigned outside this round's
+  scope to a line-wide pass, and is carried
+  open by name here. Charge (c): no late
+  CodeRabbit finding stands on pull request
+  24. Nothing was posted there after the
+  landing comment, the shell's last edit
+  predates the merge, and the auto-reply's
+  already reviewed is the last word the bot
+  left, so nothing is owed a disposition.
