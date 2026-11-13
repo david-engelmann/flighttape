@@ -3296,3 +3296,79 @@ held to the standard of the surface it feeds.
   afd4d7d13520411e003762548fc79082a1b9cf6e
   lists 58 entries untruncated, and exactly
   50 of them are blobs.
+
+- FT-138. The gate run against Round 22's
+  closing tree. Cargo test passes 247 tests
+  with zero failures, the count stated
+  target by target because a single parallel
+  invocation fills tmpfs mid-link on this
+  box: lib 7, cli 22, compare 19, convert
+  34, digest_cli 5, identity 13, json 8,
+  play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, and
+  doc 0, the counts summing to 247 and the
+  doc count a true zero. On this round the
+  shared memory filesystem holding the
+  target filled to 100 percent mid-gate,
+  after the redaction target: the nine
+  banked targets stood at their recorded
+  counts, the regenerable volume work
+  directory beside the target was deleted,
+  each finished test binary was removed
+  after its target ran, and the remaining
+  eight targets ran clean to completion, no
+  count in this item claimed from an
+  interrupted run. Clippy over all targets
+  with warnings denied exits 0, and cargo
+  fmt in check mode exits 0. The codepoint
+  scan stands at zero on both instruments:
+  the repository's own
+  scripts/codepoint_scan.py over the tree
+  reports U+2014 at zero and U+2013 at zero,
+  and this round's own Python scan over all
+  52 blobs of the final tree reports the
+  same two zeros, each counted by codepoint.
+  The oracle the harnesses and volume pass
+  measured against stands verified blob for
+  blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store at
+  ~/workspace/retro-line/flighttape: all 11
+  files under that commit's src/flighttape
+  match the working copy at
+  ~/workspace/retro-line/ft15-scratch/oracle/src/flighttape
+  blob for blob, with zero mismatches. The
+  local clone's object store is the channel
+  this verification used, stated exactly:
+  that commit is not reachable through the
+  GitHub API in this repository, as FT-133
+  records, and no part of this item claims
+  the API channel for it.
+
+- FT-139. Round 23 closes. Its record stands
+  at FT-134 to FT-139: the Round 22
+  read-back, with the census correction and
+  the Run ID correction stated on the record
+  at FT-134; the depth law re-measured at
+  both seams, at zero and four added wraps,
+  over both oracle routes, with identity in
+  its scoped form, at FT-135; the battery
+  and the differential run in full at
+  FT-136; the volume pass at a new seed with
+  the golden fixture and the fleet pin
+  executed at FT-137; and the gate at 247
+  with its counts named, at FT-138. README's
+  closed-rounds line moves from 22 of 100 to
+  23 of 100 in this commit only. FT-83
+  stands open and unrepaired exactly as
+  FT-134 carried it, the Cargo.toml
+  description variant assigned to a
+  line-wide pass outside this round's scope,
+  and is carried open by name into Round 24.
+  The charges the Round 22 landing comment
+  laid on this round stand discharged at
+  FT-134, and nothing in this record claims
+  a surface it did not run: the harnesses,
+  the probes, the volume pass, and the gate
+  each stand at the scope their items name.
