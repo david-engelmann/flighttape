@@ -3685,3 +3685,89 @@ held to the standard of the surface it feeds.
   and the lines their joining reflows,
   everything in FT-140 to FT-145 stands
   as reviewed, byte for byte.
+
+- FT-147. PR 25 read back whole on its closed
+  record, read through the API on 2026-11-14:
+  4 issue comments, 1 review, and 1 review
+  comment, every body read to its end, and the
+  body read to its end including both owner
+  notes appended to it. The issue comments are
+  the bot's shell 6865820516, the owner's
+  trigger 6865822134 at 20 characters, the
+  bot's auto-reply 6865899912 at 573
+  characters, its standing text that the last
+  commit already stands reviewed, and the
+  owner's landing comment 6866938272 at 2,867
+  characters. The shell in its true final form
+  at this read stands at 8,368 characters by a
+  Python count over the API body, created
+  2026-11-13T21:52:13Z and last edited
+  2026-11-13T22:50:37Z. The earlier figures
+  stand at their own reads and are not
+  falsified: 8,360 characters at the body's
+  bound read, the last edit then at
+  2026-11-13T21:54:12Z, and 8,362 at the
+  reviews' reads, the last edit then at
+  2026-11-13T22:02:44Z. The shell's final edit
+  at 22:50:37Z postdates the repair head and
+  precedes the landing comment, and no
+  disposition fact moved in it. In its final
+  form the shell carries a walkthrough over
+  FT-140 to FT-145; its change assessment
+  pinned to the reviewed head
+  3ba9de4f9b7993d2421ee7a0900f8e57ca115b5d as
+  both the source and the covered commit, kind
+  reviewed; Merge Risk Low up to 3ba9d;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description; no rate-limit banner; and no
+  Run ID line and no Docstring section
+  standing in it. Its merge risk prose itself
+  notes the two wrapped digests. The one
+  review, 5898574244, stands COMMENTED on the
+  reviewed head, its Run ID
+  8a674212-6db0-43f4-b9ca-d77adc695ac7
+  standing in the review body, with one
+  actionable comment, review comment
+  4569074982, a Minor asking that FT-143's two
+  digests stand whole on one line, and the
+  comment carries the bot's own later marker
+  that it stands addressed in commit 7c9efb7,
+  from the comment's edit at
+  2026-11-13T22:40:49Z; no replies stand to
+  it. Nothing stands on PR 25 after the
+  landing comment: no comment, no review, and
+  no edit of any kind postdates
+  2026-11-13T22:52:59Z, so the late findings
+  charge discharges as empty. The Round 24
+  gate, graded from FT-146 and the body
+  together as charged: FT-146, read whole,
+  records the census at the reviewed head,
+  fifteen digests of 64 hex characters
+  standing whole on single lines and exactly
+  two standing split, both of them FT-143's,
+  and this read-back re-counts that census at
+  the three trees and finds it exact. At the
+  reviewed head the two splits stand at
+  FT-143's own lines, the long-haul digest
+  split across lines 3568 and 3569 and the
+  golden digest across lines 3578 and 3579 of
+  that file; at the base FT-137's long-haul
+  and golden digests stand whole on single
+  lines; and on main as merged both of
+  FT-143's digests stand whole on single lines
+  with their values unchanged, and no digest
+  in the file stands split. The body's owner
+  repair note states the dismissal does not
+  stand and the finding was valid, the body's
+  Known deviations sentence stands scoped to
+  PR 24's record by its owner note, and the
+  delta reviews of the repair head stand clean
+  on both axes as the body and the landing
+  comment record them. The record as it stands
+  is coherent, and the standing rule the round
+  earned, that a dismissal in this line cites
+  a census it has counted or it does not
+  stand, is the form this read-back itself
+  follows. FT-83 stands carried open by name,
+  untouched.
