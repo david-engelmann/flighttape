@@ -4086,3 +4086,81 @@ held to the standard of the surface it feeds.
   oracle refusal on this seam wears the
   reader's form, exit 1 with a defect
   reporting the file is not valid JSON.
+
+- FT-155. The FT-91 battery and the FT-56
+  differential harness run fresh at the same
+  binary. The battery stands at 54 of 54, run
+  by its two named drivers: battery.py at 40
+  cells, 12 key and 28 float, and battery2.py
+  at 14 stability cells S0 to S13, S13 holding
+  the FT-77 whole-argv non-UTF8 posture; no
+  cell failed in either driver. The
+  differential runs its 117 cases with the
+  single divergence at case 64, slice over the
+  deep tape, the binary at exit 1 against the
+  oracle's exit 0 in the FT-54 band, exactly
+  as contracted, and zero file divergences
+  stand anywhere in the run. The corpus guards
+  stand exact on this tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines, both counted on this tree at
+  lane time.
+
+- FT-156. The volume pass under a new seed,
+  20261205: the corpus measures from itself at
+  21,035 lines and 7,736,621 bytes over 27
+  sessions, its long-haul tape at 7,500 events
+  with totals 750,000 input, 135,000 output,
+  and 748,500 cache-read tokens, 1,500 tool
+  calls, and 4,500 messages. All 19 cells
+  stand byte-identical between the binary and
+  the oracle, stdout, stderr, exit codes, and
+  every written file compared, and the
+  long-haul digest under this seed is
+  b64919487065b0d3801e6ec37c7ee7a80aad4b0ed527570bdb30c8621960f0c6,
+  differing from Round 25's as the new draw
+  requires. The golden fixture executes byte
+  for byte: converting
+  tests/fixtures/claude_session_synthetic.jsonl
+  writes tapes of 1,663 bytes, byte-identical
+  on the binary and on both oracle routes, and
+  the binary and both oracle routes print
+  digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin re-confirms live
+  through the API: the commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  resolves, its tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e
+  lists 58 entries untruncated, and exactly 50
+  of them are blobs.
+
+- FT-157. The gate run against Round 25's
+  closing tree. Cargo test passes 247 tests
+  with zero failures, the count stated target
+  by target: lib 7, cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13, json
+  8, play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, and doc
+  0, the counts summing to 247 and the doc
+  count a true zero. Clippy over all targets
+  with warnings denied exits 0, and cargo fmt
+  in check mode exits 0. The codepoint scan
+  stands at zero on both instruments: the
+  repository's own scripts/codepoint_scan.py
+  over the tree reports U+2014 = 0 and U+2013
+  = 0, and this round's own scan over all 52
+  blobs of the final tree reports the same.
+  The oracle stands verified blob for blob
+  against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
