@@ -3947,3 +3947,71 @@ held to the standard of the surface it feeds.
   harnesses, the probes, the volume pass, and
   the gate each stand at the scope their items
   name.
+
+- FT-153. PR 26 read back whole on its closed
+  record, read through the API on 2026-11-14:
+  4 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  issue comments are the owner's trigger
+  6873725288 at 20 characters, the bot's shell
+  6873726978, the bot's auto-reply 6873754363
+  at 573 characters, its standing text that
+  the last commit already stands reviewed, and
+  the owner's landing comment 6873933258 at
+  1,861 characters. The shell in its true
+  final form at this read stands at 10,795
+  characters by a Python count over the API
+  body, created 2026-11-14T07:20:49Z and last
+  edited 2026-11-14T07:26:46Z. The earlier
+  figure stands at its own read and is not
+  falsified: 10,793 characters at the body's
+  bound read, and the +2 edit at 07:26:46Z
+  that brought the shell to its final form
+  precedes the landing comment at 07:37:38Z,
+  no disposition fact moving in it. In its
+  final form the shell carries a walkthrough
+  over FT-147 to FT-152 as Round 25
+  documentation; its change assessment pinned
+  to the closure head
+  0eee81b02069bfdf61b98d72f5a18afd255605ee as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  0e39907425475227b6f282fed708bc3ffd856cf1 to
+  that head; Merge Risk Minimal up to 0eee8;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description, the Title check's full
+  explanation carrying only the remark that
+  the title does not say the change is
+  documentation-only, prose on a passed check
+  and no finding; no Docstring section
+  standing in the shell; the shell's own line
+  that no actionable comments were generated
+  in the recent review; its Run ID
+  2f811c0a-cda5-4053-86e8-4c44a0f7f6f0
+  standing in the shell itself; and no
+  rate-limit banner. Nothing stands on PR 26
+  after the landing comment: no comment, no
+  review, and no edit of any kind postdates
+  2026-11-14T07:37:38Z, so the late findings
+  charge discharges as empty. The Round 25
+  gate stands exactly as the landing comment
+  records it: spec fidelity PASS, standards
+  APPROVE, and red team APPROVE, no findings
+  on any axis, hosted CI green on the exact
+  head at runs 43570524110 and 43570650407,
+  and step 0 with nothing actionable and
+  nothing dismissed anywhere in that round's
+  record. The record as it stands is coherent.
+  FT-83 stands carried open by name,
+  untouched: Cargo.toml's description stands
+  as the third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  against the canonical line the repository
+  description and the README lede share word
+  for word, and its alignment stands assigned
+  to the line-wide pass outside this round's
+  scope.
