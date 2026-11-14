@@ -3685,3 +3685,265 @@ held to the standard of the surface it feeds.
   and the lines their joining reflows,
   everything in FT-140 to FT-145 stands
   as reviewed, byte for byte.
+
+- FT-147. PR 25 read back whole on its closed
+  record, read through the API on 2026-11-14:
+  4 issue comments, 1 review, and 1 review
+  comment, every body read to its end, and the
+  body read to its end including both owner
+  notes appended to it. The issue comments are
+  the bot's shell 6865820516, the owner's
+  trigger 6865822134 at 20 characters, the
+  bot's auto-reply 6865899912 at 573
+  characters, its standing text that the last
+  commit already stands reviewed, and the
+  owner's landing comment 6866938272 at 2,867
+  characters. The shell in its true final form
+  at this read stands at 8,368 characters by a
+  Python count over the API body, created
+  2026-11-13T21:52:13Z and last edited
+  2026-11-13T22:50:37Z. The earlier figures
+  stand at their own reads and are not
+  falsified: 8,360 characters at the body's
+  bound read, the last edit then at
+  2026-11-13T21:54:12Z, and 8,362 at the
+  reviews' reads, the last edit then at
+  2026-11-13T22:02:44Z. The shell's final edit
+  at 22:50:37Z postdates the repair head and
+  precedes the landing comment, and no
+  disposition fact moved in it. In its final
+  form the shell carries a walkthrough over
+  FT-140 to FT-145; its change assessment
+  pinned to the reviewed head
+  3ba9de4f9b7993d2421ee7a0900f8e57ca115b5d as
+  both the source and the covered commit, kind
+  reviewed; Merge Risk Low up to 3ba9d;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description; no rate-limit banner; and no
+  Run ID line and no Docstring section
+  standing in it. Its merge risk prose itself
+  notes the two wrapped digests. The one
+  review, 5898574244, stands COMMENTED on the
+  reviewed head, its Run ID
+  8a674212-6db0-43f4-b9ca-d77adc695ac7
+  standing in the review body, with one
+  actionable comment, review comment
+  4569074982, a Minor asking that FT-143's two
+  digests stand whole on one line, and the
+  comment carries the bot's own later marker
+  that it stands addressed in commit 7c9efb7,
+  from the comment's edit at
+  2026-11-13T22:40:49Z; no replies stand to
+  it. Nothing stands on PR 25 after the
+  landing comment: no comment, no review, and
+  no edit of any kind postdates
+  2026-11-13T22:52:59Z, so the late findings
+  charge discharges as empty. The Round 24
+  gate, graded from FT-146 and the body
+  together as charged: FT-146, read whole,
+  records the census at the reviewed head,
+  fifteen digests of 64 hex characters
+  standing whole on single lines and exactly
+  two standing split, both of them FT-143's,
+  and this read-back re-counts that census at
+  the three trees and finds it exact. At the
+  reviewed head the two splits stand at
+  FT-143's own lines, the long-haul digest
+  split across lines 3568 and 3569 and the
+  golden digest across lines 3578 and 3579 of
+  that file; at the base FT-137's long-haul
+  and golden digests stand whole on single
+  lines; and on main as merged both of
+  FT-143's digests stand whole on single lines
+  with their values unchanged, and no digest
+  in the file stands split. The body's owner
+  repair note states the dismissal does not
+  stand and the finding was valid, the body's
+  Known deviations sentence stands scoped to
+  PR 24's record by its owner note, and the
+  delta reviews of the repair head stand clean
+  on both axes as the body and the landing
+  comment record them. The record as it stands
+  is coherent, and the standing rule the round
+  earned, that a dismissal in this line cites
+  a census it has counted or it does not
+  stand, is the form this read-back itself
+  follows. FT-83 stands carried open by name,
+  untouched.
+
+- FT-148. The depth law re-measured fresh on
+  the binary built from Round 24's closing
+  tree, at probes in FT-119's shape: tapes
+  built by string construction, a single
+  tool_call event whose input carries the
+  payload, the counted unit the nested arrays
+  wrapping the scalar 1 inside the input, and
+  at W added wraps the arrays sitting inside W
+  nested single-key objects inside the input;
+  the event carries the fields the validator
+  requires, sidechain, call_id, and tool, as
+  siblings of the input, standing off the
+  counted path. Every point stands found by
+  binary search and stated as the last
+  accepted input depth and the first refused.
+  At zero added wraps the digest seam stands
+  unmoved on all three arms: the binary
+  digests at 997 and refuses at 998, the
+  oracle by the fleet standard runner digests
+  at 991 and refuses at 992, and the oracle by
+  the module route digests at 989 and refuses
+  at 990. At four added wraps every arm stands
+  exactly four below its zero-wrap point,
+  FT-135's measurements at that level
+  reproduced: the binary at 993 and 994, the
+  standard runner at 987 and 988, the module
+  route at 985 and 986. Every refusal on every
+  arm wears the one form, exit 1 with the tape
+  nested beyond the interpreter limit, so both
+  of FT-119's laws hold at both levels on the
+  closing tree: one array per added container
+  level on every arm, and the oracle routes
+  exactly two apart on the digest seam with
+  the route named beside every
+  interpreter-limit figure here. Identity
+  holds in FT-126's scoped form over the same
+  zero-wrap tapes: all three arms print the
+  identical digest at 100, 500, 900, 950, and
+  989, the printed digests compared byte for
+  byte; the binary and the standard runner
+  print the identical digest at 990 and 991,
+  where the module route already refuses; and
+  at 997 the binary prints its digest alone,
+  past both oracle routes' limits. No
+  all-three identity is claimed past 989 and
+  no binary-and-standard identity past 991,
+  the exact scope FT-126 set. At the validate
+  seam the binary again stands apart from the
+  interpreter: it validates with exit 0 at
+  each of the eighteen named zero-wrap input
+  depths, 990, 991, 992, 997, 998, 999, 1000,
+  1001, 2000, 5000, 9994, 9995, 10000, 20000,
+  50000, 100000, 150000, and 200000, uncapped
+  on this seam everywhere FT-121 looked and at
+  the extremes again here. The oracle's JSON
+  reader stops at its interpreter limit and
+  its routes stand exactly three apart on this
+  seam: at zero wraps the standard runner
+  accepts 9,994 and refuses 9,995 and the
+  module route accepts 9,991 and refuses
+  9,992, reproducing FT-121's points; at four
+  wraps each route stands exactly four below
+  its zero-wrap point, the standard runner
+  accepting 9,990 and refusing 9,991 and the
+  module route accepting 9,987 and refusing
+  9,988, FT-135's measurements reproduced, the
+  routes three apart at both levels. Every
+  oracle refusal on this seam wears the
+  reader's form, exit 1 with a defect
+  reporting the file is not valid JSON.
+
+- FT-149. The FT-91 battery and the FT-56
+  differential harness run fresh at the same
+  binary. The battery stands at 54 of 54, run
+  by its two named drivers: battery.py at 40
+  cells, 12 key and 28 float, and battery2.py
+  at 14 stability cells S0 to S13, S13 holding
+  the FT-77 whole-argv non-UTF8 posture; no
+  cell failed in either driver. The
+  differential runs its 117 cases with the
+  single divergence at case 64, slice over the
+  deep tape, the binary at exit 1 against the
+  oracle's exit 0 in the FT-54 band, exactly
+  as contracted, and zero file divergences
+  stand anywhere in the run. The corpus guards
+  stand exact on this tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines, both counted on this tree at
+  lane time.
+
+- FT-150. The volume pass under a new seed,
+  20261121: the corpus measures from itself at
+  21,035 lines and 7,736,621 bytes over 27
+  sessions, its long-haul tape at 7,500 events
+  with totals 750,000 input, 135,000 output,
+  and 748,500 cache-read tokens, 1,500 tool
+  calls, and 4,500 messages. All 19 cells
+  stand byte-identical between the binary and
+  the oracle, stdout, stderr, exit codes, and
+  every written file compared, and the
+  long-haul digest under this seed is
+  7037012bafa31869bf3ea0e546d9ef1fb8b63034c22b59f16da930c23e4ee35a,
+  differing from Round 24's as the new draw
+  requires. The golden fixture executes byte
+  for byte: converting
+  tests/fixtures/claude_session_synthetic.jsonl
+  writes tapes of 1,663 bytes, byte-identical
+  on the binary and on both oracle routes, and
+  the binary and both oracle routes print
+  digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  for it. The fleet pin re-confirms live
+  through the API: the commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  resolves, its tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e
+  lists 58 entries untruncated, and exactly 50
+  of them are blobs.
+
+- FT-151. The gate run against Round 24's
+  closing tree. Cargo test passes 247 tests
+  with zero failures, the count stated target
+  by target: lib 7, cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13, json
+  8, play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, and doc
+  0, the counts summing to 247 and the doc
+  count a true zero. Clippy over all targets
+  with warnings denied exits 0, and cargo fmt
+  in check mode exits 0. The codepoint scan
+  stands at zero on both instruments: the
+  repository's own scripts/codepoint_scan.py
+  over the tree reports U+2014 = 0 and U+2013
+  = 0, and this round's own scan over all 52
+  blobs of the final tree reports the same.
+  The oracle stands verified blob for blob
+  against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
+
+- FT-152. Round 25 closes. Its record stands
+  at FT-147 to FT-152: the Round 24 read-back,
+  with the shell contracted in its true final
+  form and the gate graded from FT-146 and the
+  body together, at FT-147; the depth law
+  re-measured at both seams, at zero and four
+  added wraps, over both oracle routes, with
+  identity in its scoped form, at FT-148; the
+  battery and the differential run in full at
+  FT-149; the volume pass at a new seed with
+  the golden fixture and the fleet pin
+  executed at FT-150; and the gate at 247 with
+  its counts named, at FT-151. README's
+  closed-rounds line moves from 24 of 100 to
+  25 of 100 in this commit only. FT-83 stands
+  open and unrepaired exactly as FT-147
+  carried it, the Cargo.toml description
+  variant assigned to a line-wide pass outside
+  this round's scope, and is carried open by
+  name into Round 26. The charges the Round 24
+  landing comment laid on this round stand
+  discharged at FT-147, and nothing in this
+  record claims a surface it did not run: the
+  harnesses, the probes, the volume pass, and
+  the gate each stand at the scope their items
+  name.
