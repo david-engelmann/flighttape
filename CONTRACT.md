@@ -3771,3 +3771,74 @@ held to the standard of the surface it feeds.
   stand, is the form this read-back itself
   follows. FT-83 stands carried open by name,
   untouched.
+
+- FT-148. The depth law re-measured fresh on
+  the binary built from Round 24's closing
+  tree, at probes in FT-119's shape: tapes
+  built by string construction, a single
+  tool_call event whose input carries the
+  payload, the counted unit the nested arrays
+  wrapping the scalar 1 inside the input, and
+  at W added wraps the arrays sitting inside W
+  nested single-key objects inside the input;
+  the event carries the fields the validator
+  requires, sidechain, call_id, and tool, as
+  siblings of the input, standing off the
+  counted path. Every point stands found by
+  binary search and stated as the last
+  accepted input depth and the first refused.
+  At zero added wraps the digest seam stands
+  unmoved on all three arms: the binary
+  digests at 997 and refuses at 998, the
+  oracle by the fleet standard runner digests
+  at 991 and refuses at 992, and the oracle by
+  the module route digests at 989 and refuses
+  at 990. At four added wraps every arm stands
+  exactly four below its zero-wrap point,
+  FT-135's measurements at that level
+  reproduced: the binary at 993 and 994, the
+  standard runner at 987 and 988, the module
+  route at 985 and 986. Every refusal on every
+  arm wears the one form, exit 1 with the tape
+  nested beyond the interpreter limit, so both
+  of FT-119's laws hold at both levels on the
+  closing tree: one array per added container
+  level on every arm, and the oracle routes
+  exactly two apart on the digest seam with
+  the route named beside every
+  interpreter-limit figure here. Identity
+  holds in FT-126's scoped form over the same
+  zero-wrap tapes: all three arms print the
+  identical digest at 100, 500, 900, 950, and
+  989, the printed digests compared byte for
+  byte; the binary and the standard runner
+  print the identical digest at 990 and 991,
+  where the module route already refuses; and
+  at 997 the binary prints its digest alone,
+  past both oracle routes' limits. No
+  all-three identity is claimed past 989 and
+  no binary-and-standard identity past 991,
+  the exact scope FT-126 set. At the validate
+  seam the binary again stands apart from the
+  interpreter: it validates with exit 0 at
+  each of the eighteen named zero-wrap input
+  depths, 990, 991, 992, 997, 998, 999, 1000,
+  1001, 2000, 5000, 9994, 9995, 10000, 20000,
+  50000, 100000, 150000, and 200000, uncapped
+  on this seam everywhere FT-121 looked and at
+  the extremes again here. The oracle's JSON
+  reader stops at its interpreter limit and
+  its routes stand exactly three apart on this
+  seam: at zero wraps the standard runner
+  accepts 9,994 and refuses 9,995 and the
+  module route accepts 9,991 and refuses
+  9,992, reproducing FT-121's points; at four
+  wraps each route stands exactly four below
+  its zero-wrap point, the standard runner
+  accepting 9,990 and refusing 9,991 and the
+  module route accepting 9,987 and refusing
+  9,988, FT-135's measurements reproduced, the
+  routes three apart at both levels. Every
+  oracle refusal on this seam wears the
+  reader's form, exit 1 with a defect
+  reporting the file is not valid JSON.
