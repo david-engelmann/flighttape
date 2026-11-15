@@ -4482,3 +4482,126 @@ held to the standard of the surface it feeds.
   harnesses, the probes, the volume pass, and
   the gate each stand at the scope their items
   name.
+
+- FT-165. PR 28 read back whole on its closed
+  record, read through the API on 2026-11-15:
+  4 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  issue comments are the owner's trigger
+  6885845280 at 20 characters, never edited,
+  the bot's shell 6885846642, the bot's
+  auto-reply 6885870288 at 573 characters, its
+  standing action-not-completed text that the
+  last commit already stands reviewed,
+  carrying no finding and no correction, and
+  the owner's landing comment 6886131756 at
+  2,261 characters. No correction to this
+  round's brief stands recorded here: the
+  brief's census was sourced from the landing
+  comment itself, and every identifier it
+  cited stands verified against the live
+  record exactly as cited, trigger, shell,
+  auto-reply, and landing comment each
+  standing on PR 28 at the figures the landing
+  comment carries. The shell in its true final
+  form at this read stands at 11,331
+  characters by a Python count over the API
+  body, created 2026-11-14T23:24:07Z and last
+  edited 2026-11-14T23:28:48Z, unchanged since
+  the Round 27 reviews' reads. The earlier
+  figure stands at its own read and is not
+  falsified: 11,329 characters at the body's
+  bound read, the shell then last edited
+  2026-11-14T23:25:49Z, and the +2 edit at
+  23:28:48Z precedes the landing comment at
+  23:49:31Z, no disposition fact moving in it.
+  In its final form the shell carries a
+  walkthrough over FT-159 to FT-164 as Round
+  27 documentation; its change assessment
+  pinned to the closure head
+  9197b170aa7eacda223624b8ad281921f3213994 as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  e4404b1d9f6b841974b9a082d148580bf7465126 to
+  that head; Merge Risk Minimal up to 9197b;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description; no Docstring section standing
+  in the shell; the shell's own line that no
+  actionable comments were generated in the
+  recent review; its Run ID
+  fede2d33-5cd7-4f2e-97a4-4cc4e9af3591
+  standing in the shell itself; its included
+  allowance used with none remaining; and no
+  rate-limit banner. The one dismissal on PR
+  28's record grades sound on grounds counted
+  firsthand this round: the Title check stands
+  Passed in the shell itself while its full
+  details call the refine prefix a slightly
+  loose label for records-only work, in the
+  same explanation that finds the title
+  specific, matching the main change, and not
+  misleading; the title, refine: flighttape
+  Round 27, FT-159 to FT-164, carries this
+  line's standing form, identical in shape to
+  PR 27's title, refine: flighttape Round 26,
+  FT-153 to FT-158, read through the API this
+  round, which the same check passed in the
+  shell contracted at FT-159; and the range
+  the title names is exactly the six item
+  headings FT-159 through FT-164 standing in
+  the merged tree's CONTRACT.md, each exactly
+  once, counted this round. The bot's
+  release-notes appendix at the body's foot
+  stands censused in the whole-body read:
+  inside its own markers its two bullets, the
+  project status updated to show 27 of 100
+  rounds complete with the criteria for
+  counting a round unchanged, and records of
+  the round's validation boundaries, test and
+  comparison results, volume measurements, and
+  completion status added with one
+  description-alignment item remaining open,
+  state nothing false, and no authored
+  sentence adopts the appendix, which is the
+  bot's own text. Nothing stands on PR 28
+  after the landing comment: no comment, no
+  review, and no edit of any kind postdates
+  2026-11-14T23:49:31Z, the shell's last edit
+  at 23:28:48Z and the auto-reply's at
+  23:26:13Z both preceding it, so the
+  late-material charge discharges as empty,
+  and no review comment thread stands to be
+  read. The Round 27 gate stands exactly as
+  the landing comment records it: spec
+  fidelity PASS, standards APPROVE, and red
+  team APPROVE, no findings on any axis,
+  hosted CI green on the exact head at runs
+  43652876628 and 43653034904, both re-read as
+  completed success this round, and step 0
+  with nothing actionable and the one
+  dismissal above. The body's Verified block
+  carries one forward-looking sentence about
+  the pull request run's citation; it is true
+  of the finished body, the step 0 paragraph's
+  closing line carrying both runs, and stands
+  as the drafting remnant the Round 27 reviews
+  noted as an observation, not a finding. The
+  record as it stands is coherent. FT-83
+  stands carried open by name, untouched:
+  Cargo.toml's description stands as the third
+  variant, "Flight tapes for agent runs:
+  validate, convert, play back, compare, and
+  screen recorded sessions.", against the
+  canonical line the repository description
+  and the README lede share word for word,
+  "Every agent run, from every harness, lands
+  as one flight tape: events, tool calls,
+  diffs, spend, timings, and the outcome, in a
+  bundle any tool can read back.", both read
+  live this round, and its alignment stands
+  assigned to the line-wide pass and the main
+  chat's direction call outside this round's
+  bounds.
