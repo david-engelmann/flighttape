@@ -5694,3 +5694,29 @@ held to the standard of the surface it feeds.
   repository, as FT-133 records; the channel
   is stated exactly and no part of this item
   claims the API channel for it.
+
+- FT-188. Round 31 closes. Its record stands
+  at FT-183 to FT-188: the Round 30 read-back,
+  with the shell contracted in its true final
+  form and no correction to the brief owed, at
+  FT-183; the depth law re-measured at both
+  seams, at zero and four added wraps, over
+  both oracle routes, with identity in its
+  scoped form, at FT-184; the battery and the
+  differential run in full at FT-185; the
+  volume pass at a new seed with the golden
+  fixture and the fleet pin executed at
+  FT-186; and the gate at 247 with its counts
+  named, at FT-187. README's closed-rounds
+  line moves from 30 of 100 to 31 of 100 in
+  this commit only. FT-83 stands open and
+  unrepaired exactly as FT-183 carried it, the
+  Cargo.toml description variant assigned to a
+  line-wide pass outside this round's scope,
+  and is carried open by name into Round 32.
+  The charges the Round 30 landing comment
+  laid on this round stand discharged at
+  FT-183, and nothing in this record claims a
+  surface it did not run: the harnesses, the
+  probes, the volume pass, and the gate each
+  stand at the scope their items name.
