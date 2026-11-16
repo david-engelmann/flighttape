@@ -5404,3 +5404,137 @@ held to the standard of the surface it feeds.
   surface it did not run: the harnesses, the
   probes, the volume pass, and the gate each
   stand at the scope their items name.
+
+- FT-183. PR 31 read back whole on its closed
+  record, read through the API on 2026-11-16:
+  2 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  issue comments are the bot's shell
+  6908240379 and the owner's landing comment
+  6908665865 at 1,960 characters, created and
+  last edited 2026-11-16T05:58:55Z, standing
+  last and never edited since. No trigger
+  comment stands: the bot reviewed
+  automatically at the pull request's opening,
+  and no auto-reply stands on this record. No
+  correction to this round's brief stands
+  recorded here: the brief's census was
+  sourced from the landing comment itself, and
+  every identifier it cited stands verified
+  against the live record exactly as cited,
+  the shell and the landing comment each
+  standing on PR 31 at the figures the landing
+  comment carries, and the base standing
+  verified live at the Round 30 merge
+  79f5027e961fe315e921b0ef0362caae6104a0fc,
+  its tree
+  8c285a83b507bc901a3de5543919c1d8e63b8f7d
+  over parents
+  3a20b13fa46a57a3c17f750a7226144a6efa017c and
+  4070bb18a6893f82534e050cbfb53505132e0993.
+  The shell took three forms, each standing at
+  its own moment: 5,208 characters in progress
+  at its creation, 2026-11-16T05:31:17Z;
+  10,918 characters at its completion edit,
+  2026-11-16T05:33:23Z, the form the body's
+  step 0 disposition read; and 10,920
+  characters at its last edit,
+  2026-11-16T05:39:26Z, the form the Round 30
+  gate's reads stood on and the true final
+  form at this read, counted in Python over
+  the API body. The +2 edit between the second
+  and third forms moved no disposition fact:
+  the final form, read whole at this read,
+  carries a walkthrough over FT-177 to FT-182
+  as Round 30 documentation, recording the
+  depth measurements, the battery and
+  differential results, the volume and golden
+  comparisons, the gate record, and FT-83
+  carried forward as open; its change
+  assessment pinned to the closure head
+  4070bb18a6893f82534e050cbfb53505132e0993 as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  3a20b13fa46a57a3c17f750a7226144a6efa017c to
+  that head; Merge Risk Minimal up to 4070b;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description; no Docstring section standing
+  in the shell; the shell's own line that no
+  actionable comments were generated in the
+  recent review; its Run ID
+  0ad56636-cb68-42f6-bee7-c343dbf8928d
+  standing in the shell itself; its included
+  allowance used with none remaining; and no
+  rate-limit banner. No dismissal stands on PR
+  31's record: the Title check stands Passed
+  in the shell itself, and its full details
+  carry one mild remark, that the title names
+  the round and the ticket range but not the
+  main change, the title being partially
+  related in that it refers to real parts of
+  the change while not saying the change is
+  documentation only; the remark proposes
+  nothing, the check itself stands passed, and
+  the Round 30 record stated that posture
+  plainly and recorded no dismissal, so none
+  was owed or recorded here either. The title,
+  refine: flighttape Round 30, FT-177 to
+  FT-182, carries this line's standing form,
+  and the range it names is exactly the six
+  item entries FT-177 through FT-182 standing
+  in the merged tree's CONTRACT.md, each
+  exactly once, counted this round over the
+  base contract's 182 contiguous entries FT-1
+  through FT-182. The bot's release-notes
+  appendix at the body's foot stands censused
+  in the whole-body read: 496 characters from
+  its opening marker at this read, the Round
+  30 lane's 498 counting the blank-line
+  separator that precedes it; inside its own
+  markers its two bullets, the record for
+  Round 30 added, including its review
+  disposition, measurements, validation
+  results, and closure, and the
+  completed-round count updated from 29 to 30
+  of 100 with the open FT-83
+  description-alignment item and the
+  round-completion criteria unchanged, state
+  nothing false, each correct at this read,
+  and no authored sentence adopts the
+  appendix, which is the bot's own text.
+  Nothing stands on PR 31 after the landing
+  comment: no comment, no review, and no edit
+  of any kind postdates 2026-11-16T05:58:55Z,
+  the shell's last edit at 05:39:26Z preceding
+  it, so the late-material charge discharges
+  as empty, and no review comment thread
+  stands to be read. The Round 30 gate stands
+  exactly as the landing comment records it:
+  spec fidelity PASS, standards APPROVE, and
+  red team APPROVE, no findings on any axis,
+  hosted CI green on the exact head at runs
+  43810301935 and 43810753566, both re-read as
+  completed success on the head
+  4070bb18a6893f82534e050cbfb53505132e0993
+  this round, and step 0 with nothing
+  actionable and no dismissal standing. FT-83
+  stands carried open by name, untouched:
+  Cargo.toml's description stands as the third
+  variant, "Flight tapes for agent runs:
+  validate, convert, play back, compare, and
+  screen recorded sessions.", against the
+  canonical line the repository description
+  and the README lede share word for word,
+  "Every agent run, from every harness, lands
+  as one flight tape: events, tool calls,
+  diffs, spend, timings, and the outcome, in a
+  bundle any tool can read back.", all three
+  read live this round, and its alignment, in
+  the only permitted direction, aligning the
+  Cargo.toml text to that verbatim line,
+  stands assigned to the line-wide pass and
+  the main chat's direction call outside this
+  round's bounds.
