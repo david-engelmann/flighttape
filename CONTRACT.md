@@ -5720,3 +5720,140 @@ held to the standard of the surface it feeds.
   surface it did not run: the harnesses, the
   probes, the volume pass, and the gate each
   stand at the scope their items name.
+
+- FT-189. PR 32 read back whole on its closed
+  record, read through the API on 2026-11-16:
+  2 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  issue comments are the bot's shell
+  6921015067 and the owner's landing comment
+  6921816691 at 2,570 characters, created and
+  last edited 2026-11-16T16:08:09Z, standing
+  last and never edited since. No trigger
+  comment stands: the bot reviewed
+  automatically at the pull request's opening,
+  and no auto-reply stands on this record. No
+  correction to this round's brief stands
+  recorded here: the brief's census was
+  sourced from the landing comment itself, and
+  every identifier it cited stands verified
+  against the live record exactly as cited,
+  the shell and the landing comment each
+  standing on PR 32 at the figures the landing
+  comment carries, and the base standing
+  verified live at the Round 31 merge
+  44da1e071880c3266ff745a35177083de95ccc55,
+  its tree
+  c4993d56295189e6e99c60cc23c47f89ea10d60f
+  over parents
+  79f5027e961fe315e921b0ef0362caae6104a0fc and
+  4a42009fb673a4e8f2da3a0a79f2f692ed725803.
+  The shell took three forms, each standing at
+  its own moment: 5,208 characters in progress
+  at its creation, 2026-11-16T15:37:23Z;
+  11,043 characters at its completion edit,
+  the form the body's step 0 disposition read;
+  and 11,045 characters at its last edit,
+  2026-11-16T15:45:09Z, the true final form at
+  this read, counted in Python over the API
+  body. The +2 edit between the second and
+  third forms moved no disposition fact: in
+  the final form the Description Check row
+  stands last inside the pre-merge checks
+  table, the reorder the Round 31 landing
+  comment records for that edit, and the final
+  form, read whole at this read, carries a
+  walkthrough over FT-183 to FT-188 as Round
+  31 documentation, recording the read-back,
+  the depth measurements, the battery and
+  differential results, the volume and golden
+  comparisons, the gate record, and FT-83
+  carried forward as open; its change
+  assessment pinned to the closure head
+  4a42009fb673a4e8f2da3a0a79f2f692ed725803 as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  79f5027e961fe315e921b0ef0362caae6104a0fc to
+  that head; Merge Risk Minimal up to 4a420;
+  pre-merge checks at 4 passed, Title, Linked
+  Issues, Out of Scope Changes, and
+  Description; no Docstring section standing
+  in the shell; the shell's own line that no
+  actionable comments were generated in the
+  recent review; its Run ID
+  b0969679-8ceb-406e-8c2a-e1564958647e
+  standing in the shell itself; its included
+  allowance used with none remaining; and no
+  rate-limit banner. No dismissal stands on PR
+  32's record: the Title check stands Passed
+  in the shell itself, and its full details
+  are favorable, that the title names the main
+  change and is short, specific, and matching
+  the objectives, closing with one mild
+  observation, that it uses the generic prefix
+  and does not mention that the changes are
+  documentation-only; the observation proposes
+  nothing, the check itself stands passed, and
+  the Round 31 record stated that posture
+  plainly and recorded no dismissal, so none
+  was owed or recorded here either, and this
+  lane grades that posture sound at its own
+  hand, the title, refine: flighttape Round
+  31, FT-183 to FT-188, carrying this line's
+  standing form, and the changeset standing
+  documentation only on the shell's own file
+  list, the observation accurate on both
+  points. The range the title names is exactly
+  the six item entries FT-183 through FT-188
+  standing in the merged tree's CONTRACT.md,
+  each exactly once, counted this round over
+  the base contract's 188 contiguous entries
+  FT-1 through FT-188. The bot's release-notes
+  appendix at the body's foot stands censused
+  in the whole-body read: exactly 428
+  characters from its opening marker at this
+  read, counted from the marker itself; inside
+  its own markers its two bullets, the closure
+  of Round 31 recorded, including its review
+  disposition and verification results, and
+  the completed-round count updated to 31 of
+  100 with the criteria for counting a round
+  unchanged, state nothing false, each correct
+  at this read, and no authored sentence
+  adopts the appendix, which is the bot's own
+  text. Nothing stands on PR 32 after the
+  landing comment: no comment, no review, and
+  no edit of any kind postdates
+  2026-11-16T16:08:09Z, the shell's last edit
+  at 15:45:09Z preceding it, so the
+  late-material charge discharges as empty,
+  and no review comment thread stands to be
+  read. The Round 31 gate stands exactly as
+  the landing comment records it: spec
+  fidelity PASS, standards APPROVE, and red
+  team APPROVE, fully clean, no findings on
+  any axis, hosted CI green on the exact head
+  at runs 43897942696 and 43898287523, both
+  re-read as completed success on the head
+  4a42009fb673a4e8f2da3a0a79f2f692ed725803
+  this round, and step 0 with nothing
+  actionable and no dismissal standing. FT-83
+  stands carried open by name, untouched:
+  Cargo.toml's description stands as the third
+  variant, "Flight tapes for agent runs:
+  validate, convert, play back, compare, and
+  screen recorded sessions.", against the
+  canonical line the repository description
+  and the README lede share word for word,
+  "Every agent run, from every harness, lands
+  as one flight tape: events, tool calls,
+  diffs, spend, timings, and the outcome, in a
+  bundle any tool can read back.", all three
+  read live this round, and its alignment, in
+  the only permitted direction, aligning the
+  Cargo.toml text to that verbatim line,
+  stands assigned to the line-wide pass and
+  the main chat's direction call outside this
+  round's bounds.
