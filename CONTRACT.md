@@ -5928,3 +5928,108 @@ held to the standard of the surface it feeds.
   oracle refusal on this seam wears the
   reader's form, exit 1 with a defect
   reporting the file is not valid JSON.
+
+- FT-191. The FT-91 battery runs fresh at the
+  same binary; the FT-56 differential stands
+  carried, not run to a counted accounting in
+  this round. The battery stands at 54 of 54,
+  run by its two named drivers: battery.py at
+  40 cells, 12 key and 28 float, and
+  battery2.py at 14 stability cells S0 to S13,
+  S13 holding the FT-77 whole-argv non-UTF8
+  posture; no cell failed in either driver.
+  The differential's attempts stand at 66
+  logged across the round's two runners and
+  none is counted: seventeen under the first
+  runner, each failed at exit 1 inside the
+  write-fault wave, the first observed dying
+  at case 63 of 117 on a refused copyfile
+  write, and forty-nine under the relaunched
+  runner, each exiting 120 on its stdout flush
+  inside the same wave; the completion lane's
+  closing probe of the regime refused at its
+  third write, so no completed run stands to
+  be read. Its contracted posture, 117 cases
+  with the single divergence at case 64, slice
+  over the deep tape, the binary at exit 1
+  against the oracle's exit 0 in the FT-54
+  band, and zero file divergences, stands as
+  Round 31 measured it at FT-185 and is
+  carried into Round 33 for execution, its
+  Python arm to be pointed deliberately at the
+  verified oracle extraction, FT_PY_SRC set to
+  the extraction verified blob for blob at
+  FT-193, before that run. The corpus guards
+  stand exact on this tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines, both counted on this tree at
+  lane time.
+
+- FT-192. The volume pass and the golden
+  fixture stand carried, not run in this
+  round; the fleet pin executes. Neither piece
+  banked under the piece-wise runner: the
+  differential piece ahead of them in the
+  runner's sequence never banked, so the
+  sequence never reached them before the round
+  closed on the evidence it held, and the one
+  direct attempt at the golden piece, a
+  skeleton test with its three tape paths
+  pre-created as hardlinks onto expendable
+  generated files of the closed Round 31
+  scratch, failed in the write-fault regime,
+  the binary truncating the first tape path
+  and its content write refusing, the path
+  left at zero bytes and the driver exiting
+  120 with its results file empty; that route
+  stands abandoned as unreliable in this
+  regime, and no volume or golden accounting
+  stands for Round 32. Their contracted
+  postures stand as Round 31 measured them at
+  FT-186, the volume corpus at 21,035 lines
+  and 7,736,621 bytes over 27 sessions with
+  all 19 cells byte-identical under seed
+  20270207 and the golden fixture
+  byte-identical on all three arms at 1,663
+  bytes with digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and are carried into Round 33 for execution,
+  the volume pass at a fresh seed. The fleet
+  pin re-confirms live through the API: the
+  commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  resolves, its tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e
+  lists 58 entries untruncated, and exactly 50
+  of them are blobs.
+
+- FT-193. The gate run against Round 31's
+  closing tree. Cargo test passes 247 tests
+  with zero failures, the count stated target
+  by target: lib 7, cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13, json
+  8, play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, and doc
+  0, the counts summing to 247 and the doc
+  count a true zero; the binary's own
+  unittests target also runs, at 0. Clippy
+  over all targets with warnings denied exits
+  0, and cargo fmt in check mode exits 0. The
+  codepoint scan stands at zero on both
+  instruments: the repository's own
+  scripts/codepoint_scan.py over the tree
+  reports U+2014 = 0 and U+2013 = 0, and this
+  round's own scan over all 52 blobs of the
+  final tree reports the same. The oracle
+  stands verified blob for blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
