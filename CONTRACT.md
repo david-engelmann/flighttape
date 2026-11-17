@@ -6059,3 +6059,23 @@ held to the standard of the surface it feeds.
   surface it did not run: the harnesses, the
   probes, the volume pass, and the gate each
   stand at the scope their items name.
+
+- FT-195. Repair record, appended in Round 32
+  after its closure item, the original
+  unrewritten. FT-194's summary misstates two
+  of the surfaces it summarizes. Where it says
+  the battery and the differential run in full
+  at FT-191, the battery ran in full and the
+  differential stands carried, not run to a
+  counted accounting, exactly as FT-191
+  states; and where it says the volume pass at
+  a new seed with the golden fixture and the
+  fleet pin executed at FT-192, the fleet pin
+  executed and the volume pass and the golden
+  fixture stand carried, not run, exactly as
+  FT-192 states. FT-194 stands corrected on
+  both points by this record, its remaining
+  clauses unamended. The correction is owed to
+  the step 0 review of PR 33, whose Major
+  finding read the closure summary against its
+  own items and was right.
