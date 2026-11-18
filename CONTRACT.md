@@ -6463,3 +6463,30 @@ held to the standard of the surface it feeds.
   read FT-199's attribution against the record
   and was right. This record changes no code,
   and the gate at FT-200 stands as contracted.
+
+- FT-203. Repair record, appended in Round 33
+  after its closure item, the original
+  unrewritten. FT-201's summary of FT-199
+  overdistributes one charge. Where FT-201
+  says the volume and the golden discharging
+  by execution the charges they carried out of
+  Round 32, the golden carried no charge out
+  of Round 32: the second charge of PR 33's
+  landing comment 6947258027 names the volume
+  alone and states expressly that the
+  differential and the golden fixture stand
+  discharged at Round 32's gate and are not
+  carried, and FT-196 states the posture
+  correctly, the volume pass alone standing
+  carried into this round. The golden was
+  re-executed at FT-199 on all three arms
+  without a charge, and that execution is real
+  and contracted and stands unaffected. FT-201
+  stands corrected on that limb only,
+  everything else in it standing as written.
+  The correction is owed to the owner's spec
+  fidelity review of PR 34, whose single
+  finding read the clause against the landing
+  comment and was right. This record changes
+  no code, and the gate at FT-200 stands as
+  contracted.
