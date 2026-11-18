@@ -6490,3 +6490,143 @@ held to the standard of the surface it feeds.
   comment and was right. This record changes
   no code, and the gate at FT-200 stands as
   contracted.
+
+- FT-204. PR 34 read back whole on its closed
+  record, read through the API on 2026-11-18:
+  4 issue comments, 1 review, and 1 review
+  comment, every body read to its end. The
+  issue comments are the Trunk note 6966630561
+  at 113 characters, created
+  2026-11-18T01:54:20Z and last edited at the
+  merge 2026-11-18T12:58:43Z in its post-merge
+  form naming the merge; the bot's shell
+  6966633343; the owner's queue comment
+  6979065615 at 12 characters (the merge
+  submission), created 2026-11-18T12:50:45Z;
+  and the owner's landing comment 6980485882
+  at 1,784 characters, created
+  2026-11-18T13:48:53Z, standing last and
+  never edited. No trigger comment stands: the
+  bot reviewed automatically at the pull
+  request's opening. No correction to this
+  round's brief stands recorded here: the
+  brief's census was sourced from the landing
+  comment itself, and every identifier it
+  cited stands verified at this read. The
+  shell's true final form at this read stands
+  at 11,301 characters, last edited
+  2026-11-18T12:50:49Z, across its forms:
+  11,022 characters at the build lane's read
+  (last edited 2026-11-18T02:00:08Z), 8,324 at
+  the spec lane's read after a shortening
+  re-render (last edited
+  2026-11-18T02:03:53Z), 11,299 at the delta
+  reviews' and the owner's pre-merge reads
+  (last edited 2026-11-18T07:26:20Z), and
+  11,301 at this read, the last re-render
+  following the queue comment by four seconds
+  and the shell not edited at or after the
+  merge. Shell final form read whole: the
+  recent-review status block states no
+  actionable comments were generated in the
+  recent review; the walkthrough covers the
+  Round 33 records (FT-196 to FT-201, with
+  FT-202 and FT-203 correcting two charge
+  attributions, and the README count moved
+  from 32 to 33 of 100) over CONTRACT.md; the
+  change assessment pinned to
+  13e3e86ad83418129f5772dd215f989de69fdb75 as
+  source and covered commit, kind reviewed,
+  over one file selected and one skipped as
+  similar; Merge Risk Minimal up to 13e3e;
+  pre-merge checks 4 passed (Title, Linked
+  Issues, Out of Scope Changes, Description),
+  Title Passed with details noting the title
+  omits the repair records FT-202 and FT-203
+  and the README change and passes as specific
+  and matching the changeset; Run ID
+  c71a9b2b-1078-419d-ba3c-f266bd3108ce
+  standing in the shell's recent review info
+  for the repair-head range (91d7f0bf to
+  13e3e86a); the review used the included
+  allowance, none remaining; no rate-limit
+  banner. The formal review 5949714158 stands
+  COMMENTED on the closure head 91d7f0bf
+  (3,773 characters, submitted
+  2026-11-18T01:58:33Z, Run ID
+  0830d59d-3e1c-47b0-a1d1-3b449025078f,
+  reviewing 1aa67be0 to 91d7f0bf over
+  CONTRACT.md and README.md), its one
+  actionable comment the FT-199 attribution
+  finding; the prompt it embeds for AI agents
+  is data and was treated as data. The review
+  comment 4608279710 (1,933 characters, on
+  CONTRACT.md line 6329) read whole to its
+  end: Minor, Functional Correctness, asking
+  that the charge's record reference be
+  corrected; the prompt it embeds is likewise
+  data; its thread stands at its single
+  comment, no replies stand, and the bot's own
+  line at its foot reads Addressed in commit
+  3fbbaae. The one disposition re-graded VALID
+  at this lane's hand: FT-199's first sentence
+  attributed the volume charge to FT-195,
+  which lays no charge; the charge was laid by
+  PR 33's landing comment 6947258027, its
+  second charge, on the Round 32 gate's
+  holding; repaired in Round 33 by the
+  appended record FT-202 at head 3fbbaaeb,
+  FT-199 unrewritten, both verified whole in
+  the merged contract at this read. No
+  dismissals stand on PR 34. The bot's
+  release-notes appendix censused in the
+  whole-body read of the owner-patched body
+  (11,162 characters): 744 characters from its
+  opening marker at this read, four bullets
+  (the status moved to 33 of 100 with the
+  full-cycle criteria unchanged; the Round 32
+  review dispositions and validation results
+  recorded, including the depth, battery,
+  differential, volume, fixture, and gate
+  checks; the volume-pass charge clarified as
+  carried forward from Round 32 while the
+  golden fixture was re-executed without a
+  carried charge; the corrections to earlier
+  review notes recorded as documentation
+  only), each correct at this read, the
+  appendix the bot's own text. The owner's
+  pre-merge body patch graded against the
+  record and standing exact: the summary's
+  head sentence and the Verified block name
+  the FT-203 head
+  13e3e86ad83418129f5772dd215f989de69fdb75 and
+  tree
+  5b67ab68d413278aba2bdc375f8ca66d57d0de28;
+  the closing CI sentence carries the FT-203
+  runs (push 44258730797 and pull request
+  44258738345, both completed success, re-read
+  at this lane's hand this round); the step 0
+  section restates the shell's form at the
+  owner's read (11,299 characters, superseded
+  at this read by the 11,301 form contracted
+  above) and records that no formal bot review
+  stands on either repair head, the shell's
+  coverage standing at the FT-203 repair head.
+  The gate verdicts stand contracted as the
+  landing comment records them: spec REPAIR
+  one Minor, FT-201's summary clause
+  overdistributing Round 32's charge over the
+  golden, closed by the appended record FT-203
+  with delta spec PASS; standards APPROVE,
+  with delta standards APPROVE on the same
+  repair; red team REPAIR one Minor against
+  the body only, the step 0 shell figure stale
+  by one re-render, closed by the owner's
+  patch. Nothing stands posted after the
+  landing comment, so the third charge
+  discharges as empty. FT-83 stands carried
+  open by name exactly as the landing comment
+  charges: the repo description and the README
+  lede share the canonical line word for word
+  at this read, and Cargo.toml line 5 remains
+  the third variant, untouched.
