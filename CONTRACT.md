@@ -6079,3 +6079,414 @@ held to the standard of the surface it feeds.
   the step 0 review of PR 33, whose Major
   finding read the closure summary against its
   own items and was right.
+
+- FT-196. PR 33 read back whole on its closed
+  record, read through the API on 2026-11-17:
+  2 issue comments, 1 review, and 2 review
+  comments, every body read to its end. The
+  issue comments are the bot's shell
+  6941704217 and the owner's landing comment
+  6947258027 at 2,747 characters, created and
+  last edited 2026-11-17T11:52:35Z, standing
+  last and never edited since. No trigger
+  comment stands: the bot reviewed
+  automatically at the pull request's opening.
+  No correction to this round's brief stands
+  recorded here: the brief's census was
+  sourced from the landing comment itself, and
+  every identifier it cited stands verified
+  against the live record exactly as cited,
+  the shell and the landing comment each
+  standing on PR 33 at the figures the landing
+  comment carries, and the base standing
+  verified live at the Round 32 merge
+  1aa67be08e7197ba278cd98c6206019e28de1304,
+  its tree
+  7486eccb5039606d200f5cfc0ca78e8050ac980a
+  over parents
+  44da1e071880c3266ff745a35177083de95ccc55 and
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf.
+  The shell took four forms, each standing at
+  its own moment: 8,109 characters at its
+  creation, 2026-11-17T07:30:04Z; 9,054
+  characters at the form the body's step 0
+  disposition read, last edited
+  2026-11-17T07:35:08Z; 9,058 characters at
+  its next edit, 2026-11-17T07:56:12Z, the
+  form the owner's gate read; and 9,060
+  characters at its last edit,
+  2026-11-17T11:49:38Z, the true final form at
+  this read, counted in Python over the API
+  body and unchanged since the landing. The
+  final form, read whole at this read, carries
+  a walkthrough over the Round 32 record,
+  FT-189 to FT-194 with the repair record
+  FT-195, recording the read-back, the depth
+  measurements, the battery run in full, the
+  differential, the volume pass, and the
+  golden fixture carried, the fleet pin, and
+  the gate results; its change assessment
+  pinned to the closure head
+  0f6009ff725107549d5a940d7bf8664f6348ecf9 as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  44da1e071880c3266ff745a35177083de95ccc55 to
+  that head; Merge Risk Low up to 0f600, its
+  prose restating the review's two findings,
+  that the closing summary states three checks
+  ran where the detailed entries say they were
+  carried and that the README shows 32 closed
+  rounds before any approval is recorded,
+  closing with the direction to correct them
+  before merging; pre-merge checks at 4
+  passed, Title, Linked Issues, Out of Scope
+  Changes, and Description; the Title check
+  Passed, its full details favorable, that the
+  title names the project, the round, and the
+  FT item range and is specific enough for a
+  teammate to identify the primary change,
+  noting only that the title does not mention
+  the battery, the carried FT-56 work, or the
+  README count change and does not need to; no
+  Docstring section standing in the shell; its
+  Run ID 8bdaa200-fcea-466b-b100-22e26aa2db5f
+  standing in the review itself; its included
+  allowance used with none remaining; and no
+  rate-limit banner. The shell carries no
+  review of the repair head
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf;
+  its coverage stands at the closure head,
+  exactly as the Round 32 gate record states.
+  The one formal review, 5934605858, COMMENTED
+  at 3,976 characters, submitted
+  2026-11-17T07:35:04Z on the closure head,
+  stands read whole, and both review comments
+  stand read to their ends, each thread
+  standing at its single comment with no reply
+  after it: the Major 4596614812 at 1,853
+  characters on CONTRACT.md and the Minor
+  4596614826 at 3,234 characters on README.md.
+  The Major re-grades VALID at this lane's
+  hand, verified against the merged contract
+  itself: FT-194's summary says the battery
+  and the differential run in full at FT-191
+  and the volume pass at a new seed with the
+  golden fixture and the fleet pin executed at
+  FT-192, where FT-191 states the differential
+  carried, not run to a counted accounting,
+  and FT-192 states the volume pass and the
+  golden fixture carried, not run; the repair
+  stands in the merged tree as the appended
+  record FT-195, FT-194 unrewritten, both read
+  whole in the merged contract at this read,
+  and the correction the merge-risk prose
+  directed before merging was in fact made
+  before the merge, at the repair head the
+  hosted runs then covered. The Minor's
+  dismissal re-grades SOUND on its counted
+  grounds: the incremented closed-rounds line
+  lands in the closure commit by the
+  programme's standing shape in every closed
+  round, the count taking effect only at the
+  owner's merge, which is the approval act,
+  and PR 33 stands merged at
+  1aa67be08e7197ba278cd98c6206019e28de1304, so
+  the count took effect at that merge; the
+  line's own counting-rule sentence stands
+  unchanged; and the comment's supporting
+  premise, that PR 33 has no recorded reviews,
+  is inaccurate against the record, its own
+  review 5934605858 standing on the pull
+  request, the small inaccuracy the Round 32
+  spec review observed and this read confirms.
+  The bot's release-notes appendix at the
+  body's foot stands censused in the
+  whole-body read of the owner-patched body at
+  15,084 characters: exactly 547 characters
+  from its opening marker at this read,
+  counted from the marker itself; inside its
+  own markers its three bullets, the
+  completion of Round 32 recorded including
+  its battery results, gate checks, and
+  updated count, the verification work that
+  remains incomplete noted as carried forward
+  with the fleet pin confirmed, and the
+  README's closed-round count updated to 32 of
+  100 with the completion criteria unchanged,
+  state nothing false, each correct at this
+  read, and no authored sentence adopts the
+  appendix, which is the bot's own text.
+  Nothing stands on PR 33 after the landing
+  comment: no comment, no review, and no edit
+  of any kind postdates 2026-11-17T11:52:35Z,
+  the shell's last edit at 11:49:38Z preceding
+  it, so the late-material charge discharges
+  as empty, and no review comment thread
+  stands unread. The Round 32 gate stands
+  exactly as the landing comment records it:
+  spec fidelity PASS with no findings,
+  standards APPROVE with no findings, and red
+  team REPAIR with two Minors, both
+  record-accuracy matters on the body, neither
+  touching the tree, repaired by the owner's
+  body patch before the merge with the
+  appendix asserted byte-identical after it;
+  hosted CI green on the exact head at runs
+  44040279059 and 44040286433, both re-read as
+  completed success on the head
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf
+  this round; and at the red team's own hand
+  the differential ran whole and the golden
+  executed, the volume pass alone standing
+  carried into this round, which is the second
+  charge the landing comment laid, answered at
+  FT-199. FT-83 stands carried open by name,
+  untouched: Cargo.toml's description stands
+  as the third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  against the canonical line the repository
+  description and the README lede share word
+  for word, "Every agent run, from every
+  harness, lands as one flight tape: events,
+  tool calls, diffs, spend, timings, and the
+  outcome, in a bundle any tool can read
+  back.", all three read live this round, and
+  its alignment, in the only permitted
+  direction, aligning the Cargo.toml text to
+  that verbatim line, stands assigned to the
+  line-wide pass and the main chat's direction
+  call outside this round's bounds.
+
+- FT-197. The depth law re-measured at every
+  contracted point. The calibration first: at
+  1, 10, and 100 nested arrays the three arms
+  print identical digests, the 100-array
+  digest
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  standing as the identity run's own 100-array
+  value in its full form. At the digest seam
+  with zero added wraps the binary accepts 997
+  arrays and refuses 998, the standard runner
+  accepts 991 and refuses 992, and the module
+  route accepts 989 and refuses 990, the two
+  oracle routes exactly two apart; with four
+  added wraps the points stand at 993 and 994
+  for the binary, 987 and 988 for the standard
+  runner, and 985 and 986 for the module
+  route. Identity holds byte for byte on all
+  three arms through 989 arrays, on the binary
+  and the standard runner at 990 and 991, and
+  on the binary alone at 997. At the validate
+  seam the binary accepts at every one of the
+  eighteen named depths from 990 through
+  200,000 arrays, uncapped; the standard
+  runner accepts 9,994 and refuses 9,995 and
+  the module route accepts 9,991 and refuses
+  9,992 at zero wraps, and at four wraps the
+  points stand at 9,990 and 9,991 for the
+  standard runner and 9,987 and 9,988 for the
+  module route, the two oracle routes exactly
+  three apart. Every figure stands identical
+  to the law as contracted at FT-190, and no
+  point moved.
+
+- FT-198. The battery in full and the
+  differential whole. The canonical-form
+  battery passes 40 of 40 cells with zero
+  failures, the key-order cells K1 to K12 and
+  the float-render cells F01 to F28 each at
+  their contracted dispositions, the two
+  lone-surrogate cells refusing with the
+  unencodable-text error and the non-finite
+  cell refusing by name. The tape-surface
+  battery passes 14 of 14 cells with zero
+  failures, its convert of the golden fixture
+  digesting to the golden value at S1, its
+  wrong-digest verify refusing with the
+  mismatch named at S6, and its non-UTF8 argv
+  cell standing at the FT-77 posture at S13.
+  The battery stands at 54 of 54. The
+  differential runs its 117 cases whole
+  against the verified oracle extraction,
+  FT_PY_SRC set deliberately to that
+  extraction: 116 cases stand identical across
+  exit code, stdout, stderr, and files, and
+  the single divergence stands at case 64,
+  slice over the 600-deep tape, in the FT-54
+  band, exactly as contracted; the file
+  divergences stand at zero, and the harness
+  exits 1 on the one divergence, as
+  contracted, its runner's banking condition
+  read against that exit law before the run
+  was judged.
+
+- FT-199. The volume pass executed at the
+  fresh seed 20270221, a seed no earlier round
+  used, discharging by execution the charge
+  Round 32's gate laid on this round at FT-195
+  and the landing comment repeated. The
+  generator's corpus stands at 21,035 lines
+  and 7,736,621 bytes across 27 sessions, its
+  deepest nesting at 122 arrays and its widest
+  object at 500 keys, the corpus dimensions
+  identical to Round 31's pass at its own
+  seed. Nineteen of nineteen cells pass: the
+  long-haul tape carries 7,500 events, its
+  digest
+  dd9c306594b3d06a9eade1e967b4fb9d628964cac754f3c7760be1bdaeeded72
+  differing from Round 31's as the seed
+  differs, and the convert-dir tree cell
+  stands at 25 files. The golden fixture
+  executes on all three arms: the binary, the
+  standard runner, and the module route each
+  convert the synthetic fixture to a tape of
+  1,663 bytes, the three tapes byte-identical,
+  each arm's digest of its tape printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify of its tape against
+  that digest exits 0 printing digest matches;
+  the stage script's own verify call omitted
+  the expected-digest positional and returned
+  2, and the verify contracted here is the
+  owner's execution of the correct form
+  against the same tape in the same window,
+  the mis-shaped call standing in the stage
+  log unhidden. The fleet pin stands
+  reconfirmed through the API at commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  tree afd4d7d1, its tree holding exactly 50
+  blobs.
+
+- FT-200. The gate on both trees. Against
+  Round 32's closing tree, cargo test passes
+  247 tests with zero failures, the count
+  stated target by target: lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, and doc 0, the counts summing to 247 and
+  the doc count a true zero; the binary's own
+  unittests target also runs, at 0. Clippy
+  over all targets with warnings denied exits
+  0, and cargo fmt in check mode exits 0, and
+  the tree's binary stands at md5
+  3b7e8662a435dc5ba717f4907726989f. Against
+  this round's assembled closing tree the same
+  gate stands at the same figures, cargo test
+  at 247 with the same target counts, clippy
+  and fmt each exiting 0, the code on the two
+  trees byte-identical outside the contract
+  and the README. The codepoint scan stands at
+  zero on both instruments: the repository's
+  own scripts/codepoint_scan.py over each tree
+  reports U+2014 = 0 and U+2013 = 0, and this
+  round's own scan over all 52 blobs of the
+  closing tree reports the same, its counter
+  proven able to fail on a planted control
+  first, at 2 and 1 where planted. The corpus
+  guards stand counted on the closing tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines. The oracle stands verified blob
+  for blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
+
+- FT-201. Round 33 closes. Its record stands
+  at FT-196 to FT-201: the Round 32 read-back,
+  with the shell contracted in its true final
+  form, the Major re-graded valid and its
+  repair at FT-195 confirmed, the Minor's
+  dismissal re-graded sound on its counted
+  grounds, and the appendix censused, at
+  FT-196; the depth law re-measured at both
+  seams, at zero and four added wraps, over
+  both oracle routes, with identity in its
+  scoped form, at FT-197; the battery in full
+  and the differential whole at FT-198; the
+  volume pass executed at the fresh seed
+  20270221 with the golden fixture executed on
+  all three arms and the fleet pin
+  reconfirmed, at FT-199, the volume and the
+  golden discharging by execution the charges
+  they carried out of Round 32; and the gate
+  on both trees at FT-200. README's
+  closed-rounds line moves from 32 of 100 to
+  33 of 100 in this commit only. FT-83 stands
+  open and unrepaired exactly as FT-196
+  carried it, the Cargo.toml description
+  variant assigned to a line-wide pass outside
+  this round's scope, and is carried open by
+  name into Round 34. The charges the Round 32
+  landing comment laid on this round stand
+  discharged at FT-196 and FT-199, and nothing
+  in this record claims a surface it did not
+  run: the harnesses, the probes, the volume
+  pass, the golden fixture, and the gate each
+  stand at the scope their items name.
+
+- FT-202. Repair record, appended in Round 33
+  after its closure item, the original
+  unrewritten. FT-199's first sentence
+  misattributes the volume charge it
+  discharges. Where it says the charge Round
+  32's gate laid on this round at FT-195,
+  FT-195 lays no charge: it is the repair
+  record that corrected FT-194's summary and
+  recorded the volume pass and the golden
+  fixture as carried, not run, exactly as
+  FT-192 states. The charge to execute the
+  volume pass in this round at the fresh seed
+  20270221 was laid by PR 33's landing comment
+  6947258027, its second charge, on the Round
+  32 gate's holding, whose red team left the
+  pass unexecuted and charged its execution
+  forward; the landing comment is the charge's
+  operative instrument, not a repetition of
+  FT-195. FT-199 stands corrected on the
+  attribution only, its remaining clauses
+  unamended, and the discharge itself,
+  executed at FT-199 on the banked volume run,
+  is unaffected. The correction is owed to the
+  step 0 review of PR 34, whose single finding
+  read FT-199's attribution against the record
+  and was right. This record changes no code,
+  and the gate at FT-200 stands as contracted.
+
+- FT-203. Repair record, appended in Round 33
+  after its closure item, the original
+  unrewritten. FT-201's summary of FT-199
+  overdistributes one charge. Where FT-201
+  says the volume and the golden discharging
+  by execution the charges they carried out of
+  Round 32, the golden carried no charge out
+  of Round 32: the second charge of PR 33's
+  landing comment 6947258027 names the volume
+  alone and states expressly that the
+  differential and the golden fixture stand
+  discharged at Round 32's gate and are not
+  carried, and FT-196 states the posture
+  correctly, the volume pass alone standing
+  carried into this round. The golden was
+  re-executed at FT-199 on all three arms
+  without a charge, and that execution is real
+  and contracted and stands unaffected. FT-201
+  stands corrected on that limb only,
+  everything else in it standing as written.
+  The correction is owed to the owner's spec
+  fidelity review of PR 34, whose single
+  finding read the clause against the landing
+  comment and was right. This record changes
+  no code, and the gate at FT-200 stands as
+  contracted.
