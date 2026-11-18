@@ -6079,3 +6079,183 @@ held to the standard of the surface it feeds.
   the step 0 review of PR 33, whose Major
   finding read the closure summary against its
   own items and was right.
+
+- FT-196. PR 33 read back whole on its closed
+  record, read through the API on 2026-11-17:
+  2 issue comments, 1 review, and 2 review
+  comments, every body read to its end. The
+  issue comments are the bot's shell
+  6941704217 and the owner's landing comment
+  6947258027 at 2,747 characters, created and
+  last edited 2026-11-17T11:52:35Z, standing
+  last and never edited since. No trigger
+  comment stands: the bot reviewed
+  automatically at the pull request's opening.
+  No correction to this round's brief stands
+  recorded here: the brief's census was
+  sourced from the landing comment itself, and
+  every identifier it cited stands verified
+  against the live record exactly as cited,
+  the shell and the landing comment each
+  standing on PR 33 at the figures the landing
+  comment carries, and the base standing
+  verified live at the Round 32 merge
+  1aa67be08e7197ba278cd98c6206019e28de1304,
+  its tree
+  7486eccb5039606d200f5cfc0ca78e8050ac980a
+  over parents
+  44da1e071880c3266ff745a35177083de95ccc55 and
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf.
+  The shell took four forms, each standing at
+  its own moment: 8,109 characters at its
+  creation, 2026-11-17T07:30:04Z; 9,054
+  characters at the form the body's step 0
+  disposition read, last edited
+  2026-11-17T07:35:08Z; 9,058 characters at
+  its next edit, 2026-11-17T07:56:12Z, the
+  form the owner's gate read; and 9,060
+  characters at its last edit,
+  2026-11-17T11:49:38Z, the true final form at
+  this read, counted in Python over the API
+  body and unchanged since the landing. The
+  final form, read whole at this read, carries
+  a walkthrough over the Round 32 record,
+  FT-189 to FT-194 with the repair record
+  FT-195, recording the read-back, the depth
+  measurements, the battery run in full, the
+  differential, the volume pass, and the
+  golden fixture carried, the fleet pin, and
+  the gate results; its change assessment
+  pinned to the closure head
+  0f6009ff725107549d5a940d7bf8664f6348ecf9 as
+  both the source and the covered commit, kind
+  reviewed, over the two files CONTRACT.md and
+  README.md, the reviewed range running from
+  the base
+  44da1e071880c3266ff745a35177083de95ccc55 to
+  that head; Merge Risk Low up to 0f600, its
+  prose restating the review's two findings,
+  that the closing summary states three checks
+  ran where the detailed entries say they were
+  carried and that the README shows 32 closed
+  rounds before any approval is recorded,
+  closing with the direction to correct them
+  before merging; pre-merge checks at 4
+  passed, Title, Linked Issues, Out of Scope
+  Changes, and Description; the Title check
+  Passed, its full details favorable, that the
+  title names the project, the round, and the
+  FT item range and is specific enough for a
+  teammate to identify the primary change,
+  noting only that the title does not mention
+  the battery, the carried FT-56 work, or the
+  README count change and does not need to; no
+  Docstring section standing in the shell; its
+  Run ID 8bdaa200-fcea-466b-b100-22e26aa2db5f
+  standing in the review itself; its included
+  allowance used with none remaining; and no
+  rate-limit banner. The shell carries no
+  review of the repair head
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf;
+  its coverage stands at the closure head,
+  exactly as the Round 32 gate record states.
+  The one formal review, 5934605858, COMMENTED
+  at 3,976 characters, submitted
+  2026-11-17T07:35:04Z on the closure head,
+  stands read whole, and both review comments
+  stand read to their ends, each thread
+  standing at its single comment with no reply
+  after it: the Major 4596614812 at 1,853
+  characters on CONTRACT.md and the Minor
+  4596614826 at 3,234 characters on README.md.
+  The Major re-grades VALID at this lane's
+  hand, verified against the merged contract
+  itself: FT-194's summary says the battery
+  and the differential run in full at FT-191
+  and the volume pass at a new seed with the
+  golden fixture and the fleet pin executed at
+  FT-192, where FT-191 states the differential
+  carried, not run to a counted accounting,
+  and FT-192 states the volume pass and the
+  golden fixture carried, not run; the repair
+  stands in the merged tree as the appended
+  record FT-195, FT-194 unrewritten, both read
+  whole in the merged contract at this read,
+  and the correction the merge-risk prose
+  directed before merging was in fact made
+  before the merge, at the repair head the
+  hosted runs then covered. The Minor's
+  dismissal re-grades SOUND on its counted
+  grounds: the incremented closed-rounds line
+  lands in the closure commit by the
+  programme's standing shape in every closed
+  round, the count taking effect only at the
+  owner's merge, which is the approval act,
+  and PR 33 stands merged at
+  1aa67be08e7197ba278cd98c6206019e28de1304, so
+  the count took effect at that merge; the
+  line's own counting-rule sentence stands
+  unchanged; and the comment's supporting
+  premise, that PR 33 has no recorded reviews,
+  is inaccurate against the record, its own
+  review 5934605858 standing on the pull
+  request, the small inaccuracy the Round 32
+  spec review observed and this read confirms.
+  The bot's release-notes appendix at the
+  body's foot stands censused in the
+  whole-body read of the owner-patched body at
+  15,084 characters: exactly 547 characters
+  from its opening marker at this read,
+  counted from the marker itself; inside its
+  own markers its three bullets, the
+  completion of Round 32 recorded including
+  its battery results, gate checks, and
+  updated count, the verification work that
+  remains incomplete noted as carried forward
+  with the fleet pin confirmed, and the
+  README's closed-round count updated to 32 of
+  100 with the completion criteria unchanged,
+  state nothing false, each correct at this
+  read, and no authored sentence adopts the
+  appendix, which is the bot's own text.
+  Nothing stands on PR 33 after the landing
+  comment: no comment, no review, and no edit
+  of any kind postdates 2026-11-17T11:52:35Z,
+  the shell's last edit at 11:49:38Z preceding
+  it, so the late-material charge discharges
+  as empty, and no review comment thread
+  stands unread. The Round 32 gate stands
+  exactly as the landing comment records it:
+  spec fidelity PASS with no findings,
+  standards APPROVE with no findings, and red
+  team REPAIR with two Minors, both
+  record-accuracy matters on the body, neither
+  touching the tree, repaired by the owner's
+  body patch before the merge with the
+  appendix asserted byte-identical after it;
+  hosted CI green on the exact head at runs
+  44040279059 and 44040286433, both re-read as
+  completed success on the head
+  fb6aa263e769fb883c6df2d28b3fae01eaf060bf
+  this round; and at the red team's own hand
+  the differential ran whole and the golden
+  executed, the volume pass alone standing
+  carried into this round, which is the second
+  charge the landing comment laid, answered at
+  FT-199. FT-83 stands carried open by name,
+  untouched: Cargo.toml's description stands
+  as the third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  against the canonical line the repository
+  description and the README lede share word
+  for word, "Every agent run, from every
+  harness, lands as one flight tape: events,
+  tool calls, diffs, spend, timings, and the
+  outcome, in a bundle any tool can read
+  back.", all three read live this round, and
+  its alignment, in the only permitted
+  direction, aligning the Cargo.toml text to
+  that verbatim line, stands assigned to the
+  line-wide pass and the main chat's direction
+  call outside this round's bounds.
