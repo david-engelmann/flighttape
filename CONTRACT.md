@@ -6435,3 +6435,31 @@ held to the standard of the surface it feeds.
   run: the harnesses, the probes, the volume
   pass, the golden fixture, and the gate each
   stand at the scope their items name.
+
+- FT-202. Repair record, appended in Round 33
+  after its closure item, the original
+  unrewritten. FT-199's first sentence
+  misattributes the volume charge it
+  discharges. Where it says the charge Round
+  32's gate laid on this round at FT-195,
+  FT-195 lays no charge: it is the repair
+  record that corrected FT-194's summary and
+  recorded the volume pass and the golden
+  fixture as carried, not run, exactly as
+  FT-192 states. The charge to execute the
+  volume pass in this round at the fresh seed
+  20270221 was laid by PR 33's landing comment
+  6947258027, its second charge, on the Round
+  32 gate's holding, whose red team left the
+  pass unexecuted and charged its execution
+  forward; the landing comment is the charge's
+  operative instrument, not a repetition of
+  FT-195. FT-199 stands corrected on the
+  attribution only, its remaining clauses
+  unamended, and the discharge itself,
+  executed at FT-199 on the banked volume run,
+  is unaffected. The correction is owed to the
+  step 0 review of PR 34, whose single finding
+  read FT-199's attribution against the record
+  and was right. This record changes no code,
+  and the gate at FT-200 stands as contracted.
