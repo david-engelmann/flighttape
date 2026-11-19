@@ -7099,3 +7099,127 @@ held to the standard of the surface it feeds.
   volume pass, the golden fixture, and the
   gate each stand at the scope their items
   name.
+
+- FT-216. PR 38 read back whole on its closed
+  record, read through the API on 2026-11-19:
+  4 issue comments, 0 reviews, and 0 review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 6998305642
+  at 113 characters, created
+  2026-11-19T02:58:27Z and last edited at the
+  merge 2026-11-19T05:26:39Z in its post-merge
+  form naming the merge; the bot's shell
+  6998309043; the owner's queue comment
+  7000502574 at 12 characters (the merge
+  submission), created 2026-11-19T05:19:22Z
+  and never edited; and the owner's landing
+  comment 7002168736 at 1,051 characters,
+  created 2026-11-19T06:59:14Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening. No correction to this
+  round's brief stands recorded here: the
+  brief's census was sourced from the landing
+  comment itself, and every identifier it
+  cited stands verified at this read. The
+  shell's true final form at this read stands
+  at 11,111 characters, last edited
+  2026-11-19T05:19:25Z, across its forms:
+  11,103 characters at the Round 35 lane's
+  first full read, 11,105 at its second,
+  11,107 at its final read (last edited
+  2026-11-19T03:07:55Z), 11,109 at the owner's
+  pre-merge patch read (last edited
+  2026-11-19T03:09:28Z), and 11,111 at this
+  read, the last re-render standing three
+  seconds after the owner's queue comment and
+  before the merge, and the shell not edited
+  at or after the merge. Shell final form read
+  whole: the recent-review status block states
+  no actionable comments were generated in the
+  recent review; the walkthrough covers the
+  Round 35 records (FT-210 to FT-215, the
+  README count moved from 34 to 35 of 100, and
+  FT-83 remaining open) over CONTRACT.md and
+  README.md; the change assessment pinned to
+  1d0ee6822704fbdad0c9953fb1ccf88a30721e72 as
+  source and covered commit, kind reviewed,
+  over two files selected (CONTRACT.md and
+  README.md), reviewing dd7401034f to
+  1d0ee68227; Merge Risk Minimal up to 1d0ee;
+  pre-merge checks 4 passed (Title, Linked
+  Issues, Out of Scope Changes, Description),
+  Title Passed with details noting the title
+  names the main change and does not mention
+  the README round-count update, a minor part
+  of the change; Run ID
+  2fc20b4d-b9c8-4e94-b954-85b707438bce; the
+  review used the included allowance, none
+  remaining; no rate-limit banner. No formal
+  review and no review comments stand on PR
+  38, so no disposition beyond the shell's own
+  stands: no actionable comments, no
+  dismissals, and nothing calling for a repair
+  record. No disposition-bearing element moved
+  in any of the re-renders after the lane's
+  reads: the status block, the walkthrough,
+  the assessment's pinned commit, the Merge
+  Risk line, the four passed checks, and the
+  Run ID stand identical across the forms,
+  each re-render adding blank lines only, the
+  standing re-render shape. The bot's
+  release-notes appendix censused in the
+  whole-body read of the owner-patched body
+  (11,977 characters): 516 characters from its
+  opening marker at this read, one
+  Documentation group carrying three bullets
+  (the README count updated from 34 to 35 of
+  100; records covering a review disposition,
+  repeated measurements, battery and
+  differential runs, volume checks, fixture
+  comparisons, and verification results added;
+  and FT-83 remaining open), each correct at
+  this read, the appendix the bot's own text.
+  The owner's pre-merge body patch graded
+  against the record and standing exact: the
+  Verified block names the head
+  1d0ee6822704fbdad0c9953fb1ccf88a30721e72 and
+  tree
+  ece148d3af5248ef17aeb71dec4dd192ddcc771b;
+  the closing CI sentence carries the closure
+  head's two completed runs (push 44447480699,
+  completed 2026-11-19T02:53:18Z, and pull
+  request 44448113168, completed
+  2026-11-19T02:58:51Z, both success, re-read
+  at this lane's hand this round); the step 0
+  section stands restated in completed form,
+  stating the shell's form at the owner's read
+  (11,109 characters, superseded at this read
+  by the 11,111 form contracted above), the
+  census at the owner's read (2 issue
+  comments, 0 reviews, 0 review comments), and
+  the no-dismissal posture, and charging any
+  later bot material to this round's
+  read-back, which this item now discharges.
+  The gate verdicts stand contracted as the
+  landing comment records them: spec PASS; red
+  team APPROVE with nothing untested; and
+  standards REPAIR one Minor, body-only (the
+  step 0 shell figure stale by one final
+  re-render), closed by the owner's pre-merge
+  body patch with the head unchanged. PR 38's
+  CI re-read this round: runs 44447480699
+  (push) and 44448113168 (pull_request) both
+  completed success on the head 1d0ee68227.
+  Nothing stands posted after the landing
+  comment, so the third charge discharges as
+  empty, and the one piece of bot material
+  arriving after the owner's patch, the
+  shell's +2 re-render at
+  2026-11-19T05:19:25Z, stands contracted
+  above under the first charge. FT-83 stands
+  carried open by name exactly as the landing
+  comment charges: the repo description and
+  the README lede share the canonical line
+  word for word at this read, and Cargo.toml
+  line 5 remains the third variant, untouched.
