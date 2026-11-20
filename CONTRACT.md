@@ -7395,3 +7395,180 @@ held to the standard of the surface it feeds.
   volume pass, the golden fixture, and the
   gate each stand at the scope their items
   name.
+
+- FT-222. PR 40 read back whole on its closed
+  record, read through the API on 2026-11-19:
+  4 issue comments, 0 reviews, and 0 review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 7002737676
+  at 113 characters, created
+  2026-11-19T07:30:12Z and last edited at the
+  merge 2026-11-19T18:59:50Z in its post-merge
+  form naming the merge; the bot's shell
+  7002740925; the owner's queue comment
+  7018827214 at 12 characters (the merge
+  submission), created 2026-11-19T18:52:23Z
+  and never edited; and the owner's landing
+  comment 7019695181 at 2,165 characters,
+  created 2026-11-19T19:21:33Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening. Every identifier the
+  landing comment's charges cite stands
+  verified at this read. The shell's true
+  final form at this read stands at 11,165
+  characters, last edited
+  2026-11-19T18:52:28Z, across its forms:
+  5,208 characters in its in-progress form at
+  its creation 2026-11-19T07:30:23Z, counted
+  nowhere; 11,161 at the Round 36 lane's
+  completed read, last edited
+  2026-11-19T07:33:30Z; 11,163 at the owner's
+  pre-merge patch read, last edited
+  2026-11-19T07:34:52Z; and 11,165 at this
+  read, the last re-render standing five
+  seconds after the owner's queue comment and
+  before the merge at 2026-11-19T18:59:47Z,
+  and the shell not edited at or after the
+  merge. Shell final form read whole: the
+  recent-review status block states no
+  actionable comments were generated in the
+  recent review; the walkthrough records that
+  CONTRACT.md adds the Round 35 review,
+  measurement, battery, volume, and gate
+  results and records the Round 36 closure,
+  that README.md updates the closed perfection
+  rounds count from 35 to 36 of 100, and that
+  the FT-83 description alignment remains
+  unresolved; the change assessment pinned to
+  5a52bd00e8bf649df8a753c8b89e9e05e1dc3537 as
+  source and covered commit, kind reviewed,
+  over CONTRACT.md and README.md; Merge Risk
+  Minimal up to 5a52b; pre-merge checks 4
+  passed (Description, Title, Linked Issues,
+  Out of Scope Changes), the Title check
+  passed with its details noting the title
+  names the project, the round, and the ticket
+  range; Run ID
+  b7ccf4fb-ca1d-4501-8015-967b5c7f08b7; the
+  review used the included allowance, none
+  remaining; no rate-limit banner. No formal
+  review and no review comments stand on PR
+  40, so no disposition beyond the shell's own
+  stands: no actionable comments, no
+  dismissals, and nothing calling for a repair
+  record. No disposition-bearing element moved
+  in any of the re-renders after the lane's
+  reads: the status block, the walkthrough,
+  the assessment's pinned commit, the Merge
+  Risk line, the four passed checks, and the
+  Run ID stand identical across the forms,
+  each re-render adding blank lines only, the
+  standing re-render shape. The bot's
+  release-notes appendix stands at the foot of
+  the owner-patched body (12,274 characters at
+  this read): the owner's refutation note,
+  graded below, stands inserted inside the
+  appendix span before its closing marker; the
+  insertion measures 1,274 characters (the
+  note's 1,271 characters with its newline
+  joins), and with the insertion removed the
+  body reconstructs at 11,000 characters and
+  the appendix measures exactly 618 characters
+  from its opening marker, the figure the
+  Round 36 lane stated, its bullets each
+  correct at this read (the documented count
+  of completed rounds updated from 35 to 36 of
+  100 with the criteria for counting a round
+  unchanged; a record of the latest review,
+  measurement results, verification checks,
+  and closure added, noting a stale shell-size
+  figure corrected and no actionable review
+  findings remaining; and an unresolved
+  description-alignment item carried forward).
+  The owner's pre-merge body patch graded
+  against the record in both its parts. Its
+  first part, the step 0 restatement, stands
+  exact: the shell's form restated at 11,163
+  characters, last edited
+  2026-11-19T07:34:52Z, exact at the owner's
+  read and superseded in figure only by the
+  11,165 form contracted above; the appendix
+  byte-identical after the patch at the same
+  618 characters; the head unchanged at
+  5a52bd00e8bf649df8a753c8b89e9e05e1dc3537.
+  Its second part, the refutation note, is
+  graded with the refutation itself below. The
+  gate verdicts stand contracted as the
+  landing comment records them: spec PASS;
+  standards REPAIR one Minor, body-only (the
+  step 0 shell figure stale by one final
+  re-render), closed by the owner's pre-merge
+  body patch; and red team REPAIR two Minors,
+  its F1 the same shell fact closed by the
+  same patch, and its F2 standing REFUTED on
+  the evidence, graded next. The refutation
+  stands SOUND at this read on every limb.
+  FT-216 in the head contract, read at this
+  read, is the PR 38 read-back item; it
+  contains no cargo split, its only cargo
+  token the word Cargo.toml in its FT-83 carry
+  sentence, and none of the fragments the
+  finding quotes (timestamps 24, digest_cli
+  34, library unit 0, binary unit 25, cli 7,
+  Round 33 order, validate 1, screen 5, slice
+  15, schema 3) stands anywhere in the head
+  contract or in PR 40's body, each counted at
+  zero at this read over both. The contract's
+  split statement stands at FT-220, read at
+  this read, correctly paired: lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, and doc 0, the binary's own unittests
+  target also running at 0, the counts summing
+  to 247. The three measurements the note
+  cites agree at every target: the red team's
+  own executions on both trees, whose report
+  states the true pairing exactly as FT-220
+  stands while its F2 attribution quotes a
+  text standing nowhere in the record; the
+  first repair lane's cargo log, paired
+  mechanically at this read with each Running
+  header read against its own result line, at
+  247 passed and 0 failed in the same pairing;
+  and the second repair lane's own run, paired
+  mechanically at this read the same way, at
+  247 passed and 0 failed in the same pairing,
+  that lane's stop on the premise failure
+  standing as the record states. No repair
+  record was owed, and none stands: a record
+  correcting a statement that does not stand
+  would itself be a false claim in the
+  contract. The red team's executions stand;
+  its F1 stands closed by the owner's patch;
+  its F2 text does not stand. PR 40's CI
+  re-read this round: runs 44479648593 (push,
+  completed 2026-11-19T07:27:19Z) and
+  44480099589 (pull_request, completed
+  2026-11-19T07:30:28Z), both completed
+  success on the head 5a52bd00e8. The merged
+  state stands as the landing comment records
+  it: Trunk merged PR 40 as squash
+  d82a534ffb9b98ed91073a4969dc8e1cb70e6a88 at
+  2026-11-19T18:59:47Z, the merge tree
+  d5c18afcb25826d86a3216207fcbf5b664ebf899
+  equal to the reviewed head tree, main
+  standing at that squash at this read, and
+  the README on main at 36 of 100. Nothing
+  stands posted after the landing comment, so
+  the third charge discharges as empty. FT-83
+  stands carried open by name exactly as the
+  landing comment charges: the repo
+  description and the README lede share the
+  canonical line byte for byte at this read,
+  and Cargo.toml's description remains the
+  third variant, "Flight tapes for agent runs:
+  validate, convert, play back, compare, and
+  screen recorded sessions.", untouched.
