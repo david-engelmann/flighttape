@@ -7957,3 +7957,111 @@ held to the standard of the surface it feeds.
   to the law as contracted at FT-197 and
   re-measured at FT-205, FT-211, FT-217, and
   FT-223, and no point moved.
+
+- FT-230. The battery in full and the
+  differential whole. The canonical-form
+  battery passes 40 of 40 cells with zero
+  failures, the key-order cells K1 to K12 and
+  the float-render cells F01 to F28 each at
+  their contracted dispositions, the two
+  lone-surrogate cells refusing with the
+  unencodable-text error and the non-finite
+  cell refusing by name. The tape-surface
+  battery passes 14 of 14 cells with zero
+  failures, its convert of the golden fixture
+  digesting to the golden value at S1, its
+  wrong-digest verify refusing with the
+  mismatch named at S6, and its non-UTF8 argv
+  cell standing at the FT-77 posture at S13.
+  The battery stands at 54 of 54. The
+  differential runs its 117 cases whole
+  against the verified oracle extraction,
+  FT_PY_SRC set deliberately to that
+  extraction: 116 cases stand identical across
+  exit code, stdout, stderr, and files, and
+  the single divergence stands at case 64,
+  slice over the 600-deep tape, in the FT-54
+  band, exactly as contracted; the file
+  divergences stand at zero, and the harness
+  exits 1 on the one divergence, as
+  contracted, its runner's banking condition
+  read against that exit law before the run
+  was judged.
+
+- FT-231. The volume pass executed at the
+  fresh seed 20270502, a seed no earlier round
+  used, as part of this round's own set. The
+  generator's corpus stands at 21,035 lines
+  and 7,736,621 bytes across 27 sessions, its
+  deepest nesting at 122 arrays and its widest
+  object at 500 keys, the corpus dimensions
+  identical to Round 37's pass at its own seed
+  and to Round 36's and Round 35's before it:
+  the seed governs the corpus's content, and
+  the generator's structure fixes its
+  dimensions. Nineteen of nineteen cells pass:
+  the long-haul tape carries 7,500 events, its
+  digest
+  1ddf55b0413473058c1e86887378b18506544f4576cdf98c13c5bed2ad670564
+  differing from Round 37's as the seed
+  differs, and the convert-dir tree cell
+  stands at 25 files. The golden fixture
+  executes on all three arms: the binary, the
+  standard runner, and the module route each
+  convert the synthetic fixture to a tape of
+  1,663 bytes, the three tapes byte-identical,
+  each arm's digest of its tape printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify of its tape against
+  that digest exits 0 printing digest matches,
+  the verify executed by the stage script
+  itself in its correct form. The fleet pin
+  stands reconfirmed through the API at commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  tree afd4d7d1, its tree holding exactly 50
+  blobs.
+
+- FT-232. The gate on both trees. Against
+  Round 37's closing tree, cargo test passes
+  247 tests with zero failures, the count
+  stated target by target: lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, and doc 0, the counts summing to 247 and
+  the doc count a true zero; the binary's own
+  unittests target also runs, at 0. Clippy
+  over all targets with warnings denied exits
+  0, and cargo fmt in check mode exits 0, and
+  the tree's binary stands at md5
+  47edf4b9452c5872bc0fd1328f64b048, at its
+  build path under this round's scratch target
+  directory. Against this round's assembled
+  closing tree the same gate stands at the
+  same figures, cargo test at 247 with the
+  same target counts, clippy and fmt each
+  exiting 0, the code on the two trees
+  byte-identical outside the contract and the
+  README. The codepoint scan stands at zero on
+  both instruments: the repository's own
+  scripts/codepoint_scan.py over each tree
+  reports U+2014 = 0 and U+2013 = 0, and this
+  round's own scan over all 52 blobs of the
+  closing tree reports the same, its counter
+  proven able to fail on a planted control
+  first, at 2 and 1 where planted. The corpus
+  guards stand counted on the closing tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines. The oracle stands verified blob
+  for blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
