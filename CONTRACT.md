@@ -7747,3 +7747,179 @@ held to the standard of the surface it feeds.
   the volume pass, the golden fixture, and the
   gate each stand at the scope their items
   name.
+
+- FT-228. PR 42 read back whole on its closed
+  record, read through the API on 2026-11-20:
+  4 issue comments, 0 reviews, and 0 review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 7033783762
+  at 113 characters, created
+  2026-11-20T07:55:23Z and last edited at the
+  merge 2026-11-20T18:34:58Z in its post-merge
+  form naming the merge; the bot's shell
+  7033787027; the owner's queue comment
+  7047429588 at 12 characters (the merge
+  submission), created 2026-11-20T18:27:40Z
+  and never edited; and the owner's landing
+  comment 7053477083 at 1,810 characters,
+  created 2026-11-20T23:47:05Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening. Every identifier the
+  landing comment's charges cite stands
+  verified at this read. The shell's true
+  final form at this read stands at 10,954
+  characters, last edited
+  2026-11-20T08:02:19Z, across its forms:
+  10,952 characters at the Round 37 lane's
+  completed read, last edited
+  2026-11-20T07:57:31Z, the form the pull
+  request body dispositions; and 10,954 at
+  this read, the one further re-render
+  standing after the body's read and charged
+  to this read-back on the body's face, and
+  the shell not edited at or after the merge
+  at 2026-11-20T18:34:56Z. Shell final form
+  read whole: the recent-review status block
+  states no actionable comments were generated
+  in the recent review; the walkthrough
+  records in three rows that CONTRACT.md
+  records the PR 40 read-back and disposition
+  with FT-83 as still open, that CONTRACT.md
+  adds the depth measurements, the battery and
+  differential results, the fresh-seed volume
+  results, and the verification gate results,
+  and that CONTRACT.md and README.md record
+  the Round 37 closure and advance the
+  closed-round count to 37; the change
+  assessment pinned to
+  3109947ae09655d8482671f49e9142825b56f38a as
+  source and covered commit, kind reviewed,
+  over CONTRACT.md and README.md, its effort
+  at 2 (Simple) and its change kind at Other;
+  Merge Risk Minimal up to 31099; pre-merge
+  checks 4 passed (Description, Title, Linked
+  Issues, Out of Scope Changes), the Title
+  check passed with its explanation standing
+  as graded below; Run ID
+  7c0a5571-6471-49fe-9cf3-ea463aa0e97a; the
+  review used the included allowance, none
+  remaining; no rate-limit banner. No formal
+  review and no review comments stand on PR
+  42, so no disposition beyond the shell's own
+  stands: no actionable comments, no
+  dismissals, and nothing calling for a repair
+  record. The Title check's note stands
+  dispositioned on the body, and the
+  disposition is graded SOUND on its grounds
+  at this read: the check passed, and its
+  explanation states that the title names the
+  round and the ticket range, that the pull
+  request records the Round 37 read-back,
+  measurements, gate checks, and closure with
+  the objectives mapping FT-222 to FT-227 to
+  those activities, and that the title is
+  specific and in scope, though it does not
+  name the main outcome (the closure and
+  README count bump). The body's disposition,
+  that the title names the round and the
+  ticket range and does not name the main
+  outcome, which it does not need to, stands
+  true on the record: the title stands in the
+  standing shape of every round's title in
+  this programme, and the main outcome stands
+  named in the body's first paragraph and in
+  the shell's own walkthrough. A passed
+  check's explanatory note calls for no
+  repair, and none stands. No
+  disposition-bearing element moved in the
+  re-render after the body's read: the status
+  block, the walkthrough, the assessment's
+  pinned commit, the Merge Risk line, the four
+  passed checks, and the Run ID stand
+  identical across the forms, the re-render
+  adding blank lines only, the standing
+  re-render shape. The bot's release-notes
+  appendix stands at the foot of the body
+  (12,688 characters at this read) and
+  measures exactly 607 characters from its
+  opening marker, each of its bullets correct
+  at this read (the project record updated
+  with the latest review outcomes, repeated
+  measurements, test results, fixture
+  comparison, and verification status; one
+  review finding recorded as refuted, another
+  as addressed, and a description-alignment
+  item as unresolved; and the README's
+  closed-round count updated from 36 to 37 of
+  100, the full-cycle criterion unchanged).
+  The body's chain stands verified at this
+  read: four commits,
+  9c255d7a4c1ae51aba1da78e04b4b542c7a223bc at
+  tree
+  8b14aa1edf349e65b426665a6dfc18934edcea24,
+  5372f25c6b2c200a3bf892b37675d2884d9b059b at
+  tree
+  986c50867930ec61d255c904c4e028223b9689d5,
+  69e7baaacf0ff9f36064cc5990b743f81f4647bf at
+  tree
+  71522e284ceee14b963ea9dd9ecd464efa15651c,
+  and the closure head
+  3109947ae09655d8482671f49e9142825b56f38a at
+  tree
+  b5ccdc7cbdf7054e589a9b7ed136928b642afac6,
+  matching the body's Verified block head for
+  head. The gate verdicts stand contracted as
+  the landing comment records them: spec PASS
+  with no findings; standards APPROVE with no
+  findings; and red team APPROVE with no
+  findings and its untested set empty, the
+  whole contracted set executed at its own
+  hand on both trees, and no body patch owed
+  on any axis. The Round 36 red team's F2
+  finding stands refuted for good, as the
+  landing comment records: the Round 37 red
+  team graded the refutation SOUND at its own
+  hand, its own cargo logs closing the pairing
+  limb at 247 passed and 0 failed on both
+  trees paired mechanically per Running
+  header, FT-216 holding no cargo split, and
+  FT-220's split standing correctly paired in
+  the record, re-read at this read in the base
+  contract exactly as FT-222 contracted it. PR
+  42's CI re-read this round: runs 44694766792
+  (push, completed 2026-11-20T07:25:11Z) and
+  44698522925 (pull_request, completed
+  2026-11-20T07:55:49Z), both completed
+  success on the head
+  3109947ae09655d8482671f49e9142825b56f38a.
+  The merged state stands as the landing
+  comment records it: Trunk merged PR 42 as
+  squash
+  9527899ed270e0c25b770d9190477040659e60b5 at
+  2026-11-20T18:34:56Z, the merge tree
+  b5ccdc7cbdf7054e589a9b7ed136928b642afac6
+  equal to the reviewed head tree, main
+  standing at that squash at this read, and
+  the README on main at 37 of 100. Nothing
+  stands posted after the landing comment, so
+  the third charge's post-landing material
+  stands at exactly the landing comment and
+  the Trunk note in its post-merge form, both
+  dispositioned above. FT-83 stands carried
+  open by name exactly as the landing comment
+  charges: the repo description and the README
+  lede share the canonical line byte for byte
+  at this read, and Cargo.toml's description
+  remains the third variant, "Flight tapes for
+  agent runs: validate, convert, play back,
+  compare, and screen recorded sessions.",
+  untouched. The fourth charge's seed stands
+  verified fresh at this read: 20270502
+  appears nowhere in the contract, and each of
+  the twelve used seeds stands present,
+  20261121, 20261205, 20261219, 20261227,
+  20270110, 20270124, 20270207, 20270221,
+  20270307, 20270321, 20270404, and 20270418;
+  the volume pass itself stands contracted at
+  FT-231.
