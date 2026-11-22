@@ -8949,3 +8949,19 @@ held to the standard of the surface it feeds.
   over the fifty-two blobs, the round's own
   scan opening on its planted control counted
   first.
+
+- FT-246. Round 40 closes. The round numbers
+  FT-241 to FT-246; the Status range line
+  advances to FT-241 to FT-245 in this closure
+  commit, FT-246 standing as the closure
+  record outside the range it closes, on the
+  FT-143, FT-227, and FT-233 precedents. The
+  README's rounds line reads 40 of 100 from
+  this commit. Carried open: FT-83, the
+  description alignment, awaiting David's
+  word, untouched by this round. The gate on
+  both trees at FT-245, the battery and the
+  differential at FT-243, the volume and the
+  golden and the pin at FT-244, the depth law
+  at FT-242, and the read-back at FT-241 stand
+  as this round's executed account.
