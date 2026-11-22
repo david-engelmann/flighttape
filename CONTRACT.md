@@ -8544,3 +8544,261 @@ held to the standard of the surface it feeds.
   FT-237 stands unrewritten. The gate
   programme ran under the build slot, held for
   its whole lifetime.
+
+- FT-241. PR 46 read back whole on its closed
+  record, read through the API on 2026-11-22:
+  4 issue comments, 2 reviews, and 2 review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 7079617763
+  at 113 characters, created
+  2026-11-22T13:10:15Z and last edited at the
+  merge 2026-11-22T17:46:07Z in its post-merge
+  form naming the merge; the bot's shell
+  7079620237; the owner's queue comment
+  7082992184 at 12 characters (the merge
+  submission), created 2026-11-22T17:38:28Z
+  and never edited; and the owner's landing
+  comment 7083199668 at 1,460 characters,
+  created 2026-11-22T17:54:49Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening and again automatically at
+  the repair commit's push. Every identifier
+  the landing comment's charges cite stands
+  verified at this read. The shell's true
+  final form at this read stands at 8,641
+  characters, last edited
+  2026-11-22T17:34:00Z, across its forms:
+  8,560 characters at the build lane's read,
+  last edited 2026-11-22T13:13:10Z, the form
+  the pull request body as first patched
+  dispositions; 8,562 characters at the
+  standards and red team readings, last edited
+  2026-11-22T13:16:29Z; 8,637 characters at
+  the owner's patch read, last edited
+  2026-11-22T17:30:57Z; and 8,641 at this
+  read, the last re-render standing before the
+  merge and charged to this read-back on the
+  landing comment's face, and the shell not
+  edited at or after the merge at
+  2026-11-22T17:46:04Z and not after the
+  landing comment. Shell final form read
+  whole: no recent-review status block stands
+  in the final form; the walkthrough records
+  in two rows that CONTRACT.md adds the PR 44
+  read-back, the title-check disposition, the
+  body-patch history, the review and CI
+  outcomes, the validation measurements, the
+  battery and differential results, the
+  fresh-seed and golden-fixture results, the
+  fleet-pin suite results, the verification
+  results, and the final-tree gate repair, and
+  that CONTRACT.md and README.md record the
+  Round 39 closure, carry FT-83 forward as
+  open, and change the closed-round count from
+  38 to 39 of 100 with the round-count
+  criteria unchanged; the change assessment
+  pinned to
+  76cb5c667beb8a43df5d32a761a66051a6752cd9 as
+  source and covered commit, kind reviewed,
+  its effort at 2 (Simple) and its change kind
+  at Other; Merge Risk Low up to 76cb5, its
+  note stating that the pull request only
+  updates round records and the README's
+  closed-round count so it has no runtime
+  impact, and that one record overstates the
+  cause of a binary checksum difference, worth
+  qualifying but not blocking the merge, that
+  note standing as dispositioned below with
+  the second review comment it summarizes;
+  pre-merge checks 4 passed (Title, Linked
+  Issues, Out of Scope Changes, Description),
+  the Title check passed with its explanation
+  standing as graded below; no Run ID stands
+  in the shell, the Run IDs standing in the
+  two reviews. The Title check's note stands
+  dispositioned here and the disposition is
+  graded SOUND on its grounds at this read:
+  the check passed, and its final explanation
+  states that the title names Round 39 and the
+  FT-234 to FT-239 contract items, that it
+  covers a real part of the change, that it
+  does not mention the closed-round count
+  update, the README change, or the FT-240
+  repair commit, and that it is a bit terse
+  and uses the refine prefix but is specific
+  and not misleading and passes because it
+  refers to the main change, the Round 39
+  documentation. The title stands in the
+  standing shape of every round's title in
+  this programme, the repair commit is an
+  append inside the round the title names and
+  postdates it, and the change's
+  documentation-only nature stands stated in
+  the body's first paragraph and in the
+  shell's own walkthrough, so a passed check's
+  explanatory note calls for no repair, and
+  none stands. Two formal reviews stand, each
+  COMMENTED and each posting one actionable
+  comment. The first, review 6012435053,
+  submitted 2026-11-22T13:13:07Z, Run ID
+  2333030d-1493-4437-a90f-cf93b7e146e1,
+  reviewing the range from
+  83a130cce3683a0b62343646ddca67c0734ed03f to
+  dc76a3a7f91cb20bffbc593b60e6aa5e1193ae1e
+  over CONTRACT.md and README.md, the review
+  using the included allowance, none
+  remaining, posts review comment 4658244101
+  at CONTRACT.md line 8405, graded Minor: it
+  asks that FT-238's tree comparison account
+  for README.md, name the tree the gate ran
+  on, and, if that tree is not the final head,
+  run the gate there or state the difference.
+  The comment stands dispositioned on the body
+  on its grounds and discharged by execution
+  at FT-240, which ran the gate whole on the
+  final tree; and the comment itself now
+  carries at its foot the bot's own
+  acknowledgment, Addressed in commit 76cb5c6,
+  read at this hand. The second, review
+  6013514888, submitted 2026-11-22T17:30:52Z,
+  Run ID fd811886-7596-4b00-84b7-805c2dee027d,
+  reviewing the range from
+  dc76a3a7f91cb20bffbc593b60e6aa5e1193ae1e to
+  76cb5c667beb8a43df5d32a761a66051a6752cd9
+  over CONTRACT.md, the review using the
+  included allowance, none remaining, posts
+  review comment 4659171798 at CONTRACT.md
+  line 8528, graded Minor for functional
+  correctness: it asks that the cause of
+  FT-238's MD5 difference be qualified, on the
+  ground that FT-238 compared different trees
+  as well as different paths, so FT-240's
+  builds do not show that path alone caused
+  the difference. The comment postdates the
+  body's Step 0 patch and stands
+  undispositioned on PR 46; it stands
+  dispositioned here, on its grounds, and the
+  disposition is graded SOUND at this read.
+  The tree variable the comment names is
+  itself discharged on the record: FT-238
+  states, and the repair lane and the red team
+  each verified blob for blob, that the two
+  gated trees differ in exactly one path,
+  CONTRACT.md, over 52 blobs each; and
+  CONTRACT.md is not an input to the compiled
+  binary, verified at this read on the base
+  tree, which carries no build script, no
+  reference to CONTRACT.md anywhere in its
+  sources or its manifest, and no inclusion of
+  it in any source file, the only embedded
+  files being test fixtures. With the compiled
+  inputs byte-identical, no tree-side variable
+  remains that could reach the binary, and
+  FT-240's experiments then isolate the path
+  variable directly: the final tree built
+  twice at one path returns one md5, and the
+  same tree at a second path returns another.
+  The attribution in FT-240 therefore stands
+  as written, and neither a qualification nor
+  a repair record is owed; the shell's Merge
+  Risk note carries the same point and stands
+  answered by the same grounds. The owner's
+  body patch stands graded whole at this read:
+  the body measures 21,489 characters, and
+  each of its six edits stands verified at its
+  anchor. The duplicated Step 0 heading
+  sentence stands deleted, the heading
+  standing exactly once at the section's
+  opening. The appendix account stands
+  corrected: the appendix stands preserved
+  byte for byte at the foot of the body,
+  measuring 628 characters from its opening
+  marker at offset 20,861, the bot having
+  re-rendered it over the repair head, and
+  each of its four bullets stands correct at
+  this read (the status updated to 39 of 100
+  with the counting criteria unchanged; the
+  Round 38 and Round 39 records added; the
+  final-tree gate's pass and the pin suite's
+  corrected target count recorded; and FT-83
+  documented as still open). The shell forward
+  charge stands added, the shell at 8,637
+  characters at the owner's patch read with
+  its true final form charged to this
+  read-back. The repair lane's course stands
+  appended whole to the attempt history,
+  following the build lane's completeness
+  sentence, each of its events counted
+  nowhere. The Verified block stands settled
+  on the repair head
+  76cb5c667beb8a43df5d32a761a66051a6752cd9 at
+  tree
+  489d86469a3f1c53a440bfbbf7a8d6e0d9784416,
+  the closure head
+  dc76a3a7f91cb20bffbc593b60e6aa5e1193ae1e and
+  its tree
+  92ad0877dada8721224c15e078721bd20906e7ac
+  standing as first verified. And the
+  deviations line stands corrected to name the
+  one gate-found deviation, repaired at
+  FT-240. The gate verdicts stand contracted
+  as the landing comment records them: spec
+  REPAIR on one Minor (S-1, the closure gate
+  not having run on the final tree), standards
+  REPAIR on two Minors (S-1 the duplicated
+  heading, S-2 the shell's true final form
+  uncharged), and red team REPAIR on one Minor
+  (F-1, convergent with S-2), the spec Minor
+  discharged by the FT-240 repair commit and
+  the body Minors by the owner's patch graded
+  above, with delta reviews on both axes over
+  the repair (spec PASS, standards APPROVE).
+  PR 46's CI re-read this round: on the
+  closure head
+  dc76a3a7f91cb20bffbc593b60e6aa5e1193ae1e,
+  runs 45024673244 (push, completed success,
+  updated 2026-11-22T12:54:34Z) and
+  45026057563 (pull_request, completed
+  success, updated 2026-11-22T13:10:44Z); on
+  the repair head
+  76cb5c667beb8a43df5d32a761a66051a6752cd9,
+  runs 45049686058 (push, completed success,
+  updated 2026-11-22T17:29:26Z) and
+  45049690817 (pull_request, completed
+  success, updated 2026-11-22T17:29:25Z). The
+  merged state stands as the landing comment
+  records it: Trunk merged PR 46 as squash
+  5bfaebd4f7278cb2127b8521cbfc508b16f849d8 at
+  2026-11-22T17:46:04Z, the merge tree
+  489d86469a3f1c53a440bfbbf7a8d6e0d9784416
+  equal to the reviewed repair tree, main
+  standing at that squash at this read, and
+  the README on main at 39 of 100. Trunk's own
+  queue pull request 47, on the trunk-merge
+  branch for PR 46, opened at
+  2026-11-22T17:45:35Z and closed unmerged at
+  2026-11-22T17:45:59Z inside the merge; it is
+  the queue's artifact and no part of this
+  round's record beyond this note. Nothing
+  stands posted after the landing comment, so
+  the post-landing material stands at exactly
+  the landing comment and the Trunk note in
+  its post-merge form, both dispositioned
+  above. FT-83 stands carried open by name
+  exactly as the landing comment charges: the
+  repo description and the README lede share
+  the canonical line byte for byte at this
+  read, and Cargo.toml's description remains
+  the third variant, "Flight tapes for agent
+  runs: validate, convert, play back, compare,
+  and screen recorded sessions.", untouched.
+  The seed charge stands verified fresh at
+  this read: 20270530 appears nowhere in the
+  contract, and each of the fourteen used
+  seeds stands present, 20261121, 20261205,
+  20261219, 20261227, 20270110, 20270124,
+  20270207, 20270221, 20270307, 20270321,
+  20270404, 20270418, 20270502, and 20270516;
+  the volume pass itself stands contracted at
+  FT-244.
