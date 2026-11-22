@@ -8375,3 +8375,55 @@ held to the standard of the surface it feeds.
   targets at the pin's own split, the pin
   binary at its pin-target build path, its md5
   build-path scoped as contracted.
+
+- FT-238. The gate on both trees. Against
+  Round 38's closing tree, cargo test passes
+  247 tests with zero failures, the count
+  stated target by target: lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, and doc 0, the counts summing to 247 and
+  the doc count a true zero; the binary's own
+  unittests target also runs, at 0. Clippy
+  over all targets with warnings denied exits
+  0, and cargo fmt in check mode exits 0, and
+  the tree's binary stands at md5
+  64e29b281d7f4af280ed74118d5f3e88, at its
+  build path under this round's scratch target
+  directory. Against this round's assembled
+  closing tree the same gate stands at the
+  same figures, cargo test at 247 with the
+  same target counts, clippy and fmt each
+  exiting 0, and the closing tree's binary at
+  md5 608ed2db16be5368cd9fafcaed2cd9f6 at the
+  same target build path, built from the
+  closing tree at its own path; the code on
+  the two trees stands byte-identical outside
+  the contract, the two trees differing in
+  exactly the one path, CONTRACT.md, over 52
+  blobs each, compared blob for blob through
+  the API at this lane's hand. The codepoint
+  scan stands at zero on both instruments: the
+  repository's own scripts/codepoint_scan.py
+  over each tree reports U+2014 = 0 and U+2013
+  = 0, and this round's own scan over all 52
+  blobs of the closing tree reports the same,
+  its counter proven able to fail on a planted
+  control first, at 2 and 1 where planted. The
+  corpus guards stand counted on the closing
+  tree: tests/fixtures/timestamp_corpus.txt at
+  371 lines and
+  tests/fixtures/number_sweep.txt at 6,284
+  lines. The oracle stands verified blob for
+  blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. That commit is not
+  reachable through the GitHub API in this
+  repository, as FT-133 records; the channel
+  is stated exactly and no part of this item
+  claims the API channel for it.
