@@ -8460,3 +8460,87 @@ held to the standard of the surface it feeds.
   probes, the volume pass, the golden fixture,
   and the gate each stand at the scope their
   items name.
+
+- FT-240. Repair record, appended at the Round
+  39 gate in answer to the spec fidelity
+  review's finding S-1. The closure gate has
+  now run whole on the round's final tree
+  92ad0877dada8721224c15e078721bd20906e7ac, on
+  an assembly verified blob for blob against
+  the API tree listing before any leg ran, the
+  52 files assembled from the build lane's
+  verified checkout together with the two
+  files the final tree changes, the contract
+  and the README, each reconstructed under the
+  chain's own laws and proven at its final
+  blob identity. FT-238 stands unrewritten,
+  and its gated pair, the base tree against
+  the assembled closing tree
+  7ef67e119bed0c4e90c63493b6a58114831c4638,
+  stands exactly as it records. On the final
+  tree the gate stands at the contracted
+  figures: cargo test passes 247 tests with
+  zero failures, the count stated target by
+  target: lib 7, cli 22, compare 19, convert
+  34, digest_cli 5, identity 13, json 8, play
+  17, redaction 12, robustness 15, rollup 22,
+  scale 3, schema 5, screen 15, slice 24,
+  timestamps 1, validate 25, and doc 0, the
+  counts summing to 247; the binary's own
+  unittests target also runs, at 0. Clippy
+  over all targets with warnings denied exits
+  0, and cargo fmt in check mode exits 0, and
+  the final tree's binary stands at md5
+  114fe5a8633fc008fd93baa6cf6a3f81 at its
+  build path under this repair's scratch
+  target directory. The codepoint scan stands
+  at zero on both instruments: the
+  repository's own scripts/codepoint_scan.py
+  over the final tree reports U+2014 = 0 and
+  U+2013 = 0, and this repair's own scan over
+  all 52 blobs of the final tree reports the
+  same, its counter proven able to fail on a
+  planted control first, at 2 and 1 where
+  planted. The corpus guards stand counted on
+  the final tree:
+  tests/fixtures/timestamp_corpus.txt at 371
+  lines and tests/fixtures/number_sweep.txt at
+  6,284 lines. The oracle stands verified blob
+  for blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store: the
+  eleven files under its src/flighttape match
+  the working copy at the driven extraction
+  with zero mismatches. The build-path
+  question the gate's two md5s left open
+  stands discharged by execution: the final
+  tree built twice at one path, its target
+  directory deleted between the builds,
+  returns md5 114fe5a8633fc008fd93baa6cf6a3f81
+  both times, and the same tree built once at
+  a second path, its files verified blob for
+  blob against the same tree listing, returns
+  md5 499aa7f324b3677f0c9f9f79fd569029; the
+  binary's md5 is therefore scoped to its
+  build path exactly as FT-238's form states,
+  and the difference between FT-238's two
+  figures is the difference of their build
+  paths, no equality owed or claimed. The
+  fleet pin's suite stands re-executed on the
+  pin tree and its target count resolved by
+  name: 241 passed and 0 failed over 19
+  targets, namely the library unittests at 3,
+  the binary's own unittests at 0, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 13, slice 24, timestamps 1, validate
+  25, and the doc tests at 0. FT-237's count
+  of 18 targets counted the run's Running
+  headers and folded the doc tests section
+  into the validate target; the suite's 241
+  passed and 0 failed stand as FT-237 records,
+  the target count stands corrected here, and
+  FT-237 stands unrewritten. The gate
+  programme ran under the build slot, held for
+  its whole lifetime.
