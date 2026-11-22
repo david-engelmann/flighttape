@@ -8096,3 +8096,177 @@ held to the standard of the surface it feeds.
   harnesses, the probes, the volume pass, the
   golden fixture, and the gate each stand at
   the scope their items name.
+
+- FT-234. PR 44 read back whole on its closed
+  record, read through the API on 2026-11-22:
+  4 issue comments, 0 reviews, and 0 review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 7062100874
+  at 113 characters, created
+  2026-11-21T11:44:57Z and last edited at the
+  merge 2026-11-22T04:46:29Z in its post-merge
+  form naming the merge; the bot's shell
+  7062102934; the owner's queue comment
+  7074295749 at 12 characters (the merge
+  submission), created 2026-11-22T04:38:50Z
+  and never edited; and the owner's landing
+  comment 7074647504 at 1,146 characters,
+  created 2026-11-22T05:15:39Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening. Every identifier the
+  landing comment's charges cite stands
+  verified at this read. The shell's true
+  final form at this read stands at 10,801
+  characters, last edited
+  2026-11-22T04:38:38Z, across its forms:
+  10,797 characters at the finisher lane's
+  completed patch read, last edited
+  2026-11-21T11:48:05Z, the form the pull
+  request body as first patched dispositions;
+  10,799 characters at the red team's read,
+  last edited 2026-11-21T11:50:22Z; and 10,801
+  at this read, the two further re-renders
+  standing after the body's patch and charged
+  to this read-back on the landing comment's
+  face, and the shell not edited at or after
+  the merge at 2026-11-22T04:46:27Z and not
+  after the landing comment. Shell final form
+  read whole: the recent-review status block
+  states no actionable comments were generated
+  in the recent review; the walkthrough
+  records in two rows that CONTRACT.md records
+  the Round 37 verification results (the depth
+  measurements, the battery and differential
+  results, the fresh-seed volume results, and
+  the verification gate results) and that
+  CONTRACT.md and README.md record the Round
+  37 read-back and the Round 38 closure,
+  advancing the closed-round count to 38; the
+  change assessment pinned to
+  5fe13f4e2726b0dadc7db2621aae11b82b818907 as
+  source and covered commit, kind reviewed,
+  over CONTRACT.md and README.md, its effort
+  at 1 (Trivial) and its change kind at Other;
+  Merge Risk Minimal up to 5fe13; pre-merge
+  checks 4 passed (Title, Linked Issues, Out
+  of Scope Changes, Description), the Title
+  check passed with its explanation standing
+  as graded below; Run ID
+  6d185fed-c95a-4b3c-adee-ccec8a21444c; the
+  review used the included allowance, none
+  remaining; no rate-limit banner. No formal
+  review and no review comments stand on PR
+  44, so no disposition beyond the shell's own
+  stands: no actionable comments, no
+  dismissals, and nothing calling for a repair
+  record. The Title check's note stands
+  dispositioned on the body, and the
+  disposition is graded SOUND on its grounds
+  at this read: the check passed, and its
+  explanation states that the title names the
+  project, the round, and the contract record
+  range that the changeset adds, that it is
+  specific and matches the main change, and
+  that it uses the shorthand refine and does
+  not say the change is documentation-only.
+  The title stands in the standing shape of
+  every round's title in this programme, and
+  the change's documentation-only nature
+  stands stated in the body's first paragraph
+  and in the shell's own walkthrough, so a
+  passed check's explanatory note calls for no
+  repair, and none stands. The owner's body
+  patch stands graded at this read: the body
+  measures 14,409 characters, and the patch
+  passage stands at offset 9,371 carrying the
+  completion lane's blocked end whole (the
+  pushed chain banked and the closure-tree
+  codepoint scan executed, the closure
+  extraction refused for roughly three hours
+  across every route it tried, the fleet rate
+  limit at zero inside that loop with a probe
+  at 09:43Z reading 418 remaining against a
+  reset at 10:00:13Z, the pull request
+  unopened, and the finisher recommended), the
+  finisher lane's course (some 55 minutes of
+  refused writes across two probe-gated loops
+  at 26 refused probes, a cache clear that
+  changed nothing, a runtime restart at about
+  10:50Z clearing the wave, the extraction
+  completing in one pass at 10:51:35Z with all
+  52 files verified by blob hash, and the
+  closure gate executed whole at the
+  finisher's hand), its invalid direct-binary
+  instrument and its warm pairing re-run
+  killed in the build-slot convoy, each
+  counted nowhere, and the finisher opening
+  the pull request and applying the step 0 and
+  CI patch; the closure gate's executing hand
+  stands corrected to the finisher lane in the
+  body's own sentence, and the body's
+  completeness sentence follows the passage.
+  The bot's release-notes appendix stands
+  preserved byte for byte at the foot of the
+  body and measures exactly 385 characters
+  from its opening marker at offset 14,024,
+  each of its bullets correct at this read
+  (records of the latest review, verification
+  measurements, and closure status added; and
+  the documented count of completed rounds
+  updated from 37 to 38). The body's Verified
+  block head stands verified at this read: the
+  closure head
+  5fe13f4e2726b0dadc7db2621aae11b82b818907 at
+  tree
+  24469a3a3ed3e9c61453131101d7c39ea81632c3 is
+  the pull request's head as read live, and
+  the merge commit carries that same tree. The
+  gate verdicts stand contracted as the
+  landing comment records them: spec REPAIR
+  and standards REPAIR on one convergent
+  body-only Minor, the attempt history's
+  omission of the finisher lane's arrangement
+  and its misattribution of the closure gate,
+  discharged by the owner's body patch graded
+  above; and red team APPROVE with no findings
+  and nothing untested, the closure pairing
+  discharged mechanically at its own hand (247
+  passed on each tree at the FT-220 pairing)
+  and the depth law re-run exact at every
+  point. PR 44's CI re-read this round: runs
+  44875912659 (push, completed
+  2026-11-21T06:31:18Z) and 44900568108
+  (pull_request, completed
+  2026-11-21T11:45:26Z), both completed
+  success on the head
+  5fe13f4e2726b0dadc7db2621aae11b82b818907.
+  The merged state stands as the landing
+  comment records it: Trunk merged PR 44 as
+  squash
+  83a130cce3683a0b62343646ddca67c0734ed03f at
+  2026-11-22T04:46:27Z, the merge tree
+  24469a3a3ed3e9c61453131101d7c39ea81632c3
+  equal to the reviewed head tree, main
+  standing at that squash at this read, and
+  the README on main at 38 of 100. Nothing
+  stands posted after the landing comment, so
+  the post-landing material stands at exactly
+  the landing comment and the Trunk note in
+  its post-merge form, both dispositioned
+  above. FT-83 stands carried open by name
+  exactly as the landing comment charges: the
+  repo description and the README lede share
+  the canonical line byte for byte at this
+  read, and Cargo.toml's description remains
+  the third variant, "Flight tapes for agent
+  runs: validate, convert, play back, compare,
+  and screen recorded sessions.", untouched.
+  The seed charge stands verified fresh at
+  this read: 20270516 appears nowhere in the
+  contract, and each of the thirteen used
+  seeds stands present, 20261121, 20261205,
+  20261219, 20261227, 20270110, 20270124,
+  20270207, 20270221, 20270307, 20270321,
+  20270404, 20270418, and 20270502; the volume
+  pass itself stands contracted at FT-237.
