@@ -8996,3 +8996,368 @@ held to the standard of the surface it feeds.
   structure this record itself follows. No
   figure in FT-246 changes, and no other item
   is touched by this record.
+
+- FT-248. PR 48 read back whole on its closed
+  record, read through the API on 2026-11-23:
+  4 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  issue comments are the Trunk note 7087454748
+  at 113 characters, created
+  2026-11-22T23:16:51Z and last edited at the
+  merge 2026-11-23T09:50:08Z in its post-merge
+  form naming the merge; the bot's shell
+  7087456957; the owner's queue comment
+  7096988224 at 12 characters (the merge
+  submission), created 2026-11-23T09:42:06Z
+  and never edited; and the owner's landing
+  comment 7097192701 at 989 characters,
+  created 2026-11-23T09:52:00Z, standing last
+  and never edited. No trigger comment stands:
+  the bot reviewed automatically at the pull
+  request's opening and again automatically at
+  the repair commit's push. Every identifier
+  the landing comment's charges cite stands
+  verified at this read. The shell's true
+  final form at this read stands at 11,026
+  characters, last edited
+  2026-11-23T09:41:58Z, across its forms:
+  11,060 characters at the build lane's body
+  writing, last edited 2026-11-22T23:18:52Z,
+  the form the pull request body as posted
+  dispositions; 11,062 characters at the red
+  team's reading, last edited
+  2026-11-22T23:20:42Z; 11,024 characters at
+  the owner's patch read; and 11,026 at this
+  read, the re-render over the repair head
+  standing before the merge and charged to
+  this read-back on the body's gate record and
+  on the landing comment's face, and the shell
+  not edited at or after the merge at
+  2026-11-23T09:50:06Z and not after the
+  landing comment. Shell final form read
+  whole: its recent-review status block
+  stands, recording that no actionable
+  comments were generated in the recent
+  review; the walkthrough records in three
+  rows that CONTRACT.md adds the PR 46 review
+  record, that CONTRACT.md adds the round's
+  measurement and validation records, and that
+  CONTRACT.md and README.md record the Round
+  40 closure and the count, FT-247 withdrawing
+  the Status range line claim and the count
+  changing from 39 to 40 of 100 with the
+  full-cycle requirement unchanged; the change
+  assessment pinned to
+  c654ea8f25fb988a18175c62a14db7ef575e220e as
+  source and covered commit, kind reviewed,
+  its effort at 2 (Simple) and its change kind
+  at Other; Merge Risk Minimal up to c654e,
+  its note stating that the change updates
+  project documentation records and the
+  closed-round count and does not change
+  runtime behavior, so merge-readiness risk is
+  minimal; pre-merge checks 4 passed (Title,
+  Linked Issues, Out of Scope Changes,
+  Description), the Title check passed with
+  its full explanation standing as graded
+  below; and the Run ID
+  f393d908-45d8-4ce3-9c11-9400229b7217 stands
+  in the shell's own run configuration,
+  reviewing the range from
+  df82e56fa46ee651e1da6b0ed4b476d8be54a545 to
+  c654ea8f25fb988a18175c62a14db7ef575e220e
+  over CONTRACT.md, the review using the
+  included allowance, none remaining. The
+  Title check's note stands dispositioned here
+  and the disposition is graded SOUND on its
+  grounds at this read: the check passed, and
+  its full explanation states that the title
+  names the pull request's main subject, the
+  Round 40 record in CONTRACT.md covering
+  FT-241 through FT-246, that it does not
+  mention the README count change (39 to 40 of
+  100) or the FT-247 correction, and that
+  those are secondary, so the title still
+  passes. The title stands in the standing
+  shape of every round's title in this
+  programme, the repair record is an append
+  inside the round the title names and
+  postdates it, and the change's
+  documentation-only nature stands stated in
+  the body's first paragraph and in the
+  shell's own walkthrough, so a passed check's
+  explanatory note calls for no repair, and
+  none stands. No formal review stands on the
+  pull request and no review comments stand:
+  CodeRabbit reviewed automatically at the
+  opening, no manual trigger was posted, and
+  its whole review output stands in its shell
+  comment across the two runs, the first run's
+  ID, 2070fe5c-c583-4fe3-96a4-79c94150645c,
+  reviewing
+  5bfaebd4f7278cb2127b8521cbfc508b16f849d8 to
+  df82e56fa46ee651e1da6b0ed4b476d8be54a545
+  over CONTRACT.md and README.md, standing
+  recorded on the body; the reviews list and
+  the review comments list both read back
+  empty at this hand, each read to its end, so
+  no disposition stands owed on either and
+  none is discharged by a merge-time read. No
+  actionable comment stands in either review.
+  The owner's body patch stands graded whole
+  at this read: the body measures 18,106
+  characters. The bot's release-notes appendix
+  stands preserved byte for byte, measuring
+  539 characters from its opening marker at
+  offset 16,226, the bot having re-rendered it
+  over the repair head, and each of its three
+  Documentation bullets stands correct at this
+  read (the records covering Rounds 39 and 40
+  added, including review outcomes,
+  measurement results, and status checks; the
+  clarification that no Status range line
+  appears in the contract or README; and the
+  completed-round count updated from 39 to 40
+  of 100, the requirements for counting a
+  round unchanged). The owner's gate record
+  stands appended after the appendix in the
+  body's closing 1,341 characters including
+  its separators, charging the shell's true
+  final form to this read-back, the charge
+  this item discharges. The repair lane's
+  Verified block stands settled on the repair
+  head
+  c654ea8f25fb988a18175c62a14db7ef575e220e at
+  tree
+  38c29359f3828c08da9175bb98699f4b304345df,
+  the closure head
+  df82e56fa46ee651e1da6b0ed4b476d8be54a545 and
+  its tree
+  f8da6552802815a40dfa3b4d2654e1c4ff1c476a
+  standing as first verified, and the repair
+  accounted there with its delta reviews
+  charged. The gate verdicts stand contracted
+  as the landing comment records them: spec
+  REPAIR on one Minor (S-1, contract level,
+  FT-246's Status range line sentence and its
+  FT-143, FT-227, and FT-233 citations),
+  discharged by the appended repair record
+  FT-247 in the repair commit with FT-246
+  standing unrewritten, and standards REPAIR
+  on one Minor (S-1) and red team REPAIR on
+  one Minor (F-1), convergent and body only,
+  the shell's true final form standing charged
+  nowhere in the body or in FT-246, discharged
+  by the owner's body patch graded above; the
+  delta reviews on both axes over the repair
+  stand at spec PASS and standards APPROVE,
+  and the red team otherwise reproduced the
+  whole standing family at its own hand with
+  no limb untested. PR 48's CI re-read this
+  round: on the closure head
+  df82e56fa46ee651e1da6b0ed4b476d8be54a545,
+  runs 45082171339 (push, completed success)
+  and 45082386469 (pull_request, completed
+  success); on the repair head
+  c654ea8f25fb988a18175c62a14db7ef575e220e,
+  runs 45147876556 (push, completed success)
+  and 45147888464 (pull_request, completed
+  success). The merged state stands as the
+  landing comment records it: Trunk merged PR
+  48 as squash
+  6a493e9e4f62088dc97e5245ae4a5f759c0ea1e6 at
+  2026-11-23T09:50:06Z, the merge tree
+  38c29359f3828c08da9175bb98699f4b304345df
+  equal to the reviewed repair tree, main
+  standing at that squash at this read, and
+  the README on main at 40 of 100. Trunk's own
+  queue pull request 49, on the trunk-merge
+  branch for PR 48, opened at
+  2026-11-23T09:49:28Z and closed unmerged at
+  2026-11-23T09:49:57Z inside the merge; it is
+  the queue's artifact and no part of this
+  round's record beyond this note. Nothing
+  stands posted after the landing comment, so
+  the post-landing material stands at exactly
+  the landing comment and the Trunk note in
+  its post-merge form, both dispositioned
+  above. FT-83 stands carried open by name
+  exactly as the landing comment charges: the
+  repo description and the README lede share
+  the canonical line byte for byte at this
+  read, and Cargo.toml's description remains
+  the third variant, "Flight tapes for agent
+  runs: validate, convert, play back, compare,
+  and screen recorded sessions.", untouched.
+  The seed charge stands verified fresh at
+  this read: 20270613 appears nowhere in the
+  contract, and each of the fifteen used seeds
+  stands present, 20261121, 20261205,
+  20261219, 20261227, 20270110, 20270124,
+  20270207, 20270221, 20270307, 20270321,
+  20270404, 20270418, 20270502, 20270516, and
+  20270530; the volume pass itself stands
+  contracted at FT-251.
+
+- FT-249. The depth law re-measured at every
+  contracted point. The calibration first: at
+  1, 10, and 100 nested arrays the three arms
+  print identical digests, the 100-array
+  digest
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  standing as the identity run's own 100-array
+  value in its full form. At the digest seam
+  with zero added wraps the binary accepts 997
+  arrays and refuses 998, the standard runner
+  accepts 991 and refuses 992, and the module
+  route accepts 989 and refuses 990, the two
+  oracle routes exactly two apart; with four
+  added wraps the points stand at 993 and 994
+  for the binary, 987 and 988 for the standard
+  runner, and 985 and 986 for the module
+  route. Identity holds byte for byte on all
+  three arms through 989 arrays, on the binary
+  and the standard runner at 990 and 991, and
+  on the binary alone at 997. At the validate
+  seam the binary accepts at every one of the
+  eighteen named depths from 990 through
+  200,000 arrays, uncapped; the standard
+  runner accepts 9,994 and refuses 9,995 and
+  the module route accepts 9,991 and refuses
+  9,992 at zero wraps, and at four wraps the
+  points stand at 9,990 and 9,991 for the
+  standard runner and 9,987 and 9,988 for the
+  module route, the two oracle routes exactly
+  three apart. Every figure stands identical
+  to the law as contracted at FT-197 and
+  re-measured at FT-205, FT-211, FT-217,
+  FT-223, FT-229, FT-235, and FT-242, and no
+  point moved.
+
+- FT-250. The battery in full and the
+  differential whole. The canonical-form
+  battery passes 40 of 40 cells with zero
+  failures, the key-order cells K1 to K12 and
+  the float-render cells F01 to F28 each at
+  their contracted dispositions, the two
+  lone-surrogate cells refusing with the
+  unencodable-text error and the non-finite
+  cell refusing by name. The tape-surface
+  battery passes 14 of 14 cells with zero
+  failures, its convert of the golden fixture
+  digesting to the golden value at S1, its
+  wrong-digest verify refusing with the
+  mismatch named at S6, and its non-UTF8 argv
+  cell standing at the FT-77 posture at S13.
+  The battery stands at 54 of 54. The
+  differential runs its 117 cases whole
+  against the verified oracle extraction,
+  FT_PY_SRC set deliberately to that
+  extraction: 116 cases stand identical across
+  exit code, stdout, stderr, and files, and
+  the single divergence stands at case 64,
+  slice over the 600-deep tape, in the FT-54
+  band, exactly as contracted; the file
+  divergences stand at zero, and the harness
+  exits 1 on the one divergence, as
+  contracted, its runner's banking condition
+  read against that exit law before the run
+  was judged.
+
+- FT-251. The volume pass executed at the
+  fresh seed 20270613, a seed no earlier round
+  used, its absence from the base contract
+  verified at this round's opening against the
+  fifteen used seeds standing present. The
+  generator's corpus stands at 21,035 lines
+  and 7,736,621 bytes across 27 sessions, its
+  deepest nesting at 122 arrays and its widest
+  object at 500 keys, the corpus dimensions
+  identical to Round 40's pass at its own seed
+  and to Round 39's and Round 38's before it:
+  the seed governs the corpus's content, and
+  the generator's structure fixes its
+  dimensions. Nineteen of nineteen cells pass:
+  the long-haul tape carries 7,500 events, its
+  digest
+  af4960020328c6674b4abfc05a13596eaa710cf6810bf84cdf7e9ebffee5fbce
+  differing from Round 40's as the seed
+  differs, and the convert-dir tree cell
+  stands at 25 files. The golden fixture
+  executes on all three arms: the binary, the
+  standard runner, and the module route each
+  convert the synthetic fixture to a tape of
+  1,663 bytes, the three tapes byte-identical,
+  each arm's digest of its tape printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify of its tape against
+  that digest exits 0 printing digest matches,
+  the verify executed by the stage script
+  itself in its correct form. The fleet pin
+  stands reconfirmed through the API at commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  tree afd4d7d1, its tree holding exactly 50
+  blobs, and the pin's own suite stands
+  executed this round against the pin tree
+  extracted blob-verified with zero
+  mismatches: 241 passed and 0 failed over 19
+  targets at the pin's own split as resolved
+  at FT-240, the doc tests standing as their
+  own target at 0, the pin binary at its
+  pin-target build path, its md5 build-path
+  scoped as contracted.
+
+- FT-252. The closure gate, whole, on both
+  trees. Against the base tree 38c29359 the
+  full local suite stands at cargo test 247
+  passed and 0 failed, paired at the FT-220
+  split: library 7, cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13, json
+  8, play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, binary
+  unit tests 0, doc tests 0; clippy exits 0
+  with warnings denied, fmt exits 0, and the
+  base tree's binary stands at md5
+  e94ef8fce130d1b1eb5a7415cab9cc4d at its
+  build path under this round's scratch target
+  directory. Against this round's closing tree
+  the same gate stands executed whole at the
+  same figures, cargo test 247 passed and 0
+  failed at the same pairing, clippy 0, fmt 0,
+  the closing tree's binary at md5
+  e94ef8fce130d1b1eb5a7415cab9cc4d at the same
+  target build path, each md5 build-path
+  scoped as FT-240 established, the closing
+  tree and the base differing in exactly two
+  paths over the fifty-two blobs, CONTRACT.md
+  and README.md, verified blob for blob. The
+  corpus guards stand at 371 lines of
+  timestamp corpus and 6,284 lines of number
+  sweep on both trees. The oracle's final
+  Python tree eca7b60d stands verified through
+  the local clone's object store at this
+  round's hand: 11 files under src/flighttape,
+  0 mismatches. The typography stands clean on
+  both trees under both instruments: the
+  repository's own scan and this round's own
+  scan each report U+2014 at 0 and U+2013 at 0
+  over the fifty-two blobs, the round's own
+  scan opening on its planted control counted
+  first.
+
+- FT-253. Round 41 closes. The round numbers
+  FT-248 to FT-253; the record stands at
+  FT-248 to FT-253, FT-253 standing as the
+  closure record and the last item of the
+  record it closes, on the FT-227, FT-233, and
+  FT-239 precedents as FT-247 restated them.
+  The README's rounds line reads 41 of 100
+  from this commit. Carried open: FT-83, the
+  description alignment, awaiting David's
+  word, untouched by this round. The gate on
+  both trees at FT-252, the battery and the
+  differential at FT-250, the volume and the
+  golden and the pin at FT-251, the depth law
+  at FT-249, and the read-back at FT-248 stand
+  as this round's executed account.
