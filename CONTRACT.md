@@ -8965,3 +8965,34 @@ held to the standard of the surface it feeds.
   golden and the pin at FT-244, the depth law
   at FT-242, and the read-back at FT-241 stand
   as this round's executed account.
+
+- FT-247. Repair record, appended at the
+  Round 40 gate in answer to the spec
+  fidelity review's finding S-1. FT-246
+  stands unrewritten, and its executed
+  account stands exactly as it records: the
+  round numbers FT-241 to FT-246, and the
+  README's rounds line reads 40 of 100 from
+  the closure commit. One sentence of FT-246
+  does not stand. No Status range line exists
+  anywhere in this repository: neither this
+  contract nor the README carries one, at the
+  base or at the head, so no range line
+  advances in the closure commit. The closure
+  structure stands restated on the contract's
+  own convention, as FT-227, FT-233, and
+  FT-239 each state it: the round's record
+  stands at FT-241 to FT-246, FT-246 its
+  closure record and last item. FT-246's
+  range-line sentence, and its citations of
+  FT-143, FT-227, and FT-233 for the
+  placement it claimed, stand withdrawn:
+  FT-227 and FT-233 state the placement
+  restated here, and FT-143 is a volume-pass
+  item stating no closure structure at all.
+  The one outside-the-range precedent in this
+  contract is FT-240, a repair record
+  appended after its round had closed, the
+  structure this record itself follows. No
+  figure in FT-246 changes, and no other item
+  is touched by this record.
