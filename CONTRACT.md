@@ -9306,3 +9306,42 @@ held to the standard of the surface it feeds.
   own target at 0, the pin binary at its
   pin-target build path, its md5 build-path
   scoped as contracted.
+
+- FT-252. The closure gate, whole, on both
+  trees. Against the base tree 38c29359 the
+  full local suite stands at cargo test 247
+  passed and 0 failed, paired at the FT-220
+  split: library 7, cli 22, compare 19,
+  convert 34, digest_cli 5, identity 13, json
+  8, play 17, redaction 12, robustness 15,
+  rollup 22, scale 3, schema 5, screen 15,
+  slice 24, timestamps 1, validate 25, binary
+  unit tests 0, doc tests 0; clippy exits 0
+  with warnings denied, fmt exits 0, and the
+  base tree's binary stands at md5
+  e94ef8fce130d1b1eb5a7415cab9cc4d at its
+  build path under this round's scratch target
+  directory. Against this round's closing tree
+  the same gate stands executed whole at the
+  same figures, cargo test 247 passed and 0
+  failed at the same pairing, clippy 0, fmt 0,
+  the closing tree's binary at md5
+  e94ef8fce130d1b1eb5a7415cab9cc4d at the same
+  target build path, each md5 build-path
+  scoped as FT-240 established, the closing
+  tree and the base differing in exactly two
+  paths over the fifty-two blobs, CONTRACT.md
+  and README.md, verified blob for blob. The
+  corpus guards stand at 371 lines of
+  timestamp corpus and 6,284 lines of number
+  sweep on both trees. The oracle's final
+  Python tree eca7b60d stands verified through
+  the local clone's object store at this
+  round's hand: 11 files under src/flighttape,
+  0 mismatches. The typography stands clean on
+  both trees under both instruments: the
+  repository's own scan and this round's own
+  scan each report U+2014 at 0 and U+2013 at 0
+  over the fifty-two blobs, the round's own
+  scan opening on its planted control counted
+  first.
