@@ -10464,3 +10464,21 @@ held to the standard of the surface it feeds.
   at zero over both trees through the API, its
   counter proven at 2 and 1 where planted,
   each tree at 0 and 0 over all 52 blobs.
+
+- FT-271. Round 44 closes. The round numbers
+  FT-266 to FT-271; the record stands at
+  FT-266 to FT-271, FT-271 standing as the
+  closure record and the last item of the
+  record it closes. FT-83 stands open and
+  unrepaired, carried by name into Round 45:
+  the repository description and the README
+  lede share one line, and Cargo.toml's
+  description remains a third variant, its
+  alignment to the shared line a direction
+  decision awaiting David's word, untouched by
+  this round. The gate on both trees at
+  FT-270, the battery and the differential at
+  FT-268, the volume and the golden and the
+  pin at FT-269, the depth law at FT-267, and
+  the read-back at FT-266 stand as this
+  round's executed account.
