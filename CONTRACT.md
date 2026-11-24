@@ -10310,3 +10310,44 @@ held to the standard of the surface it feeds.
   20270516, 20270530, 20270613, 20270627, and
   20270711; the volume pass itself stands
   contracted at FT-269.
+
+- FT-267. The depth law stands re-measured at
+  every contracted point on the Round 44 base
+  and no point moved from the law as
+  contracted at FT-197. Calibration first: at
+  1, 10, and 100 arrays the binary and the
+  oracle's two routes print identical digests,
+  and the 100-array digest stands at
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038,
+  the value the identity run prints in full at
+  its own 100-array point. The digest seam,
+  counting message arrays: at zero wraps the
+  binary accepts 997 and refuses 998, the
+  standard runner accepts 991 and refuses 992,
+  and the module route accepts 989 and refuses
+  990, the two oracle routes exactly two
+  apart; at four wraps the binary accepts 993
+  and refuses 994, the standard runner 987 and
+  988, and the module route 985 and 986. The
+  tape digest across the three arms stands
+  byte-identical through 989 arrays, on the
+  binary and the standard runner at 990 and
+  991, and on the binary alone at 997. The
+  validate seam: the binary stands uncapped
+  through 200,000 arrays at the eighteen named
+  depths; at zero wraps the standard runner
+  accepts 9,994 and refuses 9,995 and the
+  module route accepts 9,991 and refuses
+  9,992; at four wraps the standard runner
+  accepts 9,990 and refuses 9,991 and the
+  module route accepts 9,987 and refuses
+  9,988, the two oracle routes exactly three
+  apart. Every refusal on the digest seam
+  carries the interpreter-limit error, and
+  every validate refusal its own, as
+  contracted. The law's points stand restated
+  here so the record carries them in one
+  place: the digest identity run at 100, 500,
+  900, 950, 989, 990, 991, and 997 arrays, and
+  the validate run at the eighteen named
+  depths from 100 to 200,000.
