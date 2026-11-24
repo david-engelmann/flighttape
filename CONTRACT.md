@@ -10077,3 +10077,19 @@ held to the standard of the surface it feeds.
   ran the base gate whole and banked it on its
   first attempt, and every later stage of the
   family banked on its first attempt likewise.
+
+- FT-265. Round 43 closes. The round numbers
+  FT-260 to FT-265; the record stands at
+  FT-260 to FT-265, FT-265 standing as the
+  closure record and the last item of the
+  record it closes, on the FT-227, FT-233, and
+  FT-239 precedents as FT-247 restated them.
+  The README's rounds line reads 43 of 100
+  from this commit. Carried open: FT-83, the
+  description alignment, awaiting David's
+  word, untouched by this round. The gate on
+  both trees at FT-264, the battery and the
+  differential at FT-262, the volume and the
+  golden and the pin at FT-263, the depth law
+  at FT-261, and the read-back at FT-260 stand
+  as this round's executed account.
