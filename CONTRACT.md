@@ -9642,3 +9642,50 @@ held to the standard of the surface it feeds.
   own target at 0, and the pin binary at its
   pin-target build path, its md5 build-path
   scoped as contracted.
+
+- FT-258. The gate whole on both trees.
+  Against the base tree f61ebb89 the full
+  local suite stands at cargo test 247 passed
+  and 0 failed, paired at the FT-220 split:
+  library 7, cli 22, compare 19, convert 34,
+  digest_cli 5, identity 13, json 8, play 17,
+  redaction 12, robustness 15, rollup 22,
+  scale 3, schema 5, screen 15, slice 24,
+  timestamps 1, validate 25, binary unit tests
+  0, doc tests 0; clippy exits 0 with warnings
+  denied, fmt exits 0, and the base tree's
+  binary stands at md5
+  b3d6fb38e27b1513b41ff2eeed517527 at its
+  build path under this round's scratch target
+  directory. Against the closing tree, the
+  assembled final tree itself, the gate
+  re-executes whole with the same result:
+  cargo test 247 passed and 0 failed at the
+  same pairing, clippy exits 0, fmt exits 0,
+  the repository's own codepoint scan at 0 and
+  0, and the closing tree's binary stands at
+  the same md5
+  b3d6fb38e27b1513b41ff2eeed517527 at the
+  shared target build path, each build-path
+  scoped as FT-240 established. The final tree
+  and the base tree differ in exactly two
+  paths over the fifty-two blobs, CONTRACT.md
+  and README.md, verified blob for blob
+  through the API, and the README at the gate
+  commit's head still reads 41 of 100, the
+  move standing in the closure commit only.
+  The corpus guards stand counted at 371 and
+  6,284 lines on both trees. This round's own
+  codepoint scan stands at zero over both
+  trees on both instruments: over all 52 blobs
+  of the base tree through the API and over
+  the closing tree's 52 files assembled
+  locally, its counter proven at 2 and 1 where
+  planted, each tree at 0 and 0. The oracle
+  stands verified blob for blob against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store, the
+  channel FT-133 records: eleven files under
+  src/flighttape, zero mismatches against the
+  extraction the differential and the depth
+  arms ran against.
