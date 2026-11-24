@@ -10027,3 +10027,53 @@ held to the standard of the surface it feeds.
   failed, exit 101), the byte restored with
   its git blob identity verified equal to its
   tree entry.
+
+- FT-264. The full gate on both trees. On the
+  Round 42 merge tree, extracted blob for blob
+  from the API at the base (52 blobs, zero
+  mismatches, the extraction's write-tree
+  asserted equal to
+  2381d16c8259a31e69d2ff0de8ce7cdd77c71776),
+  cargo test passes 247 tests with zero
+  failures, paired exactly at the FT-220
+  split: 7 library, 22 CLI, 19 compare, 34
+  convert, 5 digest CLI, 13 identity, 8 JSON,
+  17 play, 12 redaction, 15 robustness, 22
+  rollup, 3 scale, 5 schema, 15 screen, 24
+  slice, 1 timestamps, and 25 validate, with 0
+  binary unit tests and 0 doc tests; clippy
+  and rustfmt each exit 0. The gate binary on
+  the base build stands at md5
+  6c5a342e9ea3e70eba3c40dbb5282175 at this
+  round's scratch target path, the figure
+  build-path scoped as contracted at FT-240:
+  Round 42's base build stood at
+  b3d6fb38e27b1513b41ff2eeed517527 at the
+  shared target path, and its red team's own
+  target path gave
+  22ff239acede2754c0490808c23f0778, the value
+  following the build path while the
+  contracted property, the clean rebuild's
+  equality at a named path, stands reproduced
+  at this round's path. The corpus guards
+  stand at 371 lines in the timestamp corpus
+  and 6,284 in the number sweep. On the
+  closing tree itself, the assembled tree of
+  this round's head, the same gate runs whole
+  with the same pairing and the same result,
+  247 passed and zero failed, clippy and
+  rustfmt clean, and the closing binary stands
+  at the same md5,
+  6c5a342e9ea3e70eba3c40dbb5282175, at the
+  same target path, the rebuild pair equal as
+  contracted. The gate campaign's first launch
+  banked the setup stage and then held the
+  build slot probing through a closed write
+  window from 06:43Z until the runtime restart
+  of 2026-11-24 at about 07:26Z killed the
+  campaign inside that hold; the killed
+  base-gate attempt counts nowhere, no stage
+  of it having run. The relaunched campaign
+  ran the base gate whole and banked it on its
+  first attempt, and every later stage of the
+  family banked on its first attempt likewise.
