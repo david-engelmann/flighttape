@@ -10093,3 +10093,220 @@ held to the standard of the surface it feeds.
   golden and the pin at FT-263, the depth law
   at FT-261, and the read-back at FT-260 stand
   as this round's executed account.
+
+- FT-266. PR 54 read back whole through the
+  API on 2026-11-24, at this lane's own hand:
+  4 issue comments, no reviews, and no review
+  comments, every body read to its end. The
+  comments are the Trunk note 7125889464 at
+  113 characters in its merged form, created
+  2026-11-24T08:14:15Z and last edited at the
+  merge, 2026-11-24T10:38:10Z; the bot's shell
+  7125892927, read whole below; the owner's
+  queue comment 7128869945 at 12 characters
+  (the merge submission), created
+  2026-11-24T10:30:21Z and never edited; and
+  the owner's landing comment 7129741777 at
+  1,780 characters, created
+  2026-11-24T11:09:58Z, standing last and
+  never edited. No trigger comment stands: the
+  bot reviewed automatically at the opening in
+  a single run, and the run's ID stands
+  recorded on the body itself, so no trigger
+  was posted and none was owed. The shell
+  7125892927 stands at 11,085 characters in
+  its true final form, last edited
+  2026-11-24T10:30:27Z: 11,081 characters at
+  the completion lane's body writing (the form
+  the PR body as posted states, moment-bounded
+  there with the true final form charged
+  expressly to this read-back on the body's
+  Step 0, the charge this item discharges),
+  11,083 at the completion lane's closing read
+  and at the reviewers' reads, and 11,085 at
+  the owner's landing read and at this read;
+  the last edit stands before the merge, the
+  shell not edited at or after the merge and
+  not after the landing comment. Its
+  recent-review status block states that no
+  actionable comments were generated in the
+  recent review, and the shell's whole content
+  stands read: a walkthrough stating the
+  round's record in a summary and three rows
+  (the PR 52 read-back; the measurements and
+  test results; the volume results, gates, and
+  closure with the README count), recording
+  that CONTRACT.md adds the Round 43
+  verification and closure records, that FT-83
+  stays open, and that the README's
+  completed-round count changes from 42 to 43,
+  with no implementation behavior changing; a
+  change assessment pinned to
+  5174d99f4541e4588aabd03344d83c33a9502dc0 as
+  source and covered commit, effort 2
+  (Simple), Change Other; Merge Risk Minimal
+  up to 5174d, its note stating that the
+  change adds Round 43 verification records
+  and updates the README round count from 42
+  to 43, has no runtime effect, and carries no
+  concrete merge risk; pre-merge checks 4
+  passed (Title, Linked Issues, Out of Scope
+  Changes, Description); and its run
+  configuration recording Run ID
+  62fc778e-5608-489f-96b1-551094a2aa5d,
+  reviewing 787ca699 to 5174d99f over
+  CONTRACT.md and README.md, the included
+  allowance used with none remaining. The
+  Title check disposition, graded here as the
+  body's Step 0 graded it: the check stands
+  passed, and its full explanation states that
+  the title names a round number and the
+  FT-260 to FT-265 range, that the summary and
+  commits show the PR records Round 43
+  read-back, verification, and closure in
+  CONTRACT.md and updates the README round
+  count, that the title does not state that
+  the PR is documentation-only but does
+  identify the main change, the Round 43
+  record, and that the title is terse and
+  relies on programme-specific terms but is
+  specific enough for a teammate to find the
+  change in history; the explanation stands
+  graded SOUND, the title standing in the
+  standing shape of every round's title in
+  this programme, read live from PR 52's title
+  by the round's own lane, the change's
+  documentation-only nature standing stated in
+  the body's first paragraph and in the
+  shell's own walkthrough, so a passed check's
+  explanatory note calls for no repair and
+  none stands. No formal review and no review
+  comments stand: the reviews list and the
+  review comments list both stand read back
+  empty, each read to its end, so no
+  disposition stands owed on either and none
+  is discharged by a merge-time read; the
+  whole review output stands in the shell
+  comment across the single run, and no
+  actionable comment stands in it. The body
+  stands read at 18,234 characters in its
+  final form; the bot's release-notes appendix
+  stands preserved byte for byte, at 447
+  characters from its opening marker at offset
+  16,472 in the body as it stood before the
+  gate record, 16,919 characters, the pair
+  summing to that length exactly, and the
+  owner's gate record stands appended after
+  the appendix in the final form, its three
+  Documentation bullets each standing correct
+  at this hand: the round's verification and
+  closure records added, including test runs,
+  measurements, fixture checks, and gate
+  results; the completed-round count updated
+  to 43 of 100; and FT-83 remaining open. The
+  body's Verified block stands settled on the
+  closure head 5174d99f at tree 75ec8a6d with
+  CI in past tense. The gate verdicts stand
+  graded in the open as the gate record and
+  the landing comment record them and as the
+  three review reports stand in the lane's
+  records: spec PASS with no findings;
+  standards APPROVE with no findings; red team
+  APPROVE with no findings and one limb
+  untested and disclosed in full in its
+  report, the rebuild-pair equality at the red
+  team's own target path (its closing binary's
+  md5 21996b41f50f76aaccbba234a2e8f68b at its
+  own target path against the lane's
+  6c5a342e9ea3e70eba3c40dbb5282175 at its
+  scratch target path, the value build-path
+  scoped per FT-240), stood down after a
+  47-minute queue behind holders verified live
+  at each check rather than left orphaned; the
+  lane's executed pair at its path stands as
+  the lane's evidence, and no figure of the
+  red team's rests on the untested limb; the
+  limb stands charged to Round 44's red team
+  as its first business on the landing
+  comment, and this item records the charge
+  standing. Every other limb of the red team
+  stands executed at its own hand: the whole
+  gate re-run on its own extraction of the
+  closure tree (52 blobs, 0 bad; cargo 247
+  paired at the FT-220 split; clippy and fmt
+  clean; the tree scan at 0 and 0; the fail
+  flag at 0); the volume reproduced whole at
+  seed 20270711 (19 of 19, the long-haul
+  digest
+  1c6276ff519d0a54697d45b74a4a298ba6aab2413f0163f25713fb3d8994864f
+  exact, the seed's freshness proven on
+  fetched bytes); the depth and validate laws
+  exact at every contracted point; the pin at
+  241 over the nineteen targets with the
+  golden whole on three arms and the mutation
+  bite exact in the direct form; battery 54 of
+  54 and the differential at 117 (diverged 1
+  at case 64, 0 file divergences) reproduced
+  in the same hold; and the oracle verified
+  through the local clone's object store
+  alone. Two execution notes stand disclosed
+  in the red team's report and stand recorded
+  here for the attempt-history account: its
+  first master launch was killed queued by the
+  box restart of about 09:28Z, counted
+  nowhere, its relaunch executing every stage
+  in one hold; and its run script's gate
+  function changed directory without
+  returning, so its later stage logs landed
+  inside its closure-tree scratch directory, a
+  bookkeeping defect of its own harness
+  touching no repo file and no figure. PR 54's
+  hosted CI stands re-read at this hand on the
+  closure head
+  5174d99f4541e4588aabd03344d83c33a9502dc0:
+  runs 45353697722 (push) and 45354355681
+  (pull_request), each completed with
+  conclusion success. The merged state stands
+  verified: Trunk merged PR 54 as the squash
+  dce05ea8933056699da67b2e2af17d1389a2d603 at
+  2026-11-24T10:38:07Z, the merge tree
+  75ec8a6d1b7b9d4afde23dd5c884e5c6387ab67f
+  equal to the reviewed tree, main standing at
+  that squash at this read, and the README on
+  main at 43 of 100. Trunk's queue pull
+  request 55 (branch trunk-merge/pr-54) stands
+  opened 2026-11-24T10:37:32Z and closed
+  unmerged 2026-11-24T10:38:01Z inside the
+  merge, the queue's own artifact, no part of
+  this round's record beyond this note; this
+  round's pull request therefore takes number
+  56 on opening. Nothing stands posted on PR
+  54 after the landing comment: the
+  post-landing material is exactly the landing
+  comment and the Trunk note in its merged
+  form. FT-83 stands carried open by name
+  exactly as the landing comment charges,
+  verified at this read: the repository
+  description and the README lede share the
+  canonical line byte for byte, "Every agent
+  run, from every harness, lands as one flight
+  tape: events, tool calls, diffs, spend,
+  timings, and the outcome, in a bundle any
+  tool can read back.", and Cargo.toml's
+  description remains the third variant,
+  "Flight tapes for agent runs: validate,
+  convert, play back, compare, and screen
+  recorded sessions.", untouched. The landing
+  comment's remaining charge stands discharged
+  at its contracted homes: the shell's true
+  final form above, and FT-83 carried at
+  FT-271. The volume seed 20270725 stands
+  verified fresh at this read, absent from the
+  base contract, with each of the eighteen
+  used seeds standing present: 20261121,
+  20261205, 20261219, 20261227, 20270110,
+  20270124, 20270207, 20270221, 20270307,
+  20270321, 20270404, 20270418, 20270502,
+  20270516, 20270530, 20270613, 20270627, and
+  20270711; the volume pass itself stands
+  contracted at FT-269.
