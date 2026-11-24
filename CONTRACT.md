@@ -9689,3 +9689,19 @@ held to the standard of the surface it feeds.
   src/flighttape, zero mismatches against the
   extraction the differential and the depth
   arms ran against.
+
+- FT-259. Round 42 closes. The round numbers
+  FT-254 to FT-259; the record stands at
+  FT-254 to FT-259, FT-259 standing as the
+  closure record and the last item of the
+  record it closes, on the FT-227, FT-233, and
+  FT-239 precedents as FT-247 restated them.
+  The README's rounds line reads 42 of 100
+  from this commit. Carried open: FT-83, the
+  description alignment, awaiting David's
+  word, untouched by this round. The gate on
+  both trees at FT-258, the battery and the
+  differential at FT-256, the volume and the
+  golden and the pin at FT-257, the depth law
+  at FT-255, and the read-back at FT-254 stand
+  as this round's executed account.
