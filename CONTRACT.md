@@ -10424,3 +10424,43 @@ held to the standard of the surface it feeds.
   channel FT-133 records, eleven files at zero
   mismatches, verified again by this lane at
   its own hand.
+
+- FT-270. The gate stands contracted on both
+  trees. On the base tree, main at dce05ea8,
+  the gate ran whole: cargo test 247 passed
+  and 0 failed in the contracted per-target
+  split (7 library, 22 CLI, 19 compare, 34
+  convert, 5 digest CLI, 13 identity, 8 JSON,
+  17 play, 12 redaction, 15 robustness, 22
+  rollup, 3 scale, 5 schema, 15 screen, 24
+  slice, 1 timestamps, and 25 validate, with 0
+  binary unit tests and 0 doc tests), clippy
+  exit 0, fmt exit 0, and the repository's own
+  codepoint scan at 0 and 0 over the tree. On
+  the closing tree the gate ran whole in its
+  strongest form, on the assembled closing
+  tree itself: cargo test 247 passed and 0
+  failed in the same split, clippy exit 0, fmt
+  exit 0, the scan at 0 and 0, and the gate's
+  fail flag at 0. The rebuild pair stands
+  equal at this round's scratch target path:
+  the base build's binary and the closing
+  build's binary both stand at md5
+  9f196ea5509028e89cd1d092165911d6, each
+  build-path scoped as FT-240 established, the
+  pair executed by this lane at its own path,
+  the limb Round 43's red team left untested
+  at its path standing charged to this round's
+  red team as its first business, recorded at
+  FT-266. The assembled closing tree stands
+  verified blob for blob equal to the pushed
+  closure tree, 52 blobs at zero mismatches,
+  verified through the API, so the gated tree
+  is the final tree itself and no
+  assembled-versus-final gap stands. The
+  corpus guards stand counted at 371 lines in
+  the timestamp corpus and 6,284 in the number
+  sweep. This lane's own codepoint scan stands
+  at zero over both trees through the API, its
+  counter proven at 2 and 1 where planted,
+  each tree at 0 and 0 over all 52 blobs.
