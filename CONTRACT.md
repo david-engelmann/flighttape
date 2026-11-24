@@ -10351,3 +10351,76 @@ held to the standard of the surface it feeds.
   900, 950, 989, 990, 991, and 997 arrays, and
   the validate run at the eighteen named
   depths from 100 to 200,000.
+
+- FT-268. The battery stands executed in full
+  on the Round 44 base: 54 of 54 cells with
+  zero failures, 40 canonical-form cells and
+  14 tape-surface cells, the two arms run as
+  their own stages and each arm's count
+  standing in its own results. The
+  differential stands executed whole against
+  the verified oracle extraction, FT_PY_SRC
+  set deliberately to that extraction: 117
+  cases, the single contracted divergence at
+  case 64, slice over the 600-deep tape, the
+  binary refusing where the oracle accepts,
+  inside the band FT-54 through FT-58 record,
+  and zero file divergences; the harness exits
+  1 exactly as contracted, the divergence
+  itself being the contracted outcome. No case
+  moved from the standing account, and no new
+  divergence stands anywhere in the run.
+
+- FT-269. The volume pass stands executed at
+  the fresh seed 20270725, verified absent
+  from the base contract at FT-266 with the
+  eighteen used seeds standing present. The
+  corpus stands at 21,035 lines and 7,736,621
+  bytes across 27 sessions, its deepest
+  nesting at 122 arrays and its widest object
+  at 500 keys, the corpus dimensions identical
+  to Round 43's pass at its own seed and to
+  Round 42's and Round 41's before it, the
+  seed governing the corpus's content and the
+  generator's structure fixing its dimensions.
+  Nineteen of nineteen cells pass: the
+  long-haul tape at 7,500 events digests to
+  3da8f15810c4b4a9c9a9a536d0292fbdf791672bbaa252cb71451844fb7ad1e8,
+  and the convert-dir tree cell stands at 25
+  files. The golden fixture stands whole on
+  all three arms: the binary's tape and the
+  oracle's two routes' tapes byte-identical at
+  1,663 bytes, each arm's digest printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and verify exiting 0 printing digest
+  matches, executed by the stage script itself
+  in its correct form. The fleet pin stands
+  reconfirmed through the API at
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  its tree afd4d7d1 at exactly 50 blobs, and
+  its suite stands executed this round at 241
+  passed and 0 failed over the nineteen
+  targets of FT-240's resolution, 18 Running
+  targets with the doc tests standing as their
+  own target at 0, the suite script's
+  mechanical line printing the 18; the pin
+  binary stands at md5
+  e0a8056955896ab81818c9b4ef2db032 at its
+  pin-target build path, the value build-path
+  scoped as FT-240 established. The mutation
+  bite stands exact in the direct form: one
+  byte flipped in the extracted pin tree's
+  convert tests at byte 17800, the golden
+  digest's first hex digit, cargo test against
+  the extracted tree failing exactly one test
+  (33 passed, 1 failed, exit 101), and the
+  byte restored with its git blob identity
+  verified equal to its tree entry
+  3d15c928fffc57ad74fadfa83a301ffea53d2467.
+  The oracle stands verified blob for blob
+  against commit
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  through the local clone's object store, the
+  channel FT-133 records, eleven files at zero
+  mismatches, verified again by this lane at
+  its own hand.
