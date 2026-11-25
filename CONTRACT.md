@@ -11330,3 +11330,70 @@ held to the standard of the surface it feeds.
   play, rollup, screen, slice, and validate,
   each matching its extraction blob for blob,
   0 mismatches.
+
+- FT-282. The whole gate stands executed on
+  the Round 46 base: cargo test 247 passed and
+  0 failed at the FT-220 split (lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, binary unit 0, doc 0), clippy clean, fmt
+  clean, and the codepoint scan at zero with
+  the planted control counted first. The
+  corpus guards stand counted at this hand at
+  371 and 6,284. The campaign's attempt
+  history stands disclosed whole: the campaign
+  ran in two launches, the first launched
+  2026-11-25T17:09:21Z with a stale stage path
+  of this lane's own making, its repoint of
+  the Round 45 machinery having missed the
+  setup script's name in the campaign's stage
+  list, so its setup attempt failed on the
+  missing file without executing any stage;
+  the lane stopped that runner and relaunched
+  at 17:11:41Z with the corrected path, and
+  the second launch banked every stage on its
+  first attempt in one flow: setup at
+  17:13:25Z, the base gate at 17:19:00Z,
+  calibration at 17:19:51Z, the digest points
+  at 17:21:08Z, identity at 17:22:05Z,
+  validate at 17:27:05Z, both battery arms by
+  17:28:39Z, the differential at 17:30:52Z,
+  the volume and the golden by 17:34:12Z, and
+  the pin suite at 17:38:47Z, the heavy stages
+  taking the build slot on their first waits
+  and no stage resting on an interrupted run.
+  The oracle verification stands executed at
+  this lane's own hand in the same window, its
+  eleven files matching blob for blob with 0
+  mismatches, as FT-281 records. The mutation
+  bite stands executed exact on its first
+  flock in the same window, the byte verified
+  landed, the convert suite at 33 passed and 1
+  failed with exit 101, and the restored blob
+  matching, as FT-281 records. The closure
+  gate stands in this same account: its first
+  run executed whole on the assembled closure
+  tree, and after this item's text stood final
+  the tree was re-assembled from the final
+  item texts and the gate re-ran whole on that
+  final tree, the two runs returning identical
+  figures, the second run being the execution
+  this item contracts. Every queue, kill,
+  probe, and interrupted launch in this
+  account is counted nowhere. The closure gate
+  stands executed whole on the closure tree
+  itself, the assembled tree of this round's
+  own commits, in that execution: cargo test
+  247 passed and 0 failed at the same split,
+  clippy and fmt clean, the tree scan at zero,
+  and the gate's FAIL FLAG 0, with the closing
+  binary at md5
+  6ef4b0c1e9898a7023ab16ccf1562920 equal to
+  the base build's binary at the same target
+  path,
+  /home/hatch/workspace/retro-line/ft46-scratch/target/debug/flighttape,
+  the pair executed at this lane's own path in
+  the FT-264 form. No staging claim in this
+  round names a tree the gate did not run on.
