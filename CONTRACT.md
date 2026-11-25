@@ -10763,3 +10763,76 @@ held to the standard of the surface it feeds.
   900, 950, 989, 990, 991, and 997 arrays, and
   the validate run at the eighteen named
   depths from 100 to 200,000.
+
+- FT-274. The battery stands executed in full
+  on the Round 45 base: 54 of 54 cells with
+  zero failures, 40 canonical-form cells and
+  14 tape-surface cells, the two arms run as
+  their own stages and each arm's count
+  standing in its own results. The
+  differential stands executed whole against
+  the verified oracle extraction, FT_PY_SRC
+  set deliberately to that extraction: 117
+  cases, the single contracted divergence at
+  case 64, slice over the 600-deep tape, the
+  binary refusing where the oracle accepts,
+  inside the band FT-54 through FT-58 record,
+  and zero file divergences; the harness exits
+  1 exactly as contracted, the divergence
+  itself being the contracted outcome. No case
+  moved from the standing account, and no new
+  divergence stands anywhere in the run.
+
+- FT-275. The volume pass stands executed
+  fresh at seed 20270808, verified absent from
+  the base contract at FT-272 with the
+  nineteen used seeds standing present, the
+  seed never used before. The corpus stands at
+  its constant shape: 21,035 lines, 7,736,621
+  bytes, 27 sessions, and all 19 cells pass:
+  the long-haul conversion, digest,
+  verification, validation, play, rollup,
+  self-comparison, slice, and window digest;
+  the day and tree directory conversions; the
+  deep-wide conversion, digest, validation,
+  and play; the dirty conversion; and the
+  dirty and long-haul screens, out and in
+  place. The long-haul digest stands computed
+  fresh at the new seed:
+  c25c7ca41634b64e71dc0637969b812e1cb8976ef55498aae84208bcd1b74988.
+  The golden stands whole on three arms: the
+  binary and the oracle's two routes each
+  produce a tape of 1,663 bytes, the three
+  byte-identical, each digesting to
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify accepts that digest
+  in terms. The pin stands verified whole
+  before reliance: commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e,
+  exactly 50 blobs, the listing not truncated,
+  and the pin suite passes 241 over the
+  nineteen targets of FT-240's resolution, the
+  eighteen Running targets and the doc target
+  at 0. The mutation bite stands exact in the
+  direct form against the extracted pin tree
+  on disk: the first hex digit of the golden
+  digest in the pin tree's tests/convert.rs,
+  the character c at byte 17800 flipped to d,
+  the mutation verified landed by re-reading
+  the file, the convert suite then failing as
+  contracted, 33 passed and 1 failed with
+  cargo's exit 101, and the byte restored, the
+  file's blob standing at
+  3d15c928fffc57ad74fadfa83a301ffea53d2467,
+  its pristine identity. The oracle stands
+  verified blob for blob through the local
+  clone's object store alone, the application
+  programming interface answering 404 on that
+  tree as contracted at FT-133: the oracle's
+  eleven src/flighttape files, __init__, cli,
+  compare, convert_claude, identity, outcome,
+  play, rollup, screen, slice, and validate,
+  each matching its extraction blob for blob,
+  0 mismatches.
