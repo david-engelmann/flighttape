@@ -10836,3 +10836,129 @@ held to the standard of the surface it feeds.
   play, rollup, screen, slice, and validate,
   each matching its extraction blob for blob,
   0 mismatches.
+
+- FT-276. The whole gate stands executed on
+  the Round 45 base: cargo test 247 passed and
+  0 failed at the FT-220 split (lib 7, cli 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 15, slice 24, timestamps 1, validate
+  25, binary unit 0, doc 0), clippy clean, fmt
+  clean, and the codepoint scan at zero with
+  the planted control counted first. The
+  corpus guards stand counted at this hand at
+  371 and 6,284. The campaign's attempt
+  history stands disclosed whole: the campaign
+  ran in five launches, the first launched
+  2026-11-24T18:35Z and killed queued for the
+  build slot by the restart at about 19:50Z
+  before any stage banked; the second,
+  launched 19:52Z, banked setup inside a
+  minute and then queued gate-base behind a
+  sibling lane's patient gate hold, that
+  hold's pin-suite segment standing in a
+  write-window probe loop after a 101 exit,
+  for two hours, until the restart at about
+  21:54Z killed the hold and the campaign in
+  the same minute the campaign's own flock
+  took the slot; the third, launched 21:55Z,
+  banked gate-base and then calib, digest,
+  identity, validate, battery, battery2,
+  differential, and volume in one flow, after
+  which the golden stage probed a box-wide
+  write wave, every directory on the box
+  refusing fresh writes at this lane's own
+  probes, through its full 3,000-second probe
+  budget and into a second attempt, until the
+  restart at about 23:31Z killed the campaign
+  again; the fourth, launched 23:32Z, banked
+  golden on its first probe and queued the pin
+  suite behind the sibling hold's second
+  seating, in the same probe loop after the
+  same segment's 101 exit, for three hours and
+  twenty minutes, until the restart at about
+  03:12Z killed both; the fifth, launched
+  03:14Z, banked the pin suite and completed,
+  every stage standing banked on a completed
+  run and no figure resting on an interrupted
+  one. Two write probes of this lane's own
+  hand stand in the same account: one in this
+  scratch at 22:44Z and one across four
+  directories at 23:03Z, each refused with
+  EPERM while the wave stood, the first
+  leaving a zero-byte probe file in the
+  scratch, counted nowhere. The mutation
+  bite's first flock, launched 03:26Z, queued
+  about 89 minutes and was killed by the
+  restart at about 05:01Z before it held the
+  slot; the pin tree stands verified pristine
+  at its blob before the relaunch, byte 17800
+  standing at c, and the relaunched bite,
+  launched 05:02Z, stands exact as FT-275
+  records. The closure gate's first launch, at
+  about 05:18Z on 2026-11-25, wrote a
+  zero-byte output and produced nothing,
+  counted nowhere. The original lane then
+  ended on a transport error at 07:20Z, the
+  chain unpushed and the pull request
+  unopened, its banked state standing whole in
+  the scratch. A completion lane took the
+  round from that banked state, verified the
+  banked figures at its own hand (the seed's
+  freshness and the nineteen used seeds on the
+  base contract's fetched bytes, the shell's
+  true final form counted on the banked copy,
+  the corpus guards counted in the fixture
+  files, the oracle verified whole through the
+  local clone's object store, the golden tapes
+  compared byte for byte on disk, and every
+  stage log read whole with its totals
+  re-summed), and executed the closure gate
+  whole on the closure tree. The gate's slot
+  queue stands in this same account: the
+  completion lane's flock queued at 07:38Z
+  behind a sibling lane's closure-gate hold
+  and stood queued for three hours without
+  acquiring, the holding lane's gate log
+  standing frozen from 07:41Z at its pin-suite
+  segment's kill, its payload cycling a Python
+  write-burst probe of the class this box
+  refuses outside a fully open window, that
+  refusal verified at the completion lane's
+  own hand in its own scratch at 09:44Z and
+  again at 10:33Z, no file of the holding lane
+  moving in the queue's last ninety minutes,
+  and two further waiters standing ahead in
+  the same queue; the completion lane then
+  stood its own waiter down and executed the
+  gate outside the slot on the IP-130
+  precedent, disclosed here in the open, the
+  gate's figures standing exactly as this item
+  contracts. Its first re-assembly of the
+  closure tree stands in the same account,
+  launched at about 10:36Z under the narrowed
+  write regime: the copy truncated the banked
+  tree's files to zero bytes before its writes
+  refused, and the tree, a derived artifact,
+  was rebuilt whole through the shell channel,
+  verified byte for byte against the worktree
+  with its contract's prefix property and
+  codepoint scan re-proven, the gate then
+  running on the rebuilt tree itself. Every
+  queue, kill, probe, and interrupted launch
+  in this account is counted nowhere. The
+  closure gate stands executed whole on the
+  closure tree itself, the assembled tree of
+  this round's own commits, in that execution:
+  cargo test 247 passed and 0 failed at the
+  same split, clippy and fmt clean, the tree
+  scan at zero, and the gate's FAIL FLAG 0,
+  with the closing binary at md5
+  cd1b8961dbef7d6b87da03cd9e0b2c89 equal to
+  the base build's binary at the same target
+  path,
+  /home/hatch/workspace/retro-line/ft45-scratch/target/debug/flighttape,
+  the pair executed at this lane's own path in
+  the FT-264 form. No staging claim in this
+  round names a tree the gate did not run on.
