@@ -10962,3 +10962,26 @@ held to the standard of the surface it feeds.
   the pair executed at this lane's own path in
   the FT-264 form. No staging claim in this
   round names a tree the gate did not run on.
+
+- FT-277. Round 45 closes here: the record
+  stands at FT-272 to FT-277, and the README's
+  completed-round count moves to 45 of 100 in
+  this closure commit alone. FT-83 stands
+  carried open into Round 46 by name,
+  untouched: the repository description and
+  the README lede share the canonical line
+  byte for byte, and Cargo.toml's description
+  remains the third variant; the only
+  permitted direction is alignment of the
+  Cargo.toml description to the canonical
+  line, which is David's call, not this
+  round's. Round 46 is charged with the true
+  final form of PR 58's bot shell, read back
+  whole in its read-back item, and with FT-83
+  carried by name. The attempt history of this
+  round's execution stands disclosed whole at
+  FT-276 and in this lane's progress record,
+  consistent across the items, the body of PR
+  58, and that record, every interrupted
+  launch, queue, restart, and probe in it
+  counted nowhere.
