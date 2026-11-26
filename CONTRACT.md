@@ -11420,3 +11420,168 @@ held to the standard of the surface it feeds.
   60, and that record, every interrupted
   launch, queue, restart, and probe in it
   counted nowhere.
+
+- FT-284. Round 47 opens by reading pull
+  request 60 whole. The pull request, titled
+  refine, flighttape Round 46, FT-278 to
+  FT-283, stood against main at
+  9cad7543dcb05385756a81be8ed77e5eb19aaf2d and
+  was squash-merged as
+  8e866220967b7d2bdc87039af4fa322b2b0df541 at
+  2026-11-25T22:42:27Z, its merge tree
+  7d91070ca509002e0c5950504567bad39d1cdf7f
+  standing equal to the reviewed closure tree
+  and main standing at that squash as this
+  round's base. Its body stands at 17,575
+  characters in final form, the release-notes
+  appendix standing at 420 characters from
+  offset 16,697 in the pre-record body of
+  17,117 characters, the owner's gate record
+  appended after it. The census at this read
+  stands at three issue comments, one review,
+  and one review comment, the third issue
+  comment being the owner's enqueue, which
+  arrived after the gate reads; no separate
+  landing comment stands on the pull request,
+  the landing record standing in the gate
+  record appended to the body and in Session
+  275's session record. The Trunk note,
+  comment 7170052236, stands at 113 characters
+  in its merged form, created
+  2026-11-25T17:49:32Z and last edited at the
+  merge, 2026-11-25T22:42:30Z. The owner's
+  enqueue, comment 7176519079, stands at 12
+  characters, created 2026-11-25T22:33:52Z,
+  never edited, standing last among the issue
+  comments. The bot's summary comment,
+  7170056180, stands settled at its true final
+  form of 8,616 characters, last edited
+  2026-11-25T22:33:52Z, the last edit standing
+  before the merge and the shell not edited at
+  or after the merge; it stood at 8,612
+  characters at the build lane's body writing,
+  at 8,614 at the reviewers' reads, and at
+  8,616 at the owner's landing read and at
+  this read, and Round 46's forward charge
+  stands discharged. Its walkthrough states
+  that the contract records the PR 58
+  read-back, Round 46's measurements and gate
+  results, and the closure details, that the
+  README reports 46 closed rounds instead of
+  45, and that no implementation behavior
+  changes; each statement stands accurate
+  against the record. Its change table carries
+  three summary rows, one for the PR 58 review
+  and execution record in CONTRACT.md, one for
+  Round 46's measurements and gates in
+  CONTRACT.md, and one for the round closure
+  and next assignment across CONTRACT.md and
+  README.md, and the rows stand as summaries
+  of the diff. Its change assessment stands at
+  effort 2, Simple, at about ten minutes,
+  change type Other, its assessment pinned to
+  the closure head
+  e60a90c947759efbcefc2bf81c1a2e7844027eae,
+  and its Merge Risk stands at Low up to
+  e60a9, on the single ground that the volume
+  record says 19 cells pass but lists 20
+  operations without explaining how they
+  group, expressly not blocking the merge. Its
+  pre-merge checks stand at four passed, the
+  Title check passed with its explanation, the
+  Linked Issues and Out of Scope checks
+  skipped for no linked issues, and the
+  Description check skipped with the
+  high-level summary enabled. Its finishing
+  touches stand as two unacted checkboxes, and
+  its appendix carries two Documentation
+  bullets, one on CONTRACT.md closing on Round
+  45's review, CI results, measurements, and
+  carried-forward items, and one on README.md
+  reading, Updated the status to report 46
+  completed rounds; the full-cycle criteria
+  remain unchanged. The round's one review,
+  6062395368, stands COMMENTED with one
+  actionable comment, its Run ID
+  f0ebc304-8930-4eaa-986c-35541e64b4d8
+  standing in the review body, the review
+  covering the base 9cad7543 to the closure
+  head e60a90c9 over CONTRACT.md and
+  README.md. Its one review comment,
+  4698755556, a Minor on CONTRACT.md line
+  11286, asked that the record state how the
+  operations listed in FT-281 group into the
+  19 cells the volume harness executes, or
+  correct the count; the disposition graded on
+  the pull request body stands NOT SUSTAINED,
+  the executed harness printing 19 cells whose
+  grouping the record's enumeration states
+  exactly, nine long-haul operations, the day
+  and tree directory conversions, four
+  deep-wide operations, the dirty conversion,
+  and three screen cells, the dirty conversion
+  in place, the dirty conversion out, and the
+  long-haul screen in place, no long-haul
+  screen-out cell standing in the harness, the
+  comment's count of 20 distributing the words
+  out and in place over both screen operations
+  where the harness executes them over one.
+  The continuous integration runs on the
+  closure head stand all success, the push run
+  45668381574, the pull_request run
+  45668792141, and the dynamic run
+  45668782657. The merge queue's pull request
+  61, on branch
+  trunk-merge/pr-60/79293aff-4cf7-46be-b68b-f29200e17cf3,
+  opened 2026-11-25T22:41:16Z and stands
+  closed unmerged at 2026-11-25T22:42:21Z,
+  inside the merge. FT-83 stands verified at
+  this read, the repository description and
+  the README lede sharing the canonical line,
+  Every agent run, from every harness, lands
+  as one flight tape, and the Cargo.toml
+  description standing as the third variant,
+  Flight tapes for agent runs, untouched. The
+  Round 46 gate stands graded against the
+  three reports on disk under ft46-reviews.
+  The spec axis returned PASS with no
+  findings, its report standing at 9,545
+  characters, finding the read-back exact
+  against the live record, the shell settled
+  at its true final form, and the body's
+  disposition of comment 4698755556 sound,
+  with one probe note carried in its report,
+  that the PR 58 appendix offset stands
+  measured from the appendix's opening comment
+  marker rather than its Summary heading. The
+  standards axis returned APPROVE with no
+  findings at any grade, its report standing
+  at 7,762 characters, carrying one
+  observation rather than a finding, that
+  FT-281's closing enumeration is compressed
+  enough that the bot's review comment
+  miscounted it. The red team returned APPROVE
+  with no findings at any grade, its report
+  standing at 16,505 characters, every limb
+  executed at its own hand with none untested,
+  and Round 45's untested-limbs charge stands
+  discharged by execution limb by limb on
+  Round 46's trees, the base and closing
+  builds equal at
+  77bb327aae3cd92f4110b1d247d69876 at the red
+  team's own target path against the lane's
+  6ef4b0c1e9898a7023ab16ccf1562920 at the ft46
+  target path, the whole gate re-run on its
+  own extraction of the 52-blob closure tree,
+  the laws exact, the volume reproduced at
+  seed 20270822 with the long-haul digest
+  bfade3f0a261d15262148cd1f8289b036c36476af3905a75b6506ddeae06fd31,
+  the battery and the differential reproduced,
+  and the pin suite at 241 with the mutation
+  bite exact. Nothing stands charged forward
+  from the Round 46 gate. The contract on main
+  stands at 480,060 bytes and the README on
+  main at 46 of 100, the record standing at
+  FT-278 to FT-283 with the repair records
+  FT-195, FT-202, FT-203, and FT-247 standing
+  as appended records outside that span.
