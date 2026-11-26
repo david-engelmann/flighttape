@@ -12059,3 +12059,82 @@ held to the standard of the surface it feeds.
   oracle refusing first at 990, the standard
   oracle at 992, and the binary printing on to
   its seam.
+
+- FT-293. The validate depth law stands exact,
+  the binary uncapped through two hundred
+  thousand nested arrays, the standard oracle
+  accepting 9,994 and refusing 9,995, the
+  module oracle accepting 9,991 and refusing
+  9,992, and the tape carrying four levels of
+  wrap moving each boundary down by exactly
+  the wrap, the standard oracle accepting
+  9,990 and refusing 9,991, the module oracle
+  accepting 9,987 and refusing 9,988. The
+  standing battery passed fifty-four cells
+  with no failures, forty in the main battery
+  and fourteen in the boundary battery. The
+  differential under FT-56 stands at one
+  hundred seventeen cases with one divergence,
+  at case 64, slice deep600.json, and no file
+  divergences, its harness measured at exit 1
+  directly at this lane's hand on a
+  verification re-run of the harness itself,
+  the figures reproducing exactly. The pin
+  suite at the pinned tree of FT-133 passed
+  241 tests with none failed over the nineteen
+  targets of FT-240, the breakdown standing
+  summed at this lane's hand from the suite's
+  own per-target result lines, the pinned
+  tree's library unittests 3, the binary's
+  unit tests 0, the command-line suite 22,
+  compare 19, convert 34, digest_cli 5,
+  identity 13, json 8, play 17, redaction 12,
+  robustness 15, rollup 22, scale 3, schema 5,
+  screen 13, slice 24, timestamps 1, and
+  validate 25, the doc-tests standing as the
+  nineteenth target at 0; the pinned tree's
+  library unittests stand at 3 in the suite's
+  own lines, and no figure from the base
+  tree's split stands carried into the pin's,
+  against FT-286's recorded 7 corrected by
+  FT-290. The pinned tree
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e,
+  tree
+  afd4d7d13520411e003762548fc79082a1b9cf6e,
+  stands verified whole before reliance, its
+  fifty blobs extracted with no mismatches,
+  and the Python oracle tree
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  stands verified whole through the local
+  clone's object store alone, its eleven
+  source files matching the listing blob for
+  blob with no mismatches, the API answering
+  404 on that tree as contracted at FT-133.
+  The golden tape stands byte-identical across
+  the binary and both oracles at 1,663 bytes,
+  its digest under canonical form 1 standing
+  at
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  and its verify standing clean on all three
+  arms. The mutation bite stands exact, the
+  byte at offset 17800 of the pinned tree's
+  tests/convert.rs mutated from c to d and
+  verified landed, the convert suite answering
+  33 passed and 1 failed with cargo exiting
+  101, and the file restored to blob
+  3d15c928fffc57ad74fadfa83a301ffea53d2467.
+  The corpus guards stand counted at 371 lines
+  in the timestamp corpus and 6,284 in the
+  number sweep.
+
+- FT-294. The volume piece ran at the fresh
+  seed 20270919, verified absent from the base
+  contract in FT-291 with the twenty-two used
+  seeds standing present. The corpus stands
+  reproduced at 21,035 lines, 7,736,621 bytes,
+  in twenty-seven sessions, its deepest tape
+  nested 122 levels and its widest object
+  carrying 500 keys. The volume battery passed
+  nineteen of nineteen cells with no failures,
+  the long-haul digest standing at
+  7d4cc5c83ee2107c054f2cfb4e5947a9e3672d2935e098e0e043e641b5f6633c.
