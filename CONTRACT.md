@@ -11707,3 +11707,73 @@ held to the standard of the surface it feeds.
   digesting to
   87a1b630202e01160c080f7e147ebc874587d50a2ee06ab2627a3c77784d8865
   at this seed.
+
+- FT-288. The gate assembles as FT-284 to this
+  item over the base contract of 480,060
+  bytes, the contract standing at 494,700
+  bytes in this gate assembly, and the round's
+  attempt history stands as follows. The
+  campaign launched once, at
+  2026-11-26T01:03:31Z, and every stage banked
+  on attempt 0, setup at 01:05:44Z, the base
+  gate at 01:09:44Z, calibration at 01:10:32Z,
+  the digest points at 01:11:43Z, identity at
+  01:12:39Z, the validate points at 01:17:23Z,
+  the two batteries by 01:18:59Z, the
+  differential at 01:22:06Z, the volume and
+  the golden by 01:25:33Z, and the pin suite
+  at 02:18:37Z. The pin suite's heavy stage
+  waited on the build slot from 01:25:33Z to
+  02:14:42Z behind live lanes of the same
+  line, the bluepencil Round 44 closure gate
+  and the muda Round 31 red team's draw
+  battery, the holders verified live at this
+  lane's hand while it waited, no holder
+  standing as dead weight at any check and
+  nothing of another lane's disturbed. The
+  differential stands reproduced twice more at
+  this lane's hand after the campaign banked
+  it, each run at 117 cases with the single
+  divergence at case 64 and 0 file
+  divergences, the harness exit 1 measured
+  directly on the second. The mutation bite
+  ran under the build slot on its first launch
+  after the campaign, exact in the direct
+  form. No launch of this round stands
+  interrupted, refused, or uncounted, and no
+  stage of the campaign needed a second
+  attempt. The closure gate runs whole on the
+  closure tree assembled from this item's
+  final text before the pull request opens, in
+  two runs of one construction. The first run
+  executes on the v1 assembly, whose FT-288
+  carries a placeholder where this sentence's
+  md5 now stands, and its figures stand here:
+  FAIL FLAG 0, cargo test 247 passed and 0
+  failed, clippy and fmt clean, the codepoint
+  scan at 0 and 0, and the closing binary's
+  md5 standing at
+  a87b6d0bd2e2006e92802b733b88ea5c at the
+  closure tree's own target path, equal to the
+  base build's
+  a87b6d0bd2e2006e92802b733b88ea5c at the same
+  path. This item then stands finalized with
+  that md5, the tree stands re-assembled from
+  the final texts with the contract differing
+  from the v1 assembly in this item alone, and
+  the second run executes the gate whole on
+  that final closure tree, FAIL FLAG 0
+  contracted, its figures standing on the pull
+  request record, the second run being the
+  closure gate execution this round contracts.
+  The first re-assembly after this item's
+  finalization double-appended the family when
+  the finishing script met the
+  already-assembled tree, the script's own
+  assertion catching the state at its README
+  step; the tree, a derived artifact, was
+  rebuilt whole from the base worktree and the
+  final item texts, verified byte for byte
+  against the worktree with exactly
+  CONTRACT.md and README.md differing, and the
+  second run executed on that rebuilt tree.
