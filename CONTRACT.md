@@ -12211,3 +12211,38 @@ held to the standard of the surface it feeds.
   gate, and the disposition of any review
   comment the round draws, read from the
   comment itself.
+
+- FT-297. Repair record, appended after the
+  gate item and standing outside Round 48's
+  span. FT-295 states that the closure gate's
+  second run returned the closing md5 standing
+  equal again. The figure does not stand. Run
+  1's build finished on the warm shared target
+  directory without compiling, printing the
+  base build's md5
+  27b403fb3d2ade8092ea3d5fac6ee40c at the
+  shared target path, as FT-295 records. Run
+  2, executed on the final tree, printed md5
+  6aaee09b899defa6aa998d3d335baa10, its build
+  likewise compiling nothing, the artifact
+  then standing from a full gate run on a
+  fresh checkout of the pushed closure head,
+  which compiled the head's sources whole and
+  returned every leg clean with FAIL FLAG 0 at
+  the same figure. A third run of the gate on
+  the closure tree with a clean target
+  directory compiled the tree's own sources
+  whole, passed the same 247 tests with none
+  failed, and printed md5
+  c6abe9b0a8545f0c4cceda684b007bf6, every leg
+  clean and FAIL FLAG 0, as on both earlier
+  runs. The three figures are one binary at
+  three build paths, the base tree and the
+  closure tree standing blob for blob equal
+  outside the two documents the round changes,
+  and the md5 stands build-path scoped
+  wherever this round records it, as FT-292
+  states of the base figure. FT-295 stands
+  corrected in its second run's md5 clause
+  alone; its remaining figures stand as
+  written.
