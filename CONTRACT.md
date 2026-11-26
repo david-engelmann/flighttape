@@ -11800,3 +11800,35 @@ held to the standard of the surface it feeds.
   with the pull request's body, appendix, gate
   record, and census as they stand after its
   gate.
+
+- FT-290. Repair record, appended after the
+  round's closure and standing outside the
+  span FT-284 to FT-289. FT-286's pin
+  breakdown prints lib 7 among the pin suite's
+  per-target counts, and the counts as printed
+  sum to 245 against the suite's stated total
+  of 241. The pin suite's own log, re-paired
+  per Running header at this lane's hand,
+  pairs the pinned tree's library unittests at
+  3, the breakdown otherwise standing as
+  printed, cli 22, compare 19, convert 34,
+  digest_cli 5, identity 13, json 8, play 17,
+  redaction 12, robustness 15, rollup 22,
+  scale 3, schema 5, screen 13, slice 24,
+  timestamps 1, validate 25, binary unit 0,
+  doc 0, the corrected counts summing to the
+  241 the suite ran over its 19 targets. The
+  figure 7 is the base tree's own library
+  count, correct in FT-285's base split
+  against the base gate's log, carried into
+  the pin breakdown where the pinned tree's
+  library stands at 3. The same figure stands
+  in FT-280's pin breakdown at Round 46, and
+  both items stand unrewritten, this record
+  correcting the count for each. CodeRabbit's
+  review comment 4703324684 on pull request 62
+  stands SUSTAINED on this fact, its
+  disposition graded on the pull request body,
+  and is repaired by this record. The suite's
+  total, its target count, and every other
+  figure in FT-286 stand as executed.
