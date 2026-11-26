@@ -11585,3 +11585,41 @@ held to the standard of the surface it feeds.
   FT-278 to FT-283 with the repair records
   FT-195, FT-202, FT-203, and FT-247 standing
   as appended records outside that span.
+
+- FT-285. The base gate runs whole on the
+  Round 46 merge tree at the build slot,
+  build, test, clippy, and fmt each exiting 0
+  and the codepoint scan over the tree reading
+  0 em dashes and 0 en dashes under the
+  standing control, its planted control
+  counting exactly two em dashes and one en
+  dash first. Cargo test passes 247 and fails
+  0, paired per target in the FT-220 split,
+  library 7, cli 22, compare 19, convert 34,
+  digest_cli 5, identity 13, json 8, play 17,
+  redaction 12, robustness 15, rollup 22,
+  scale 3, schema 5, screen 15, slice 24,
+  timestamps 1, validate 25, binary unit 0,
+  doc 0. The base build's binary stands at md5
+  a87b6d0bd2e2006e92802b733b88ea5c at the ft47
+  scratch target path, build paths differing
+  per FT-240 and equality contracted only at
+  one path. The digest seam stands exact
+  against FT-226, the binary accepting a tape
+  nested inside 997 arrays and refusing 998 at
+  wrap 0, accepting 993 and refusing 994 at
+  wrap 4, refusal in the interpreter-limit
+  wording on stderr with exit 1. The oracle
+  digest points stand at the standard runner
+  accepting 991 and refusing 992 at wrap 0,
+  987 and 988 at wrap 4, and the module runner
+  accepting 989 and refusing 990 at wrap 0,
+  985 and 986 at wrap 4. The identity law
+  stands exact against FT-92, the three arms
+  byte-identical on digest through 989 arrays,
+  the module oracle refusing first at 990, the
+  standard oracle at 992, the binary printing
+  on to its seam. The 100-array calibration
+  stands at
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  on all three arms, as at FT-19.
