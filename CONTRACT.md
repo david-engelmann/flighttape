@@ -12138,3 +12138,61 @@ held to the standard of the surface it feeds.
   nineteen of nineteen cells with no failures,
   the long-haul digest standing at
   7d4cc5c83ee2107c054f2cfb4e5947a9e3672d2935e098e0e043e641b5f6633c.
+
+- FT-295. The round's machinery stands adapted
+  from Round 47's proven scripts, the
+  adaptation disclosing one misfire of its
+  own, counted nowhere: the first substitution
+  pass doubled the README count bump in the
+  assembly, finish, and push scripts, caught
+  by inspection before any execution, repaired
+  exactly, and verified line by line
+  afterward. The execution campaign launched
+  four times. The first launch, at
+  2026-11-26T08:53:44Z, queued on the build
+  slot behind the muda Round 32 lane's
+  realistic battery and the onrecord Round 31
+  lane's closure gate, both verified live at
+  this lane's hand, and died in a runtime
+  restart having banked nothing. The second
+  launch, at 2026-11-26T10:34:16Z, queued
+  behind the realistic battery's relaunched
+  hold, verified live and progressing at this
+  lane's hand, standing at team twenty-one of
+  twenty-four in its corpus build and later in
+  its statements phase, and died in a second
+  runtime restart having banked nothing. The
+  third launch, at 2026-11-26T12:58:20Z,
+  queued in the post-restart rush behind five
+  verified-live sibling holds and died in a
+  third runtime restart having banked nothing.
+  The fourth launch, at 2026-11-26T15:03:18Z,
+  took the slot within a minute and banked
+  every stage on attempt 0, setup and the base
+  gate first, the light stages each after a
+  single probe, and the pin suite after a slot
+  wait of about thirty-one minutes behind live
+  sibling holds, the whole campaign standing
+  banked at 2026-11-26T15:54:43Z. The three
+  interrupted launches stand counted nowhere.
+  The differential's verification re-run and
+  the mutation bite each stand on their first
+  runs. The closure gate ran whole on the
+  closure tree in two runs by construction.
+  The first assembly carries this item with a
+  placeholder where the closing binary's md5
+  stands; run 1 of the gate on that tree
+  returned build, test, clippy, and fmt clean
+  with its closing md5 standing at
+  27b403fb3d2ade8092ea3d5fac6ee40c, equal to
+  the base build's at the same target path,
+  the scan over the run's own checkout
+  counting it at 0 and 0, and FAIL FLAG 0.
+  This item stands finalized with run 1's
+  closing md5, the tree re-assembled whole
+  from the final item texts, and run 2, the
+  contracted execution on the final tree,
+  returned build, test, clippy, and fmt clean,
+  the closing md5 standing equal again, the
+  scan over the run's own checkout counting it
+  at 0 and 0, and FAIL FLAG 0.
