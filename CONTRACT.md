@@ -12006,3 +12006,56 @@ held to the standard of the surface it feeds.
   span. The fresh seed 20270919 stands
   verified absent from the base contract with
   the twenty-two used seeds standing present.
+
+- FT-292. The base worktree flighttape-r48
+  stands materialized from main at
+  a2c26af10f8c591e8dedd0205cbe4e3362b96d6e by
+  the lane's setup run, its write-tree
+  asserted equal to
+  6f2cf76220691ba5b80286a45f370b0539d1aa60
+  over the base tree's fifty-two blobs, every
+  blob hash-verified against the API's listing
+  before reliance. The base gate ran whole
+  under the build slot on the base tree, cargo
+  build, cargo test, clippy under -D warnings,
+  and cargo fmt --check each exiting 0, the
+  repository's own gate scan reporting the
+  tree clean, and the lane's own scan of the
+  base tree through the API counting its
+  planted control at 2 em dashes and 1 en dash
+  and the tree at 0 and 0 over its fifty-two
+  blobs. The cargo run passed 247 tests with
+  none failed in the FT-220 split, the
+  library's own unit tests 7, the command-line
+  suite 22, compare 19, convert 34, digest_cli
+  5, identity 13, json 8, play 17, redaction
+  12, robustness 15, rollup 22, scale 3,
+  schema 5, screen 15, slice 24, timestamps 1,
+  and validate 25, the binary's unit tests and
+  the doc-tests standing at 0. The base
+  build's binary stands at md5
+  27b403fb3d2ade8092ea3d5fac6ee40c at the
+  ft48-scratch target path, the figure
+  recorded as build-path scoped. The
+  calibration piece under FT-108 stands
+  reproduced, all three arms printing the
+  digest
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  for the same one hundred nested arrays. The
+  depth law of FT-91 stands exact against
+  FT-108's interpreter-calibrated band, the
+  binary accepting 997 nested arrays and
+  refusing 998, the standard oracle accepting
+  991 and refusing 992, and the module oracle
+  accepting 989 and refusing 990, the tape
+  carrying four levels of wrap moving each
+  boundary down by exactly the wrap, the
+  binary accepting 993 and refusing 994, the
+  standard oracle accepting 987 and refusing
+  988, and the module oracle accepting 985 and
+  refusing 986. The identity law of FT-92
+  stands exact, the three arms byte-identical
+  on digest through 989 arrays, the module
+  oracle refusing first at 990, the standard
+  oracle at 992, and the binary printing on to
+  its seam.
