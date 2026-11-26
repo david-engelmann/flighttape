@@ -11777,3 +11777,26 @@ held to the standard of the surface it feeds.
   against the worktree with exactly
   CONTRACT.md and README.md differing, and the
   second run executed on that rebuilt tree.
+
+- FT-289. Round 47 closes. The record stands
+  at FT-284 to FT-289, this repo carrying no
+  Status range line and the new span
+  containing none. The closure gate stands
+  executed whole on this closure tree itself,
+  its figures standing in FT-288 and on the
+  pull request record. The README moves from
+  46 of 100 to 47 of 100 in this commit alone,
+  and the contract stands at its final size on
+  the pull request record. FT-83 stands
+  carried open, the Cargo.toml description
+  standing as the third variant against the
+  canonical line the repository description
+  and the README lede share, its alignment to
+  the verbatim line remaining the only
+  permitted direction and a direction call for
+  the owner. Round 48's read-back stands
+  charged with the bot summary comment's true
+  final form on this round's pull request, and
+  with the pull request's body, appendix, gate
+  record, and census as they stand after its
+  gate.
