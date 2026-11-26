@@ -11623,3 +11623,87 @@ held to the standard of the surface it feeds.
   stands at
   6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
   on all three arms, as at FT-19.
+
+- FT-286. The validate law stands exact
+  against FT-227. The binary accepts a tape
+  nested inside 200,000 arrays, uncapped at
+  every contracted point. The oracle points
+  stand at the standard runner accepting 9,994
+  and refusing 9,995 at wrap 0, 9,990 and
+  9,991 at wrap 4, and the module runner
+  accepting 9,991 and refusing 9,992 at wrap
+  0, 9,987 and 9,988 at wrap 4. The battery
+  stands at 54 cells executed whole, the
+  40-cell driver of FT-76 as extended and the
+  14-cell driver of FT-77, every cell passing,
+  0 failures. The differential stands at 117
+  cases against FT-73, diverged 1, the
+  divergence at case 64, slice deep600.json,
+  the interpreter-limit class of FT-81, with 0
+  file divergences, the harness exiting 1 as
+  contracted, the one divergence being the
+  interpreter limit itself. The pin stands
+  whole. The pinned tree
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  stands extracted through the API and
+  verified whole before reliance, 50 blobs,
+  each blob's SHA-1 asserted as it is written,
+  and its suite runs 241 passed and 0 failed
+  over the 19 targets resolved at FT-240, the
+  mechanical line printing 18 Running targets
+  with the doc tests the nineteenth at 0,
+  paired per target, lib 7, cli 22, compare
+  19, convert 34, digest_cli 5, identity 13,
+  json 8, play 17, redaction 12, robustness
+  15, rollup 22, scale 3, schema 5, screen 13,
+  slice 24, timestamps 1, validate 25, binary
+  unit 0, doc 0, the pin build's binary
+  standing at md5
+  3a136b66d50f5d105d7b7355ace18185 at the
+  pin-target path. The golden tape stands
+  byte-identical on all three arms, the
+  binary, the standard runner, and the module
+  runner each producing 1,663 bytes and digest
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
+  under canonical form 1, as contracted at
+  FT-19. The mutation bite stands exact in the
+  direct form, one byte changed at offset
+  17800 of the pin tree's tests/convert.rs, c
+  to d, cargo test on the convert target
+  exiting 101 with 33 passed and 1 failed, the
+  tree restored and its blob verified equal to
+  the pristine pin blob
+  3d15c928fffc57ad74fadfa83a301ffea53d2467.
+  The corpus guards stand counted in the
+  fixture files at this hand, 371 lines in
+  timestamp_corpus.txt and 6,284 lines in
+  number_sweep.txt. The final Python tree
+  eca7b60dac2114ff026f8856fd19de05867d7304
+  stands verified whole through the local
+  clone's object store alone, every file
+  matching, the API answering 404 for it as
+  contracted at FT-133.
+
+- FT-287. The volume pass runs at the fresh
+  seed 20270905, the seed standing absent from
+  the contract as inherited, the used seeds
+  running 20261121 through 20270822 in
+  fourteen-day steps. The generated corpus
+  stands at 21,035 lines, 7,736,621 bytes, 27
+  sessions, the deepest nesting at 122 and the
+  widest object at 500 keys, the shape of
+  FT-84 unchanged. All 19 cells pass, the nine
+  long-haul operations, convert, digest,
+  verify, validate, play, rollup, compare
+  against itself, slice, and the digest
+  window, the two directory conversions, the
+  day and the tree of 25 files, the four
+  deep-wide operations, convert, digest,
+  validate, and play, the dirty conversion,
+  and the three screen cells, the dirty
+  conversion in place, the dirty conversion
+  out, and the long-haul screen in place. The
+  long-haul tape carries 7,500 events,
+  digesting to
+  87a1b630202e01160c080f7e147ebc874587d50a2ee06ab2627a3c77784d8865
+  at this seed.
