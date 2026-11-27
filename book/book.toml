@@ -6,8 +6,10 @@ multilingual = false
 src = "src"
 
 [output.html]
+site-url = "/flighttape/"
 default-theme = "navy"
 preferred-dark-theme = "navy"
+additional-css = ["theme/custom.css"]
 git-repository-url = "https://github.com/david-engelmann/flighttape"
 edit-url-template = "https://github.com/david-engelmann/flighttape/edit/main/book/{path}"
 

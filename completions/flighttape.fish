@@ -9,11 +9,16 @@ complete -c flighttape -n '__fish_use_subcommand' -a 'compare' -d 'flighttape co
 complete -c flighttape -n '__fish_use_subcommand' -a 'rollup' -d 'flighttape rollup'
 complete -c flighttape -n '__fish_use_subcommand' -a 'slice' -d 'flighttape slice'
 complete -c flighttape -n '__fish_use_subcommand' -a 'screen' -d 'flighttape screen'
-complete -c flighttape -s 'o'
-complete -c flighttape -l 'output'
-complete -c flighttape -l 'from'
-complete -c flighttape -l 'to'
-complete -c flighttape -s 'h'
-complete -c flighttape -l 'help'
-complete -c flighttape -s 'V'
-complete -c flighttape -l 'version'
+complete -c flighttape -s h -l help -d 'Show help'
+complete -c flighttape -n '__fish_seen_subcommand_from convert' -s 'o' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from convert' -l 'output' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from convert-dir' -s 'o' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from convert-dir' -l 'output' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from play' -l 'from' -r
+complete -c flighttape -n '__fish_seen_subcommand_from play' -l 'to' -r
+complete -c flighttape -n '__fish_seen_subcommand_from slice' -l 'from' -r
+complete -c flighttape -n '__fish_seen_subcommand_from slice' -l 'to' -r
+complete -c flighttape -n '__fish_seen_subcommand_from slice' -s 'o' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from slice' -l 'output' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from screen' -s 'o' -r -F
+complete -c flighttape -n '__fish_seen_subcommand_from screen' -l 'output' -r -F

@@ -17,7 +17,7 @@
 | **Path Redactor & Screener** | Automatic conversion-time redaction + pre-share audit (`screen`) | Replaces multi-segment POSIX (`/Users/alice/repo`) and Windows (`C:\Users\alice\repo`) paths with `<REDACTED>` while counting `redacted_values`; `screen` checks all string leaves and exits `1` if any path survives |
 | **Canonical Form 1 Engine** | Deterministic JSON serialization & SHA-256 hashing (`digest`, `verify`) | Sorts object keys lexicographically, emits minimal UTF-8 JSON without insignificant whitespace, computes 64-char lowercase hex SHA-256 over the tape minus `tape_digest` |
 | **Timeline, Diff & Rollup** | Read-only analytical projections (`play`, `compare`, `rollup`, `slice`) | Pure functions over validated `1.0` bundles; `slice` re-numbers `seq` from `0` and recomputes a fresh `tape_digest` |
-| **Filesystem Guard** | Input-preservation & atomic output writer | Resolves canonical paths/inodes so `-o` never overwrites the input file; writes to a sibling tempfile and atomically renames into place |
+| **Screening Write Guard** | Input-preservation & atomic report writer on `screen` | `screen -o` refuses overwriting the screened tape and writes through an atomic sibling tempfile (`convert` and `slice` write `-o` directly; always pass a distinct output path) |
 
 ## 2. Thread Stack & Adversarial Nesting Defense
 

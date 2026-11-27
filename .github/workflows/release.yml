@@ -1,10 +1,14 @@
 name: release
+
 on:
   push:
     tags:
       - "v*"
+  workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   build:
     name: build (${{ matrix.target }})
@@ -13,30 +17,44 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - target: x86_64-unknown-linux-gnu
-            os: ubuntu-latest
-          - target: aarch64-unknown-linux-gnu
-            os: ubuntu-24.04-arm
-          - target: x86_64-apple-darwin
-            os: macos-latest
-          - target: aarch64-apple-darwin
-            os: macos-latest
-          - target: x86_64-pc-windows-msvc
-            os: windows-latest
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            use_cross: false
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            use_cross: true
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            use_cross: false
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            use_cross: false
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            use_cross: false
     steps:
-      - name: Configure git line endings
-        run: git config --global core.autocrlf false
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
+      - name: Install Linux aarch64 cross-linker
+        if: matrix.use_cross
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-aarch64-linux-gnu libc6-dev-arm64-cross
       - name: Build release binary
         shell: bash
         env:
           TARGET: ${{ matrix.target }}
-        run: cargo build --locked --release --target "$TARGET"
+          CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER: aarch64-linux-gnu-gcc
+        run: |
+          set -euo pipefail
+          cargo build --release --locked --target "$TARGET"
       - name: Package Unix archive
         if: runner.os != 'Windows'
         shell: bash
@@ -45,11 +63,12 @@ jobs:
         run: |
           set -euo pipefail
           stage="flighttape-${TARGET}"
-          mkdir -p "${stage}" dist
-          cp "target/${TARGET}/release/flighttape" "${stage}/flighttape"
-          chmod 0755 "${stage}/flighttape"
-          cp LICENSE README.md "${stage}/"
-          tar -C "${stage}" -czf "dist/${stage}.tar.gz" flighttape LICENSE README.md
+          mkdir -p "$stage" dist
+          cp "target/${TARGET}/release/flighttape" "$stage/flighttape"
+          chmod 0755 "$stage/flighttape"
+          cp LICENSE README.md "$stage/"
+          cp -r completions "$stage/completions"
+          tar -C "$stage" -czf "dist/${stage}.tar.gz" flighttape LICENSE README.md completions
       - name: Package Windows archive
         if: runner.os == 'Windows'
         shell: pwsh
@@ -61,6 +80,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path $stage, "dist" | Out-Null
           Copy-Item "target/$env:TARGET/release/flighttape.exe" "$stage/flighttape.exe"
           Copy-Item "LICENSE", "README.md" -Destination $stage
+          Copy-Item -Recurse "completions" "$stage/completions"
           Compress-Archive -Path "$stage/*" -DestinationPath "dist/$stage.zip" -Force
       - name: Upload archive artifact
         uses: actions/upload-artifact@v4
@@ -69,8 +89,9 @@ jobs:
           path: dist/*
           if-no-files-found: error
 
-  release:
+  publish:
     name: publish release
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -78,7 +99,7 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - name: Download build artifacts
+      - name: Download release artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: archive-*

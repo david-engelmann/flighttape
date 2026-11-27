@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/media/lockup-dark.svg">
-    <img src="docs/media/lockup-light.svg" alt="flighttape" width="780">
+    <source media="(prefers-color-scheme: dark)" srcset="media/lockup-dark.svg">
+    <img src="media/lockup-light.svg" alt="flighttape" width="780">
   </picture>
 </p>
 
@@ -19,7 +19,7 @@ Every agent run, from every harness, lands as one flight tape: events, tool call
 Flighttape defines one bundle format for a finished agent run, and the tools that work over it. The format is specified in CONTRACT.md and in the schema at schema/tape.schema.json. A harness session file becomes a tape once, and every reader after that works on the tape instead of reverse engineering each harness on its own. The converter reads Claude Code session files. Flighttape records the run, onrecord remembers across runs.
 
 <p align="center">
-  <img src="docs/media/money-shot.gif" alt="flighttape CLI convert, validate, play, and screen showcase" width="880">
+  <img src="media/money-shot.gif" alt="flighttape CLI convert, validate, play, and screen showcase" width="880">
 </p>
 
 ## Install
@@ -42,9 +42,11 @@ cd flighttape
 cargo install --path . --locked
 ```
 
-Shell completions for `bash`, `zsh`, `fish`, and `PowerShell` ship under [`completions/`](completions/).
+Shell completions for `bash`, `zsh`, `fish`, and `PowerShell` ship under [`completions/`](../completions/).
 
 ## Quickstart
+
+From a local checkout of this repository:
 
 The repository ships a small synthetic Claude Code session for trying the tool. Convert it to a tape, then check the tape and print its digest.
 
@@ -59,7 +61,7 @@ cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3
 ## Architecture
 
 <p align="center">
-  <img src="docs/media/architecture.svg" alt="flighttape Canonical Form 1 architecture" width="900">
+  <img src="media/architecture.svg" alt="flighttape Canonical Form 1 architecture" width="900">
 </p>
 
 ## Usage
@@ -80,33 +82,37 @@ flighttape slice tapes/run-a.tape.json --from 0 --to 1 -o opening.tape.json
 flighttape screen tapes/run-a.tape.json
 ```
 
-See the full walkthrough of every subcommand, JSON output payload, and exit code in [docs/GUIDE.md](docs/GUIDE.md).
+See the full walkthrough of every subcommand, JSON output payload, and exit code in [docs/GUIDE.md](GUIDE.md).
 
 ## Performance
 
-Measured on Apple M3 Max (`--release`, median of 5 runs; full methodology in [docs/PERFORMANCE.md](docs/PERFORMANCE.md)):
+<p align="center">
+  <img src="media/benchmark-chart.svg" alt="benchmark profile" width="900">
+</p>
 
-| Events | Tape Size | `convert` | `validate` | `screen` | Throughput (`validate`) |
+Measured on Apple M3 Max (`--release`, median of 5 runs; full methodology in [docs/PERFORMANCE.md](PERFORMANCE.md)):
+
+| Events (`pairs x 2`) | Canonical Tape Size | `convert` | `validate` | `screen` | Validation Throughput |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| `200` | `44.0 KiB` | `28.89 ms` | `18.65 ms` | `27.96 ms` | `10,724 ev/s` |
-| `2,000` | `438.7 KiB` | `492.83 ms` | `82.06 ms` | `143.91 ms` | `24,372 ev/s` |
-| `10,000` | `2204.3 KiB` | `1307.24 ms` | `303.5 ms` | `250.23 ms` | `32,949 ev/s` |
+| `200` | `44.0 KiB` | `22.7 ms` | `23.1 ms` | `25.61 ms` | `8,658 events/s` |
+| `2,000` | `438.7 KiB` | `491.95 ms` | `97.49 ms` | `196.42 ms` | `20,515 events/s` |
+| `10,000` | `2204.3 KiB` | `2686.0 ms` | `406.06 ms` | `1006.73 ms` | `24,627 events/s` |
 
 ## Where `flighttape` Fits in the Retrospective Line
 
 <p align="center">
-  <img src="docs/media/retrospective-arc.svg" alt="Retrospective Line ten-repository architecture" width="900">
+  <img src="media/retrospective-arc.svg" alt="Retrospective Line ten-repository architecture" width="900">
 </p>
 
 ## Documentation
 
-- [Documentation Index](docs/README.md) & [Searchable Handbook](https://david-engelmann.github.io/flighttape/)
-- [Operator & Integrator Guide](docs/GUIDE.md)
-- [Technical Architecture](docs/ARCHITECTURE.md)
-- [Wire Formats & Exit Codes](docs/FORMATS.md)
-- [Ecosystem Comparison](docs/COMPARISON.md)
-- [Performance Benchmarks](docs/PERFORMANCE.md)
-- [FAQ](docs/FAQ.md)
+- [Documentation Index](README.md) & [Searchable Handbook](https://david-engelmann.github.io/flighttape/)
+- [Operator & Integrator Guide](GUIDE.md)
+- [Technical Architecture](ARCHITECTURE.md)
+- [Wire Formats & Exit Codes](FORMATS.md)
+- [Ecosystem Comparison](COMPARISON.md)
+- [Performance Benchmarks](PERFORMANCE.md)
+- [FAQ](FAQ.md)
 
 ## Status
 
@@ -116,4 +122,4 @@ Closed perfection rounds, 49 of 100. A round counts only when a full cycle of wo
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](../LICENSE).

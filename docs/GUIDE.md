@@ -51,7 +51,7 @@ On Windows (`x86_64-pc-windows-msvc`), download `flighttape-x86_64-pc-windows-ms
 
 ### From Crates.io or Source (`cargo install`)
 
-With a Rust `1.74+` toolchain installed:
+With a Rust `1.78+` toolchain installed:
 
 ```sh
 # Install from crates.io once published
@@ -250,6 +250,8 @@ flighttape screen [-o OUTPUT] tape
 ---
 
 ## 4. Canonical Form 1 and Tape Digests
+
+> Note: Integer `-0` normalizes to `0` during Canonical Form 1 serialization; all other integer tokens preserve exact base-10 digits within the digit limit.
 
 Every `flighttape` digest (`digest`, `verify`, `compare`, `rollup`, `slice_of.digest`, `screen.tape`) is the lowercase hexadecimal SHA-256 of the value's UTF-8 bytes in **Canonical Form 1**:
 

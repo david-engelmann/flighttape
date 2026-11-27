@@ -4,7 +4,7 @@ Thank you for contributing to `flighttape`. The crate serves as a foundational f
 
 ## Prerequisites
 
-- Rust stable toolchain (`1.74` or newer) with `rustfmt` and `clippy`
+- Rust stable toolchain (`1.78` or newer) with `rustfmt` and `clippy`
 - Python `3.12+` (used by `scripts/codepoint_scan.py`)
 
 ## Local Verification Gate

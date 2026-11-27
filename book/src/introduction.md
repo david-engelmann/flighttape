@@ -42,9 +42,11 @@ cd flighttape
 cargo install --path . --locked
 ```
 
-Shell completions for `bash`, `zsh`, `fish`, and `PowerShell` ship under [`completions/`](completions/).
+Shell completions for `bash`, `zsh`, `fish`, and `PowerShell` ship under [`completions/`](https://github.com/david-engelmann/flighttape/tree/main/completions).
 
 ## Quickstart
+
+From a local checkout of this repository:
 
 The repository ships a small synthetic Claude Code session for trying the tool. Convert it to a tape, then check the tape and print its digest.
 
@@ -80,17 +82,21 @@ flighttape slice tapes/run-a.tape.json --from 0 --to 1 -o opening.tape.json
 flighttape screen tapes/run-a.tape.json
 ```
 
-See the full walkthrough of every subcommand, JSON output payload, and exit code in [docs/GUIDE.md](docs/GUIDE.md).
+See the full walkthrough of every subcommand, JSON output payload, and exit code in [docs/GUIDE.md](guide.md).
 
 ## Performance
 
-Measured on Apple M3 Max (`--release`, median of 5 runs; full methodology in [docs/PERFORMANCE.md](docs/PERFORMANCE.md)):
+<p align="center">
+  <img src="media/benchmark-chart.svg" alt="benchmark profile" width="900">
+</p>
 
-| Events | Tape Size | `convert` | `validate` | `screen` | Throughput (`validate`) |
+Measured on Apple M3 Max (`--release`, median of 5 runs; full methodology in [docs/PERFORMANCE.md](performance.md)):
+
+| Events (`pairs x 2`) | Canonical Tape Size | `convert` | `validate` | `screen` | Validation Throughput |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| `200` | `44.0 KiB` | `28.89 ms` | `18.65 ms` | `27.96 ms` | `10,724 ev/s` |
-| `2,000` | `438.7 KiB` | `492.83 ms` | `82.06 ms` | `143.91 ms` | `24,372 ev/s` |
-| `10,000` | `2204.3 KiB` | `1307.24 ms` | `303.5 ms` | `250.23 ms` | `32,949 ev/s` |
+| `200` | `44.0 KiB` | `22.7 ms` | `23.1 ms` | `25.61 ms` | `8,658 events/s` |
+| `2,000` | `438.7 KiB` | `491.95 ms` | `97.49 ms` | `196.42 ms` | `20,515 events/s` |
+| `10,000` | `2204.3 KiB` | `2686.0 ms` | `406.06 ms` | `1006.73 ms` | `24,627 events/s` |
 
 ## Where `flighttape` Fits in the Retrospective Line
 
@@ -100,13 +106,13 @@ Measured on Apple M3 Max (`--release`, median of 5 runs; full methodology in [do
 
 ## Documentation
 
-- [Documentation Index](docs/README.md) & [Searchable Handbook](https://david-engelmann.github.io/flighttape/)
-- [Operator & Integrator Guide](docs/GUIDE.md)
-- [Technical Architecture](docs/ARCHITECTURE.md)
-- [Wire Formats & Exit Codes](docs/FORMATS.md)
-- [Ecosystem Comparison](docs/COMPARISON.md)
-- [Performance Benchmarks](docs/PERFORMANCE.md)
-- [FAQ](docs/FAQ.md)
+- [Documentation Index](introduction.md) & [Searchable Handbook](https://david-engelmann.github.io/flighttape/)
+- [Operator & Integrator Guide](guide.md)
+- [Technical Architecture](architecture.md)
+- [Wire Formats & Exit Codes](formats.md)
+- [Ecosystem Comparison](comparison.md)
+- [Performance Benchmarks](performance.md)
+- [FAQ](faq.md)
 
 ## Status
 
@@ -116,4 +122,4 @@ Closed perfection rounds, 49 of 100. A round counts only when a full cycle of wo
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See [LICENSE](https://github.com/david-engelmann/flighttape/blob/main/LICENSE).

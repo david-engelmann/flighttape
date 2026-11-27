@@ -10,14 +10,11 @@
   <line x1="89.1" y1="114.4" x2="114.9" y2="114.4" stroke="#FBBF24" stroke-width="2.4"/>
   <rect x="80.7" y="123.5" width="42.6" height="3.2" rx="1.6" fill="#FBBF24" opacity="0.85"/>
   <text x="160" y="104" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="38" font-weight="700" fill="#F8FAFC">flighttape</text>
-  <text x="160" y="134" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600" fill="#FBBF24" letter-spacing="0.8">CANONICAL RUN BUNDLE  |  ZERO-DEP RUST</text>
-
+  <text x="160" y="134" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13" font-weight="600" fill="#FBBF24" letter-spacing="0.8">CANONICAL 1.0 BUNDLE  |  PURE RUST</text>
   <text x="64" y="232" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif" font-size="30" font-weight="700" fill="#F8FAFC">One deterministic flight tape for</text>
   <text x="64" y="272" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif" font-size="30" font-weight="700" fill="#F8FAFC">every finished AI agent run.</text>
-
   <text x="64" y="332" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif" font-size="18" fill="#94A3B8">Events, tool calls, token spend, timings,</text>
   <text x="64" y="360" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, sans-serif" font-size="18" fill="#94A3B8">outcome, and Canonical Form 1 SHA-256 digest.</text>
-
   <rect x="668" y="132" width="552" height="330" rx="14" fill="#070B12" stroke="#334155" stroke-width="1.8"/>
   <circle cx="692" cy="154" r="5.5" fill="#EF4444"/>
   <circle cx="710" cy="154" r="5.5" fill="#F59E0B"/>
@@ -30,7 +27,6 @@
   <text x="690" y="332" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#F8FAFC">$ flighttape play run-a.tape.json</text>
   <text x="690" y="366" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#38BDF8">tape readme-example-001 from claude-code</text>
   <text x="690" y="400" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" fill="#94A3B8">outcome completed (final-assistant-message), events...</text>
-
   <line x1="64" y1="528" x2="1216" y2="528" stroke="#1E293B" stroke-width="1.5"/>
   <text x="64" y="568" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="600" fill="#E2E8F0">github.com/david-engelmann/flighttape</text>
   <text x="1216" y="568" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="600" fill="#FBBF24">MIT License  |  Retrospective Line  |  49 / 100 rounds</text>
