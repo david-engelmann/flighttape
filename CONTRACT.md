@@ -12246,3 +12246,162 @@ held to the standard of the surface it feeds.
   corrected in its second run's md5 clause
   alone; its remaining figures stand as
   written.
+
+- FT-298. Round 49 opens by reading pull
+  request 64 whole. The pull request, titled
+  refine, flighttape Round 48, FT-291 to
+  FT-297, stood against main at
+  171dd2b5b462c3b4b2be07ff8f84fda318f87454 and
+  was squash-merged as
+  a6da39edd5c6ac3e576ecbbe513573c183014d38 at
+  2026-11-26T21:09:08Z, its merge tree
+  71106dceaeea07cc8aa9083b110cd0c2b38e4112
+  standing equal to the reviewed repair tree
+  and main standing at that squash as this
+  round's base. Its body stands at 21,585
+  characters in final form, the release-notes
+  appendix standing at 464 characters from
+  offset 21,121; no owner's gate record stands
+  on the body, the Round 48 gate standing
+  fully clean with none owed, and the landing
+  record stands in Session 284's session
+  record. The census at this read stands at
+  three issue comments, no reviews, and no
+  review comments, the third issue comment
+  being the owner's enqueue, which arrived
+  after the gate reads; no separate landing
+  comment stands on the pull request. The
+  Trunk note, comment 7197461460, stands at
+  113 characters in its merged form, created
+  2026-11-26T16:18:09Z and last edited at the
+  merge, 2026-11-26T21:09:10Z. The owner's
+  enqueue, comment 7203306502, stands at 12
+  characters, created 2026-11-26T21:01:26Z,
+  never edited, standing last among the issue
+  comments. The bot's summary comment,
+  7197466044, stands settled at its true final
+  form of 10,712 characters, last edited
+  2026-11-26T16:30:29Z, the last edit standing
+  before the merge and the shell not edited at
+  or after the merge; it stood at 10,710
+  characters in the form in which the body's
+  author last read it, that form last edited
+  2026-11-26T16:20:00Z, and at 10,712 at the
+  reviewers' reads, at the owner's landing
+  read, and at this read, and Round 48's
+  forward charge stands discharged. Its
+  walkthrough states that the contract adds
+  Round 47 and Round 48 records, including
+  validation results and a correction to a
+  build hash claim, and that the README
+  updates the closed-round count from 47 to
+  48; each statement stands accurate against
+  the record. Its change table carries two
+  summary rows, one for the Round 47 read-back
+  in CONTRACT.md and one for the Round 48
+  evidence and closure across CONTRACT.md and
+  README.md, and the rows stand as summaries
+  of the diff. Its change assessment stands at
+  effort 2, Simple, at about twelve minutes,
+  change type Other, its assessment pinned to
+  the repair head
+  171dd2b5b462c3b4b2be07ff8f84fda318f87454.
+  Its Merge Risk stands at Minimal up to
+  171dd, on the single ground that the change
+  has no runtime impact and nothing in it
+  blocks merging; no ground stands against the
+  record, and the grade stands as the bot's
+  judgment. Its pre-merge checks stand at four
+  passed, the Title check passed with its
+  explanation, that the title names the FT-291
+  to FT-297 range matching the changeset, the
+  objectives describing the round under FT-291
+  to FT-296, and the commits covering the
+  FT-297 repair, the Linked Issues and Out of
+  Scope checks passed as skipped for no linked
+  issues in their explanations, and the
+  Description check passed as skipped with the
+  high-level summary enabled. Its finishing
+  touches stand as two unacted checkboxes. The
+  shell's recent review info carries Run ID
+  10b3f804-ee00-4d7c-93aa-0408635357f0,
+  reviewing a2c26af1 to 171dd2b5 over
+  CONTRACT.md and README.md, files selected
+  two, the included allowance used with zero
+  remaining, and the shell records that no
+  actionable comments were generated in the
+  recent review. No review and no review
+  comment stand on the pull request, so the
+  disposition read FT-296 charged stands
+  discharged in the negative: the round drew
+  no review comment whose disposition could be
+  read, and nothing stands sustained from Step
+  0. The appendix's three Documentation
+  bullets stand graded: the results and
+  closure details for Round 48 recorded,
+  including validation outcomes and the open
+  FT-83 item, correct; the documented
+  comparison of build checksums corrected,
+  correct, that correction standing in FT-297;
+  the completed-round count updated from 47 to
+  48 of 100, correct. The continuous
+  integration runs stand all success on both
+  heads, on the closure head
+  bf057ef4a27813fce95649f1cdfd97ae20f741ee the
+  push run 45855895594, and on the repair head
+  the push run 45857231223, the pull_request
+  run 45857475198, and the dynamic run
+  45857471076. The merge queue's pull request
+  65, on branch
+  trunk-merge/pr-64/92421ecd-1530-407b-8d10-bb2187f446fe,
+  opened 2026-11-26T21:08:40Z and stands
+  closed unmerged at 2026-11-26T21:08:58Z,
+  inside the merge. FT-83 stands verified at
+  this read, the repository description and
+  the README lede sharing the canonical line,
+  Every agent run, from every harness, lands
+  as one flight tape, and the Cargo.toml
+  description standing as the third variant,
+  Flight tapes for agent runs, untouched. The
+  Round 48 gate stands graded against the
+  three reports on disk under ft48-reviews.
+  The spec axis returned PASS with no findings
+  at any grade, its report standing at 11,094
+  characters, with limits disclosed in its
+  report, that the REST route dropped
+  repeatedly in its seat, the head contract's
+  bytes, prefix property, and per-commit
+  states settled over the SSH git route and CI
+  through the Actions runs endpoint, and the
+  pin and oracle whole-tree verifications
+  resting on the lane's banked logs, audited
+  line by line and arithmetically. The
+  standards axis returned APPROVE with no
+  findings, its report standing at 16,252
+  characters, with one limit disclosed, that
+  the REST route dropped all ten of its API
+  attempts, its git-carried facts taken over
+  SSH, and the live-body typography scan named
+  unexecuted at that axis and graded on the
+  concordant record. The red team returned
+  APPROVE with no Critical, no Major, and no
+  Minor, its report standing at 14,350
+  characters, every limb executed at its own
+  hand with nothing untested, its gate
+  runner's queue behind a verified-live but
+  non-progressing holder and its heavy stages
+  run outside the slot on the IP-130 precedent
+  standing disclosed whole in its report. The
+  gate stands fully clean, and nothing stands
+  charged forward from the Round 48 gate
+  beyond FT-296's charges, which this round
+  discharges at this item and at FT-303. The
+  contract on main stands at 514,943 bytes and
+  the README on main at 48 of 100, the record
+  standing at FT-291 to FT-296 with the repair
+  records FT-195, FT-202, FT-203, FT-247,
+  FT-290, and FT-297 standing as appended
+  records outside that span. The fresh seed
+  20271003 stands verified absent from the
+  base contract with the twenty-three used
+  seeds standing present.
