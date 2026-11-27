@@ -12537,3 +12537,79 @@ held to the standard of the surface it feeds.
   nineteen of nineteen cells with no failures,
   the long-haul digest standing at
   87cdc03ef5bebe814581505ff3bb4b375e0cbc73ea80afc9ebbef42952535b08.
+
+- FT-302. The round's machinery stands adapted
+  from Round 48's proven scripts, the
+  adaptation carrying one change of
+  construction of this round's own: the
+  closure gate's two runs each take a clean
+  target directory of their own,
+  target-closure-v1 for the first assembly's
+  run and target-closure-final for the
+  contracted run on the final tree, so each
+  run compiles the gated tree's own sources
+  whole and no closing md5 stands compared
+  across build paths, the repair FT-297's
+  lesson applied at construction rather than
+  corrected after it. The execution campaign
+  launched three times. The first launch, at
+  2026-11-26T21:28:37Z, banked setup and the
+  base gate under the build slot and the
+  calibration, digest, and identity stages
+  each after a single probe, and stood inside
+  the validate stage, its window open, when
+  the original build lane ended on a database
+  write admission timeout at
+  2026-11-26T22:54:38Z, the campaign process
+  gone with it, the validate stage unbanked
+  with its log empty, and nothing pushed. A
+  completion lane took the round from that
+  banked state, re-verified the banked stages'
+  markers and figures at its own hand, and
+  relaunched the campaign at
+  2026-11-26T23:41:38Z; the second launch
+  skipped the five banked stages and banked
+  validate, both battery arms, the
+  differential, the volume, and the golden
+  each on attempt 0, then queued the pin suite
+  on the build slot for forty minutes, took
+  the slot, and died in a runtime restart
+  inside the stage's window probe, the pin
+  suite unexecuted. The third launch, at
+  2026-11-27T00:43:06Z, queued the pin suite
+  again, took the slot at 00:59:57Z, and
+  banked it on attempt 0, the whole campaign
+  standing banked at 2026-11-27T01:09:37Z. The
+  two interrupted launches stand counted
+  nowhere. The differential's verification
+  re-run, the mutation bite, the oracle
+  verification, and the lane's own codepoint
+  scans each stand on their own runs in the
+  same window, the re-run's first form failing
+  on a missing default binary path of the
+  completion lane's own making, counted
+  nowhere, and its second form, run in the
+  campaign's own environment shape,
+  reproducing the banked figures byte for byte
+  with the harness's exit measured at 1. The
+  closure gate ran whole on the closure tree
+  in two runs by construction. The first
+  assembly carries this item with a
+  placeholder where the closing binary's md5
+  stands; run 1 of the gate on that tree, at
+  the clean target-closure-v1 build path,
+  returned build, test, clippy, and fmt clean
+  with its closing md5 standing at
+  8e501d0f577675087435d998862f6145 at that
+  build path, the scan over the run's own
+  checkout counting it at 0 and 0, and FAIL
+  FLAG 0. This item stands finalized with run
+  1's closing md5, the tree re-assembled whole
+  from the final item texts, and run 2, the
+  contracted execution on the final tree at
+  the clean target-closure-final build path,
+  returned build, test, clippy, and fmt clean,
+  the scan over the run's own checkout
+  counting it at 0 and 0, and FAIL FLAG 0, its
+  closing md5 standing recorded on the pull
+  request with its build path named.
