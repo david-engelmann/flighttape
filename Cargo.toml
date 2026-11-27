@@ -11,7 +11,7 @@ homepage = "https://github.com/david-engelmann/flighttape"
 documentation = "https://docs.rs/flighttape"
 keywords = ["agents", "telemetry", "trace", "audit", "cli"]
 categories = ["command-line-utilities", "development-tools"]
-exclude = ["CONTRACT.md", "scripts/**", ".github/**", "tests/**"]
+exclude = ["CONTRACT.md", "scripts/**", ".github/**", "tests/**", "book/**", "docs/media/*.gif", "docs/media/*.png"]
 
 [lib]
 name = "flighttape"
@@ -23,3 +23,11 @@ path = "src/bin/flighttape.rs"
 
 [dependencies]
 sha2 = "0.10"
+
+[package.metadata.binstall]
+pkg-url = "{ repo }/releases/download/v{ version }/{ name }-{ target }.{ archive-format }"
+bin-dir = "{ bin }{ binary-ext }"
+pkg-fmt = "tgz"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 108" width="820" height="108" role="img" aria-label="flighttape brand lockup">
+  <rect x="1" y="1" width="818" height="106" rx="14" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <rect x="20" y="20" width="68" height="68" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="42.4" cy="51.3" r="10.2" fill="none" stroke="#F59E0B" stroke-width="2.4"/>
+  <circle cx="65.6" cy="51.3" r="10.2" fill="none" stroke="#F59E0B" stroke-width="2.4"/>
+  <circle cx="42.4" cy="51.3" r="3.6" fill="#F59E0B"/>
+  <circle cx="65.6" cy="51.3" r="3.6" fill="#F59E0B"/>
+  <line x1="42.4" y1="61.5" x2="65.6" y2="61.5" stroke="#F59E0B" stroke-width="2.4"/>
+  <rect x="35.0" y="69.6" width="38.1" height="3.2" rx="1.6" fill="#F59E0B" opacity="0.85"/>
+  <text x="106" y="48" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="28" font-weight="700" fill="#0F172A" letter-spacing="-0.5">flighttape</text>
+  <rect x="288" y="26" width="288" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-opacity="0.45" stroke-width="1"/>
+  <text x="299" y="42" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="10.5" font-weight="600" fill="#F59E0B" letter-spacing="0.4">CANONICAL RUN BUNDLE  |  ZERO-DEP RUST</text>
+  <text x="106" y="77" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" font-weight="500" fill="#475569">One deterministic flight tape for every finished AI agent run.</text>
+</svg>

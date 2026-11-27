@@ -1,3 +1,18 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/lockup-dark.svg">
+    <img src="media/lockup-light.svg" alt="flighttape" width="760">
+  </picture>
+</p>
+
+<p align="center">
+  <img src="media/money-shot.gif" alt="flighttape verified CLI workflow" width="880">
+</p>
+
+<p align="center">
+  <img src="media/architecture.svg" alt="flighttape technical architecture" width="900">
+</p>
+
 # Flighttape Operator and Integrator Guide
 
 Flighttape defines one canonical JSON bundle (`tape_version` `"1.0"`) for a finished AI agent run, together with a ten-subcommand CLI and Rust library (`flighttape`) for converting, validating, digesting, playing back, comparing, rolling up, slicing, and screening recorded runs.
@@ -435,3 +450,34 @@ flighttape digest candidate.tape.json
 # 4. Human timeline inspection (must exit 0)
 flighttape play candidate.tape.json
 ```
+
+---
+
+## 7. Shell Completions & `cargo-binstall`
+
+### Fast Binary Install via `cargo-binstall`
+
+If you use [`cargo-binstall`](https://github.com/cargo-bins/cargo-binstall), `Cargo.toml` carries `[package.metadata.binstall]` so prebuilt signed GitHub Release archives install without local compilation:
+
+```sh
+cargo binstall flighttape
+```
+
+### Shell Tab Completion
+
+Static zero-dependency completion scripts ship under `completions/` (and inside every release archive):
+
+```sh
+# Bash
+source completions/flighttape.bash
+
+# Zsh (place _flighttape on your $fpath)
+fpath=(./completions $fpath) && autoload -Uz compinit && compinit
+
+# Fish
+cp completions/flighttape.fish ~/.config/fish/completions/
+
+# PowerShell
+. ./completions/flighttape.ps1
+```
+

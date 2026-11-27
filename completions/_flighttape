@@ -1,0 +1,24 @@
+#compdef flighttape
+
+_flighttape() {
+    local -a subcommands
+    subcommands=(
+        'convert:flighttape convert subcommand'
+        'convert-dir:flighttape convert-dir subcommand'
+        'validate:flighttape validate subcommand'
+        'digest:flighttape digest subcommand'
+        'verify:flighttape verify subcommand'
+        'play:flighttape play subcommand'
+        'compare:flighttape compare subcommand'
+        'rollup:flighttape rollup subcommand'
+        'slice:flighttape slice subcommand'
+        'screen:flighttape screen subcommand'
+    )
+    if (( CURRENT == 2 )); then
+        _describe -t commands 'flighttape subcommand' subcommands
+        return
+    fi
+    _arguments -s '-o' '--output' '--from' '--to' '-h' '--help' '-V' '--version' '*:file:_files'
+}
+
+_flighttape "$@"

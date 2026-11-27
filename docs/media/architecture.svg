@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 480" width="1040" height="480" role="img" aria-label="flighttape technical architecture">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#FBBF24"/>
+    </marker>
+    <marker id="arrMuted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 9 5 L 0 9 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  <rect width="1040" height="480" rx="14" fill="#0B0F17" stroke="#1E293B" stroke-width="2"/>
+  <text x="28" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" font-weight="700" fill="#F8FAFC">flighttape  //  TECHNICAL ARCHITECTURE &amp; INVARIANT BOUNDARIES</text>
+  <text x="28" y="58" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12.5" fill="#94A3B8">Events, tool calls, token spend, timings, outcome, and Canonical Form 1 SHA-256 digest.</text>
+  <line x1="28" y1="72" x2="1012" y2="72" stroke="#1E293B" stroke-width="1.2"/>
+  <rect x="28" y="96" width="210" height="145" rx="10" fill="#111827" stroke="#334155" stroke-width="1.8"/>
+  <text x="42" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#F8FAFC">1. Raw Session Input</text>
+  <text x="42" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Claude Code .jsonl</text>
+  <text x="42" y="157" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Raw byte reader (non-UTF8</text>
+  <text x="42" y="174" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">lines counted, not fatal)</text>
+  <text x="42" y="191" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Depth limit &lt;= 1,000</text>
+  <text x="42" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Foreign sessionId filter</text>
+  <text x="42" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Skipped-line accounting</text>
+  <rect x="276" y="96" width="230" height="145" rx="10" fill="#291D09" stroke="#FBBF24" stroke-width="1.8"/>
+  <text x="290" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#FBBF24">2. Adapter &amp; Path Redactor</text>
+  <text x="290" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Monotonic seq 0..N-1</text>
+  <text x="290" y="157" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Pair tool_call/tool_result</text>
+  <text x="290" y="174" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Redact multi-segment POSIX</text>
+  <text x="290" y="191" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">&amp; Windows paths -&gt; &lt;REDACTED&gt;</text>
+  <text x="290" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Derive outcome + basis</text>
+  <text x="290" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Sum token &amp; cache totals</text>
+  <rect x="544" y="96" width="230" height="145" rx="10" fill="#111827" stroke="#FBBF24" stroke-width="1.8"/>
+  <text x="558" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#F8FAFC">3. Canonical Form 1 Bundle</text>
+  <text x="558" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">tape_version: &quot;1.0&quot;</text>
+  <text x="558" y="157" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">UTF-8 NFC / no surrogates</text>
+  <text x="558" y="174" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Lexicographic UTF-16/codept</text>
+  <text x="558" y="191" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">sorted object keys</text>
+  <text x="558" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">SHA-256 over body without</text>
+  <text x="558" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">tape_digest -&gt; 64-hex pin</text>
+  <rect x="812" y="96" width="200" height="145" rx="10" fill="#111827" stroke="#334155" stroke-width="1.8"/>
+  <text x="826" y="120" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#F8FAFC">4. Ten Read/Verify Ops</text>
+  <text x="826" y="140" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">validate  |  digest</text>
+  <text x="826" y="157" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">verify    |  play</text>
+  <text x="826" y="174" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">compare   |  rollup</text>
+  <text x="826" y="191" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">slice     |  screen</text>
+  <text x="826" y="208" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">convert   |  convert-dir</text>
+  <text x="826" y="225" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">Exit 0 / 1 / 2 contract</text>
+  <line x1="238" y1="168" x2="274" y2="168" stroke="#FBBF24" stroke-width="2.2" marker-end="url(#arr)"/>
+  <line x1="506" y1="168" x2="542" y2="168" stroke="#FBBF24" stroke-width="2.2" marker-end="url(#arr)"/>
+  <line x1="774" y1="168" x2="810" y2="168" stroke="#FBBF24" stroke-width="2.2" marker-end="url(#arr)"/>
+  <rect x="28" y="282" width="478" height="162" rx="10" fill="#111827" stroke="#334155" stroke-width="1.8"/>
+  <text x="42" y="306" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#F8FAFC">Immutable Safety Guarantees</text>
+  <text x="42" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- Write guard: -o refuses input file in every symlink/hardlink spelling</text>
+  <text x="42" y="343" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- Atomic sibling tempfile + rename so readers never observe torn JSON</text>
+  <text x="42" y="360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- screen subcommand audits all string leaves for residual host paths</text>
+  <text x="42" y="377" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- slice re-indexes seq 0..K-1 and recomputes fresh Canonical Form 1 digest</text>
+  <text x="42" y="394" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- 512 MiB worker thread stack handles adversarial 999-deep JSON trees</text>
+  <rect x="544" y="282" width="468" height="162" rx="10" fill="#111827" stroke="#334155" stroke-width="1.8"/>
+  <text x="558" y="306" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12.5" font-weight="700" fill="#F8FAFC">Downstream Fleet Consumers</text>
+  <text x="558" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- secondtake: matches before/after tapes via Canonical Form 1 prompt key</text>
+  <text x="558" y="343" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- onrecord:   reuses flighttape::timeparse &amp; Canonical Form 1 SHA-256</text>
+  <text x="558" y="360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- retroforge: mines multi-session tape rollups for setup proposals</text>
+  <text x="558" y="377" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- unheard:    scores rule obedience over validated 1.0 session tapes</text>
+  <text x="558" y="394" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" fill="#94A3B8">- schema/tape.schema.json: Draft 2020-12 contract for external tools</text>
+</svg>
