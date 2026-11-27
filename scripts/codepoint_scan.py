@@ -5,7 +5,7 @@ import pathlib, sys
 root = pathlib.Path(__file__).resolve().parent.parent
 counts = {"U+2014": 0, "U+2013": 0}
 for p in sorted(root.rglob("*")):
-    if ".git" in p.parts or not p.is_file():
+    if any(part in {".git", "target", ".cargo-home"} for part in p.parts) or not p.is_file():
         continue
     if p.suffix not in {".md", ".txt"}:
         continue

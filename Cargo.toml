@@ -2,8 +2,16 @@
 name = "flighttape"
 version = "1.0.0"
 edition = "2021"
+rust-version = "1.74"
 description = "Flight tapes for agent runs: validate, convert, play back, compare, and screen recorded sessions."
 license = "MIT"
+readme = "README.md"
+repository = "https://github.com/david-engelmann/flighttape"
+homepage = "https://github.com/david-engelmann/flighttape"
+documentation = "https://docs.rs/flighttape"
+keywords = ["agents", "telemetry", "trace", "audit", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = ["CONTRACT.md", "scripts/**", ".github/**", "tests/**"]
 
 [lib]
 name = "flighttape"
