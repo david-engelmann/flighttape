@@ -304,7 +304,9 @@ fn rollup_output_does_not_depend_on_creation_order() {
     // The reports name their directory, so compare with
     // the directory paths normalized away.
     let normalize = |text: &str, dir: &std::path::Path| {
-        text.replace(&dir.to_string_lossy().into_owned(), "DIR")
+        let raw = dir.to_string_lossy().into_owned();
+        let escaped = raw.replace('\\', "\\\\");
+        text.replace(&escaped, "DIR").replace(&raw, "DIR")
     };
     assert_eq!(
         normalize(&first_out, &first_dir),

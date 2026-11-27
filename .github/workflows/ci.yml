@@ -3,19 +3,37 @@ on:
   push:
   pull_request:
   merge_group:
+permissions:
+  contents: read
 jobs:
   gate:
-    runs-on: ubuntu-latest
+    name: gate (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
     steps:
+      - name: Configure git line endings
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Codepoint scan
+      - name: Codepoint scan (Unix)
+        if: runner.os != 'Windows'
         run: python3 scripts/codepoint_scan.py
+      - name: Codepoint scan (Windows)
+        if: runner.os == 'Windows'
+        run: python scripts/codepoint_scan.py
       - name: Format
         run: cargo fmt --check
       - name: Clippy
