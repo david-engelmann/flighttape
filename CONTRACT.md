@@ -13337,3 +13337,101 @@ held to the standard of the surface it feeds.
   tokens, no cache creation tokens, 748,500
   cache read tokens, 1,500 tool calls, and
   4,500 messages.
+
+- FT-314. The round's machinery stands adapted
+  from Round 50's proven scripts, the
+  adaptation carrying Round 50's construction
+  forward: the execution campaign's runner
+  carries the bounded attempt discipline in
+  its own text, three attempts at most per
+  stage with each attempt disclosed on the
+  campaign's trail, and on exhaustion the
+  runner stops and reports rather than loops;
+  the closure gate's two runs keep the
+  standing construction, each taking a clean
+  target directory of its own,
+  target-closure-v1 for the first assembly's
+  run and target-closure-final for the
+  contracted run on the final tree, so each
+  run compiles the gated tree's own sources
+  whole and no closing md5 stands compared
+  across build paths. The adaptation carried
+  slips of this lane's own, each found and
+  repaired before reliance: the README count
+  assertions in the assembly and push scripts,
+  inverted by the ordered replacement that
+  adapted them and repaired by direct read,
+  and the golden stage's file standing under
+  its adapted name while the campaign invoked
+  the standing name, which the campaign's own
+  discipline surfaced. The execution campaign
+  launched twice. The first launch, at
+  2026-11-28T05:28:49Z, queued on the build
+  slot for four minutes for the setup, banked
+  setup and the base gate each on attempt 0,
+  and banked the calibration, the digest and
+  identity families, the validate family, both
+  batteries, the differential, and the volume
+  piece each on attempt 0; its golden stage
+  then failed three attempts, each returning
+  code 2 on the naming slip above, and the
+  runner stopped at its own discipline at
+  2026-11-28T06:15:12Z, the three failed
+  attempts counted nowhere. The second launch,
+  at 2026-11-28T06:26:40Z, banked the golden
+  stage on attempt 0 and queued the pin suite
+  on the slot for eleven minutes, banking it
+  on attempt 0, the whole campaign standing
+  banked at 2026-11-28T06:43:47Z. The
+  differential's verification re-run, the
+  mutation bite, the oracle verification, and
+  the lane's own codepoint scans each stand on
+  their own runs in the same window: the
+  re-run, in the campaign's own environment
+  shape, reproducing the banked figures
+  exactly with the harness's exit measured at
+  1; the bite executed once under the build
+  slot, its wrapper's session terminated by a
+  runtime signal after the bite's log stood
+  complete, the log read back whole at this
+  lane's hand and the kill touching no
+  measurement; and the codepoint scan's first
+  invocation, missing its tree argument,
+  counted nowhere, its second form counting
+  the planted control first and the base tree
+  at 0 and 0. The closure gate ran whole on
+  the closure tree in two runs by
+  construction. The first assembly carries
+  this item with a placeholder where the
+  closing binary's md5 stands; run 1's first
+  launch queued on the build slot for two
+  hours and died in a runtime restart
+  unexecuted, counted nowhere; its second
+  launch queued behind verified-live
+  progressing holds until the segment's
+  cumulative queue passed three hours, when
+  the original lane killed its own runner and
+  stopped by the book, that launch unexecuted
+  and counted nowhere; its third launch,
+  seated by the completion lane, queued three
+  quarters of an hour and died unexecuted in
+  the process kill that cleared the slot's
+  whole queue, counted nowhere; and its fourth
+  launch, seated by the completion lane in the
+  cleared window on that tree at the clean
+  target-closure-v1 build path, returned
+  build, test, clippy, and fmt clean with its
+  closing md5 standing at
+  e3a27a37a6d334cc5a1fc995691bc0e3 at that
+  build path, the scan over the run's own
+  checkout counting it at 0 and 0, and FAIL
+  FLAG 0. This item stands finalized with run
+  1's closing md5, the tree re-assembled whole
+  from the final item texts, and run 2, the
+  contracted execution on the final tree at
+  the clean target-closure-final build path,
+  returned build, test, clippy, and fmt clean,
+  the scan over the run's own checkout
+  counting it at 0 and 0, and FAIL FLAG 0, its
+  closing md5 standing recorded on the pull
+  request with its build path named.
