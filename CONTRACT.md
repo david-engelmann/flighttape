@@ -13249,3 +13249,91 @@ held to the standard of the surface it feeds.
   c8aea7c35b5ac54eed01b941. The refusal at
   every seam carries the interpreter-limit
   ground of FT-222 as qualified by FT-230.
+
+- FT-312. The validate family and the harness
+  family re-executed whole. The binary
+  validates a session nested 200,000 deep
+  without refusal, its validate probe standing
+  uncapped through 200,000 with no failures.
+  The oracle's validate seams stand at their
+  contracted points: at wrap 0 the standard
+  runner accepts 9,994 and refuses 9,995 and
+  the module runner accepts 9,991 and refuses
+  9,992; at wrap 4 the standard runner accepts
+  9,990 and refuses 9,991 and the module
+  runner accepts 9,987 and refuses 9,988. The
+  digest battery passes its 40 cells with no
+  failures, the key-order family and the float
+  family standing whole, the three spelling
+  variants each rendering one canonical
+  spelling, the non-finite value refused, and
+  the two lone-surrogate cells refused on the
+  text that cannot be encoded. The behaviour
+  battery passes its 14 cells with no
+  failures, the golden digest standing in its
+  convert and slice cells, the crafted tape
+  digesting to its pinned value, and the FT-77
+  cell again recording the binary's panic on a
+  non-UTF-8 argument value, the thread
+  standing unnamed with identifier 376913 in
+  this run. The differential stands at 117
+  cases with one divergence, at case 64, the
+  slice of the 600-deep session, and no file
+  divergences, the harness's own exit standing
+  at 1 measured directly. The pin and oracle
+  verification family re-executed whole: the
+  pin tree at commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  extracted fresh and verified blob for blob
+  at exactly 50 blobs with no mismatches, its
+  suite passing 241 tests over nineteen
+  targets with the pin tree's own library
+  standing at 3 tests and its screen suite at
+  13, the mechanical line printing eighteen
+  Running targets with the doc tests the
+  nineteenth at 0, and the pin gate binary
+  stands at md5
+  6b3a8e2d76b2878fd88ca70e6450bc03 at this
+  lane's pin target path, the figure
+  build-path scoped and stated so. The oracle
+  extraction at this lane's reference path
+  stands verified file for file against the
+  final Python tree
+  eca7b60dac2114ff026f8856fd19de05867d7304,
+  reachable only through the local clone's
+  object store per FT-133, its eleven
+  src/flighttape files standing matched with
+  no mismatches. The golden fixture stands
+  whole, the three arms' tapes byte-identical
+  at 1,663 bytes, each arm's digest printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify of its tape against
+  that digest exiting 0. The mutation bite
+  stands exact: byte 17800 of the pin tree's
+  tests/convert.rs mutated from c to d, the
+  convert suite answering 33 passed and 1
+  failed with cargo exit 101, and the file
+  restored to blob
+  3d15c928fffc57ad74fadfa83a301ffea53d2467.
+  The corpus guards stand counted at this
+  lane's own hand from the base tree, the
+  timestamp corpus at 371 lines and the number
+  sweep at 6,284 lines.
+
+- FT-313. The volume piece re-executed whole
+  at the fresh seed 20271031, verified absent
+  from the base contract at FT-310 with the
+  twenty-five used seeds standing present. The
+  corpus stands at its constant shape, 21,035
+  lines and 7,736,621 bytes across 27
+  sessions, its deepest nesting at 122 and its
+  widest object at 500 keys. The battery
+  passes 19 of 19 cells with no failures. The
+  long-haul digest stands at
+  11dd538b2a0ba3077978b7615d4dbfbb64d691562bb73bd14f05f1f751d9fd8d
+  at this seed, and the long-haul tape stands
+  at 7,500 events with its run totals standing
+  at 750,000 input tokens, 135,000 output
+  tokens, no cache creation tokens, 748,500
+  cache read tokens, 1,500 tool calls, and
+  4,500 messages.
