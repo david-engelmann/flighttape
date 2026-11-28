@@ -13045,3 +13045,408 @@ held to the standard of the surface it feeds.
   gate, and the disposition of any review
   comment the round draws, read from the
   comment itself.
+
+- FT-310. Round 51 opens by reading pull
+  request 68 whole. The pull request, titled
+  refine, flighttape Round 50, FT-304 to
+  FT-309, stood against main at
+  20e61c9cf5edc804e5ae27e777a00e6b44dad0a1 and
+  was squash-merged as
+  0646c06918d7250b4a18601ad7e04c57c79e5a38 at
+  2026-11-28T03:41:10Z, its merge tree
+  30d124ddb570c84f299a132ae00c21a20e0a19fa
+  standing equal to the reviewed tree and main
+  standing at that squash as this round's
+  base. Its body stands at 19,363 characters
+  in final form, exactly as its build lane
+  posted it, the release-notes appendix
+  standing at 396 characters from offset
+  18,967; no owner's gate record stands on the
+  body, the Round 50 gate having stood fully
+  clean, and the landing record stands in
+  Session 297's session record. The census at
+  this read stands at three issue comments, no
+  reviews, and no review comments, the third
+  issue comment being the owner's enqueue,
+  which arrived after the gate reads; no
+  separate landing comment stands on the pull
+  request. The Trunk note, comment 7224966385,
+  stands at 113 characters in its merged form,
+  created 2026-11-27T17:57:28Z and last edited
+  at the merge, 2026-11-28T03:41:12Z. The
+  owner's enqueue, comment 7233179936, stands
+  at 12 characters, created
+  2026-11-28T03:34:04Z, never edited, standing
+  last among the issue comments. The bot's
+  summary comment, 7224969861, stands settled
+  at its true final form of 10,725 characters,
+  last edited 2026-11-27T19:18:02Z, the last
+  edit standing before the merge and the shell
+  not edited at or after the merge; it stood
+  at 10,723 characters in the form in which
+  the body's author last read it, that form
+  last edited 2026-11-27T17:59:04Z, and at
+  10,725 at the owner's landing read and at
+  this read, and Round 50's forward charge
+  stands discharged. Its walkthrough states
+  that the change adds the Round 50 pull
+  request read-back, test results, gate
+  measurements, and execution history to
+  CONTRACT.md, records FT-83 as open, and
+  updates the README's closed-round count from
+  49 to 50, with no implementation behavior
+  changes; each statement stands accurate
+  against the record. Its change table carries
+  two summary rows, one for the Round 50
+  evidence across CONTRACT.md and one for the
+  Round 50 closure and count across
+  CONTRACT.md and README.md, and the rows
+  stand as summaries of the diff. Its change
+  assessment stands at effort 2, Simple, at
+  about ten minutes, change type Other,
+  priority p3, its assessment pinned to the
+  closure head
+  9e7c8228d6815f584c0c6a244055ce6d3c11cc84.
+  Its Merge Risk stands at Minimal up to
+  9e7c8, on the single ground that the change
+  updates the project's documentation to
+  record Round 50 and bumps the README round
+  count, changing no runtime behavior; no
+  ground stands against the record, and the
+  grade stands as the bot's judgment. Its
+  pre-merge checks stand at four passed, the
+  Title check passed with its explanation,
+  that the title names the project, the round,
+  and the ticket range, with the check's own
+  note standing that the title does not say
+  the change is a record update and that it
+  uses ticket IDs a teammate may not know, the
+  title standing in the programme's settled
+  shape as the pull request's own record
+  answers, the Linked Issues and Out of Scope
+  checks passed as skipped for no linked
+  issues in their explanations, and the
+  Description check passed as skipped with the
+  high-level summary enabled. Its finishing
+  touches stand as two unacted checkboxes. The
+  shell's recent review info carries Run ID
+  c0a21099-8b49-438f-83d9-5911f2e72393,
+  reviewing
+  20e61c9cf5edc804e5ae27e777a00e6b44dad0a1 to
+  9e7c8228d6815f584c0c6a244055ce6d3c11cc84
+  over CONTRACT.md and README.md, files
+  selected two, the included allowance used
+  with zero remaining, and the shell records
+  that no actionable comments were generated
+  in the recent review. No review and no
+  review comment stand on the pull request, so
+  the disposition read FT-309 charged stands
+  discharged in the negative: the round drew
+  no review comment whose disposition could be
+  read, and nothing stands sustained from Step
+  0. The appendix's three Documentation
+  bullets stand graded: the Round 50 review,
+  validation, and execution record added,
+  correct; the closed-round count updated from
+  49 to 50 of 100, correct; FT-83 carried
+  forward as open, correct. The continuous
+  integration runs stand all success on the
+  closure head
+  9e7c8228d6815f584c0c6a244055ce6d3c11cc84,
+  the push run 46042988916, the pull_request
+  run 46045797710, and the dynamic run
+  46045793330. The merge queue's pull request
+  71, on branch
+  trunk-merge/pr-68/efecd201-d7c5-43d7-9b24-eafc2089615b,
+  opened 2026-11-28T03:40:39Z and stands
+  closed unmerged at 2026-11-28T03:41:04Z,
+  inside the merge. FT-83 stands verified at
+  this read, the repository description and
+  the README lede sharing the canonical line,
+  Every agent run, from every harness, lands
+  as one flight tape, and the Cargo.toml
+  description standing as the third variant,
+  Flight tapes for agent runs, untouched. The
+  Round 50 gate stands graded against the
+  three reports on disk under ft50-reviews.
+  The spec axis returned PASS with no
+  findings, its report standing at 8,341
+  characters. The standards axis returned
+  APPROVE with no findings, its report
+  standing at 8,254 characters, and no
+  observation below severity carried. The red
+  team returned APPROVE with no Critical, no
+  Major, and no Minor, its report standing at
+  11,706 characters, every limb executed at
+  its own hand with nothing untested and
+  nothing charged forward, the volume piece
+  re-executed whole at its own hand at the
+  round's seed, the closure gate re-executed
+  whole at its own clean targets with FAIL
+  FLAG 0 in both runs and the closing-pair law
+  verified in its contracted form at one fixed
+  source path, and two observations below
+  severity standing in its report, the first
+  on the shell's post-writing re-render, which
+  the moment-bounded handling covers and this
+  item discharges, and the second its own
+  stage H method note, recorded so no reader
+  mistakes a method artifact for a tree
+  property. The gate stands fully clean, and
+  nothing stands charged forward from the
+  Round 50 gate beyond FT-309's charges, which
+  this round discharges at this item and at
+  FT-315. The contract on main stands at
+  548,686 bytes and the README on main at 50
+  of 100, the record standing at FT-304 to
+  FT-309 with the repair records FT-195,
+  FT-202, FT-203, FT-247, FT-290, and FT-297
+  standing as appended records outside that
+  span. The fresh seed 20271031 stands
+  verified absent from the base contract with
+  the twenty-five used seeds standing present.
+
+- FT-311. The base gate re-executed whole on
+  the base tree
+  30d124ddb570c84f299a132ae00c21a20e0a19fa,
+  assembled fresh through the API at this
+  lane's own target path, its 52 tracked files
+  verified blob for blob against the tree
+  before reliance. The build exits 0, and the
+  gate binary stands at md5
+  e82a5d8461b5c241c23af833651663d5 at this
+  lane's target path, the figure build-path
+  scoped and stated so. The test suite passes
+  247 tests in the split of FT-220: library 7,
+  cli 22, compare 19, convert 34, digest_cli
+  5, identity 13, json 8, play 17, redaction
+  12, robustness 15, rollup 22, scale 3,
+  schema 5, screen 15, slice 24, timestamps 1,
+  validate 25, the binary's unit suite 0, and
+  doc tests 0. Clippy and fmt each exit 0, and
+  the codepoint scan over the tree reads zero
+  em dashes and zero en dashes. The depth
+  calibration re-ran on all three arms, the
+  digest of a tape holding 100 nested arrays
+  standing at
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  on the binary, the oracle's standard runner,
+  and the oracle's module runner alike. The
+  digest depth seams stand at their contracted
+  points. At wrap 0 the binary accepts a
+  session nested 997 deep and refuses 998, the
+  oracle's standard runner accepts 991 and
+  refuses 992, and the oracle's module runner
+  accepts 989 and refuses 990. At wrap 4 the
+  binary accepts 993 and refuses 994, the
+  standard runner accepts 987 and refuses 988,
+  and the module runner accepts 985 and
+  refuses 986. The identity family stands
+  byte-identical on all three arms through
+  nesting depth 989, the module runner's
+  refusal arriving at 990 and the standard
+  runner's at 997, where the binary prints
+  c8aea7c35b5ac54eed01b941. The refusal at
+  every seam carries the interpreter-limit
+  ground of FT-222 as qualified by FT-230.
+
+- FT-312. The validate family and the harness
+  family re-executed whole. The binary
+  validates a session nested 200,000 deep
+  without refusal, its validate probe standing
+  uncapped through 200,000 with no failures.
+  The oracle's validate seams stand at their
+  contracted points: at wrap 0 the standard
+  runner accepts 9,994 and refuses 9,995 and
+  the module runner accepts 9,991 and refuses
+  9,992; at wrap 4 the standard runner accepts
+  9,990 and refuses 9,991 and the module
+  runner accepts 9,987 and refuses 9,988. The
+  digest battery passes its 40 cells with no
+  failures, the key-order family and the float
+  family standing whole, the three spelling
+  variants each rendering one canonical
+  spelling, the non-finite value refused, and
+  the two lone-surrogate cells refused on the
+  text that cannot be encoded. The behaviour
+  battery passes its 14 cells with no
+  failures, the golden digest standing in its
+  convert and slice cells, the crafted tape
+  digesting to its pinned value, and the FT-77
+  cell again recording the binary's panic on a
+  non-UTF-8 argument value, the thread
+  standing unnamed with identifier 376913 in
+  this run. The differential stands at 117
+  cases with one divergence, at case 64, the
+  slice of the 600-deep session, and no file
+  divergences, the harness's own exit standing
+  at 1 measured directly. The pin and oracle
+  verification family re-executed whole: the
+  pin tree at commit
+  74a83298aeb31c82e62b9fb0c613f5bc8600799e
+  extracted fresh and verified blob for blob
+  at exactly 50 blobs with no mismatches, its
+  suite passing 241 tests over nineteen
+  targets with the pin tree's own library
+  standing at 3 tests and its screen suite at
+  13, the mechanical line printing eighteen
+  Running targets with the doc tests the
+  nineteenth at 0, and the pin gate binary
+  stands at md5
+  6b3a8e2d76b2878fd88ca70e6450bc03 at this
+  lane's pin target path, the figure
+  build-path scoped and stated so. The oracle
+  extraction at this lane's reference path
+  stands verified file for file against the
+  final Python tree
+  eca7b60dac2114ff026f8856fd19de05867d7304,
+  reachable only through the local clone's
+  object store per FT-133, its eleven
+  src/flighttape files standing matched with
+  no mismatches. The golden fixture stands
+  whole, the three arms' tapes byte-identical
+  at 1,663 bytes, each arm's digest printing
+  cc9c4e01fca418dcc33114caf75fae1f6bf0d401f297b5d61f6776903fa955a3,
+  and the binary's verify of its tape against
+  that digest exiting 0. The mutation bite
+  stands exact: byte 17800 of the pin tree's
+  tests/convert.rs mutated from c to d, the
+  convert suite answering 33 passed and 1
+  failed with cargo exit 101, and the file
+  restored to blob
+  3d15c928fffc57ad74fadfa83a301ffea53d2467.
+  The corpus guards stand counted at this
+  lane's own hand from the base tree, the
+  timestamp corpus at 371 lines and the number
+  sweep at 6,284 lines.
+
+- FT-313. The volume piece re-executed whole
+  at the fresh seed 20271031, verified absent
+  from the base contract at FT-310 with the
+  twenty-five used seeds standing present. The
+  corpus stands at its constant shape, 21,035
+  lines and 7,736,621 bytes across 27
+  sessions, its deepest nesting at 122 and its
+  widest object at 500 keys. The battery
+  passes 19 of 19 cells with no failures. The
+  long-haul digest stands at
+  11dd538b2a0ba3077978b7615d4dbfbb64d691562bb73bd14f05f1f751d9fd8d
+  at this seed, and the long-haul tape stands
+  at 7,500 events with its run totals standing
+  at 750,000 input tokens, 135,000 output
+  tokens, no cache creation tokens, 748,500
+  cache read tokens, 1,500 tool calls, and
+  4,500 messages.
+
+- FT-314. The round's machinery stands adapted
+  from Round 50's proven scripts, the
+  adaptation carrying Round 50's construction
+  forward: the execution campaign's runner
+  carries the bounded attempt discipline in
+  its own text, three attempts at most per
+  stage with each attempt disclosed on the
+  campaign's trail, and on exhaustion the
+  runner stops and reports rather than loops;
+  the closure gate's two runs keep the
+  standing construction, each taking a clean
+  target directory of its own,
+  target-closure-v1 for the first assembly's
+  run and target-closure-final for the
+  contracted run on the final tree, so each
+  run compiles the gated tree's own sources
+  whole and no closing md5 stands compared
+  across build paths. The adaptation carried
+  slips of this lane's own, each found and
+  repaired before reliance: the README count
+  assertions in the assembly and push scripts,
+  inverted by the ordered replacement that
+  adapted them and repaired by direct read,
+  and the golden stage's file standing under
+  its adapted name while the campaign invoked
+  the standing name, which the campaign's own
+  discipline surfaced. The execution campaign
+  launched twice. The first launch, at
+  2026-11-28T05:28:49Z, queued on the build
+  slot for four minutes for the setup, banked
+  setup and the base gate each on attempt 0,
+  and banked the calibration, the digest and
+  identity families, the validate family, both
+  batteries, the differential, and the volume
+  piece each on attempt 0; its golden stage
+  then failed three attempts, each returning
+  code 2 on the naming slip above, and the
+  runner stopped at its own discipline at
+  2026-11-28T06:15:12Z, the three failed
+  attempts counted nowhere. The second launch,
+  at 2026-11-28T06:26:40Z, banked the golden
+  stage on attempt 0 and queued the pin suite
+  on the slot for eleven minutes, banking it
+  on attempt 0, the whole campaign standing
+  banked at 2026-11-28T06:43:47Z. The
+  differential's verification re-run, the
+  mutation bite, the oracle verification, and
+  the lane's own codepoint scans each stand on
+  their own runs in the same window: the
+  re-run, in the campaign's own environment
+  shape, reproducing the banked figures
+  exactly with the harness's exit measured at
+  1; the bite executed once under the build
+  slot, its wrapper's session terminated by a
+  runtime signal after the bite's log stood
+  complete, the log read back whole at this
+  lane's hand and the kill touching no
+  measurement; and the codepoint scan's first
+  invocation, missing its tree argument,
+  counted nowhere, its second form counting
+  the planted control first and the base tree
+  at 0 and 0. The closure gate ran whole on
+  the closure tree in two runs by
+  construction. The first assembly carries
+  this item with a placeholder where the
+  closing binary's md5 stands; run 1's first
+  launch queued on the build slot for two
+  hours and died in a runtime restart
+  unexecuted, counted nowhere; its second
+  launch queued behind verified-live
+  progressing holds until the segment's
+  cumulative queue passed three hours, when
+  the original lane killed its own runner and
+  stopped by the book, that launch unexecuted
+  and counted nowhere; its third launch,
+  seated by the completion lane, queued three
+  quarters of an hour and died unexecuted in
+  the process kill that cleared the slot's
+  whole queue, counted nowhere; and its fourth
+  launch, seated by the completion lane in the
+  cleared window on that tree at the clean
+  target-closure-v1 build path, returned
+  build, test, clippy, and fmt clean with its
+  closing md5 standing at
+  e3a27a37a6d334cc5a1fc995691bc0e3 at that
+  build path, the scan over the run's own
+  checkout counting it at 0 and 0, and FAIL
+  FLAG 0. This item stands finalized with run
+  1's closing md5, the tree re-assembled whole
+  from the final item texts, and run 2, the
+  contracted execution on the final tree at
+  the clean target-closure-final build path,
+  returned build, test, clippy, and fmt clean,
+  the scan over the run's own checkout
+  counting it at 0 and 0, and FAIL FLAG 0, its
+  closing md5 standing recorded on the pull
+  request with its build path named.
+
+- FT-315. Round 51 closes with the record
+  standing at FT-310 to FT-315. No Status
+  range line stands in the new span. The
+  README's closed-round count moves from 50 of
+  100 to 51 of 100 in this commit alone. FT-83
+  stands carried open. The next round's
+  read-back stands charged with reading this
+  round's pull request whole, its shell
+  settled at its true final form and last
+  edit, the comment census and the appendix's
+  offset and span as they stand after the
+  gate, and the disposition of any review
+  comment the round draws, read from the
+  comment itself.
