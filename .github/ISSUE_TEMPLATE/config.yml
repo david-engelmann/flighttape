@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Operator Guide and Documentation
+    url: https://github.com/david-engelmann/flighttape/blob/main/docs/README.md
+    about: Read the operator guide, format specifications, and FAQ before opening an issue.
+  - name: Security Advisories
+    url: https://github.com/david-engelmann/flighttape/blob/main/SECURITY.md
+    about: Report security vulnerabilities privately per SECURITY.md.

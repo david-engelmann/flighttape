@@ -1,0 +1,47 @@
+/* Bespoke Retrospective Line mdBook theme for flighttape */
+:root {
+  --rl-accent: #f59e0b;
+  --rl-accent-bright: #fbbf24;
+}
+
+.navy, .ayu, .coal {
+  --links: #fbbf24;
+  --sidebar-active: #fbbf24;
+}
+
+.light, .rust {
+  --links: #f59e0b;
+  --sidebar-active: #f59e0b;
+}
+
+.content main {
+  max-width: 880px;
+}
+
+.content h1, .content h2, .content h3 {
+  letter-spacing: -0.015em;
+}
+
+.content h2 {
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--table-border-color);
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28);
+}
+
+.content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.94em;
+}
+
+.content pre {
+  border-radius: 8px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}

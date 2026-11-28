@@ -1,0 +1,27 @@
+name: Bug report
+description: Report a deterministic behavior defect or CLI error in flighttape
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Defect summary
+      description: State clearly what failed and which contracted behavior was violated.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Exact commands and synthetic input needed to reproduce the issue locally.
+      render: sh
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment (OS, architecture, rustc or release version)
+      placeholder: "macOS 14.6 arm64, rustc 1.82.0"
+    validations:
+      required: true

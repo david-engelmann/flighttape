@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use flighttape in research or production systems, please cite this software."
+title: "flighttape: Canonical Bundle Format and CLI for Finished AI Agent Runs"
+type: software
+authors:
+  - family-names: Engelmann
+    given-names: David
+version: "1.0.0"
+date-released: "2026-11-27"
+license: MIT
+repository-code: "https://github.com/david-engelmann/flighttape"
+url: "https://david-engelmann.github.io/flighttape/"
+abstract: "Canonical JSON bundle format (1.0), Canonical Form 1 digest, and ten-subcommand Rust CLI and library for AI agent session runs."

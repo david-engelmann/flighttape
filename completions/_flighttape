@@ -1,0 +1,36 @@
+#compdef flighttape
+
+_flighttape() {
+    local -a subcommands
+    subcommands=(
+        'convert:flighttape convert subcommand'
+        'convert-dir:flighttape convert-dir subcommand'
+        'validate:flighttape validate subcommand'
+        'digest:flighttape digest subcommand'
+        'verify:flighttape verify subcommand'
+        'play:flighttape play subcommand'
+        'compare:flighttape compare subcommand'
+        'rollup:flighttape rollup subcommand'
+        'slice:flighttape slice subcommand'
+        'screen:flighttape screen subcommand'
+    )
+    if (( CURRENT == 2 )); then
+        _describe -t commands 'flighttape subcommand' subcommands
+        return
+    fi
+    case "${words[2]}" in
+        convert) _arguments -s '-o+[file path]:file:_files' '--output=[file path]:file:_files' '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        convert-dir) _arguments -s '-o+[file path]:file:_files' '--output=[file path]:file:_files' '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        validate) _arguments -s '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        digest) _arguments -s '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        verify) _arguments -s '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        play) _arguments -s '--from=[value]:value:' '--to=[value]:value:' '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        compare) _arguments -s '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        rollup) _arguments -s '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        slice) _arguments -s '--from=[value]:value:' '--to=[value]:value:' '-o+[file path]:file:_files' '--output=[file path]:file:_files' '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        screen) _arguments -s '-o+[file path]:file:_files' '--output=[file path]:file:_files' '-h[show help]' '--help[show help]' '*:file:_files' ;;
+        *) _files ;;
+    esac
+}
+
+_flighttape "$@"

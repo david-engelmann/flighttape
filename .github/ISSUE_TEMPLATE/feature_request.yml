@@ -1,0 +1,19 @@
+name: Feature or documentation request
+description: Propose a capability, adapter, or documentation improvement for flighttape
+title: "[proposal]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or operator need
+      description: What workflow or integration gap does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior and contract boundary
+      description: Describe expected inputs, outputs, exit codes, and non-goals.
+    validations:
+      required: true

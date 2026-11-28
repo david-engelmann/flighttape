@@ -1,0 +1,56 @@
+name: clean-install
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-archive-and-smoke:
+    name: clean archive smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: Verify installer and shell completion syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          sh -n install.sh
+          bash -n "completions/flighttape.bash"
+      - name: Build release archive, verify SHA256SUMS, and run clean-room smoke check
+        shell: bash
+        run: |
+          set -euo pipefail
+          cargo build --release --locked
+          STAGE_DIR="$RUNNER_TEMP/release-stage"
+          INSTALL_BIN="$RUNNER_TEMP/clean-bin"
+          mkdir -p "$STAGE_DIR" "$INSTALL_BIN"
+          cp "target/release/flighttape" "$STAGE_DIR/flighttape"
+          cp LICENSE README.md "$STAGE_DIR/"
+          cp -r completions "$STAGE_DIR/completions"
+          tar -C "$STAGE_DIR" -czf "$STAGE_DIR/flighttape-ci.tar.gz" "flighttape" LICENSE README.md completions
+          if command -v sha256sum >/dev/null 2>&1; then
+            (cd "$STAGE_DIR" && sha256sum "flighttape-ci.tar.gz" > SHA256SUMS && sha256sum -c SHA256SUMS)
+          else
+            (cd "$STAGE_DIR" && shasum -a 256 "flighttape-ci.tar.gz" > SHA256SUMS && shasum -a 256 -c SHA256SUMS)
+          fi
+          tar -xzf "$STAGE_DIR/flighttape-ci.tar.gz" -C "$INSTALL_BIN"
+          chmod 0755 "$INSTALL_BIN/flighttape"
+          export PATH="$INSTALL_BIN:$PATH"
+          command -v "flighttape"
+          "flighttape" --help >/dev/null
+          flighttape convert examples/session-a.jsonl -o "$RUNNER_TEMP/smoke.tape.json" && flighttape validate "$RUNNER_TEMP/smoke.tape.json" && flighttape screen "$RUNNER_TEMP/smoke.tape.json"
