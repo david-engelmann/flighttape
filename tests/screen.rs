@@ -408,6 +408,7 @@ fn a_write_failure_is_a_named_error() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
+#[cfg(unix)]
 #[test]
 fn a_hardlink_output_is_refused() {
     let dir = tmpdir("hardlink");
@@ -428,6 +429,7 @@ fn a_hardlink_output_is_refused() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
+#[cfg(unix)]
 #[test]
 fn an_unresolvable_output_path_is_a_named_refusal() {
     let dir = tmpdir("loop");
@@ -476,6 +478,7 @@ fn the_temp_boundary_is_fixed_at_eight_suffix_characters() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
+#[cfg(unix)]
 #[test]
 fn a_popped_parent_creates_the_temp_lexically() {
     // FT-75: the physical parent exists and the lexical
@@ -497,6 +500,7 @@ fn a_popped_parent_creates_the_temp_lexically() {
     let _ = std::fs::remove_dir_all(&dir);
 }
 
+#[cfg(unix)]
 #[test]
 fn a_symlink_output_is_replaced_not_followed() {
     let dir = tmpdir("symlink");

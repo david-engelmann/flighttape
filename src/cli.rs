@@ -569,6 +569,26 @@ fn resolve_lexical(path: &Path) -> Option<PathBuf> {
 }
 
 /// The ELOOP errno without a libc dependency.
+#[cfg(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+))]
+fn libc_eloop() -> i32 {
+    62
+}
+
+#[cfg(not(any(
+    target_os = "macos",
+    target_os = "ios",
+    target_os = "freebsd",
+    target_os = "openbsd",
+    target_os = "netbsd",
+    target_os = "dragonfly"
+)))]
 fn libc_eloop() -> i32 {
     40
 }
@@ -1345,16 +1365,20 @@ mod screen_temp_tests {
     fn the_raw_byte_boundary_counts_bytes() {
         let dir = tmpdir("raw");
         let raw_name = |total: usize| {
-            let mut bytes = vec![b'n'; total - 6];
-            bytes.push(0xff);
+            let mut bytes = vec![b'n'; total - 7];
+            bytes.extend_from_slice(b"\xc3\xa9");
             bytes.extend_from_slice(b".json");
             assert_eq!(bytes.len(), total);
             std::ffi::OsString::from_vec(bytes)
         };
-        let out = dir.join(raw_name(246));
+        #[cfg(target_vendor = "apple")]
+        let max_bytes = 247;
+        #[cfg(not(target_vendor = "apple"))]
+        let max_bytes = 246;
+        let out = dir.join(raw_name(max_bytes));
         write_report_atomically(&out, "report\n").unwrap();
         assert_eq!(std::fs::read(&out).unwrap(), b"report\n");
-        let too_long = dir.join(raw_name(247));
+        let too_long = dir.join(raw_name(max_bytes + 1));
         assert!(write_report_atomically(&too_long, "report\n").is_err());
         assert!(!too_long.exists());
         let _ = std::fs::remove_dir_all(&dir);
