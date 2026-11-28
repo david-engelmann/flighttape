@@ -13435,3 +13435,18 @@ held to the standard of the surface it feeds.
   counting it at 0 and 0, and FAIL FLAG 0, its
   closing md5 standing recorded on the pull
   request with its build path named.
+
+- FT-315. Round 51 closes with the record
+  standing at FT-310 to FT-315. No Status
+  range line stands in the new span. The
+  README's closed-round count moves from 50 of
+  100 to 51 of 100 in this commit alone. FT-83
+  stands carried open. The next round's
+  read-back stands charged with reading this
+  round's pull request whole, its shell
+  settled at its true final form and last
+  edit, the comment census and the appendix's
+  offset and span as they stand after the
+  gate, and the disposition of any review
+  comment the round draws, read from the
+  comment itself.
