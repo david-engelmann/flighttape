@@ -13205,3 +13205,47 @@ held to the standard of the surface it feeds.
   span. The fresh seed 20271031 stands
   verified absent from the base contract with
   the twenty-five used seeds standing present.
+
+- FT-311. The base gate re-executed whole on
+  the base tree
+  30d124ddb570c84f299a132ae00c21a20e0a19fa,
+  assembled fresh through the API at this
+  lane's own target path, its 52 tracked files
+  verified blob for blob against the tree
+  before reliance. The build exits 0, and the
+  gate binary stands at md5
+  e82a5d8461b5c241c23af833651663d5 at this
+  lane's target path, the figure build-path
+  scoped and stated so. The test suite passes
+  247 tests in the split of FT-220: library 7,
+  cli 22, compare 19, convert 34, digest_cli
+  5, identity 13, json 8, play 17, redaction
+  12, robustness 15, rollup 22, scale 3,
+  schema 5, screen 15, slice 24, timestamps 1,
+  validate 25, the binary's unit suite 0, and
+  doc tests 0. Clippy and fmt each exit 0, and
+  the codepoint scan over the tree reads zero
+  em dashes and zero en dashes. The depth
+  calibration re-ran on all three arms, the
+  digest of a tape holding 100 nested arrays
+  standing at
+  6acd59fa347c189687a0d618dc2ea127355b95433c728d7bb8664d1fa34a8038
+  on the binary, the oracle's standard runner,
+  and the oracle's module runner alike. The
+  digest depth seams stand at their contracted
+  points. At wrap 0 the binary accepts a
+  session nested 997 deep and refuses 998, the
+  oracle's standard runner accepts 991 and
+  refuses 992, and the oracle's module runner
+  accepts 989 and refuses 990. At wrap 4 the
+  binary accepts 993 and refuses 994, the
+  standard runner accepts 987 and refuses 988,
+  and the module runner accepts 985 and
+  refuses 986. The identity family stands
+  byte-identical on all three arms through
+  nesting depth 989, the module runner's
+  refusal arriving at 990 and the standard
+  runner's at 997, where the binary prints
+  c8aea7c35b5ac54eed01b941. The refusal at
+  every seam carries the interpreter-limit
+  ground of FT-222 as qualified by FT-230.
